@@ -1,0 +1,193 @@
+<StylePrompt>
+  <meta>
+    <style-name>No Time Neon Motion</style-name>
+    <description>深灰黑背景、黑白运动模糊摄影，搭配荧光绿超大无衬线文字与优雅手写体叠加，辅以 HUD 式微小字与圆角细节，整体呈现赛博感强烈的情绪海报风格。</description>
+    <original-use>experimental poster / editorial layout</original-use>
+    <recommended-uses>poster, social-post, album-cover, web-hero, ppt-cover, flyer</recommended-uses>
+  </meta>
+
+  <canvas-guidelines>
+    <base-ratio>3:4</base-ratio>
+    <supported-ratios>3:4, 4:5, 9:16, 16:9, 1:1, A4-portrait</supported-ratios>
+    <margin top="0.06" right="0.06" bottom="0.06" left="0.06">values are relative to full canvas; inside the margin, place a central near-black card that contains all content.</margin>
+    <background-color>#3f3f41</background-color>
+    <texture>subtle but visible film grain / noise on both outer background and inner card, simulating printed matte paper.</texture>
+  </canvas-guidelines>
+
+  <visual-style>
+    <color-palette>
+      <mode>duotone-neon</mode>
+      <dominant-colors>
+        <color>#111111</color>
+        <color>#181818</color>
+        <color>#3f3f41</color>
+        <color>#45d16a</color>
+        <color>#f5f5f5</color>
+      </dominant-colors>
+      <background-color>#3f3f41</background-color>
+      <accent-colors>Bright neon green (#45d16a) is the only vivid accent color. Use it for all large display text, hand-drawn scribbles, micro UI labels and key graphic details. Photographs remain grayscale without extra colors.</accent-colors>
+      <allow-gradients>false</allow-gradients>
+      <notes>Use flat solid colors only. Overall palette should feel dark and minimalistic: large areas of near-black card over dark grey background, with neon green drawing focus. Avoid additional hues; rely on value contrast and scale.</notes>
+    </color-palette>
+
+    <typography>
+      <primary-family>extra-bold condensed grotesk sans-serif for main titles (e.g., NO TIME)</primary-family>
+      <secondary-family>elegant high-contrast script / calligraphic serif for expressive words overlaid on the title</secondary-family>
+      <title-style font-size="xxl" weight="heavy" case="uppercase" tracking="tight">
+        Main title uses ultra-large, very condensed uppercase sans-serif, occupying most of the lower half of the card; letters are tall rectangular blocks with minimal letterspacing and can extend beyond the safe area horizontally.
+      </title-style>
+      <subtitle-style font-size="xl" weight="regular" case="mixed" tracking="normal">
+        Script subtitle is set in a flowing italic script with long swashes; placed diagonally or horizontally across the main title, often in the same neon green to create a layered typographic composition.
+      </subtitle-style>
+      <body-style font-size="xs" weight="regular" line-height="1.3">
+        Supporting copy and system info use very small sans-serif, often monospaced or technical-looking, in all caps or small caps; aligned to left or right in short 1–3 line paragraphs to keep the look dense and compact.
+      </body-style>
+      <alignment>centered hierarchy for main title; micro texts aligned left/right along grid edges; overall asymmetrical but balanced.</alignment>
+      <special-text>Top meta bar (date, filename, series info) uses tiny monospaced uppercase in neon green, spaced along the top of the photo. Micro labels like “CTRL” / “DESGN” appear inside small rounded pills. Large tracking is avoided; typography relies on scale differences and overlaps.</special-text>
+    </typography>
+
+    <shapes-and-effects>
+      <corner-radius>small</corner-radius>
+      <border-style>Most elements have no stroke; some micro-UI shapes (pills, small rectangles) may have thin neon green outlines or are filled; borders are always 1px equivalent, solid.</border-style>
+      <shadow-style>none; depth is created by color contrast and layering, not by drop shadows.</shadow-style>
+      <dividers>Use small circles, short horizontal lines, or pill-shaped separators to divide sections and evoke interface / HUD aesthetics; no full-width heavy rules.</dividers>
+      <special-effects>Global film grain texture overlay; main photograph is high-motion blur grayscale. A vivid hand-drawn neon scribble is placed over a focal area (e.g., around a head), with varying stroke thickness and organic shape. Lower card edge of the photo may have a cut-out or curved shape integrating into the text area.</special-effects>
+    </shapes-and-effects>
+
+    <iconography>
+      <icon-style>minimal, interface-like glyphs (dots, small rounded rectangles, simple sliders) rather than illustrative icons.</icon-style>
+      <stroke-width>thin</stroke-width>
+      <corner-style>rounded for pills and HUD elements; square for larger panels.</corner-style>
+      <usage>Icons appear as tiny decorative elements around buttons, between text blocks, or to suggest technical readouts; they should never overpower the typography or photo.</usage>
+    </iconography>
+
+    <imagery>
+      <photo-usage>Central black-and-white photograph with strong motion blur or dynamic movement; framed in a large rounded rectangle occupying the upper half of the card. High contrast but no color.</photo-usage>
+      <illustration-usage>Hand-drawn neon scribbles or strokes overlay the photo or title; no figurative illustration beyond this.</illustration-usage>
+      <mask-shapes>Photos are clipped to a large rounded rectangle or custom frame with a slightly curved bottom edge. Scribbles use freeform paths; no hard geometric masks.</mask-shapes>
+    </imagery>
+  </visual-style>
+
+  <layout-patterns>
+    <pattern id="hero-motion-poster" purpose="封面 / 主视觉海报">
+      <description>Top-heavy dynamic layout：上半部分为黑白动态照片，下半部分为超大荧光绿标题与脚注信息，整体呈现代 UI / 赛博感排版。</description>
+      <regions>
+        <region id="outer-card" x="0.08" y="0.06" width="0.84" height="0.88" role="main-dark-panel-background"/>
+        <region id="top-meta-bar" x="0.12" y="0.10" width="0.76" height="0.04" role="date-filename-and-series-info"/>
+        <region id="hero-photo" x="0.12" y="0.12" width="0.76" height="0.42" role="main-motion-photo"/>
+        <region id="photo-scribble" x="0.36" y="0.20" width="0.28" height="0.22" role="neon-scribble-or-highlight-over-photo"/>
+        <region id="micro-caption-left" x="0.15" y="0.57" width="0.26" height="0.07" role="short-supporting-copy-left"/>
+        <region id="micro-caption-right" x="0.59" y="0.57" width="0.26" height="0.07" role="short-supporting-copy-right"/>
+        <region id="hud-controls" x="0.28" y="0.53" width="0.44" height="0.05" role="small-pills-and-dots-between-photo-and-title"/>
+        <region id="big-title" x="0.14" y="0.60" width="0.72" height="0.23" role="main-large-title-words"/>
+        <region id="script-overlay" x="0.16" y="0.58" width="0.68" height="0.16" role="script-subtitle-over-main-title"/>
+        <region id="bottom-meta-row" x="0.14" y="0.86" width="0.72" height="0.05" role="small-footer-info-and-credits"/>
+      </regions>
+    </pattern>
+
+    <pattern id="content-motion" purpose="信息型页面 / PPT 内页">
+      <description>保留顶部动感照片，下半部分改为多列信息与中号标题，仍使用荧光绿与 HUD 微元素。</description>
+      <regions>
+        <region id="outer-card" x="0.08" y="0.06" width="0.84" height="0.88" role="main-dark-panel-background"/>
+        <region id="hero-photo" x="0.12" y="0.10" width="0.76" height="0.36" role="main-photo-or-graphic"/>
+        <region id="section-title" x="0.14" y="0.50" width="0.40" height="0.10" role="medium-main-title"/>
+        <region id="left-body" x="0.14" y="0.60" width="0.32" height="0.20" role="body-text-or-bullets"/>
+        <region id="right-body" x="0.54" y="0.60" width="0.32" height="0.20" role="second-column-text-or-data"/>
+        <region id="hud-strip" x="0.28" y="0.54" width="0.44" height="0.04" role="pills-dots-or-progress-indicators"/>
+        <region id="bottom-meta-row" x="0.14" y="0.86" width="0.72" height="0.05" role="footer-notes-or-page-number"/>
+      </regions>
+    </pattern>
+
+    <pattern id="social-vertical" purpose="9:16 社交故事">
+      <description>竖版适配：顶部窄条为 meta 信息，中部为拉伸的动感照片，底部为大字与少量解释文字。</description>
+      <regions>
+        <region id="outer-card" x="0.07" y="0.04" width="0.86" height="0.92" role="main-dark-panel-background"/>
+        <region id="top-meta-bar" x="0.12" y="0.06" width="0.76" height="0.04" role="small-header-info"/>
+        <region id="hero-photo" x="0.12" y="0.10" width="0.76" height="0.40" role="main-photo"/>
+        <region id="photo-scribble" x="0.34" y="0.20" width="0.32" height="0.22" role="scribble-highlight"/>
+        <region id="big-title" x="0.14" y="0.54" width="0.72" height="0.20" role="large-title"/>
+        <region id="script-overlay" x="0.16" y="0.52" width="0.68" height="0.14" role="script-tagline"/>
+        <region id="body-text" x="0.18" y="0.72" width="0.64" height="0.12" role="supporting-copy"/>
+        <region id="bottom-meta-row" x="0.14" y="0.88" width="0.72" height="0.05" role="credits-or-hashtags"/>
+      </regions>
+    </pattern>
+  </layout-patterns>
+
+  <component-library>
+    <component id="primary-button">
+      <description>在该风格中充当“CTA”或关键标签的元素，形似 HUD 控件的圆角胶囊。</description>
+      <shape>rounded pill (height small relative to width)</shape>
+      <fill-color>either solid neon green with near-black text, or transparent/near-black with neon green 1px stroke and neon green text.</fill-color>
+      <text-style>tiny uppercase sans-serif or monospaced, tight letterspacing, vertically centered; color应该与填充形成高对比。</text-style>
+      <icon-support>一般不带图标；如需图标，可使用极简线性符号（如小箭头）放在文字右侧。</icon-support>
+    </component>
+
+    <component id="tag">
+      <description>顶部日期、系列编号、文件名等小标签。</description>
+      <shape>无底色文本或放入极细高宽比的小矩形 / 胶囊中。</shape>
+      <border-or-fill>通常无边框，仅使用荧光绿文字；有时放入透明轮廓的细边框胶囊。</border-or-fill>
+      <usage>沿卡片顶部水平排布，左中右对齐，以分隔日期、标题、天数或主题等 meta 信息。</usage>
+    </component>
+
+    <component id="card">
+      <description>中央深色面板，承载照片与所有文字元素，是该风格的基础容器。</description>
+      <layout>占画布 80–90% 宽度和高度，居中；上半部分为照片，下半部分为文本与 HUD 元素；周围保持均匀留边。</layout>
+      <shadow-or-border>无投影；可选极细内描边提升边界感，但通常靠颜色差异区分。</shadow-or-border>
+      <spacing>内部边距中等，保证照片和大字均不触碰卡片边缘。</spacing>
+    </component>
+
+    <component id="photo-frame">
+      <description>承载黑白动感照片的上半区容器。</description>
+      <shape>大号水平长条的圆角矩形，下边缘可为轻微弧形或不规则切口，与下方文本自然衔接。</shape>
+      <fill-color>near-black background behind the grayscale image.</fill-color>
+      <text-style>可在照片上缘叠加 very small neon green meta text。</text-style>
+    </component>
+
+    <component id="scribble-highlight">
+      <description>覆盖在人物或焦点上的荧光绿涂鸦笔触，用于强调情绪或注意力。</description>
+      <shape>自由手绘开放路径；多重重叠、线条粗细略有变化。</shape>
+      <border-or-fill>纯描边，无填充，颜色为主荧光绿。</border-or-fill>
+      <usage>通常放在照片中央焦点上方（如人物头部），或穿插于大标题字母之间，不宜过多使用。</usage>
+    </component>
+
+    <component id="micro-label">
+      <description>极小字号说明文字或短句。</description>
+      <layout>1–3 行紧凑文本，行宽较窄；可左右分布形成对称。</layout>
+      <shadow-or-border>none</shadow-or-border>
+      <spacing>与大标题保持足够间距，通常靠近标题或照片边缘。</spacing>
+    </component>
+
+    <component id="hud-indicator">
+      <description>点、短线、小圆角矩形等界面式装饰元素。</description>
+      <shape>小圆点、水平小条、极细圆角矩形。</shape>
+      <border-or-fill>实心荧光绿或细线描边。</border-or-fill>
+      <usage>放在照片和文字之间的过渡带、底部信息行之间，起到视觉节奏和科技感装饰的作用。</usage>
+    </component>
+  </component-library>
+
+  <generation-guidelines>
+    <role>
+      你是一名 SVG 版式设计师，将根据本 XML 中的风格定义与用户给出的主题、尺寸和用途（如 ppt/海报/社交媒体），生成对应的 SVG 代码，呈现深色背景+黑白摄影+荧光绿排版的赛博情绪视觉。
+    </role>
+    <usage>
+      - 始终遵守 &lt;visual-style&gt; 中的颜色、字体和形状设定：暗灰背景、near-black 卡片、唯一的荧光绿强调色、黑白照片和强颗粒感。
+      - 根据用户指定尺寸比例，从 &lt;layout-patterns&gt; 中选择最接近的 &lt;pattern&gt;，并依据其中的 &lt;region&gt; 定位主照片、大标题、脚本文字和 meta 信息。
+      - 使用 &lt;component-library&gt; 中的 card、photo-frame、primary-button、tag、scribble-highlight、micro-label 与 hud-indicator 组合版面；保持上图下字的基本结构。
+      - 允许在不同比例下轻微调整区域高度（例如拉高照片或增大标题区），但要保持主照片位于上半区、大标题位于下半区的基本视觉节奏。
+      - 文字内容完全由用户主题决定；你只负责字体选择、字号层级和位置，使其符合本风格的强对比、技术感和情绪感。
+    </usage>
+    <flexibility>
+      可变部分：照片内容与构图、荧光绿涂鸦的形状和位置、HUD 小元件的数量和排列、micro 文案内容。应保持不变的部分：深色整体氛围、黑白照片+荧光绿文字配色、大号紧凑无衬线标题、上图下字的基本结构、顶部和底部的细小 meta 信息行以及整体无阴影的扁平视觉。
+    </flexibility>
+    <recommended-workflow>
+      1) 创建整体深灰画布并添加轻微噪点。2) 在中心放置 near-black card 组件。3) 在卡片上半区添加 photo-frame 与黑白照片，保证宽度接近卡片宽度。4) 在照片上方或内部放置 top-meta-bar 与必要的 tag。5) 在照片焦点处绘制荧光绿 scribble-highlight。6) 在下半区布置 big-title 与 script-overlay，并在其附近放置左右 micro-label 与 hud-indicator。7) 最底部添加 bottom-meta-row，检查对齐与留白，确保荧光绿元素在画面中均衡分布。
+    </recommended-workflow>
+  </generation-guidelines>
+
+  <negative-guidelines>
+    <forbidden-colors>避免使用多种鲜艳颜色或暖色系主色；除黑、灰、白与主荧光绿外，不要引入额外色相（照片也保持黑白）。</forbidden-colors>
+    <forbidden-effects>禁止明显投影、发光描边、内发光、3D 挤出、渐变背景或玻璃拟态效果；不要使用柔和淡彩风格。</forbidden-effects>
+    <forbidden-layouts>避免将大标题移动到顶部或与照片交换位置；不要使用密集多列文本或标准企业型网格；避免圆角过大的卡片或彩色图标破坏冷硬科技感。</forbidden-layouts>
+    <notes>不要在照片上叠加彩色滤镜；不要使用卡通插画或细线图标；不要让荧光绿文字与背景对比不足（例如放在浅色块上）。整体应保持深色、克制、高对比的海报质感。</notes>
+  </negative-guidelines>
+</StylePrompt>

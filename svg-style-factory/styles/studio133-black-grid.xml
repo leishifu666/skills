@@ -1,0 +1,163 @@
+<StylePrompt>
+  <meta>
+    <style-name>Studio133 Black Grid</style-name>
+    <description>高对比黑白、超宽无衬线字标和金属感 3D 物体的未来感创意机构首屏风格，强调网格与秩序。</description>
+    <original-use>creative agency website hero section</original-use>
+    <recommended-uses>web-hero, landing-page, ppt-cover, digital-poster, case-study-cover, portfolio-intro</recommended-uses>
+  </meta>
+
+  <canvas-guidelines>
+    <base-ratio>16:9</base-ratio>
+    <supported-ratios>16:9, 21:9, 4:3, 1:1, 9:16, A4-landscape</supported-ratios>
+    <margin top="0.04" right="0.06" bottom="0.06" left="0.06">单位为相对于画布宽高的比例，整体留白较窄，突出全屏黑色背景。</margin>
+    <background-color>#000000</background-color>
+    <texture>整体无纸张纹理，可叠加 1px 极细水平和垂直网格线，颜色为 5%–10% 灰，贯穿画面。</texture>
+  </canvas-guidelines>
+
+  <visual-style>
+    <color-palette>
+      <mode>monochrome</mode>
+      <dominant-colors>
+        <color>#000000</color>
+        <color>#FFFFFF</color>
+        <color>#111111</color>
+        <color>#222222</color>
+        <color>#444444</color>
+      </dominant-colors>
+      <background-color>#000000</background-color>
+      <accent-colors>使用浅灰到银色 (#A0A0A0–#E0E0E0) 的金属渐变作为 3D 物体和少量描边高光；不再额外引入彩色强调。</accent-colors>
+      <allow-gradients>true</allow-gradients>
+      <notes>大面积纯黑背景与纯白文字形成强烈对比；正文与导航使用纯白或接近纯白；渐变仅用于中央 3D 物体或极少数装饰，不用于背景色块。</notes>
+    </color-palette>
+
+    <typography>
+      <primary-family>超宽几何无衬线（extended geometric sans-serif，全部大写）</primary-family>
+      <secondary-family>same-as-primary</secondary-family>
+      <title-style font-size="xxl" weight="bold" case="uppercase" tracking="tight">
+        超大字号横向极度拉伸的无衬线字标，占据画布上方整行，字距略紧，行高紧凑，用于品牌名或主标题。
+      </title-style>
+      <subtitle-style font-size="m" weight="medium">
+        导航与分区标题为全大写无衬线，字号中等，字距偏宽，均匀分布在顶部导航区域。
+      </subtitle-style>
+      <body-style font-size="s" weight="regular" line-height="1.4">
+        正文说明文字使用常规粗细无衬线，小字号，左对齐，行距适中，颜色为 #FFFFFF 或浅灰，保持高可读性。
+      </body-style>
+      <alignment>正文与列表左对齐；顶部字标与导航整体居中排布。</alignment>
+      <special-text>导航链接与小标签全部大写，字距加宽；列表项目采用单列竖排；数字或代号可使用略大字号和紧凑字距以突出。</special-text>
+    </typography>
+
+    <shapes-and-effects>
+      <corner-radius>sharp</corner-radius>
+      <border-style>以 1px 极细直线描边为主，颜色为深灰 (#111111–#222222) 或浅灰；用于网格、卡片和分隔框。</border-style>
+      <shadow-style>整体无传统投影；中央 3D 物体通过渐变高光和暗部塑造体积感，可带轻微环境光晕。</shadow-style>
+      <dividers>大量使用纵横对齐的细分割线构成网格，贯穿整屏并对齐主要内容区域，用于指导版式与对齐。</dividers>
+      <special-effects>中心放置金属质感 3D 环或抽象几何体，可叠加半透明的巨大数字或字母轮廓；背景可隐约显示构图辅助线与框架，增强技术感与结构感。</special-effects>
+    </shapes-and-effects>
+
+    <iconography>
+      <icon-style>极简线性图标，矩形与简单几何轮廓为主。</icon-style>
+      <stroke-width>thin</stroke-width>
+      <corner-style>多为直角或轻微圆角，保持硬朗科技感。</corner-style>
+      <usage>主要用于右侧小卡片（如文档、作品集图标）、文件类型指示或简洁功能标记；数量不宜多，作为辅助视觉锚点。</usage>
+    </iconography>
+
+    <imagery>
+      <photo-usage>通常不使用真实照片，如需使用，应转为低饱和或黑白，且置于矩形或网格限定区域内，避免破坏整体黑白风格。</photo-usage>
+      <illustration-usage>推荐使用高细节 3D 抽象物体（环形、数字、几何块）或极简 3D 标志，带金属或玻璃光泽。</illustration-usage>
+      <mask-shapes>中央主视觉可为椭圆环、圆环或矩形框内的 3D 物体；小图标或预览使用矩形或轻微圆角矩形裁剪。</mask-shapes>
+    </imagery>
+  </visual-style>
+
+  <layout-patterns>
+    <pattern id="hero-grid" purpose="封面或首屏">
+      <description>适合网站首页或 PPT 封面：顶部为超大字标与导航，中部为中央 3D 主视觉，两侧为文案和功能卡片，整体受网格约束。</description>
+      <regions>
+        <region id="brand-wordmark" x="0.00" y="0.00" width="1.00" height="0.23" role="logo-or-main-title"/>
+        <region id="nav-menu" x="0.06" y="0.24" width="0.88" height="0.06" role="navigation-menu"/>
+        <region id="left-list" x="0.06" y="0.34" width="0.20" height="0.22" role="section-list-or-menu"/>
+        <region id="left-text" x="0.06" y="0.58" width="0.22" height="0.28" role="subtitle-and-description"/>
+        <region id="center-visual" x="0.29" y="0.30" width="0.42" height="0.60" role="main-3d-visual-or-hero-graphic"/>
+        <region id="right-callout" x="0.75" y="0.33" width="0.17" height="0.26" role="file-card-or-secondary-cta"/>
+        <region id="footer-meta" x="0.86" y="0.90" width="0.08" height="0.06" role="small-meta-or-page-indicator"/>
+      </regions>
+    </pattern>
+
+    <pattern id="content-split" purpose="信息型页面">
+      <description>适合二级内容页或说明性 PPT：顶部窄标题栏，下方左右分栏，左侧为标题和正文，右侧为大图或图表，同样沿用细网格。</description>
+      <regions>
+        <region id="top-bar" x="0.00" y="0.00" width="1.00" height="0.14" role="page-title-and-small-logo"/>
+        <region id="left-column" x="0.08" y="0.18" width="0.36" height="0.68" role="text-or-bulleted-list"/>
+        <region id="right-column" x="0.48" y="0.18" width="0.40" height="0.68" role="illustration-or-chart-or-3d-object"/>
+        <region id="bottom-meta" x="0.08" y="0.88" width="0.84" height="0.08" role="navigation-or-page-number-or-small-links"/>
+      </regions>
+    </pattern>
+
+    <pattern id="three-panel-grid" purpose="案例展示或服务概览">
+      <description>利用纵向网格划分为三块竖向面板，适合展示多个服务、案例类别或步骤。</description>
+      <regions>
+        <region id="panel-1" x="0.06" y="0.18" width="0.26" height="0.70" role="service-or-case-group-1"/>
+        <region id="panel-2" x="0.37" y="0.18" width="0.26" height="0.70" role="service-or-case-group-2"/>
+        <region id="panel-3" x="0.68" y="0.18" width="0.26" height="0.70" role="service-or-case-group-3"/>
+      </regions>
+    </pattern>
+  </layout-patterns>
+
+  <component-library>
+    <component id="primary-button">
+      <description>与整体极简风格一致的主按钮，通常用于明确的行动号召（CTA）。</description>
+      <shape>锐角矩形，宽度明显大于高度，可根据网格对齐。</shape>
+      <fill-color>默认透明，仅使用 1px 白色描边；悬停或强调状态可反转为白底黑字。</fill-color>
+      <text-style>全大写无衬线，小至中等字号，字距略宽，居中对齐。</text-style>
+      <icon-support>可在文字左侧加入细线性图标，大小与文字高度一致。</icon-support>
+    </component>
+
+    <component id="tag">
+      <description>小型标签或状态徽标，适合标记类别或语言切换（如 EN）。</description>
+      <shape>锐角或轻微圆角的细边矩形。</shape>
+      <border-or-fill>仅 1px 白色或浅灰描边，内部透明；文字为白色。</border-or-fill>
+      <usage>放在导航栏右上角、标题旁或卡片角落，用于短词或代码式标记。</usage>
+    </component>
+
+    <component id="card">
+      <description>信息卡片，例如右侧的 Portfolio 文档卡，用于突出单个文件、链接或项目。</description>
+      <layout>矩形框中，上方可为简洁图标，下方为 1–2 行说明文字或文件名，内容整体居中。</layout>
+      <shadow-or-border>无阴影，使用 1px 浅灰或白色描边，与背景形成清晰对比。</shadow-or-border>
+      <spacing>normal</spacing>
+    </component>
+
+    <component id="nav-link">
+      <description>顶部导航栏链接，用于主菜单项。</description>
+      <shape>无背景，仅文字；可在底部根据网格对齐一条细长下划线表示选中状态。</shape>
+      <border-or-fill>默认无边框；选中时可用 1px 细线或底部短线强调。</border-or-fill>
+      <usage>水平均匀分布在导航区域，全部大写，字距拉宽，与品牌字标保持风格一致。</usage>
+    </component>
+
+    <component id="brand-wordmark">
+      <description>画面上方横跨全屏的超大字标区域，可用于品牌名或页面主题。</description>
+      <shape>占据顶部整块矩形区域，黑底白字。</shape>
+      <border-or-fill>背景为纯黑，与下方主体略有分区感；可在底缘叠加一条细分割线与主体区域分隔。</border-or-fill>
+      <usage>用于首页或章节开头，优先放置品牌名称或单词级标题，字重极粗，横向拉伸。</usage>
+    </component>
+
+    <component id="grid-overlay">
+      <description>作为结构与装饰双重作用的网格线系统。</description>
+      <shape>整屏覆盖的垂直与水平细线，形成多个列与行。</shape>
+      <border-or-fill>线条为 1px 深灰或浅灰，透明度较低，不压过主要内容。</border-or-fill>
+      <usage>用于对齐所有区域与组件，强化科技感与构图秩序，可在部分比例中适当简化。</usage>
+    </component>
+  </component-library>
+
+  <generation-guidelines>
+    <role>你是一名擅长暗色科技风与大字排版的 SVG 版式设计师，根据本 XML 的风格定义和用户给出的主题、尺寸、用途生成画面。</role>
+    <usage>始终使用纯黑或近黑背景和高对比白色文字；根据目标比例选择最接近的布局模式，并沿用细网格对齐所有内容；中央区域优先放置抽象 3D 物体或关键视觉，两侧安放文案和功能卡片；按钮、标签、卡片等应使用细描边和大写无衬线文字。</usage>
+    <flexibility>可自由更换中央 3D 物体的形状和数字、调整列表项目数量、替换文案内容；允许对网格密度和行列划分做轻微调整。但必须保持黑白单色调、顶部大字标结构、窄边距和清晰网格线，以及整体非对称但平衡的构图。</flexibility>
+    <recommended-workflow>1) 确定画布比例并填充纯黑背景；2) 创建覆盖全屏的细网格线并锁定为参考层；3) 在顶部布置品牌字标和导航文字；4) 按选定 pattern 在左侧放置列表与说明文字，在中央放置 3D 主视觉，在右侧放置卡片或次级信息；5) 根据需要添加按钮、标签和图标，全部使用细描边与全大写文字；6) 最后检查对齐关系与留白，确保整体平衡和高对比度。</recommended-workflow>
+  </generation-guidelines>
+
+  <negative-guidelines>
+    <forbidden-colors>避免高饱和彩色、暖色大面积背景、渐变彩虹或多于 3 种以上明显色相；不使用柔和粉彩色。</forbidden-colors>
+    <forbidden-effects>禁止夸张投影、玻璃拟态光晕、大面积模糊背景、复杂纹理叠加以及卡通手绘风插画；3D 物体应保持干净利落的金属或玻璃质感。</forbidden-effects>
+    <forbidden-layouts>避免中心完全对称的传统海报布局、居中大段正文、无网格的随意排布以及内容过于密集导致黑色背景几乎被填满。</forbidden-layouts>
+    <notes>不要使用衬线字体、手写体或圆润可爱风字形；不要使用大块圆角色块、彩色按钮或厚重边框，以免破坏冷峻科技感。</notes>
+  </negative-guidelines>
+</StylePrompt>

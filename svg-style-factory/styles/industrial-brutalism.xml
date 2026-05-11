@@ -1,0 +1,107 @@
+<StylePrompt>
+  <meta>
+    <style-name>Industrial Brutalism Ticket</style-name>
+    <description>黑白机能票据、工业标签、控制台 UI 与新粗野主义信息设计混搭风格。强调高对比度、网格线与功能性排版。</description>
+    <original-use>slide presentation / industrial label</original-use>
+    <recommended-uses>ppt, poster, social-post, web-card, dashboard-ui</recommended-uses>
+  </meta>
+
+  <canvas-guidelines>
+    <base-ratio>16:9</base-ratio>
+    <supported-ratios>16:9, 9:16, 4:3, A4-landscape</supported-ratios>
+    <margin top="0" right="0" bottom="0" left="0">Full bleed canvas with internal margins defined by borders.</margin>
+    <background-color>#ffffff</background-color>
+    <texture>none</texture>
+  </canvas-guidelines>
+
+  <visual-style>
+    <color-palette>
+      <mode>monochrome</mode>
+      <dominant-colors>
+        <color>#000000</color>
+        <color>#ffffff</color>
+        <color>#f5f5f5</color>
+      </dominant-colors>
+      <background-color>#ffffff</background-color>
+      <accent-colors>none; strictly black and white.</accent-colors>
+      <allow-gradients>false</allow-gradients>
+      <notes>Strictly black and white or grayscale. No colors allowed.</notes>
+    </color-palette>
+
+    <typography>
+      <primary-family>system-ui, -apple-system, sans-serif</primary-family>
+      <secondary-family>none</secondary-family>
+      <title-style font-size="xxl" weight="bold" case="uppercase" tracking="tight">
+        48-64px, Bold (700). Main title is strictly English Uppercase.
+      </title-style>
+      <subtitle-style font-size="l" weight="medium">
+        22-28px. Chinese/English mixed.
+      </subtitle-style>
+      <body-style font-size="m" weight="regular" line-height="1.4">
+        14-18px. Technical manual style.
+      </body-style>
+      <alignment>left-aligned mostly; functional grid alignment.</alignment>
+      <special-text>Product descriptions use technical terms; Footer text uses monospace or small caps like 'S/N: XXX'.</special-text>
+    </typography>
+
+    <shapes-and-effects>
+      <corner-radius>small</corner-radius>
+      <border-style>Stroke width 2-4px, solid black (#000000). Sharp or slightly rounded (rx=8).</border-style>
+      <shadow-style>none</shadow-style>
+      <dividers>Thick black lines separating header, body, and footer.</dividers>
+      <special-effects>Barcode simulation (vertical rects); Diagonal stripes for warning areas.</special-effects>
+    </shapes-and-effects>
+
+    <iconography>
+      <icon-style>Geometric, black stroke path or rect.</icon-style>
+      <stroke-width>bold</stroke-width>
+      <corner-style>mixed</corner-style>
+      <usage>Simple icons for servers, cloud, tools; Arrows constructed from lines and polygons.</usage>
+    </iconography>
+
+    <imagery>
+      <photo-usage>none</photo-usage>
+      <illustration-usage>none (only geometric icons)</illustration-usage>
+      <mask-shapes>none</mask-shapes>
+    </imagery>
+  </visual-style>
+
+  <layout-patterns>
+    <pattern id="ticket-slide" purpose="Standard Slide Layout">
+      <description>Three-part structure: Header (Ticket info), Body (Modules), Footer (Status).</description>
+      <regions>
+        <region id="header" x="0" y="0" width="1.0" height="0.15" role="ticket-header-with-title-and-barcode"/>
+        <region id="body" x="0.05" y="0.2" width="0.9" height="0.65" role="main-content-modules"/>
+        <region id="footer" x="0" y="0.9" width="1.0" height="0.1" role="status-bar-and-buttons"/>
+      </regions>
+    </pattern>
+  </layout-patterns>
+
+  <component-library>
+    <component id="module-box">
+      <description>Content module box with title and points.</description>
+      <shape>Rounded rectangle (rx=8).</shape>
+      <border-or-fill>Thick border (2-4px), white fill.</border-or-fill>
+    </component>
+    <component id="barcode">
+      <description>Simulated barcode.</description>
+      <shape>Series of vertical lines of varying width.</shape>
+    </component>
+    <component id="status-button">
+      <description>Small functional button in footer.</description>
+      <border-or-fill>Black border, text inside such as 'CHECK IN'.</border-or-fill>
+    </component>
+  </component-library>
+
+  <generation-guidelines>
+    <role>You are an SVG designer specializing in Industrial Brutalism and Ticket UI styles.</role>
+    <usage>Create a 16:9 slide. Header with big UPPERCASE title and barcode. Body divided into 3-5 distinct modules with heavy borders. Footer with status info. Use only Black/White.</usage>
+    <recommended-workflow>Draw background -> Draw thick header/footer lines -> Place title and barcode -> Draw body module boxes -> Fill text content -> Add icons/arrows.</recommended-workflow>
+  </generation-guidelines>
+
+  <negative-guidelines>
+    <forbidden-colors>No colors allowed. No gray scale shading/gradients.</forbidden-colors>
+    <forbidden-effects>No shadows, no blur, no 3D.</forbidden-effects>
+    <notes>Avoid cute styles. Avoid realistic photos.</notes>
+  </negative-guidelines>
+</StylePrompt>

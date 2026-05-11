@@ -1,0 +1,176 @@
+<StylePrompt>
+  <meta>
+    <style-name>VNYNC Collage Gig Poster</style-name>
+    <description>粗糙纸感背景+超大号极粗无衬线字母作为底层图形，叠加复古照片剪贴与蓝色信息文字块，整体是复古街头音乐海报风格。</description>
+    <original-use>music event poster / gig flyer</original-use>
+    <recommended-uses>poster, social-post, flyer, album-cover, ppt-cover, ticket, web-hero</recommended-uses>
+  </meta>
+
+  <canvas-guidelines>
+    <base-ratio>4:5</base-ratio>
+    <supported-ratios>4:5, 3:4, 16:9, 9:16, 1:1, A4-portrait</supported-ratios>
+    <margin top="0.06" right="0.06" bottom="0.06" left="0.06">values are relative to canvas size; keep generous outer white space around all elements</margin>
+    <background-color>#f3f0e8</background-color>
+    <texture>strong paper grain with visible noise and light print speckles; overall vintage poster feeling</texture>
+  </canvas-guidelines>
+
+  <visual-style>
+    <color-palette>
+      <mode>duotone + natural-photo</mode>
+      <dominant-colors>
+        <color>#1e57ff</color>
+        <color>#111111</color>
+        <color>#f3f0e8</color>
+        <color>#c9a07a</color>
+        <color>#d04b3e</color>
+      </dominant-colors>
+      <background-color>#f3f0e8</background-color>
+      <accent-colors>Royal blue (#1e57ff) is the primary accent, used for all large typography, rectangles and key info; natural colors only appear inside photographic collages.</accent-colors>
+      <allow-gradients>false</allow-gradients>
+      <notes>Use flat fills only; avoid adding new colors beyond the royal blue plus neutral black/white/cream. Large blue text blocks dominate; photos provide secondary color interest. Maintain high contrast between blue text and light background.</notes>
+    </color-palette>
+
+    <typography>
+      <primary-family>extra-bold condensed grotesk sans-serif, uppercase display style similar to vintage poster lettering</primary-family>
+      <secondary-family>same-as-primary for most info text; additional informal handwritten script for small comments if needed</secondary-family>
+      <title-style font-size="xxl" weight="heavy" case="uppercase" tracking="tight">
+        Main title is extremely large condensed caps, spanning most of the canvas width and acting as a background graphic element; letters are tall with minimal spacing and can be partially covered by imagery.
+      </title-style>
+      <subtitle-style font-size="xl" weight="bold" case="uppercase" tracking="normal">
+        Date and time blocks use bold condensed caps in blue, stacked on separate lines, left-aligned and visually heavy.
+      </subtitle-style>
+      <body-style font-size="m" weight="medium" line-height="1.2">
+        Lineup and secondary info use condensed all-caps sans in white on blue rectangles or blue on background; tight leading and compact blocks. Avoid long paragraphs; keep text in short lines or labels.
+      </body-style>
+      <alignment>left-dominant with some centered title/imagery overlap; overall asymmetrical composition.</alignment>
+      <special-text>Optional scribbled side comments can use small white handwritten script directly on top of images or blue letters. All functional text (title, date, lineup, address) should be uppercase condensed sans for strong hierarchy.</special-text>
+    </typography>
+
+    <shapes-and-effects>
+      <corner-radius>sharp</corner-radius>
+      <border-style>No visible strokes around text or rectangles; shapes are solid fills without outlines.</border-style>
+      <shadow-style>Photographic elements may keep natural realistic shadows; no artificial drop-shadows for text or flat shapes.</shadow-style>
+      <dividers>No explicit divider lines; separation is created via spacing, rectangular blue blocks, and layering of collage elements.</dividers>
+      <special-effects>Global grain/noise overlay on the whole canvas to simulate printed poster; vintage photo texture on collage images; subtle color desaturation for photos. Main title letters can slightly distress at edges but remain mostly clean blocks.</special-effects>
+    </shapes-and-effects>
+
+    <iconography>
+      <icon-style>none; design relies on photographic cutouts instead of icons.</icon-style>
+      <stroke-width>none</stroke-width>
+      <corner-style>n/a</corner-style>
+      <usage>Do not introduce vector icon sets; when an icon-like element is needed, prefer small photographic or collage objects or simple geometric shapes.</usage>
+    </iconography>
+
+    <imagery>
+      <photo-usage>Heavy use of cutout photos (people, objects, animals) with slight vintage tint and film-like grain; each element has a clear silhouette and is placed playfully around and on top of the central object.</photo-usage>
+      <illustration-usage>Generally not used; if needed, keep illustration flat and collage-like, matching the cutout aesthetic without outlines.</illustration-usage>
+      <mask-shapes>Irregular manual cutouts for objects; no border lines; some larger elements like cars can stay as rectangular photos with perspective preserved. Images overlap text and other images freely.</mask-shapes>
+    </imagery>
+  </visual-style>
+
+  <layout-patterns>
+    <pattern id="hero-collage-poster" purpose="主视觉海报 / 封面">
+      <description>Central giant title letters as background, with a horizontal main object (e.g., car) and collage figures layered on top. Strong date/time block at lower left and lineup text stack on the right.</description>
+      <regions>
+        <region id="background-title" x="0.06" y="0.12" width="0.88" height="0.36" role="oversized-lettering-or-main-wordmark"/>
+        <region id="collage-main-object" x="0.08" y="0.32" width="0.84" height="0.28" role="central-photo-object"/>
+        <region id="collage-secondary-elements" x="0.05" y="0.22" width="0.9" height="0.5" role="supporting-cutout-objects-and-characters"/>
+        <region id="date-time-block" x="0.08" y="0.63" width="0.35" height="0.18" role="event-date-and-time"/>
+        <region id="info-block-left-bottom" x="0.08" y="0.8" width="0.3" height="0.1" role="location-or-logo-and-age-limit"/>
+        <region id="lineup-block-right" x="0.64" y="0.58" width="0.26" height="0.3" role="performer-list-or-key-details"/>
+        <region id="decorative-comment-area" x="0.1" y="0.18" width="0.8" height="0.6" role="handwritten-notes-near-figures"/>
+      </regions>
+    </pattern>
+
+    <pattern id="content-collage" purpose="信息型页面 / PPT 内页">
+      <description>Left-focused text with stacked blue rectangles, and a collage area on the right partially overlapping a large background word.</description>
+      <regions>
+        <region id="big-word-background" x="0.05" y="0.08" width="0.9" height="0.3" role="large-thematic-word-or-abbreviation"/>
+        <region id="left-text-stack" x="0.08" y="0.45" width="0.38" height="0.35" role="section-title-and-bullets-in-blue-blocks"/>
+        <region id="right-collage" x="0.5" y="0.32" width="0.42" height="0.42" role="central-photo-or-illustration-collage"/>
+        <region id="footer-info" x="0.08" y="0.82" width="0.8" height="0.1" role="logo-extra-notes-or-page-number"/>
+      </regions>
+    </pattern>
+
+    <pattern id="social-square" purpose="社交媒体配图 1:1">
+      <description>Square adaptation with oversized blue word diagonally centered, collage object in the middle, and compact info blocks at corners.</description>
+      <regions>
+        <region id="square-title" x="0.08" y="0.14" width="0.84" height="0.32" role="large-word-or-brand"/>
+        <region id="square-collage" x="0.14" y="0.32" width="0.72" height="0.32" role="central-object-and-figures"/>
+        <region id="square-date" x="0.08" y="0.68" width="0.35" height="0.16" role="date-time-or-main-metric"/>
+        <region id="square-list" x="0.57" y="0.62" width="0.32" height="0.24" role="short-lineup-or-key-points"/>
+      </regions>
+    </pattern>
+  </layout-patterns>
+
+  <component-library>
+    <component id="primary-button">
+      <description>Rectangular blue call-to-action or key-info block, derived from the lineup and address rectangles.</description>
+      <shape>sharp-corner rectangle</shape>
+      <fill-color>use primary royal blue (#1e57ff) as solid fill; no stroke.</fill-color>
+      <text-style>uppercase condensed sans in white; weight bold; font-size medium to large depending on importance; tight line-height.</text-style>
+      <icon-support>Icons generally not used; if necessary, place a small glyph or pictogram to the left of text, in white, aligned vertically center.</icon-support>
+    </component>
+
+    <component id="tag">
+      <description>Small blue label or badge for short pieces of info such as age limit, ticket type, or category.</description>
+      <shape>small sharp-corner rectangle or slightly elongated pill with minimal height.</shape>
+      <border-or-fill>solid blue fill with white uppercase text; no border.</border-or-fill>
+      <usage>Placed near the bottom info area, next to logos, or aligned under date/time; can also appear near collage objects as short captions.</usage>
+    </component>
+
+    <component id="card">
+      <description>Vertical stack of blue rectangles containing lineup or multi-item lists.</description>
+      <layout>Each item is a separate blue rectangle; white uppercase name centered or left-aligned; items stacked with very small gaps to read as one block.</layout>
+      <shadow-or-border>No shadow, no border; rely on flat color and spacing against the light background.</shadow-or-border>
+      <spacing>tight internal padding and tight gaps between cards to mimic a single solid column.</spacing>
+    </component>
+
+    <component id="big-word-background">
+      <description>Oversized blue word or abbreviation that acts as a graphical backdrop for other elements.</description>
+      <shape>text treated as a block; spans large portion of width; may extend beyond margins slightly.</shape>
+      <fill-color>solid royal blue; no stroke.</fill-color>
+      <text-style>extra-bold condensed uppercase sans; extremely large size; tight letter-spacing.</text-style>
+    </component>
+
+    <component id="collage-figure">
+      <description>Cutout person/object/animal photo used decoratively.</description>
+      <shape>irregular mask following silhouette; no outline.</shape>
+      <fill-color>photographic content with slight desaturation and grain.</fill-color>
+      <text-style>Optionally accompanied by tiny handwritten script comment in white or dark color placed nearby.</text-style>
+    </component>
+
+    <component id="info-footer">
+      <description>Bottom-left information block including location, logo and small tags.</description>
+      <layout>Stack of 1–3 blue rectangles with white text and possibly a small logo mark; aligned left with slight vertical spacing.</layout>
+      <shadow-or-border>none</shadow-or-border>
+      <spacing>normal internal padding; tight grouping of multiple rectangles as a unit.</spacing>
+    </component>
+  </component-library>
+
+  <generation-guidelines>
+    <role>
+      你是一名 SVG 版式设计师，将根据本 XML 中的风格定义与用户给出的主题、尺寸和用途（如 ppt/海报/卡片），生成对应的 SVG 代码，模拟复古音乐活动海报的拼贴风格。
+    </role>
+    <usage>
+      - 始终遵守 &lt;visual-style&gt; 中的颜色、字体和形状设定：纸感浅色背景、皇家蓝主色、大写紧凑无衬线文字、明显颗粒感。
+      - 根据用户指定的尺寸比例，选择最接近的 &lt;pattern&gt; 模板作为基础，并按其中的 &lt;region&gt; 定位：中央为大号单词和主拼贴，左下为日期/时间，右侧为列表或重点信息。
+      - 使用 &lt;component-library&gt; 中的 big-word-background、card、tag、primary-button、collage-figure 等组件构建版面，保持信息块为蓝底白字矩形。
+      - 保持不对称布局和充足留白，让蓝色块和拼贴对象在画面中形成动感平衡，而不是规则网格。
+      - 文字内容完全由用户主题决定；你负责按照该风格组织层级（标题最大，其次日期时间，再次演出阵容和地址）。
+    </usage>
+    <flexibility>
+      可自由变化的部分：拼贴照片内容和数量、人物/物体类型、背景大字的具体词汇、右侧信息块的行数、手写小注释是否出现。必须保持的部分：皇家蓝+纸白+黑的主色组合，大号紧凑无衬线大写标题作为背景，浅色颗粒纹理，蓝色实心矩形信息块，以及整体偏左下+右侧信息的非对称构图感。
+    </flexibility>
+    <recommended-workflow>
+      1) 先创建浅色纸张背景并叠加统一的噪点/颗粒纹理。2) 放置超大号蓝色背景单词（big-word-background），确定主视觉节奏。3) 在中央区域添加主拼贴对象（例如车辆或核心产品），再在周围添加若干 collage-figure 形成故事感。4) 在左下布置日期和时间的大号蓝色文字块，在底部放置地址/Logo/标签。5) 在右侧或下方构建蓝色矩形堆叠的 card 区域作为名单或要点列表。6) 最后根据需要添加少量手写脚注式文字，检查整体平衡、对齐和留白。
+    </recommended-workflow>
+  </generation-guidelines>
+
+  <negative-guidelines>
+    <forbidden-colors>避免使用高饱和荧光色、霓虹渐变或大量不同色相；除照片外不应超过 1–2 种主色（蓝+黑/深色）。</forbidden-colors>
+    <forbidden-effects>禁止使用明显 3D 效果、玻璃拟态、高光浮雕、柔和大投影或发光描边；不要使用平滑矢量渐变背景。</forbidden-effects>
+    <forbidden-layouts>避免完全对称、居中对齐的企业风排版；不要做满版均匀网格；不要用圆角卡片或圆形按钮破坏硬朗的矩形语言；避免长段落正文或密集文本墙。</forbidden-layouts>
+    <notes>不要引入系统化图标库或复杂信息图表；不要将背景改为纯黑或纯彩色，应保持浅色纸感底和颗粒质感；不要使用细弱的细明体或圆体字体。</notes>
+  </negative-guidelines>
+</StylePrompt>

@@ -1,0 +1,32 @@
+[
+    {
+        "id": "industrial-brutalism",
+        "name": "Industrial Brutalism Ticket",
+        "description": "黑白机能票据、工业标签、控制台 UI 与新粗野主义信息设计混搭风格。强调高对比度、网格线与功能性排版。",
+        "file": "industrial-brutalism.xml"
+    },
+    {
+        "id": "vync-collage",
+        "name": "VNYNC Collage Gig Poster",
+        "description": "粗糙纸感背景 + 超大号极粗无衬线字母，叠加复古照片剪贴与蓝色文字块。复古街头音乐海报风格。",
+        "file": "vync-collage.xml"
+    },
+    {
+        "id": "no-time-neon-motion",
+        "name": "No Time Neon Motion",
+        "description": "深灰黑背景、黑白运动模糊摄影，搭配荧光绿超大无衬线文字与手写体。赛博感强烈的情绪海报。",
+        "file": "no-time-neon-motion.xml"
+    },
+    {
+        "id": "studio133-black-grid",
+        "name": "Studio133 Black Grid",
+        "description": "高对比黑白、超宽无衬线字标和金属感 3D 物体。未来感创意机构首屏风格，强调网格与秩序。",
+        "file": "studio133-black-grid.xml"
+    },
+    {
+        "id": "street-museum-noir-orange",
+        "name": "Street Museum Noir Orange",
+        "description": "深色背景配合暖橙强调色和建筑摄影。现代博物馆网页风格，兼具工业感与街头艺术气质。",
+        "file": "street-museum-noir-orange.xml"
+    }
+]

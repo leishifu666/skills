@@ -1,0 +1,165 @@
+<StylePrompt>
+  <meta>
+    <style-name>Street Museum Noir Orange</style-name>
+    <description>深色背景配合暖橙强调色和建筑摄影的现代博物馆网页风格，兼具工业感与街头艺术气质。</description>
+    <original-use>museum website landing page, vertical scroll mockup</original-use>
+    <recommended-uses>web-landing, long-scroll-page, digital-poster, ppt-cover, exhibition-poster, social-story</recommended-uses>
+  </meta>
+
+  <canvas-guidelines>
+    <base-ratio>9:16</base-ratio>
+    <supported-ratios>9:16, 16:9, 4:5, 3:4, 1:1, A4-portrait</supported-ratios>
+    <margin top="0.04" right="0.06" bottom="0.06" left="0.06">单位为画布宽高比例，整体外边距较窄，以充满感为主。</margin>
+    <background-color>#111111</background-color>
+    <texture>背景以纯黑为主，可选用非常轻微的噪点或暗渐变，但整体观感接近纯色。</texture>
+  </canvas-guidelines>
+
+  <visual-style>
+    <color-palette>
+      <mode>duotone</mode>
+      <dominant-colors>
+        <color>#111111</color>
+        <color>#F7901D</color>
+        <color>#FFFFFF</color>
+        <color>#CCCCCC</color>
+        <color>#666666</color>
+      </dominant-colors>
+      <background-color>#111111</background-color>
+      <accent-colors>明亮暖橙色 #F7901D 仅用于主标题中的关键单词、副标题、少量强调词和小图形轮廓，不用于大面积背景。</accent-colors>
+      <allow-gradients>true</allow-gradients>
+      <notes>整体保持黑色背景、白色正文、橙色点缀的高对比视觉；照片可带暖橙色滤镜或渐变叠加，其余区域尽量使用纯色。</notes>
+    </color-palette>
+
+    <typography>
+      <primary-family>condensed grotesk sans-serif, all-caps display style</primary-family>
+      <secondary-family>same-as-primary</secondary-family>
+      <title-style font-size="xxl" weight="medium" case="uppercase" tracking="wide">
+        主标题为高字高、窄字宽的压缩无衬线体，全部大写，字距略宽，分为多行或多块分布，与图像叠加形成层次。
+      </title-style>
+      <subtitle-style font-size="l" weight="medium">
+        副标题或章节标题使用同一字体，中等到较大字号，可通过换色为橙色来强调，与主标题形成上下层级。
+      </subtitle-style>
+      <body-style font-size="m" weight="regular" line-height="1.5">
+        正文为常规粗细无衬线，小到中等字号，行距舒适，主要为白色文字；用于段落说明、项目列表与按钮文字。
+      </body-style>
+      <alignment>大标题多为居中或与图像对齐的混合布局，正文多为左对齐，部分核心描述居中。</alignment>
+      <special-text>标题常将其中一个词换成橙色形成对比；个别词语使用橙色细线椭圆圈出；导航链接为小号全大写，居中分布。</special-text>
+    </typography>
+
+    <shapes-and-effects>
+      <corner-radius>sharp</corner-radius>
+      <border-style>大量使用 1px 到 2px 的白色描边矩形和细线框，用于按钮、卡片、强调框和椭圆轮廓，边角锐利。</border-style>
+      <shadow-style>none</shadow-style>
+      <dividers>分割线极少，主要通过块状对齐、摄影区域与文本块之间的留白来分区；箭头引导线可作为局部分隔。</dividers>
+      <special-effects>中央内容可使用细线椭圆轮廓框住头像或关键元素；英雄图像通常叠加暖橙滤镜；按钮和链接带有线性箭头延伸，增加动感。</special-effects>
+    </shapes-and-effects>
+
+    <iconography>
+      <icon-style>极简线性图标，以箭头和简单几何符号为主。</icon-style>
+      <stroke-width>thin</stroke-width>
+      <corner-style>多为直角和尖锐箭头，辅以少量圆弧。</corner-style>
+      <usage>箭头图标常用于按钮右侧和项目列表；不使用复杂图标集，仅用极少量符号强化导航方向。</usage>
+    </iconography>
+
+    <imagery>
+      <photo-usage>广泛使用高对比度摄影：建筑、街头艺术或雕塑主体；英雄图像多为暖橙色调建筑照片，局部灰度照片用于次级区块。</photo-usage>
+      <illustration-usage>插画使用较少，如需使用应保持写实或摄影感，避免卡通风。</illustration-usage>
+      <mask-shapes>主视觉多为横向矩形或接近全宽区域；局部人物或雕塑可用细线椭圆或竖直椭圆框住；缩略图与项目图片为矩形或轻微圆角矩形。</mask-shapes>
+    </imagery>
+  </visual-style>
+
+  <layout-patterns>
+    <pattern id="hero-photo-banner" purpose="封面或首屏">
+      <description>顶部导航加大幅建筑摄影的首屏布局，适合展览或活动海报、网站首页和竖版封面。</description>
+      <regions>
+        <region id="top-nav" x="0.06" y="0.02" width="0.88" height="0.06" role="navigation-menu-and-small-logo"/>
+        <region id="hero-image" x="0.00" y="0.10" width="1.00" height="0.32" role="main-photo-or-illustration"/>
+        <region id="hero-title-top" x="0.06" y="0.11" width="0.88" height="0.16" role="main-title-line-1"/>
+        <region id="hero-title-bottom" x="0.50" y="0.26" width="0.44" height="0.12" role="main-title-line-2-or-keyword"/>
+        <region id="hero-cta" x="0.06" y="0.46" width="0.36" height="0.08" role="primary-button-or-key-call-to-action"/>
+      </regions>
+    </pattern>
+
+    <pattern id="mission-centered" purpose="品牌愿景与介绍页面">
+      <description>以中心标题和竖直椭圆为视觉核心，两侧放置正文段落的说明型布局，适合介绍品牌故事或展览理念。</description>
+      <regions>
+        <region id="section-title" x="0.15" y="0.06" width="0.70" height="0.12" role="section-title-and-highlighted-word"/>
+        <region id="ellipse-media" x="0.35" y="0.18" width="0.30" height="0.26" role="portrait-or-symbol-inside-ellipse"/>
+        <region id="center-description" x="0.12" y="0.46" width="0.76" height="0.16" role="central-description-or-quote"/>
+        <region id="left-body" x="0.08" y="0.66" width="0.38" height="0.22" role="supporting-text-left"/>
+        <region id="right-body" x="0.54" y="0.66" width="0.38" height="0.22" role="supporting-text-right"/>
+      </regions>
+    </pattern>
+
+    <pattern id="projects-list" purpose="案例或项目列表">
+      <description>左侧大图加右侧分段卡片列表的布局，适合展示往期项目、展览或活动记录。</description>
+      <regions>
+        <region id="projects-title" x="0.10" y="0.06" width="0.80" height="0.16" role="section-title-multi-line"/>
+        <region id="projects-photo" x="0.08" y="0.24" width="0.44" height="0.44" role="project-photo-or-gallery-preview"/>
+        <region id="project-card-1" x="0.58" y="0.30" width="0.34" height="0.10" role="project-item-1"/>
+        <region id="project-card-2" x="0.58" y="0.44" width="0.34" height="0.10" role="project-item-2"/>
+        <region id="project-card-3" x="0.58" y="0.58" width="0.34" height="0.10" role="project-item-3"/>
+      </regions>
+    </pattern>
+  </layout-patterns>
+
+  <component-library>
+    <component id="primary-button">
+      <description>主行动按钮，常用于选择参观、购票或查看详情，带右向箭头。</description>
+      <shape>锐角矩形，宽度明显大于高度，与整体网格对齐。</shape>
+      <fill-color>默认黑色或深灰填充，配以 1px 白色描边。</fill-color>
+      <text-style>白色全大写无衬线文字，中等字号，字距适中，文本居中；右侧附细线箭头。</text-style>
+      <icon-support>支持在文本右侧放置线性箭头或简单图标，保持同一描边粗细。</icon-support>
+    </component>
+
+    <component id="secondary-button">
+      <description>样式弱化的次级按钮，可用于次要链接或更多信息。</description>
+      <shape>描边矩形或无填充文字链接形式。</shape>
+      <fill-color>内部透明或极深灰；描边为白色或浅灰。</fill-color>
+      <text-style>小号全大写或句首大写，无下划线；可在悬停或强调状态下变为橙色文字。</text-style>
+      <icon-support>可搭配较小的箭头或简单符号。</icon-support>
+    </component>
+
+    <component id="tag">
+      <description>用于强调关键词或短语的小型圆形高亮，如圈出“Миссия”等词。</description>
+      <shape>细线椭圆或圆形轮廓。</shape>
+      <border-or-fill>使用 1px 橙色描边，无填充；包裹关键文字或短语。</border-or-fill>
+      <usage>放置于正文段落中，用于视觉上圈出重点词语或短说明。</usage>
+    </component>
+
+    <component id="card">
+      <description>项目列表卡片，用于展示单个展览或活动名称，右侧带箭头。</description>
+      <layout>内部左侧为一行文字，右侧为箭头；内容垂直居中，多个卡片上下均匀堆叠。</layout>
+      <shadow-or-border>无阴影，使用 1px 白色描边矩形轮廓，背景为与画布接近的黑色或略浅深灰。</shadow-or-border>
+      <spacing>normal</spacing>
+    </component>
+
+    <component id="nav-link">
+      <description>顶部主导航链接。</description>
+      <shape>无背景，仅文字，沿水平方向均匀分布。</shape>
+      <border-or-fill>默认无边框，悬停或当前页可用下划线或变色强调。</border-or-fill>
+      <usage>放置在顶部窄条区域，与小型品牌标识同一行，全部使用小号大写字母。</usage>
+    </component>
+
+    <component id="ellipse-highlight">
+      <description>包含雕塑头像或图标的细线竖直椭圆，用于使命部分的视觉焦点。</description>
+      <shape>竖直椭圆描边框，内部可放置头像、符号或抽象图。</shape>
+      <border-or-fill>使用白色细描边，无填充，椭圆底部稍微超出内容区形成悬浮感。</border-or-fill>
+      <usage>放置在章节中央，用于承载与主题相关的黑白照片或象征性图案。</usage>
+    </component>
+  </component-library>
+
+  <generation-guidelines>
+    <role>你是一名擅长暗色城市感与大标题排版的 SVG 版式设计师，将根据本 XML 的风格定义和用户提供的主题、尺寸、用途生成画面。</role>
+    <usage>始终使用接近纯黑的背景与白色正文，暖橙色只作为少量强调色；根据目标比例选择最接近的布局模式，并保持标题与照片之间的层叠关系；优先在上部安置大幅建筑或街头摄影，在中下部布置 mission 文案、项目卡片等信息；按钮、卡片和高亮元素都应采用细描边矩形或椭圆，并搭配线性箭头。</usage>
+    <flexibility>可自由更换照片内容、人物或雕塑头像、文案文字与卡片数量；允许根据不同尺寸调整标题的换行方式和图像高度。但必须保持黑色背景、橙加白的双色调、锐角描边矩形和椭圆线框、极简无衬线大写字体以及整体纵向节奏分明的版心结构。</flexibility>
+    <recommended-workflow>1) 设定画布比例并填充深黑背景；2) 放置顶部导航和小型品牌标志；3) 根据需要选择 hero-photo-banner、mission-centered 或 projects-list 等模式之一；4) 在指定区域插入并裁剪照片，必要时叠加暖橙色渐变滤镜；5) 依照网格排版主标题和副标题，并用橙色突出关键单词；6) 添加正文段落、项目卡片和按钮，使用细描边矩形与线性箭头；7) 最后补充椭圆高亮和小范围橙色点缀，检查对齐与层次。</recommended-workflow>
+  </generation-guidelines>
+
+  <negative-guidelines>
+    <forbidden-colors>避免使用蓝色、绿色、紫色等额外高饱和色；禁止大面积浅色背景或彩虹式多色组合。</forbidden-colors>
+    <forbidden-effects>不要使用厚重投影、玻璃拟态、霓虹光晕、复杂纹理叠加或卡通插画风格；照片不应出现过度模糊或滤镜特效。</forbidden-effects>
+    <forbidden-layouts>避免完全对称的传统海报布局和没有留白的密集排版；不要将标题缩得过小或拆分成过多行，以免失去强烈的视觉识别。</forbidden-layouts>
+    <notes>不要使用衬线字体、手写体或圆润可爱风字形；避免大圆角按钮和色块，以保持工业和街头艺术的硬朗感。</notes>
+  </negative-guidelines>
+</StylePrompt>
