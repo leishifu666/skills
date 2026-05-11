@@ -1,0 +1,30 @@
+{
+  "name": "leishifu-ppt-style-factory",
+  "author": "leishifu",
+  "version": "1.0.0",
+  "description": "LeishiFu 的 PPT 风格模板库",
+  "styles": [
+    {
+      "name": "leishifu-dark-portfolio",
+      "displayName": "暗色作品集",
+      "category": "现代",
+      "createdAt": "2026-05-11",
+      "tags": ["暗色", "专业", "无衬线", "圆角", "金色强调"],
+      "files": {
+        "definition": "styles/leishifu-dark-portfolio.json",
+        "template": "templates/template-leishifu-dark-portfolio.html"
+      }
+    },
+    {
+      "name": "leishifu-monochrome-editorial",
+      "displayName": "黑白编辑风",
+      "category": "经典",
+      "createdAt": "2026-05-11",
+      "tags": ["黑白", "编辑", "衬线", "直角", "杂志", "摄影"],
+      "files": {
+        "definition": "styles/leishifu-monochrome-editorial.json",
+        "template": "templates/template-leishifu-monochrome-editorial.html"
+      }
+    }
+  ]
+}

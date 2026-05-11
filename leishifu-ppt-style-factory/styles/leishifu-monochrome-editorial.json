@@ -1,0 +1,130 @@
+{
+  "name": "leishifu-monochrome-editorial",
+  "displayName": "黑白编辑风",
+  "author": "leishifu",
+  "createdAt": "2026-05-11",
+  "version": "1.0.0",
+  "source": {
+    "type": "screenshot",
+    "ref": "纯黑白摄影杂志/作品集模板截图，Didone衬线大标题+黑白照片+极端字号对比"
+  },
+  "d01_colors": {
+    "ink": "#000000",
+    "ink-rgb": "0,0,0",
+    "paper": "#ffffff",
+    "paper-rgb": "255,255,255",
+    "paper-tint": "#f2f2f2",
+    "ink-tint": "#666666"
+  },
+  "d02_accents": {
+    "accent": "#000000",
+    "accent-rgb": "0,0,0",
+    "accent-alt": "#333333",
+    "color-warn": "#000000",
+    "color-success": "#000000",
+    "color-info": "#000000"
+  },
+  "d03_headingFont": {
+    "heading": "Playfair Display, Noto Serif SC, serif",
+    "headingStyle": "serif",
+    "cjkHeading": "Noto Serif SC",
+    "headingImport": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700;900&display=swap"
+  },
+  "d04_bodyFont": {
+    "body": "Inter, Noto Sans SC, sans-serif",
+    "cjkBody": "Noto Sans SC",
+    "mono": "JetBrains Mono, monospace",
+    "bodyImport": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap"
+  },
+  "d05_fontWeight": {
+    "headingWeight": 900,
+    "headingBoldWeight": 900,
+    "bodyWeight": 400,
+    "bodyLightWeight": 300,
+    "emphasisWeight": 700,
+    "heroWeight": 900
+  },
+  "d06_fontSize": {
+    "heroSize": "min(10vw, 16vh)",
+    "xlSize": "clamp(2.8rem, 5vw, 5.6rem)",
+    "mdSize": "clamp(1.4rem, 2.2vw, 2.6rem)",
+    "subSize": "clamp(0.85rem, 1vw, 1.1rem)",
+    "bodySize": "clamp(0.85rem, 0.95vw, 1rem)",
+    "cjkHeroRules": {
+      "1line_lte8": "min(8.5vw, 14vh)",
+      "2line_lte8": "min(7vw, 12vh)",
+      "2line_9to12": "min(6vw, 10vh)",
+      "3line_plus": "min(5vw, 8.5vh)"
+    }
+  },
+  "d07_spacing": {
+    "density": "compact",
+    "cardPadding": "clamp(1.2rem, 1.8vw, 2rem)",
+    "sectionGap": "clamp(1.5rem, 2.5vw, 3rem)",
+    "componentGap": "clamp(0.5rem, 0.8vw, 1rem)",
+    "slidePadding": "clamp(2rem, 3.5vw, 4.5rem)",
+    "navSafeBottom": "3.5rem"
+  },
+  "d08_background": {
+    "type": "solid",
+    "color": "paper",
+    "opacity": 1,
+    "enabled": false,
+    "heroOnly": false
+  },
+  "d09_border": {
+    "borderRadius": "0px",
+    "borderRadiusLarge": "0px",
+    "borderWidth": "0px",
+    "borderColor": "transparent",
+    "borderStyle": "none"
+  },
+  "d10_shadow": {
+    "level": "none",
+    "shadowSm": "none",
+    "shadowMd": "none",
+    "shadowLg": "none",
+    "shadowColor": "transparent"
+  },
+  "d11_animation": {
+    "level": "minimal",
+    "entrance": "fade",
+    "duration": "0.5s",
+    "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+    "stagger": "0.06s"
+  },
+  "d12_icon": {
+    "library": "none",
+    "style": "none",
+    "strokeWidth": 0,
+    "size": "0",
+    "color": "none"
+  },
+  "d13_image": {
+    "borderRadius": "0px",
+    "filter": "grayscale(1)",
+    "overlay": "none",
+    "defaultRatio": "3:4",
+    "objectFit": "cover"
+  },
+  "d14_card": {
+    "style": "none",
+    "background": "transparent",
+    "hoverEffect": "none",
+    "activeVariant": "none"
+  },
+  "d15_decoration": {
+    "pattern": "none",
+    "density": "none",
+    "position": "none",
+    "opacity": 0,
+    "color": "none"
+  },
+  "d16_mood": {
+    "aestheticTags": ["编辑", "黑白", "高对比", "杂志", "纪实"],
+    "moodBoard": "Vogue Italia + Magnum Photos + MONO Magazine",
+    "bestFor": ["摄影作品集", "时尚展示", "纪实报道", "艺术画廊", "个人品牌"],
+    "notFor": ["数据汇报", "科技产品", "轻松活泼的分享"],
+    "era": "timeless"
+  }
+}

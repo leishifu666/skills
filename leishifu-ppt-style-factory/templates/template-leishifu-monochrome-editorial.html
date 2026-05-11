@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[必填] 替换为 PPT 标题</title>
+
+<!-- D3+D4: 字体 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+/* ===================================================================
+   LeishiFu Monochrome Editorial
+   纯黑白·杂志编辑风·Didone衬线大标题·黑白摄影·极端字号对比
+   =================================================================== */
+
+:root {
+  /* D1: 配色 — 纯黑纯白 */
+  --ink: #000000;
+  --ink-rgb: 0,0,0;
+  --paper: #ffffff;
+  --paper-rgb: 255,255,255;
+  --paper-tint: #f2f2f2;
+  --ink-tint: #666666;
+
+  /* D2: 无彩色强调 */
+  --accent: #000000;
+  --accent-rgb: 0,0,0;
+
+  /* D6: 字号 — 极端对比 */
+  --fs-hero: min(10vw, 16vh);
+  --fs-xl: clamp(2.8rem, 5vw, 5.6rem);
+  --fs-md: clamp(1.4rem, 2.2vw, 2.6rem);
+  --fs-sub: clamp(0.85rem, 1vw, 1.1rem);
+  --fs-body: clamp(0.85rem, 0.95vw, 1rem);
+  --fs-small: clamp(0.65rem, 0.75vw, 0.8rem);
+  --fs-meta: clamp(0.6rem, 0.7vw, 0.75rem);
+
+  /* D7: 间距 — 紧凑 */
+  --sp-2: 4px;  --sp-3: 8px;  --sp-4: 12px;
+  --sp-5: 16px; --sp-6: 20px; --sp-7: 28px;
+  --sp-8: 36px; --sp-9: 48px; --sp-10: 64px;
+  --slide-pad: clamp(2rem, 3.5vw, 4.5rem);
+  --nav-safe: 3.5rem;
+
+  /* D11: 动效 — 极简 */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.5s;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 横向翻页 ===== */
+.deck {
+  display: flex;
+  height: 100vh;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.slide {
+  flex: 0 0 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== 白页 / 黑页 ===== */
+.slide.white {
+  background: var(--paper);
+  color: var(--ink);
+}
+.slide.black {
+  background: #0a0a0a;
+  color: var(--paper);
+}
+.slide.black .meta-label { color: rgba(255,255,255,0.45); }
+.slide.black .body-text { color: rgba(255,255,255,0.75); }
+.slide.black .divider { background: rgba(255,255,255,0.12); }
+
+/* ===== D3+D5: 排版 — 衬线超大标题 ===== */
+.h-hero {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: var(--fs-hero);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.h-hero-italic {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: var(--fs-hero);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+.h-xl {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: var(--fs-xl);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+.h-md {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.h-serif-light {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: clamp(1.1rem, 1.4vw, 1.6rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* 无衬线小标题/元信息 */
+.meta-label {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(0,0,0,0.45);
+}
+.body-text {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(0,0,0,0.7);
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-small);
+}
+.num-giant {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 8vw, 9rem);
+  font-weight: 900;
+  line-height: 0.85;
+}
+
+/* ===== 分隔线 ===== */
+.divider {
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+  border: none;
+}
+.divider-thick {
+  height: 3px;
+  background: var(--ink);
+  border: none;
+  width: 60px;
+}
+
+/* ===== D13: 图片 — 全黑白·直角·满出血 ===== */
+.img-full {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  display: block;
+}
+.img-cover {
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  display: block;
+}
+.img-half {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+/* ===== 布局骨架 ===== */
+
+/* 封面：满幅照片 + 叠加标题 */
+.layout-cover {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+.cover-photo { position: relative; overflow: hidden; }
+.cover-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-5);
+}
+
+/* 图文对半：左图右文 or 右图左文 */
+.layout-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+.layout-split.reverse { direction: rtl; }
+.layout-split.reverse > * { direction: ltr; }
+
+.split-photo { position: relative; overflow: hidden; }
+.split-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  gap: var(--sp-6);
+}
+
+/* 纯文字全屏 */
+.layout-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  max-width: 65%;
+}
+
+/* 居中声明页 */
+.layout-statement {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+}
+
+/* 网格多图 */
+.layout-grid-photos {
+  display: grid;
+  height: 100vh;
+}
+.layout-grid-2x2 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+}
+.layout-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3px;
+}
+
+/* 大标题断行 */
+.hero-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.hero-stack .h-hero { margin: 0; }
+
+/* 数据条 */
+.data-bar {
+  display: flex;
+  gap: var(--sp-9);
+  padding-top: var(--sp-7);
+  border-top: 1px solid rgba(var(--ink-rgb), 0.12);
+}
+.data-item {}
+.data-item .num-giant { display: block; }
+.data-item .meta-label { margin-top: var(--sp-3); }
+
+/* ===== 底部导航 ===== */
+.nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--nav-safe);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--slide-pad);
+  z-index: 100;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+.nav > * { pointer-events: auto; color: #ffffff; }
+.nav-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav-progress {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: #888;
+  transition: width 0.3s var(--ease);
+  z-index: 101;
+  mix-blend-mode: difference;
+}
+
+/* ===== 索引 ===== */
+.index-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.97);
+  z-index: 200;
+  display: none;
+  padding: var(--sp-10);
+  overflow-y: auto;
+}
+.index-panel.open {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--sp-5);
+  align-content: start;
+}
+.index-thumb {
+  cursor: pointer;
+  padding: var(--sp-4);
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.index-thumb:hover { border-bottom-color: #000; }
+.index-thumb .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  color: #999;
+}
+.index-thumb .title {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-sub);
+  font-weight: 700;
+  margin-top: var(--sp-2);
+}
+
+/* ===== D11: 入场动效 — 仅 fade ===== */
+.anim { opacity: 0; transition: opacity var(--duration) var(--ease); }
+.anim.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ===== P1: 封面 — 左照片+右断行大标题 ===== -->
+  <section class="slide white layout-cover" data-title="封面">
+    <div class="cover-photo">
+      <div style="width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;">
+        <span class="meta-label" style="color:#555;font-size:var(--fs-sub)">COVER PHOTO</span>
+      </div>
+    </div>
+    <div class="cover-text">
+      <p class="meta-label anim">Portfolio · 2026</p>
+      <div class="hero-stack anim" style="transition-delay:0.06s">
+        <span class="h-hero">PORT</span>
+        <span class="h-hero">FOLIO</span>
+      </div>
+      <hr class="divider-thick anim" style="transition-delay:0.12s">
+      <p class="body-text anim" style="transition-delay:0.18s;max-width:320px">
+        黑白编辑风格模板。纯粹的排版力量，让照片和文字自己说话。
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.24s">LeishiFu Style Factory</p>
+    </div>
+  </section>
+
+  <!-- ===== P2: 黑底+数据 ===== -->
+  <section class="slide black" data-title="数据页" style="display:flex;flex-direction:column;justify-content:flex-end;padding:var(--slide-pad);padding-bottom:calc(var(--slide-pad) + var(--nav-safe))">
+    <p class="meta-label anim" style="margin-bottom:var(--sp-6)">关于这个风格</p>
+    <h2 class="h-xl anim" style="transition-delay:0.06s;color:#fff;max-width:60%">
+      没有色彩。<br>没有圆角。<br>没有阴影。<br>只有<em>排版</em>。
+    </h2>
+    <div class="data-bar anim" style="transition-delay:0.12s;margin-top:var(--sp-9);border-top-color:rgba(255,255,255,0.12)">
+      <div class="data-item">
+        <span class="num-giant" style="color:#fff">16</span>
+        <p class="meta-label" style="margin-top:var(--sp-3)">风格维度</p>
+      </div>
+      <div class="data-item">
+        <span class="num-giant" style="color:#fff">0</span>
+        <p class="meta-label" style="margin-top:var(--sp-3)">彩色像素</p>
+      </div>
+      <div class="data-item">
+        <span class="num-giant" style="color:#fff">2</span>
+        <p class="meta-label" style="margin-top:var(--sp-3)">颜色（黑与白）</p>
+      </div>
+      <div class="data-item">
+        <span class="num-giant" style="color:#fff">∞</span>
+        <p class="meta-label" style="margin-top:var(--sp-3)">灰度层次</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P3: 图文分屏 ===== -->
+  <section class="slide white layout-split" data-title="图文页">
+    <div class="split-photo">
+      <div style="width:100%;height:100%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;">
+        <span class="meta-label" style="font-size:var(--fs-sub)">PHOTOGRAPH</span>
+      </div>
+    </div>
+    <div class="split-text">
+      <p class="meta-label anim">提取流程</p>
+      <h2 class="h-md anim" style="transition-delay:0.06s">从截图到模板</h2>
+      <hr class="divider anim" style="transition-delay:0.1s">
+      <p class="body-text anim" style="transition-delay:0.14s">
+        风格工厂分析截图中的色彩、排版、间距、装饰等视觉特征，提取为 16 维度定义。这个风格的核心发现：完全无色彩、衬线超大标题、极端字号落差、照片全黑白。
+      </p>
+      <p class="body-text anim" style="transition-delay:0.18s">
+        没有圆角、没有阴影、没有卡片——只靠黑白色块和排版层级建立视觉节奏。这种克制本身就是最强烈的风格声明。
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.22s;margin-top:var(--sp-5)">
+        D1 纯黑白 · D3 衬线900 · D5 hero 10vw · D9 圆角0px · D13 grayscale(1)
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== P4: 反转分屏 (黑底) ===== -->
+  <section class="slide black layout-split reverse" data-title="反转对比">
+    <div class="split-text" style="padding-right:var(--sp-10)">
+      <p class="meta-label anim">黑白交替</p>
+      <h2 class="h-md anim" style="transition-delay:0.06s;color:#fff">节奏来自反转</h2>
+      <hr class="divider anim" style="transition-delay:0.1s;background:rgba(255,255,255,0.12)">
+      <p class="body-text anim" style="transition-delay:0.14s">
+        黑页和白页交替出现，每次翻页都是一次视觉冲击。不需要渐变、不需要动效——纯粹的黑白翻转就是最有力的转场。
+      </p>
+      <div class="anim" style="transition-delay:0.2s;display:flex;gap:var(--sp-4);margin-top:var(--sp-6)">
+        <div style="width:48px;height:48px;background:#fff"></div>
+        <div style="width:48px;height:48px;background:#0a0a0a;border:1px solid rgba(255,255,255,0.2)"></div>
+        <div style="width:48px;height:48px;background:#fff"></div>
+        <div style="width:48px;height:48px;background:#0a0a0a;border:1px solid rgba(255,255,255,0.2)"></div>
+        <div style="width:48px;height:48px;background:#fff"></div>
+      </div>
+    </div>
+    <div class="split-photo">
+      <div style="width:100%;height:100%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;">
+        <span class="meta-label" style="color:#555;font-size:var(--fs-sub)">PHOTOGRAPH</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P5: 收束 — 大字居中 ===== -->
+  <section class="slide white layout-statement" data-title="收束">
+    <p class="meta-label anim" style="margin-bottom:var(--sp-7)">LeishiFu Style Factory</p>
+    <div class="hero-stack anim" style="transition-delay:0.06s">
+      <span class="h-hero">PHOTO</span>
+      <span class="h-hero-italic">GRAPH</span>
+    </div>
+    <hr class="divider-thick anim" style="transition-delay:0.12s;margin-top:var(--sp-7)">
+    <p class="h-serif-light anim" style="transition-delay:0.18s;margin-top:var(--sp-6);max-width:480px">
+      "最好的设计是看不见的设计。当你只有黑与白，每一个像素都必须有意义。"
+    </p>
+    <p class="meta-label anim" style="transition-delay:0.24s;margin-top:var(--sp-7)">
+      Monochrome Editorial · v1.0
+    </p>
+  </section>
+
+</div>
+
+<!-- 导航 -->
+<nav class="nav">
+  <span class="nav-counter" id="counter">01 / 05</span>
+</nav>
+<div class="nav-progress" id="progress" style="width:20%"></div>
+
+<!-- 索引面板 -->
+<div class="index-panel" id="indexPanel"></div>
+
+<script>
+(function(){
+  const deck = document.getElementById('deck');
+  const slides = deck.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const indexPanel = document.getElementById('indexPanel');
+  const total = slides.length;
+  let current = 0;
+  let throttled = false;
+
+  function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+  function goTo(i){
+    if(i<0||i>=total) return;
+    current = i;
+    slides[i].scrollIntoView({behavior:'smooth',inline:'start'});
+    counter.textContent = pad(i+1)+' / '+pad(total);
+    progress.style.width = ((i+1)/total*100)+'%';
+    triggerAnim(i);
+  }
+
+  function triggerAnim(i){
+    slides.forEach((s,idx)=>{
+      if(idx===i){
+        s.querySelectorAll('.anim').forEach((el,j)=>{
+          setTimeout(()=>el.classList.add('visible'), j*60);
+        });
+      }
+    });
+  }
+
+  document.addEventListener('keydown', e=>{
+    if(indexPanel.classList.contains('open')){
+      if(e.key==='Escape') indexPanel.classList.remove('open');
+      return;
+    }
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();goTo(current+1);}
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goTo(current-1);}
+    else if(e.key==='Escape') openIndex();
+  });
+
+  deck.addEventListener('wheel', e=>{
+    if(throttled) return;
+    throttled=true;
+    setTimeout(()=>throttled=false, 600);
+    if(e.deltaY>20||e.deltaX>20) goTo(current+1);
+    else if(e.deltaY<-20||e.deltaX<-20) goTo(current-1);
+  },{passive:true});
+
+  let tx=0;
+  deck.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  deck.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    if(dx<-50) goTo(current+1);
+    else if(dx>50) goTo(current-1);
+  },{passive:true});
+
+  function openIndex(){
+    indexPanel.innerHTML='';
+    slides.forEach((s,i)=>{
+      const t=document.createElement('div');
+      t.className='index-thumb';
+      t.innerHTML='<p class="num">'+pad(i+1)+'</p><p class="title">'+(s.dataset.title||'Slide '+(i+1))+'</p>';
+      t.onclick=()=>{indexPanel.classList.remove('open');goTo(i);};
+      indexPanel.appendChild(t);
+    });
+    indexPanel.classList.add('open');
+  }
+
+  triggerAnim(0);
+})();
+</script>
+
+</body>
+</html>
