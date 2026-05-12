@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模特作品集 · LeishiFu Style Factory</title>
+
+<!-- D3+D4: 字体 — Bebas Neue(粗无衬线) + Great Vibes(花体) + Inter(正文) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+/* ===================================================================
+   LeishiFu Fashion Editorial v2.0 — 模特作品集
+   16维度驱动 · 元提示词7步法生成
+   纯黑底 · 正红强调 · Bebas Neue(紧凑粗无衬线) + Great Vibes(花体签名)
+   全出血时装摄影 · 黑红双色系统 · 超大字母装饰 · 红色几何色块
+   =================================================================== */
+
+:root {
+  /* === D1: 配色 — 纯黑底 + 纯白字 === */
+  --ink: #ffffff;
+  --ink-rgb: 255,255,255;
+  --paper: #000000;
+  --paper-rgb: 0,0,0;
+  --paper-tint: #1a1a1a;
+  --ink-tint: #888888;
+
+  /* === D2: 强调色 — 正红 === */
+  --accent: #d41a2d;
+  --accent-rgb: 212,26,45;
+  --accent-alt: #ffffff;
+
+  /* === D6: 字号 === */
+  --fs-hero: min(8vw, 14vh);
+  --fs-xl: clamp(2.4rem, 4.2vw, 5rem);
+  --fs-md: clamp(1.3rem, 2vw, 2.4rem);
+  --fs-sub: clamp(0.85rem, 1vw, 1.15rem);
+  --fs-body: clamp(0.75rem, 0.85vw, 0.9rem);
+  --fs-small: clamp(0.65rem, 0.75vw, 0.8rem);
+  --fs-meta: clamp(0.6rem, 0.7vw, 0.75rem);
+  --fs-script: clamp(2rem, 3.5vw, 4.5rem);
+
+  /* === D7: 间距 — standard === */
+  --sp-2: 4px;  --sp-3: 8px;  --sp-4: 12px;
+  --sp-5: 16px; --sp-6: 24px; --sp-7: 32px;
+  --sp-8: 40px; --sp-9: 48px; --sp-10: 64px;
+  --slide-pad: clamp(2.5rem, 4.5vw, 6rem);
+  --nav-safe: 3.5rem;
+
+  /* === D9: 圆角 — 0px 全直角 === */
+  --radius: 0px;
+
+  /* === D11: 动效 === */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.5s;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 横向翻页 ===== */
+.deck { display: flex; height: 100vh; overflow-x: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+.slide { flex: 0 0 100vw; height: 100vh; scroll-snap-align: start; position: relative; overflow: hidden; }
+
+/* ===== 页面主题 ===== */
+.slide.dark { background: var(--paper); color: var(--ink); }
+.slide.red { background: var(--accent); color: #000; }
+.slide.red .meta-label { color: rgba(0,0,0,0.5); }
+.slide.red .body-text { color: rgba(0,0,0,0.7); }
+.slide.red .h-script { color: #000; }
+
+/* ===== D3: 排版 — 双字体系统 ===== */
+
+/* 主标题: Bebas Neue — 紧凑粗体全大写展示体 */
+.h-hero {
+  font-family: 'Bebas Neue', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-hero);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.h-xl {
+  font-family: 'Bebas Neue', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-xl);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.h-md {
+  font-family: 'Bebas Neue', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-md);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* 花体签名: Great Vibes — 优雅脚本体 */
+.h-script {
+  font-family: 'Great Vibes', cursive;
+  font-size: var(--fs-script);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+
+/* 正文/元信息 — Inter */
+.meta-label {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-tint);
+}
+.body-text {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(var(--ink-rgb), 0.6);
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-small);
+}
+
+/* ===== D13: 图片 ===== */
+.img-art {
+  width: 100%; height: 100%;
+  min-height: 0; min-width: 0;
+  object-fit: cover;
+  display: block;
+}
+.img-bw { filter: grayscale(1) contrast(1.1); }
+
+/* ===== D15: 装饰元素 — 红色圆形 ===== */
+.deco-circle {
+  width: clamp(180px, 22vw, 320px);
+  height: clamp(180px, 22vw, 320px);
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  overflow: hidden;
+}
+.deco-letter {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(12rem, 22vw, 28rem);
+  font-weight: 400;
+  line-height: 0.8;
+  color: var(--accent);
+  opacity: 0.15;
+  user-select: none;
+  position: absolute;
+}
+
+/* ===== 布局 ===== */
+
+/* 封面: 纯黑底 + 超大 PORTFOLIO 字 + 红圆穿插 */
+.layout-cover-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  padding: var(--slide-pad);
+}
+
+/* 图文分屏 55:45 */
+.layout-split-55 {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  height: 100vh;
+}
+/* 图文分屏 45:55 (反转) */
+.layout-split-45r {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  height: 100vh;
+}
+.split-photo { position: relative; overflow: hidden; min-height: 0; }
+.split-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-5);
+}
+
+/* 红底介绍页: 红色整页 + 左侧照片 + 右侧双图 + 文字 */
+.layout-intro-red {
+  display: grid;
+  grid-template-columns: 35% 30% 35%;
+  height: 100vh;
+}
+.intro-photo { position: relative; overflow: hidden; min-height: 0; }
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--sp-8) var(--sp-7);
+  padding-bottom: calc(var(--sp-8) + var(--nav-safe));
+  gap: var(--sp-5);
+}
+.intro-gallery {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  min-height: 0;
+}
+.intro-gallery-cell { position: relative; overflow: hidden; min-height: 0; }
+
+/* 项目页: 黑底 + 大装饰字母 + 照片 + 信息 */
+.layout-project {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  position: relative;
+}
+.project-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-5);
+  position: relative;
+  z-index: 1;
+}
+.project-photo { position: relative; overflow: hidden; min-height: 0; }
+
+/* 项目页反转 */
+.layout-project-r {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  position: relative;
+}
+
+/* 联系页 */
+.layout-contact {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  height: 100vh;
+}
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-6);
+}
+.contact-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  min-height: 0;
+}
+.contact-cell { position: relative; overflow: hidden; min-height: 0; }
+
+/* ===== 页脚 ===== */
+.nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--nav-safe);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--slide-pad);
+  z-index: 100;
+  pointer-events: none;
+}
+.nav > * { pointer-events: auto; }
+.nav-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  color: var(--ink-tint);
+}
+.nav-title {
+  font-family: 'Inter', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink-tint);
+}
+.nav-progress {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease);
+  z-index: 101;
+}
+
+/* 红底页上导航适配 */
+.nav.on-red .nav-counter,
+.nav.on-red .nav-title { color: rgba(0,0,0,0.35); }
+
+/* ===== 索引面板 ===== */
+.index-panel {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.97);
+  z-index: 200;
+  display: none;
+  padding: var(--sp-10);
+  overflow-y: auto;
+}
+.index-panel.open {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--sp-5);
+  align-content: start;
+}
+.index-thumb {
+  cursor: pointer;
+  padding: var(--sp-4);
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.index-thumb:hover { border-bottom-color: var(--accent); }
+.index-thumb .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  color: var(--ink-tint);
+}
+.index-thumb .title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: var(--fs-sub);
+  font-weight: 400;
+  margin-top: var(--sp-2);
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+/* ===== D11: 动效 — fade ===== */
+.anim { opacity: 0; transition: opacity var(--duration) var(--ease); }
+.anim.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ===== P1: 封面 — 纯黑底 + PORTFOLIO 超大字 + 红色圆形穿插模特照 ===== -->
+  <section class="slide dark layout-cover-hero" data-title="封面">
+    <!-- 红色圆形 + 模特照穿插在字母中间 -->
+    <div class="deco-circle anim" style="top:50%;left:50%;transform:translate(-50%,-50%);z-index:2">
+      <img src="../images/fashion-editorial/p1-circle.png" class="img-art" alt="模特肖像">
+    </div>
+    <!-- 超大 PORTFOLIO 字 — 穿插圆形 -->
+    <h1 class="h-hero anim" style="transition-delay:0.08s;font-size:min(11vw,18vh);letter-spacing:0.08em;z-index:1;position:relative">PORTFOLIO</h1>
+    <!-- 花体签名 -->
+    <p class="h-script anim" style="transition-delay:0.16s;margin-top:var(--sp-5);z-index:3;position:relative">Model Name</p>
+    <!-- 简介 -->
+    <p class="body-text anim" style="transition-delay:0.24s;margin-top:var(--sp-6);max-width:400px;text-align:center;z-index:1">
+      Professional model based in Seoul. Specializing in editorial, runway, and brand campaigns.
+    </p>
+  </section>
+
+  <!-- ===== P2: 关于 — 左大图 + 右文字 ===== -->
+  <section class="slide dark layout-split-55" data-title="关于">
+    <div class="split-photo">
+      <img src="../images/fashion-editorial/p2-about.png" class="img-art" alt="暗调模特侧脸">
+    </div>
+    <div class="split-content">
+      <p class="meta-label anim">About Me</p>
+      <h2 class="h-xl anim" style="transition-delay:0.08s">ABOUT</h2>
+      <p class="h-script anim" style="transition-delay:0.12s;font-size:clamp(1.6rem,2.8vw,3.5rem);color:var(--accent)">Passion & Style</p>
+      <p class="body-text anim" style="transition-delay:0.16s">
+        With over 8 years in the fashion industry, I bring a unique blend of editorial sophistication and commercial versatility to every project.
+      </p>
+      <p class="body-text anim" style="transition-delay:0.20s">
+        My work has been featured in Vogue Korea, Harper's Bazaar, W Magazine, and campaigns for global luxury brands.
+      </p>
+      <div style="display:flex;gap:var(--sp-7);margin-top:var(--sp-5)" class="anim" style="transition-delay:0.24s">
+        <div>
+          <p class="h-md" style="color:var(--accent)">176</p>
+          <p class="meta-label" style="margin-top:var(--sp-2)">Height (cm)</p>
+        </div>
+        <div>
+          <p class="h-md" style="color:var(--accent)">82-60-88</p>
+          <p class="meta-label" style="margin-top:var(--sp-2)">Measurements</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P3: 介绍 — 正红底 + 黑白照 + 双图 ===== -->
+  <section class="slide red layout-intro-red" data-title="介绍">
+    <div class="intro-photo">
+      <img src="../images/fashion-editorial/p3-bw-full.png" class="img-art img-bw" alt="黑白全身照">
+    </div>
+    <div class="intro-content">
+      <h2 class="h-xl anim" style="color:#000;letter-spacing:0.05em">INTRODUCTION</h2>
+      <p class="h-script anim" style="transition-delay:0.08s;color:#000;font-size:clamp(1.8rem,3vw,4rem)">I'm a Model</p>
+      <div style="margin-top:var(--sp-5)" class="anim" style="transition-delay:0.12s">
+        <p class="meta-label" style="color:rgba(0,0,0,0.5);margin-bottom:var(--sp-3)">Body Measurements</p>
+        <p class="body-text" style="color:rgba(0,0,0,0.7)">Height: 176 cm</p>
+        <p class="body-text" style="color:rgba(0,0,0,0.7)">Bust: 82 / Waist: 60 / Hip: 88</p>
+        <p class="body-text" style="color:rgba(0,0,0,0.7)">Shoe: 250 / Hair: Black</p>
+      </div>
+    </div>
+    <div class="intro-gallery">
+      <div class="intro-gallery-cell">
+        <img src="../images/fashion-editorial/p3-gallery1.png" class="img-art" alt="肖像特写">
+      </div>
+      <div class="intro-gallery-cell">
+        <img src="../images/fashion-editorial/p3-gallery2.png" class="img-art" alt="手部细节">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P4: PROJECT 01 — V Magazine ===== -->
+  <section class="slide dark layout-project" data-title="Project 01">
+    <!-- 超大装饰字母 V -->
+    <span class="deco-letter anim" style="right:-5%;top:10%;font-size:clamp(16rem,30vw,36rem)">V</span>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:var(--accent)">Editorial</p>
+      <h2 class="h-xl anim" style="transition-delay:0.08s">PROJECT 01</h2>
+      <p class="h-script anim" style="transition-delay:0.12s;color:var(--accent)">V Magazine</p>
+      <p class="body-text anim" style="transition-delay:0.16s">
+        Cover story for V Magazine's Spring issue. A bold exploration of deconstructed tailoring and avant-garde silhouettes.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.20s">Spring 2026 · Photographed by Tim Walker</p>
+    </div>
+    <div class="project-photo">
+      <img src="../images/fashion-editorial/p4-vmagazine.png" class="img-art" alt="V Magazine 大片">
+    </div>
+  </section>
+
+  <!-- ===== P5: PROJECT 02 — Tamburins ===== -->
+  <section class="slide dark layout-project-r" data-title="Project 02">
+    <div class="project-photo" style="position:relative;overflow:hidden;min-height:0">
+      <!-- 左半红色色块 -->
+      <div style="position:absolute;inset:0;width:60%;background:var(--accent);z-index:0"></div>
+      <img src="../images/fashion-editorial/p5-tamburins.png" class="img-art" style="position:relative;z-index:1" alt="Tamburins 香水广告">
+    </div>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:var(--accent)">Campaign</p>
+      <h2 class="h-xl anim" style="transition-delay:0.08s">PROJECT 02</h2>
+      <p class="h-script anim" style="transition-delay:0.12s;color:var(--accent)">Tamburins Perfume</p>
+      <p class="body-text anim" style="transition-delay:0.16s">
+        Brand campaign for Tamburins' new fragrance collection. Blending minimalist aesthetics with sensory storytelling.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.20s">2026 · Art Direction by Studio Fragment</p>
+    </div>
+  </section>
+
+  <!-- ===== P6: PROJECT 03 — Gentle Monster ===== -->
+  <section class="slide dark layout-project" data-title="Project 03">
+    <div class="project-info">
+      <p class="meta-label anim" style="color:var(--accent)">Eyewear</p>
+      <h2 class="h-xl anim" style="transition-delay:0.08s">PROJECT 03</h2>
+      <p class="h-script anim" style="transition-delay:0.12s;color:var(--accent)">Gentle Monster</p>
+      <p class="body-text anim" style="transition-delay:0.16s">
+        Lookbook for Gentle Monster's limited capsule collection. Futuristic frames meet editorial storytelling.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.20s">SS26 · Seoul & Tokyo</p>
+    </div>
+    <div class="project-photo">
+      <img src="../images/fashion-editorial/p6-gentlemonster.png" class="img-art" alt="Gentle Monster 墨镜">
+    </div>
+  </section>
+
+  <!-- ===== P7: PROJECT 04 — Calvin Klein ===== -->
+  <section class="slide dark layout-project-r" data-title="Project 04">
+    <div class="project-photo" style="position:relative;overflow:hidden;min-height:0">
+      <img src="../images/fashion-editorial/p7-calvinklein.png" class="img-art img-bw" alt="Calvin Klein 黑白大片">
+    </div>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:var(--accent)">Campaign</p>
+      <h2 class="h-xl anim" style="transition-delay:0.08s">PROJECT 04</h2>
+      <p class="h-script anim" style="transition-delay:0.12s;color:var(--accent)">Calvin Klein</p>
+      <p class="body-text anim" style="transition-delay:0.16s">
+        Global campaign for Calvin Klein's iconic underwear line. Raw, minimal, powerful — celebrating the human form.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.20s">FW25 · Photographed by Mario Sorrenti</p>
+    </div>
+  </section>
+
+  <!-- ===== P8: 联系 — Let's work TOGETHER ===== -->
+  <section class="slide dark layout-contact" data-title="联系">
+    <div class="contact-left">
+      <p class="meta-label anim" style="color:var(--accent)">Get in Touch</p>
+      <div class="anim" style="transition-delay:0.08s">
+        <p class="h-script" style="font-size:clamp(2.5rem,4vw,5rem);color:var(--ink)">Let's work</p>
+        <h2 class="h-hero" style="font-size:min(10vw,16vh);margin-top:var(--sp-3)">TOGETHER</h2>
+      </div>
+      <div class="anim" style="transition-delay:0.16s;margin-top:var(--sp-7)">
+        <p class="body-text">Email: hello@modelname.com</p>
+        <p class="body-text">Agency: WME / IMG Models</p>
+        <p class="body-text" style="margin-top:var(--sp-4)">Instagram: @modelname</p>
+      </div>
+      <p class="meta-label anim" style="transition-delay:0.24s;margin-top:var(--sp-7)">
+        leishifu-fashion-editorial · v2.0 · 2026
+      </p>
+    </div>
+    <div class="contact-gallery">
+      <div class="contact-cell">
+        <img src="../images/fashion-editorial/p8-contact1.png" class="img-art" alt="时装摄影1">
+      </div>
+      <div class="contact-cell">
+        <img src="../images/fashion-editorial/p8-contact2.png" class="img-art" alt="时装摄影2">
+      </div>
+      <div class="contact-cell">
+        <img src="../images/fashion-editorial/p8-contact3.png" class="img-art" alt="时装摄影3">
+      </div>
+      <div class="contact-cell">
+        <img src="../images/fashion-editorial/p8-contact4.png" class="img-art" alt="时装摄影4">
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 页脚导航 -->
+<nav class="nav" id="nav">
+  <span class="nav-counter" id="counter">1 / 8</span>
+  <span class="nav-title">← → · ESC</span>
+</nav>
+<div class="nav-progress" id="progress" style="width:12.5%"></div>
+
+<!-- 索引面板 -->
+<div class="index-panel" id="indexPanel"></div>
+
+<script>
+(function(){
+  const deck = document.getElementById('deck');
+  const slides = [...deck.querySelectorAll('.slide')];
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const indexPanel = document.getElementById('indexPanel');
+  const nav = document.getElementById('nav');
+  let current = 0, throttled = false;
+
+  /* 构建索引面板 */
+  slides.forEach((s,i) => {
+    const d = document.createElement('div');
+    d.className = 'index-thumb';
+    d.innerHTML = `<p class="num">${String(i+1).padStart(2,'0')}</p><p class="title">${s.dataset.title||''}</p>`;
+    d.onclick = () => { indexPanel.classList.remove('open'); goTo(i); };
+    indexPanel.appendChild(d);
+  });
+
+  function goTo(i) {
+    if (i < 0 || i >= total) return;
+    current = i;
+    deck.scrollTo({ left: i * window.innerWidth, behavior: 'smooth' });
+    counter.textContent = `${i+1} / ${total}`;
+    progress.style.width = ((i+1)/total*100) + '%';
+    triggerAnim(i);
+    updateNavTheme(i);
+  }
+
+  function updateNavTheme(i) {
+    const isRed = slides[i].classList.contains('red');
+    nav.classList.toggle('on-red', isRed);
+    progress.style.background = isRed ? '#000' : 'var(--accent)';
+  }
+
+  function triggerAnim(i) {
+    slides[i].querySelectorAll('.anim').forEach((el, j) => {
+      setTimeout(() => el.classList.add('visible'), j * 80);
+    });
+  }
+
+  function openIndex() { indexPanel.classList.toggle('open'); }
+
+  document.addEventListener('keydown', e => {
+    if (indexPanel.classList.contains('open')) {
+      if (e.key === 'Escape') indexPanel.classList.remove('open');
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current+1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current-1); }
+    else if (e.key === 'Escape') openIndex();
+  });
+
+  deck.addEventListener('wheel', e => {
+    if (throttled) return;
+    throttled = true;
+    setTimeout(() => throttled = false, 600);
+    if (e.deltaY > 20 || e.deltaX > 20) goTo(current+1);
+    else if (e.deltaY < -20 || e.deltaX < -20) goTo(current-1);
+  }, { passive: true });
+
+  let tx = 0;
+  deck.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  deck.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (dx < -50) goTo(current+1);
+    else if (dx > 50) goTo(current-1);
+  }, { passive: true });
+
+  /* 初始化 */
+  goTo(0);
+})();
+</script>
+</body>
+</html>

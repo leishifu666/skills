@@ -29,6 +29,7 @@ MIN_PIXELS = 655_360
 MAX_PIXELS = 8_294_400
 DIVISOR = 16
 MAX_RATIO = 3.0
+MIN_SHORT_EDGE = 2048  # 最短边不低于此值，低于则等比放大
 
 # 分辨率分档映射 (来自 Penguin-Magic gptImage2Size.ts SIZE_MAP)
 SIZE_MAP = {
@@ -165,6 +166,20 @@ def validate_size(size_str):
             w = (int(h * MAX_RATIO) // DIVISOR) * DIVISOR
         else:
             h = (int(w * MAX_RATIO) // DIVISOR) * DIVISOR
+
+    # 最短边保底: 低于 MIN_SHORT_EDGE 时等比放大（保持宽高比）
+    short_edge = min(w, h)
+    if short_edge < MIN_SHORT_EDGE:
+        scale = MIN_SHORT_EDGE / short_edge
+        w_new = (int(w * scale) // DIVISOR) * DIVISOR
+        h_new = (int(h * scale) // DIVISOR) * DIVISOR
+        # 放大后仍需检查最大边不超限
+        if max(w_new, h_new) > MAX_EDGE:
+            clamp_scale = MAX_EDGE / max(w_new, h_new)
+            w_new = (int(w_new * clamp_scale) // DIVISOR) * DIVISOR
+            h_new = (int(h_new * clamp_scale) // DIVISOR) * DIVISOR
+        print(f"INFO: 最短边 {short_edge}px < {MIN_SHORT_EDGE}px, 等比放大 {w}x{h} → {w_new}x{h_new}", file=sys.stderr)
+        w, h = w_new, h_new
 
     total = w * h
     if total < MIN_PIXELS:

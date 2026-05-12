@@ -1,9 +1,22 @@
 {
   "name": "leishifu-ppt-style-factory",
   "author": "leishifu",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "LeishiFu 的 PPT 风格模板库，含自研风格和归藏风格引用",
   "styles": [
+    {
+      "name": "leishifu-fashion-editorial",
+      "displayName": "模特作品集",
+      "category": "时尚",
+      "createdAt": "2026-05-12",
+      "tags": ["大胆", "高对比", "时装", "黑红", "Bebas Neue", "花体签名", "全出血摄影"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-fashion-editorial.json",
+        "template": "templates/template-leishifu-fashion-editorial.html",
+        "images": "images/fashion-editorial/"
+      }
+    },
     {
       "name": "leishifu-surreal-gallery",
       "displayName": "超现实画廊",
