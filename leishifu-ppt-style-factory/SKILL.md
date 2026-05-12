@@ -7,8 +7,8 @@ description: PPT 风格模板工厂——从截图、HTML、网页 URL、文字�
 
 从各种来源提取或创建 PPT 视觉风格，通过 **16 维度**完整定义，输出：
 - 风格定义 JSON（16 维度）
-- 完整 HTML 模板（全新构建，参考 guizang-ppt-skill 的横向翻页结构）
-- themes 条目（CSS 变量块，可选注入 guizang）
+- 完整横向翻页 HTML PPT 模板（单文件，全新构建）
+- 完整 `:root` CSS 变量块
 
 ## 7 种输入方式
 
@@ -116,26 +116,70 @@ description: PPT 风格模板工厂——从截图、HTML、网页 URL、文字�
 
 ### Step 5 · 生成 HTML 模板
 
-**全新构建 HTML + CSS，不是拿 guizang 的模板改。** 仅参考 guizang 的页面架构：
+**完全基于 16 维度定义和 `style-analysis-metaprompt.md` 中的布局/CSS 代码全新构建。**
 
-**参考的结构（只借骨架）：**
-- `<section class="slide">` 横向翻页骨架
-- 翻页 JS（键盘 ← →、滚轮、触屏、ESC 索引）
-- WebGL canvas 挂载方式
-- 底部导航 HTML 结构
+**模板骨架（横向翻页单文件 HTML）：**
+- `<section class="slide">` 横向翻页骨架（flex + scroll-snap）
+- 翻页 JS（键盘 ← →、滚轮、触屏、ESC 索引面板）
+- 底部导航（页码 + 进度条）
+- 所有 CSS 由 `:root` 变量驱动，变量值直接来自 16 维度定义
 
-**全新生成的内容（16 维度驱动）：**
-- `:root` 全部 CSS 变量（D1+D2）
-- `@import` 字体引用（D3+D4）
-- 排版系统 — 标题/正文/数据各级类（D3-D6）
-- 间距 token `--sp-*`（D7）
-- WebGL shader 选择和参数（D8）
-- 卡片/图片/装饰等组件 CSS（D9-D15）
-- 动效 CSS/JS（D11）
-- 布局骨架类（封面/数据页/图文页/对比页/收束页）
-- `.light` / `.dark` / `.hero.light` / `.hero.dark` 明暗主题
+**CSS 全部由 16 维度驱动：**
+- `:root` 变量 → D1~D2 颜色 + D6 字号 + D7 间距 + D9 圆角 + D10 阴影 + D11 动效
+- 字体声明 → D3 标题字体（含衬线分类、CJK fallback）+ D4 正文 + D5 字重
+- 排版规则 → 元提示词第三步定义的行高/字距/大小写/中文分档
+- 图片样式 → D13 滤镜/圆角/比例/出血方式。**图片容器（`.img-art`、`.split-photo`、`.cover-right`）必须设 `min-height:0; min-width:0; overflow:hidden`，防止图片在 Grid/Flex 中撑破容器**
+- 卡片样式 → D14 类型（outlined/filled/glass/elevated/none）
+- 装饰图案 → D15
+- 背景效果 → D8（fluid/grid-dots/particle/contour/solid）
+- 布局模式 → 元提示词第六步识别的布局，直接使用其 CSS Grid/Flex 代码
+- 明暗主题 → 元提示词第七步定义的节奏规则
 
 保存到 `templates/template-leishifu-{slug}.html`
+
+### Step 5.5 · AI 配图生成
+
+为模板中的所有图片占位生成真实配图。
+
+**前置检查：**
+1. 读取 `config.json` → `image_api.enabled` 和 `api_key`
+2. 若 API 不可用（key 为空或 enabled=false）→ 保持渐变色块占位，提示用户后续配置
+
+**生成流程（API 可用时）：**
+
+1. 读取 `references/image-prompts.md` 获取 prompt 模板和风格后缀映射
+2. 扫描模板 HTML 中的图片位：
+   - `.split-photo` / `.cover-right` / `.cover-photo` → 分屏配图
+   - `.layout-cover-full` / `.layout-full-bleed` → 封面主视觉
+   - 网格容器内的多图区域 → 网格多图
+   - 声明页/引文页背景 → 装饰背景
+3. 为每个图片位确定：
+   - **类型**：5 种图片类型之一（封面/分屏/背景/内容/网格）
+   - **尺寸**：**必须基于 1920×1080 视口精确计算容器的实际像素**，而不是使用通用比例。计算方法：
+     - 读取 CSS Grid/Flex 的列宽百分比和行高（100vh = 1080px）
+     - 如果是网格内多图，还要减去 gap 再除以行列数
+     - 结果对齐到 16 的倍数（gpt-image-2 约束），直接传 `--size WxH`
+     - 示例：`.layout-split-46` 右侧 60% = `1920×0.6=1152`，高 100vh=1080 → `--size 1152x1080`
+   - **语义**：从页面 `data-title`、标题文本、正文内容提取
+4. 拼装 prompt：
+   - 类型模板 + 页面语义 + D16 风格后缀 + 标准/多图后缀
+   - D1 配色倾向（暖/冷/黑白）影响色调描述
+   - D13 滤镜信息留给 CSS 处理，prompt 生成满色原图
+5. 逐张调用脚本（用精确计算的像素尺寸）：
+   ```bash
+   python scripts/generate_images.py \
+     --prompt "<拼装好的prompt>" \
+     --output "images/{slug}/p{页号}-{语义}.png" \
+     --size "<精确像素WxH>"
+   ```
+6. 替换 HTML：将渐变占位 div 替换为 `<img>` 标签
+   ```html
+   <img src="images/{slug}/p{N}-{name}.png" class="img-art" alt="语义描述">
+   ```
+7. 若 D13 定义了滤镜（如 `grayscale(1)`），在 `<img>` 上添加对应 CSS filter
+
+**降级模式（无 API）：**
+保留原有渐变色块 + `<span class="meta-label">PHOTOGRAPH</span>` 占位，不影响模板其他功能。
 
 ### Step 6 · 预览验证
 
@@ -157,11 +201,6 @@ description: PPT 风格模板工厂——从截图、HTML、网页 URL、文字�
 1. JSON → `styles/leishifu-{slug}.json`
 2. HTML → `templates/template-leishifu-{slug}.html`
 3. 更新 `styles/index.json`
-4. 问用户：是否要把颜色条目注入到 guizang-ppt-skill 的 themes 目录
-
-### Step 8 · 生成 themes 条目（可选）
-
-如果用户要注入到 guizang，生成一段 `:root` CSS 变量块，追加到对应的 `themes.md` 或 `themes-swiss.md`。
 
 ---
 
@@ -173,7 +212,7 @@ description: PPT 风格模板工厂——从截图、HTML、网页 URL、文字�
 | "删掉 XX 风格" | 删 .json + .html，更新 index |
 | "修改 XX 的配色" | 读 JSON → 改对应维度 → 重新生成模板 |
 | "对比两个风格" | 并排展示 16 维度差异 |
-| "注入到 guizang" | 复制颜色条目到 guizang themes 目录 |
+| "导出 CSS 变量" | 输出完整 `:root` 变量块供外部使用 |
 
 ---
 
@@ -182,7 +221,7 @@ description: PPT 风格模板工厂——从截图、HTML、网页 URL、文字�
 1. **16 维度完整** — 提取不到的补默认值并标记，让用户知道
 2. **用户确认优先** — 先展示分析，确认后才生成
 3. **对比度安全** — 不生成不可读的配色（WCAG AA）
-4. **全新构建模板** — 只借 guizang 的翻页骨架，CSS 全部由 16 维度驱动
+4. **全新构建模板** — 基于元提示词的分析结果独立构建，CSS 全部由 16 维度驱动
 5. **CDN 字体** — Google Fonts 优先，不依赖本地字体
 6. **归档到风格库** — 每次创建都更新 index.json
 7. **风格名前缀** — slug 以 `leishifu-` 开头

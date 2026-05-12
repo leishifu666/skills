@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超现实画廊 · LeishiFu Style Factory</title>
+
+<!-- D3+D4: 字体 — 几何无衬线 Space Grotesk + Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+/* ===================================================================
+   LeishiFu Surreal Gallery v1.1
+   16维度驱动 · 元提示词7步法生成
+   暖灰白底 · 几何无衬线 (Space Grotesk) · 超大装饰数字
+   逐词递进字重 · 满色艺术摄影 · 不对称编辑式布局 · 零圆角
+   =================================================================== */
+
+:root {
+  /* === D1: 配色 — 暖灰白画廊 === */
+  --ink: #1a1a1a;
+  --ink-rgb: 26,26,26;
+  --paper: #f2f0ec;
+  --paper-rgb: 242,240,236;
+  --paper-tint: #e8e5e0;
+  --ink-tint: #8a8580;
+
+  /* === D2: 强调色 — 深蓝 + 棕红 === */
+  --accent: #2c4a7c;
+  --accent-rgb: 44,74,124;
+  --accent-alt: #c45a3c;
+  --accent-alt-rgb: 196,90,60;
+
+  /* === D6: 字号 — 超大装饰数字 vs 正文 === */
+  --fs-hero: min(8vw, 14vh);
+  --fs-display-num: clamp(6rem, 12vw, 14rem);
+  --fs-xl: clamp(2.4rem, 4.2vw, 4.8rem);
+  --fs-md: clamp(1.3rem, 2vw, 2.4rem);
+  --fs-sub: clamp(0.9rem, 1.1vw, 1.2rem);
+  --fs-body: clamp(0.8rem, 0.9vw, 0.95rem);
+  --fs-small: clamp(0.65rem, 0.75vw, 0.8rem);
+  --fs-meta: clamp(0.6rem, 0.7vw, 0.75rem);
+
+  /* === D7: 间距 — spacious 画廊感 === */
+  --sp-2: 4px;  --sp-3: 8px;  --sp-4: 12px;
+  --sp-5: 16px; --sp-6: 24px; --sp-7: 32px;
+  --sp-8: 40px; --sp-9: 48px; --sp-10: 64px;
+  --slide-pad: clamp(2.5rem, 4.5vw, 6rem);
+  --nav-safe: 3.5rem;
+
+  /* === D9: 圆角 — 0px 全直角 === */
+  --radius: 0px;
+
+  /* === D11: 动效 === */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.5s;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 横向翻页 ===== */
+.deck { display: flex; height: 100vh; overflow-x: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+.slide { flex: 0 0 100vw; height: 100vh; scroll-snap-align: start; position: relative; overflow: hidden; }
+
+/* ===== 页面主题 ===== */
+.slide.warm { background: var(--paper); color: var(--ink); }
+.slide.dark { background: #1a1a1a; color: var(--paper); }
+.slide.dark .meta-label { color: rgba(242,240,236,0.5); }
+.slide.dark .body-text { color: rgba(242,240,236,0.7); }
+.slide.dark .divider { background: rgba(242,240,236,0.1); }
+.slide.accent-bg { background: var(--accent); color: #fff; }
+.slide.accent-bg .meta-label { color: rgba(255,255,255,0.6); }
+.slide.accent-bg .body-text { color: rgba(255,255,255,0.75); }
+
+/* ===== D3: 排版 — 几何无衬线全系 ===== */
+
+/* 标题用 Space Grotesk — 几何感强、o正圆、笔画均匀 */
+.h-hero {
+  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.h-xl {
+  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.h-md {
+  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.h-sub {
+  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-sub);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* 逐词递进字重 — 封面核心手法 */
+.progressive-weight .pw-light {
+  font-weight: 300;
+}
+.progressive-weight .pw-regular {
+  font-weight: 400;
+}
+.progressive-weight .pw-bold {
+  font-weight: 700;
+}
+
+/* 超大装饰数字 */
+.num-display {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: var(--fs-display-num);
+  font-weight: 700;
+  line-height: 0.8;
+  color: rgba(var(--ink-rgb), 0.06);
+  user-select: none;
+}
+.slide.dark .num-display { color: rgba(242,240,236,0.05); }
+.num-accent {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 6vw, 7rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* 正文/元信息 */
+.meta-label {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-tint);
+}
+.body-text {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(var(--ink-rgb), 0.7);
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-small);
+}
+
+/* ===== 分隔线 ===== */
+.divider { height: 1px; background: rgba(var(--ink-rgb), 0.1); border: none; }
+
+/* ===== D13: 图片 — 满色·直角 ===== */
+.img-art {
+  width: 100%; height: 100%;
+  min-height: 0; min-width: 0; /* 允许在 Grid/Flex 中缩小到容器尺寸 */
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== 布局 ===== */
+
+/* 封面: 左55% 文字 + 右45% 图 */
+.layout-cover {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  height: 100vh;
+}
+.cover-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  position: relative;
+}
+.cover-right { position: relative; overflow: hidden; min-height: 0; }
+
+/* 图文不对称分屏 */
+.layout-split-64 {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  height: 100vh;
+}
+.layout-split-46 {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  height: 100vh;
+}
+.split-photo { position: relative; overflow: hidden; min-height: 0; }
+.split-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-6);
+}
+
+/* 居中声明页 */
+.layout-statement {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+}
+
+/* 三栏+顶部装饰数字 */
+.layout-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100vh;
+}
+.col-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--sp-8) var(--sp-7);
+  padding-bottom: calc(var(--sp-8) + var(--nav-safe));
+  border-right: 1px solid rgba(var(--ink-rgb), 0.06);
+  position: relative;
+}
+.col-item:last-child { border-right: none; }
+.col-item .num-display {
+  position: absolute;
+  top: var(--sp-7);
+  left: var(--sp-7);
+}
+
+/* 自由编辑式 — 巨型背景数字 */
+.layout-editorial {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  position: relative;
+}
+.editorial-bg-num {
+  position: absolute;
+  right: var(--slide-pad);
+  bottom: calc(var(--nav-safe) + var(--sp-7));
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(10rem, 20vw, 24rem);
+  font-weight: 700;
+  line-height: 0.75;
+  color: rgba(var(--ink-rgb), 0.04);
+  z-index: 0;
+  user-select: none;
+}
+.slide.dark .editorial-bg-num { color: rgba(242,240,236,0.04); }
+
+/* 目录/CONTENT 布局 */
+.layout-contents {
+  display: grid;
+  grid-template-columns: 35% 1fr;
+  height: 100vh;
+}
+.contents-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  border-right: 1px solid rgba(var(--ink-rgb), 0.06);
+}
+.contents-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-8);
+}
+.content-entry {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-6);
+}
+.content-entry .num-accent {
+  font-size: clamp(2rem, 3.5vw, 4rem);
+  min-width: 3ch;
+}
+
+/* ===== 页脚 ===== */
+.nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--nav-safe);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--slide-pad);
+  z-index: 100;
+  pointer-events: none;
+}
+.nav > * { pointer-events: auto; }
+.nav-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  color: var(--ink-tint);
+}
+.nav-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-tint);
+}
+.nav-progress {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease);
+  z-index: 101;
+}
+
+/* ===== 索引面板 ===== */
+.index-panel {
+  position: fixed; inset: 0;
+  background: rgba(242,240,236,0.97);
+  z-index: 200;
+  display: none;
+  padding: var(--sp-10);
+  overflow-y: auto;
+}
+.index-panel.open {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--sp-5);
+  align-content: start;
+}
+.index-thumb {
+  cursor: pointer;
+  padding: var(--sp-4);
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.index-thumb:hover { border-bottom-color: var(--accent); }
+.index-thumb .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  color: var(--ink-tint);
+}
+.index-thumb .title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: var(--fs-sub);
+  font-weight: 600;
+  margin-top: var(--sp-2);
+}
+
+/* ===== D11: 动效 — fade ===== */
+.anim { opacity: 0; transition: opacity var(--duration) var(--ease); }
+.anim.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ===== P1: 封面 — 逐词递进字重 + 右侧拼贴 ===== -->
+  <section class="slide warm layout-cover" data-title="封面">
+    <div class="cover-left">
+      <p class="meta-label anim">Art Gallery · 2026</p>
+      <!-- 核心设计手法：逐词字重递进 300→400→700 -->
+      <div class="progressive-weight anim" style="transition-delay:0.07s;margin-top:var(--sp-6)">
+        <span class="h-hero pw-light" style="display:block">THANKS</span>
+        <span class="h-hero pw-regular" style="display:block">FOR</span>
+        <span class="h-hero pw-bold" style="display:block">WATCHING.</span>
+      </div>
+      <div class="anim" style="transition-delay:0.14s;margin-top:var(--sp-7);display:flex;align-items:center;gap:var(--sp-5)">
+        <div style="width:40px;height:2px;background:var(--accent)"></div>
+        <p class="meta-label" style="color:var(--accent);letter-spacing:0.2em">SURREALISM REPORT</p>
+      </div>
+      <p class="body-text anim" style="transition-delay:0.21s;margin-top:var(--sp-5);max-width:360px">
+        致敬达利诞辰 118 周年——超现实主义视觉风格研究报告。
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.28s;margin-top:var(--sp-5)">2022.1.20</p>
+    </div>
+    <div class="cover-right">
+      <img src="../images/surreal-gallery/p1-cover.png" class="img-art" alt="超现实主义拼贴艺术">
+    </div>
+  </section>
+
+  <!-- ===== P2: 目录页 — CONTENT ===== -->
+  <section class="slide warm layout-contents" data-title="目录">
+    <div class="contents-left">
+      <p class="meta-label anim" style="margin-bottom:var(--sp-5)">Table of Contents</p>
+      <h2 class="h-xl anim" style="transition-delay:0.07s">CONTENT</h2>
+    </div>
+    <div class="contents-right">
+      <div class="content-entry anim" style="transition-delay:0.1s">
+        <span class="num-accent">03</span>
+        <div>
+          <p class="h-sub">PART ONE</p>
+          <p class="body-text" style="margin-top:var(--sp-2)">超现实主义运动起源</p>
+        </div>
+      </div>
+      <div class="content-entry anim" style="transition-delay:0.14s">
+        <span class="num-accent">02</span>
+        <div>
+          <p class="h-sub">PART TWO</p>
+          <p class="body-text" style="margin-top:var(--sp-2)">达利的创作方法论</p>
+        </div>
+      </div>
+      <div class="content-entry anim" style="transition-delay:0.18s">
+        <span class="num-accent">01</span>
+        <div>
+          <p class="h-sub">PART THREE</p>
+          <p class="body-text" style="margin-top:var(--sp-2)">影响与遗产</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P3: 暗色声明页 ===== -->
+  <section class="slide dark layout-statement" data-title="宣言">
+    <p class="meta-label anim">Manifesto</p>
+    <h2 class="h-xl anim" style="transition-delay:0.07s;margin-top:var(--sp-7);max-width:70%;color:var(--paper);text-transform:uppercase">
+      IMAGINE
+    </h2>
+    <p class="body-text anim" style="transition-delay:0.14s;margin-top:var(--sp-6);max-width:480px">
+      "超现实主义不是美学运动——它是一种革命性的认知方式。通过非理性的路径，我们抵达更深层的真实。"
+    </p>
+    <p class="meta-label anim" style="transition-delay:0.21s;margin-top:var(--sp-7)">
+      — André Breton, 1924
+    </p>
+  </section>
+
+  <!-- ===== P4: 三栏数据 ===== -->
+  <section class="slide warm layout-3col" data-title="关键数字">
+    <div class="col-item">
+      <span class="num-display anim">01</span>
+      <div style="position:relative;z-index:1">
+        <span class="num-accent anim" style="transition-delay:0.04s">1929</span>
+        <p class="h-sub anim" style="transition-delay:0.08s;margin-top:var(--sp-4)">正式加入运动</p>
+        <p class="body-text anim" style="transition-delay:0.12s;margin-top:var(--sp-3)">
+          达利在巴黎结识布勒东，正式加入超现实主义运动。
+        </p>
+      </div>
+    </div>
+    <div class="col-item">
+      <span class="num-display anim">02</span>
+      <div style="position:relative;z-index:1">
+        <span class="num-accent anim" style="transition-delay:0.04s">1,500<span style="font-size:0.4em;vertical-align:super">+</span></span>
+        <p class="h-sub anim" style="transition-delay:0.08s;margin-top:var(--sp-4)">艺术作品</p>
+        <p class="body-text anim" style="transition-delay:0.12s;margin-top:var(--sp-3)">
+          涵盖油画、版画、雕塑、电影、摄影等多种媒介。
+        </p>
+      </div>
+    </div>
+    <div class="col-item">
+      <span class="num-display anim">03</span>
+      <div style="position:relative;z-index:1">
+        <span class="num-accent anim" style="transition-delay:0.04s">85</span>
+        <p class="h-sub anim" style="transition-delay:0.08s;margin-top:var(--sp-4)">创作年限（岁）</p>
+        <p class="body-text anim" style="transition-delay:0.12s;margin-top:var(--sp-3)">
+          1904 年生于菲格雷斯，1989 年于同城离世。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P5: 图文6:4 ===== -->
+  <section class="slide warm layout-split-64" data-title="记忆的永恒">
+    <div class="split-photo">
+      <img src="../images/surreal-gallery/p5-persistence.png" class="img-art" alt="记忆的永恒">
+    </div>
+    <div class="split-content">
+      <p class="meta-label anim">1° · IMAGINE</p>
+      <h2 class="h-md anim" style="transition-delay:0.07s">记忆的永恒</h2>
+      <hr class="divider anim" style="transition-delay:0.1s">
+      <p class="body-text anim" style="transition-delay:0.14s">
+        画中软塌的时钟悬挂在荒凉的海岸上，暗示时间的主观性与记忆的不可靠。这幅仅 24×33cm 的小画成为 20 世纪最具辨识度的艺术符号之一。
+      </p>
+      <p class="body-text anim" style="transition-delay:0.18s">
+        达利称灵感来自"卡门贝尔奶酪在太阳下融化"——将日常经验转化为梦境般的视觉语言。
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.22s;margin-top:var(--sp-5);color:var(--accent)">
+        MoMA 永久馆藏 · 1931
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== P6: 暗色编辑式 + 巨大背景数字 ===== -->
+  <section class="slide dark layout-editorial" data-title="方法论">
+    <div class="editorial-bg-num">§</div>
+    <div style="position:relative;z-index:1;max-width:55%">
+      <p class="meta-label anim">Method</p>
+      <h2 class="h-xl anim" style="transition-delay:0.07s;margin-top:var(--sp-5);color:var(--paper);text-transform:uppercase">
+        Paranoiac<br>Critical<br>Method
+      </h2>
+      <hr class="divider anim" style="transition-delay:0.14s;margin-top:var(--sp-6)">
+      <p class="body-text anim" style="transition-delay:0.18s;margin-top:var(--sp-6)">
+        达利独创的"偏执狂批判法"——主动诱导幻觉与妄想状态，在清醒意识中捕捉潜意识图像。既是创作方法，也是一种认知工具。
+      </p>
+      <p class="body-text anim" style="transition-delay:0.22s;margin-top:var(--sp-4);font-style:italic;opacity:0.6">
+        "我与疯子之间唯一的区别是，我没有疯。"
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== P7: 反向分屏4:6 ===== -->
+  <section class="slide warm layout-split-46" data-title="多图网格">
+    <div class="split-content">
+      <p class="meta-label anim">03 · Gallery</p>
+      <h2 class="h-md anim" style="transition-delay:0.07s">作品集锦</h2>
+      <hr class="divider anim" style="transition-delay:0.1s">
+      <p class="body-text anim" style="transition-delay:0.14s">
+        从《记忆的永恒》到《燃烧的长颈鹿》，从《圣安东尼的诱惑》到《最后的晚餐》——达利的作品横跨超现实主义、古典主义、原子神秘主义多个时期。
+      </p>
+      <p class="body-text anim" style="transition-delay:0.18s">
+        每一幅都是对潜意识的精确解剖——用最精细的古典技法描绘最荒诞的梦境。
+      </p>
+    </div>
+    <div class="split-photo">
+      <!-- 2x2 网格 — 达利作品集 -->
+      <div style="width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px">
+        <img src="../images/surreal-gallery/p7-grid1-giraffe.png" class="img-art" alt="燃烧的长颈鹿">
+        <img src="../images/surreal-gallery/p7-grid2-temptation.png" class="img-art" alt="圣安东尼的诱惑">
+        <img src="../images/surreal-gallery/p7-grid3-supper.png" class="img-art" alt="最后的晚餐">
+        <img src="../images/surreal-gallery/p7-grid4-drawers.png" class="img-art" alt="抽屉人">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P8: 收束 ===== -->
+  <section class="slide warm layout-statement" data-title="收束">
+    <p class="meta-label anim">LeishiFu Style Factory</p>
+    <div class="progressive-weight anim" style="transition-delay:0.07s;margin-top:var(--sp-7)">
+      <span class="h-hero pw-light" style="display:block;color:var(--accent)">DREAM</span>
+      <span class="h-hero pw-regular" style="display:block">IS</span>
+      <span class="h-hero pw-bold" style="display:block">REAL.</span>
+    </div>
+    <div style="width:40px;height:2px;background:var(--accent);margin-top:var(--sp-7)" class="anim" style="transition-delay:0.14s"></div>
+    <p class="body-text anim" style="transition-delay:0.21s;margin-top:var(--sp-6);max-width:400px;text-align:center">
+      超现实主义不是逃避现实——是用更深层的现实取代表面的真实。
+    </p>
+    <p class="meta-label anim" style="transition-delay:0.28s;margin-top:var(--sp-7)">
+      leishifu-surreal-gallery · v1.1 · 2026
+    </p>
+  </section>
+
+</div>
+
+<!-- 页脚导航：格式参考原图 "3 | SURREALISM" -->
+<nav class="nav">
+  <span class="nav-counter" id="counter">1 | SURREALISM</span>
+  <span class="nav-title">← → · ESC</span>
+</nav>
+<div class="nav-progress" id="progress" style="width:12.5%"></div>
+
+<!-- 索引面板 -->
+<div class="index-panel" id="indexPanel"></div>
+
+<script>
+(function(){
+  const deck = document.getElementById('deck');
+  const slides = deck.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const indexPanel = document.getElementById('indexPanel');
+  const total = slides.length;
+  let current = 0;
+  let throttled = false;
+
+  function goTo(i){
+    if(i<0||i>=total) return;
+    current = i;
+    slides[i].scrollIntoView({behavior:'smooth',inline:'start'});
+    // 页脚格式: "页码 | SURREALISM"
+    counter.textContent = (i+1) + ' | SURREALISM';
+    progress.style.width = ((i+1)/total*100)+'%';
+    triggerAnim(i);
+    // 导航色适配
+    const isDark = slides[i].classList.contains('dark') || slides[i].classList.contains('accent-bg');
+    document.querySelectorAll('.nav > *').forEach(el => {
+      el.style.color = isDark ? 'rgba(242,240,236,0.5)' : '';
+    });
+  }
+
+  function triggerAnim(i){
+    slides.forEach((s,idx)=>{
+      if(idx===i){
+        s.querySelectorAll('.anim').forEach((el,j)=>{
+          setTimeout(()=>el.classList.add('visible'), j*70);
+        });
+      }
+    });
+  }
+
+  document.addEventListener('keydown', e=>{
+    if(indexPanel.classList.contains('open')){
+      if(e.key==='Escape') indexPanel.classList.remove('open');
+      return;
+    }
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();goTo(current+1);}
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goTo(current-1);}
+    else if(e.key==='Escape') openIndex();
+  });
+
+  deck.addEventListener('wheel', e=>{
+    if(throttled) return;
+    throttled=true;
+    setTimeout(()=>throttled=false, 600);
+    if(e.deltaY>20||e.deltaX>20) goTo(current+1);
+    else if(e.deltaY<-20||e.deltaX<-20) goTo(current-1);
+  },{passive:true});
+
+  let tx=0;
+  deck.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  deck.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    if(dx<-50) goTo(current+1);
+    else if(dx>50) goTo(current-1);
+  },{passive:true});
+
+  function openIndex(){
+    indexPanel.innerHTML='';
+    slides.forEach((s,i)=>{
+      const t=document.createElement('div');
+      t.className='index-thumb';
+      t.innerHTML='<p class="num">'+(i+1)+'</p><p class="title">'+(s.dataset.title||'Slide '+(i+1))+'</p>';
+      t.onclick=()=>{indexPanel.classList.remove('open');goTo(i);};
+      indexPanel.appendChild(t);
+    });
+    indexPanel.classList.add('open');
+  }
+
+  triggerAnim(0);
+})();
+</script>
+
+</body>
+</html>

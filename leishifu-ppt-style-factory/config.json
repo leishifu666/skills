@@ -1,0 +1,10 @@
+{
+  "image_api": {
+    "base_url": "https://api.bltcy.ai",
+    "api_key": "sk-mcZyxiPYLkBpoGAtG2K9Vn18p8vex9ThS6jCTaHcZ8K08wlL",
+    "model": "gpt-image-2",
+    "default_size": "1920x1080",
+    "default_resolution": "1K",
+    "enabled": true
+  }
+}

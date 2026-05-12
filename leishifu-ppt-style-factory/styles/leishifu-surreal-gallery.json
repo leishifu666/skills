@@ -1,0 +1,141 @@
+{
+  "name": "leishifu-surreal-gallery",
+  "displayName": "超现实画廊",
+  "author": "leishifu",
+  "createdAt": "2026-05-11",
+  "version": "1.1.0",
+  "source": {
+    "type": "screenshot",
+    "ref": "达利118周年超现实主义报告PPT截图，暖灰白底+几何无衬线全系+超大装饰数字+递进字重+满色拼贴+不对称编辑式布局"
+  },
+  "d01_colors": {
+    "ink": "#1a1a1a",
+    "ink-rgb": "26,26,26",
+    "paper": "#f2f0ec",
+    "paper-rgb": "242,240,236",
+    "paper-tint": "#e8e5e0",
+    "ink-tint": "#8a8580"
+  },
+  "d02_accents": {
+    "accent": "#2c4a7c",
+    "accent-rgb": "44,74,124",
+    "accent-alt": "#c45a3c",
+    "color-warn": "#c45a3c",
+    "color-success": "#5a7a5a",
+    "color-info": "#2c4a7c"
+  },
+  "d03_headingFont": {
+    "heading": "Space Grotesk, Noto Sans SC, sans-serif",
+    "headingStyle": "geometric sans-serif",
+    "cjkHeading": "Noto Sans SC",
+    "headingImport": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap",
+    "serifAnalysis": {
+      "type": "无衬线 / 几何无衬线 (Geometric Sans)",
+      "characteristics": "字母o正圆、a单层、笔画粗细均匀、几何感强",
+      "strokeContrast": "极低（几乎等粗笔画）"
+    }
+  },
+  "d04_bodyFont": {
+    "body": "Inter, Noto Sans SC, sans-serif",
+    "cjkBody": "Noto Sans SC",
+    "mono": "JetBrains Mono, monospace",
+    "bodyImport": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+  },
+  "d05_fontWeight": {
+    "headingWeight": 700,
+    "headingBoldWeight": 700,
+    "bodyWeight": 400,
+    "bodyLightWeight": 300,
+    "emphasisWeight": 600,
+    "heroWeight": 700,
+    "displayNumberWeight": 700,
+    "specialEffect": "progressive-weight: 逐词递进字重 (300→400→700)，封面核心设计手法"
+  },
+  "d06_fontSize": {
+    "heroSize": "min(8vw, 14vh)",
+    "xlSize": "clamp(2.4rem, 4.2vw, 4.8rem)",
+    "mdSize": "clamp(1.3rem, 2vw, 2.4rem)",
+    "subSize": "clamp(0.9rem, 1.1vw, 1.2rem)",
+    "bodySize": "clamp(0.8rem, 0.9vw, 0.95rem)",
+    "displayNumber": "clamp(6rem, 12vw, 14rem)",
+    "cjkHeroRules": {
+      "1line_lte8": "min(7vw, 12vh)",
+      "2line_lte8": "min(6vw, 10.5vh)",
+      "2line_9to12": "min(5.2vw, 9vh)",
+      "3line_plus": "min(4.5vw, 8vh)"
+    }
+  },
+  "d07_spacing": {
+    "density": "spacious",
+    "cardPadding": "clamp(1.5rem, 2.5vw, 3rem)",
+    "sectionGap": "clamp(2rem, 3.5vw, 4.5rem)",
+    "componentGap": "clamp(1rem, 1.5vw, 2rem)",
+    "slidePadding": "clamp(2.5rem, 4.5vw, 6rem)",
+    "navSafeBottom": "3.5rem"
+  },
+  "d08_background": {
+    "type": "solid",
+    "color": "#f2f0ec",
+    "opacity": 1,
+    "enabled": false,
+    "heroOnly": false
+  },
+  "d09_border": {
+    "borderRadius": "0px",
+    "borderRadiusLarge": "0px",
+    "borderWidth": "0px",
+    "borderColor": "transparent",
+    "borderStyle": "none"
+  },
+  "d10_shadow": {
+    "level": "none",
+    "shadowSm": "none",
+    "shadowMd": "none",
+    "shadowLg": "none",
+    "shadowColor": "transparent"
+  },
+  "d11_animation": {
+    "level": "minimal",
+    "entrance": "fade",
+    "duration": "0.5s",
+    "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+    "stagger": "0.07s"
+  },
+  "d12_icon": {
+    "library": "none",
+    "style": "none",
+    "strokeWidth": 0,
+    "size": "0",
+    "color": "none"
+  },
+  "d13_image": {
+    "borderRadius": "0px",
+    "filter": "none",
+    "overlay": "none",
+    "defaultRatio": "4:3",
+    "objectFit": "cover",
+    "bleed": "内嵌（有边距）",
+    "note": "满色，不做grayscale处理，照片为超现实拼贴艺术品"
+  },
+  "d14_card": {
+    "style": "none",
+    "background": "transparent",
+    "hoverEffect": "none",
+    "activeVariant": "none"
+  },
+  "d15_decoration": {
+    "pattern": "none",
+    "density": "sparse",
+    "position": "corner",
+    "opacity": 0.06,
+    "color": "ink",
+    "note": "仅使用超大半透明装饰数字作为视觉锚点"
+  },
+  "d16_mood": {
+    "aestheticTags": ["画廊", "超现实", "编辑式", "艺术", "几何无衬线"],
+    "moodBoard": "Dalí Museum + Gagosian Gallery + TASCHEN Art Books",
+    "bestFor": ["艺术展览", "画廊介绍", "文化报告", "创意提案", "品牌故事"],
+    "notFor": ["技术文档", "数据密集汇报", "企业季报"],
+    "era": "contemporary-classic"
+  }
+}

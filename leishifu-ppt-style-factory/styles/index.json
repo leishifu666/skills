@@ -1,29 +1,50 @@
 {
   "name": "leishifu-ppt-style-factory",
   "author": "leishifu",
-  "version": "1.0.0",
-  "description": "LeishiFu 的 PPT 风格模板库",
+  "version": "1.1.0",
+  "description": "LeishiFu 的 PPT 风格模板库，含自研风格和归藏风格引用",
   "styles": [
     {
-      "name": "leishifu-dark-portfolio",
-      "displayName": "暗色作品集",
-      "category": "现代",
+      "name": "leishifu-surreal-gallery",
+      "displayName": "超现实画廊",
+      "category": "艺术",
       "createdAt": "2026-05-11",
-      "tags": ["暗色", "专业", "无衬线", "圆角", "金色强调"],
+      "tags": ["画廊", "超现实", "几何无衬线", "暖白", "蓝棕强调", "编辑式", "递进字重"],
+      "source": "leishifu",
       "files": {
-        "definition": "styles/leishifu-dark-portfolio.json",
-        "template": "templates/template-leishifu-dark-portfolio.html"
+        "definition": "styles/leishifu-surreal-gallery.json",
+        "template": "templates/template-leishifu-surreal-gallery.html",
+        "images": "images/surreal-gallery/"
       }
     },
     {
-      "name": "leishifu-monochrome-editorial",
-      "displayName": "黑白编辑风",
+      "name": "guizang-magazine",
+      "displayName": "电子杂志 × 电子墨水",
       "category": "经典",
       "createdAt": "2026-05-11",
-      "tags": ["黑白", "编辑", "衬线", "直角", "杂志", "摄影"],
+      "tags": ["杂志", "衬线", "WebGL流体", "暖色", "Monocle风"],
+      "source": "guizang",
+      "themes": ["墨水经典", "靛蓝瓷", "森林墨", "牛皮纸", "沙丘"],
       "files": {
-        "definition": "styles/leishifu-monochrome-editorial.json",
-        "template": "templates/template-leishifu-monochrome-editorial.html"
+        "template": "../guizang-ppt-skill/assets/template.html",
+        "themes": "../guizang-ppt-skill/references/themes.md",
+        "layouts": "../guizang-ppt-skill/references/layouts.md",
+        "components": "../guizang-ppt-skill/references/components.md"
+      }
+    },
+    {
+      "name": "guizang-swiss",
+      "displayName": "瑞士国际主义",
+      "category": "现代",
+      "createdAt": "2026-05-11",
+      "tags": ["瑞士风", "无衬线", "WebGL网格", "高反差", "极简", "信息驱动"],
+      "source": "guizang",
+      "themes": ["克莱因蓝", "柠檬黄", "柠檬绿", "安全橙"],
+      "files": {
+        "template": "../guizang-ppt-skill/assets/template-swiss.html",
+        "themes": "../guizang-ppt-skill/references/themes-swiss.md",
+        "layouts": "../guizang-ppt-skill/references/layouts-swiss.md",
+        "components": "../guizang-ppt-skill/references/components.md"
       }
     }
   ]
