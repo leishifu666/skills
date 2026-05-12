@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设计师作品集 · LeishiFu Style Factory</title>
+
+<!-- D3+D4: 字体 — Bebas Neue(粗无衬线) + Great Vibes(花体) + Inter(正文) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+/* ===================================================================
+   LeishiFu Designer Portfolio v1.0 — 设计师作品集
+   16维度驱动 · 元提示词7步法生成
+   克莱因蓝主色 · 铬银强调 · Bebas Neue(紧凑粗无衬线) + Great Vibes(花体签名)
+   蓝黑银三色轮换 · 铬金属3D流体装饰 · 8px圆角 · 中等阴影
+   =================================================================== */
+
+:root {
+  /* === D1: 配色 — 克莱因蓝底 + 纯白字 === */
+  --ink: #ffffff;
+  --ink-rgb: 255,255,255;
+  --paper: #0033ff;
+  --paper-rgb: 0,51,255;
+  --paper-tint: #001a99;
+  --ink-tint: #8899cc;
+
+  /* === D2: 强调色 — 铬银 === */
+  --accent: #c0c0c0;
+  --accent-rgb: 192,192,192;
+  --accent-alt: #0033ff;
+  --accent-alt-rgb: 0,51,255;
+
+  /* 三色系统 */
+  --color-blue: #0033ff;
+  --color-dark: #0a0a0a;
+  --color-silver: #e8e8e8;
+
+  /* === D6: 字号 === */
+  --fs-hero: min(8vw, 14vh);
+  --fs-xl: clamp(2.4rem, 4.2vw, 5rem);
+  --fs-md: clamp(1.3rem, 2vw, 2.4rem);
+  --fs-sub: clamp(0.85rem, 1vw, 1.15rem);
+  --fs-body: clamp(0.75rem, 0.85vw, 0.9rem);
+  --fs-small: clamp(0.65rem, 0.75vw, 0.8rem);
+  --fs-meta: clamp(0.6rem, 0.7vw, 0.75rem);
+  --fs-script: clamp(2rem, 3.5vw, 4.5rem);
+
+  /* === D7: 间距 — standard === */
+  --sp-2: 4px;  --sp-3: 8px;  --sp-4: 12px;
+  --sp-5: 16px; --sp-6: 24px; --sp-7: 32px;
+  --sp-8: 40px; --sp-9: 48px; --sp-10: 64px;
+  --slide-pad: clamp(2.5rem, 4.5vw, 6rem);
+  --nav-safe: 3.5rem;
+
+  /* === D9: 圆角 — 8px 圆角 === */
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* === D10: 阴影 — medium === */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.15);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.25);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+
+  /* === D11: 动效 === */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.6s;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 横向翻页 ===== */
+.deck { display: flex; height: 100vh; overflow-x: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+.slide { flex: 0 0 100vw; height: 100vh; scroll-snap-align: start; position: relative; overflow: hidden; }
+
+/* ===== 页面主题 — 蓝黑银三色轮换 ===== */
+.slide.blue { background: var(--color-blue); color: var(--ink); }
+.slide.dark { background: var(--color-dark); color: var(--ink); }
+.slide.silver { background: var(--color-silver); color: #111; }
+.slide.silver .meta-label { color: rgba(0,0,0,0.45); }
+.slide.silver .body-text { color: rgba(0,0,0,0.6); }
+.slide.silver .h-script { color: var(--color-blue); }
+.slide.silver .ink-tint { color: rgba(0,0,0,0.35); }
+
+/* ===== D3: 排版 — 双字体系统 ===== */
+
+/* 主标题: Bebas Neue — 紧凑粗体全大写展示体 */
+.h-hero {
+  font-family: 'Bebas Neue', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-hero);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.h-xl {
+  font-family: 'Bebas Neue', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-xl);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.h-md {
+  font-family: 'Bebas Neue', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-md);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* 花体签名: Great Vibes — 优雅脚本体 */
+.h-script {
+  font-family: 'Great Vibes', cursive;
+  font-size: var(--fs-script);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+
+/* 正文/元信息 — Inter */
+.meta-label {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-tint);
+}
+.body-text {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(var(--ink-rgb), 0.6);
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-small);
+}
+
+/* ===== D13: 图片 — 8px圆角 ===== */
+.img-art {
+  width: 100%; height: 100%;
+  min-height: 0; min-width: 0;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius);
+}
+.img-no-radius { border-radius: 0; }
+
+/* ===== D15: 装饰元素 — 铬银3D流体色块 ===== */
+.deco-chrome {
+  position: absolute;
+  border-radius: 50% 40% 60% 45% / 50% 55% 45% 50%;
+  background: linear-gradient(135deg,
+    #f0f0f0 0%, #d8d8d8 15%, #ffffff 25%,
+    #b0b0b0 40%, #e8e8e8 55%, #a0a0a0 70%,
+    #d0d0d0 85%, #ffffff 100%);
+  filter: blur(0px);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.3),
+    inset 0 2px 6px rgba(255,255,255,0.6),
+    inset 0 -4px 12px rgba(0,0,0,0.15);
+  z-index: 2;
+  pointer-events: none;
+  animation: chrome-float 8s ease-in-out infinite;
+}
+.deco-chrome-2 {
+  position: absolute;
+  border-radius: 45% 55% 40% 60% / 55% 45% 55% 45%;
+  background: linear-gradient(225deg,
+    #e0e0e0 0%, #c8c8c8 20%, #ffffff 35%,
+    #a8a8a8 50%, #e0e0e0 65%, #b8b8b8 80%,
+    #f0f0f0 100%);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.25),
+    inset 0 3px 8px rgba(255,255,255,0.5),
+    inset 0 -3px 10px rgba(0,0,0,0.1);
+  z-index: 2;
+  pointer-events: none;
+  animation: chrome-float-2 10s ease-in-out infinite;
+}
+.deco-chrome-sm {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 30% 30%, #ffffff 0%, #d0d0d0 40%, #a0a0a0 80%, #808080 100%);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.2),
+    inset 0 1px 4px rgba(255,255,255,0.7);
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes chrome-float {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  33% { transform: translateY(-12px) rotate(3deg) scale(1.02); }
+  66% { transform: translateY(8px) rotate(-2deg) scale(0.98); }
+}
+@keyframes chrome-float-2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(-4deg); }
+}
+
+/* ===== 布局 ===== */
+
+/* 封面: 蓝底 + 超大 DESIGNER 字 + 铬银3D装饰 */
+.layout-cover-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  padding: var(--slide-pad);
+}
+
+/* 图文分屏 50:50 */
+.layout-split-50 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+}
+/* 图文分屏 55:45 */
+.layout-split-55 {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  height: 100vh;
+}
+/* 图文分屏 45:55 反转 */
+.layout-split-45r {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  height: 100vh;
+}
+.split-photo {
+  position: relative; overflow: hidden; min-height: 0;
+  padding: var(--sp-7);
+}
+.split-photo .img-art {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+.split-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-5);
+}
+
+/* 技能/服务页 — 网格 */
+.layout-skills {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  height: 100vh;
+}
+.skills-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-6);
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-6);
+  padding: var(--sp-9);
+  padding-bottom: calc(var(--sp-9) + var(--nav-safe));
+  align-content: center;
+}
+.skill-card {
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-7) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+}
+.skill-card .num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  line-height: 1;
+  color: var(--accent);
+}
+.skill-card .label {
+  font-family: 'Inter', sans-serif;
+  font-size: var(--fs-sub);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.skill-card .desc {
+  font-family: 'Inter', sans-serif;
+  font-size: var(--fs-small);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(var(--ink-rgb), 0.5);
+}
+
+/* 项目页 — 黑底/蓝底 + 铬装饰 + 照片 + 信息 */
+.layout-project {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  position: relative;
+}
+.project-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-5);
+  position: relative;
+  z-index: 1;
+}
+.project-photo {
+  position: relative; overflow: hidden; min-height: 0;
+  padding: var(--sp-7);
+}
+.project-photo .img-art {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 项目页反转 */
+.layout-project-r {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  position: relative;
+}
+
+/* 联系页 */
+.layout-contact {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  height: 100vh;
+}
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  padding-bottom: calc(var(--slide-pad) + var(--nav-safe));
+  gap: var(--sp-6);
+}
+.contact-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-7);
+  padding-bottom: calc(var(--sp-7) + var(--nav-safe));
+  min-height: 0;
+}
+.contact-cell {
+  position: relative; overflow: hidden; min-height: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* 银色主题上的技能卡片 */
+.slide.silver .skill-card {
+  background: rgba(0,0,0,0.05);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.slide.silver .skill-card .num { color: var(--color-blue); }
+.slide.silver .skill-card .label { color: #111; }
+.slide.silver .skill-card .desc { color: rgba(0,0,0,0.5); }
+
+/* ===== 页脚 ===== */
+.nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--nav-safe);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--slide-pad);
+  z-index: 100;
+  pointer-events: none;
+}
+.nav > * { pointer-events: auto; }
+.nav-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  color: rgba(var(--ink-rgb), 0.4);
+}
+.nav-title {
+  font-family: 'Inter', sans-serif;
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(var(--ink-rgb), 0.4);
+}
+.nav-progress {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease);
+  z-index: 101;
+}
+
+/* 银色页导航适配 */
+.nav.on-silver .nav-counter,
+.nav.on-silver .nav-title { color: rgba(0,0,0,0.3); }
+
+/* ===== 索引面板 ===== */
+.index-panel {
+  position: fixed; inset: 0;
+  background: rgba(0,10,60,0.97);
+  z-index: 200;
+  display: none;
+  padding: var(--sp-10);
+  overflow-y: auto;
+}
+.index-panel.open {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--sp-5);
+  align-content: start;
+}
+.index-thumb {
+  cursor: pointer;
+  padding: var(--sp-4);
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.index-thumb:hover { border-bottom-color: var(--accent); }
+.index-thumb .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--fs-meta);
+  color: var(--ink-tint);
+}
+.index-thumb .title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: var(--fs-sub);
+  font-weight: 400;
+  margin-top: var(--sp-2);
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+/* ===== D11: 动效 — fade-up ===== */
+.anim {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease);
+}
+.anim.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ===== P1: 封面 — 克莱因蓝底 + DESIGNER 超大字 + 铬银3D流体装饰 ===== -->
+  <section class="slide blue layout-cover-hero" data-title="封面">
+    <!-- 铬银3D流体装饰 -->
+    <div class="deco-chrome" style="width:clamp(120px,15vw,220px);height:clamp(100px,13vw,180px);top:12%;right:15%"></div>
+    <div class="deco-chrome-2" style="width:clamp(90px,12vw,170px);height:clamp(80px,10vw,140px);bottom:18%;left:10%"></div>
+    <div class="deco-chrome-sm" style="width:48px;height:48px;top:30%;left:22%"></div>
+    <div class="deco-chrome-sm" style="width:32px;height:32px;bottom:28%;right:25%"></div>
+
+    <!-- 超大 DESIGNER 字 -->
+    <p class="meta-label anim" style="color:rgba(255,255,255,0.5);letter-spacing:0.3em">Web Design · Brand · UI/UX</p>
+    <h1 class="h-hero anim" style="transition-delay:0.1s;font-size:min(11vw,18vh);letter-spacing:0.08em;z-index:1;position:relative">DESIGNER</h1>
+    <!-- 花体签名 -->
+    <p class="h-script anim" style="transition-delay:0.2s;margin-top:var(--sp-5);z-index:3;position:relative">Maria Isaeva</p>
+    <!-- 简介 -->
+    <p class="body-text anim" style="transition-delay:0.3s;margin-top:var(--sp-6);max-width:420px;text-align:center;z-index:1;color:rgba(255,255,255,0.55)">
+      Creative web designer crafting digital experiences with bold aesthetics and meticulous attention to detail.
+    </p>
+  </section>
+
+  <!-- ===== P2: 关于 — 黑底 + 左大图 + 右文字 ===== -->
+  <section class="slide dark layout-split-55" data-title="关于">
+    <div class="split-photo">
+      <div class="deco-chrome-sm" style="width:40px;height:40px;top:8%;left:12%;z-index:3"></div>
+      <img src="../images/designer-portfolio/p2-about.png" class="img-art" alt="设计师工作照">
+    </div>
+    <div class="split-content">
+      <p class="meta-label anim" style="color:var(--color-blue)">About Me</p>
+      <h2 class="h-xl anim" style="transition-delay:0.1s">ABOUT</h2>
+      <p class="h-script anim" style="transition-delay:0.15s;font-size:clamp(1.6rem,2.8vw,3.5rem);color:var(--color-blue)">Creative Vision</p>
+      <p class="body-text anim" style="transition-delay:0.2s">
+        I'm a multidisciplinary designer with 6+ years of experience in web design, branding, and digital product creation. My approach blends bold visual storytelling with user-centered thinking.
+      </p>
+      <p class="body-text anim" style="transition-delay:0.25s">
+        Featured on Awwwards, Behance, and CSS Design Awards. Worked with global brands across tech, fashion, and culture sectors.
+      </p>
+      <div style="display:flex;gap:var(--sp-7);margin-top:var(--sp-5)" class="anim" style="transition-delay:0.3s">
+        <div>
+          <p class="h-md" style="color:var(--color-blue)">50+</p>
+          <p class="meta-label" style="margin-top:var(--sp-2)">Projects</p>
+        </div>
+        <div>
+          <p class="h-md" style="color:var(--color-blue)">6 YRS</p>
+          <p class="meta-label" style="margin-top:var(--sp-2)">Experience</p>
+        </div>
+        <div>
+          <p class="h-md" style="color:var(--color-blue)">12</p>
+          <p class="meta-label" style="margin-top:var(--sp-2)">Awards</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P3: 技能 — 银色底 + 技能卡片网格 ===== -->
+  <section class="slide silver layout-skills" data-title="服务">
+    <div class="skills-left">
+      <p class="meta-label anim" style="color:var(--color-blue)">What I Do</p>
+      <h2 class="h-xl anim" style="transition-delay:0.1s;color:#111">SERVICES</h2>
+      <p class="h-script anim" style="transition-delay:0.15s;font-size:clamp(1.6rem,2.8vw,3.5rem);color:var(--color-blue)">My Expertise</p>
+      <p class="body-text anim" style="transition-delay:0.2s;color:rgba(0,0,0,0.6)">
+        Combining strategic thinking with visual craft to deliver experiences that stand out and perform.
+      </p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card anim" style="transition-delay:0.1s">
+        <p class="num">01</p>
+        <p class="label">Web Design</p>
+        <p class="desc">Responsive websites that blend aesthetics with conversion-focused UX patterns.</p>
+      </div>
+      <div class="skill-card anim" style="transition-delay:0.2s">
+        <p class="num">02</p>
+        <p class="label">Brand Identity</p>
+        <p class="desc">Complete visual systems — logos, typography, color, and brand guidelines.</p>
+      </div>
+      <div class="skill-card anim" style="transition-delay:0.3s">
+        <p class="num">03</p>
+        <p class="label">UI / UX</p>
+        <p class="desc">User interface design for apps and SaaS products, from wireframe to pixel-perfect delivery.</p>
+      </div>
+      <div class="skill-card anim" style="transition-delay:0.4s">
+        <p class="num">04</p>
+        <p class="label">Motion & 3D</p>
+        <p class="desc">Micro-interactions, scroll animations, and 3D visual elements for immersive digital experiences.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== P4: PROJECT 01 — 蓝底 + Web Design 项目 ===== -->
+  <section class="slide blue layout-project" data-title="Project 01">
+    <div class="deco-chrome" style="width:clamp(80px,10vw,140px);height:clamp(70px,9vw,120px);top:8%;left:42%;z-index:3"></div>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:rgba(255,255,255,0.5)">Web Design</p>
+      <h2 class="h-xl anim" style="transition-delay:0.1s">PROJECT 01</h2>
+      <p class="h-script anim" style="transition-delay:0.15s;color:var(--ink)">Nova Studio</p>
+      <p class="body-text anim" style="transition-delay:0.2s;color:rgba(255,255,255,0.55)">
+        Complete website redesign for Nova Studio, a creative agency. Bold typography, immersive scroll animations, and a dark-mode-first approach.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.25s;color:rgba(255,255,255,0.35)">2026 · Awwwards Site of the Day</p>
+    </div>
+    <div class="project-photo">
+      <img src="../images/designer-portfolio/p4-nova.png" class="img-art" alt="Nova Studio 网站设计">
+    </div>
+  </section>
+
+  <!-- ===== P5: PROJECT 02 — 黑底 + Branding 项目 ===== -->
+  <section class="slide dark layout-project-r" data-title="Project 02">
+    <div class="project-photo">
+      <div class="deco-chrome-sm" style="width:36px;height:36px;bottom:12%;right:15%;z-index:3"></div>
+      <img src="../images/designer-portfolio/p5-lumina.png" class="img-art" alt="Lumina 品牌设计">
+    </div>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:var(--color-blue)">Brand Identity</p>
+      <h2 class="h-xl anim" style="transition-delay:0.1s">PROJECT 02</h2>
+      <p class="h-script anim" style="transition-delay:0.15s;color:var(--color-blue)">Lumina Beauty</p>
+      <p class="body-text anim" style="transition-delay:0.2s">
+        Full brand identity system for a premium skincare brand. Minimal geometry meets warm luxury — logo, packaging, print collateral, and digital assets.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.25s">2025 · Brand New Notable</p>
+    </div>
+  </section>
+
+  <!-- ===== P6: PROJECT 03 — 蓝底 + App Design 项目 ===== -->
+  <section class="slide blue layout-project" data-title="Project 03">
+    <div class="deco-chrome-2" style="width:clamp(70px,9vw,130px);height:clamp(60px,8vw,110px);bottom:15%;left:5%;z-index:3"></div>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:rgba(255,255,255,0.5)">UI / UX</p>
+      <h2 class="h-xl anim" style="transition-delay:0.1s">PROJECT 03</h2>
+      <p class="h-script anim" style="transition-delay:0.15s;color:var(--ink)">Zenith App</p>
+      <p class="body-text anim" style="transition-delay:0.2s;color:rgba(255,255,255,0.55)">
+        Product design for a meditation and wellness app. Clean interfaces, calming micro-interactions, and an intuitive onboarding flow that increased retention by 40%.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.25s;color:rgba(255,255,255,0.35)">2025 · App Store Featured</p>
+    </div>
+    <div class="project-photo">
+      <img src="../images/designer-portfolio/p6-zenith.png" class="img-art" alt="Zenith App UI设计">
+    </div>
+  </section>
+
+  <!-- ===== P7: PROJECT 04 — 黑底 + Creative Direction ===== -->
+  <section class="slide dark layout-project-r" data-title="Project 04">
+    <div class="project-photo">
+      <div class="deco-chrome" style="width:clamp(60px,8vw,110px);height:clamp(50px,7vw,90px);top:10%;left:8%;z-index:3"></div>
+      <img src="../images/designer-portfolio/p7-echo.png" class="img-art" alt="Echo Festival 创意指导">
+    </div>
+    <div class="project-info">
+      <p class="meta-label anim" style="color:var(--color-blue)">Creative Direction</p>
+      <h2 class="h-xl anim" style="transition-delay:0.1s">PROJECT 04</h2>
+      <p class="h-script anim" style="transition-delay:0.15s;color:var(--color-blue)">Echo Festival</p>
+      <p class="body-text anim" style="transition-delay:0.2s">
+        Art direction and visual identity for a digital arts festival. Large-scale environmental graphics, event branding, and an interactive web experience.
+      </p>
+      <p class="meta-label anim" style="transition-delay:0.25s">2026 · Communication Arts Award</p>
+    </div>
+  </section>
+
+  <!-- ===== P8: 联系 — 蓝底 + Let's create TOGETHER ===== -->
+  <section class="slide blue layout-contact" data-title="联系">
+    <div class="contact-left">
+      <p class="meta-label anim" style="color:rgba(255,255,255,0.5)">Get in Touch</p>
+      <div class="anim" style="transition-delay:0.1s">
+        <p class="h-script" style="font-size:clamp(2.5rem,4vw,5rem);color:var(--ink)">Let's create</p>
+        <h2 class="h-hero" style="font-size:min(10vw,16vh);margin-top:var(--sp-3)">TOGETHER</h2>
+      </div>
+      <div class="deco-chrome-sm" style="width:28px;height:28px;position:relative;display:inline-block;margin-top:var(--sp-3)"></div>
+      <div class="anim" style="transition-delay:0.2s;margin-top:var(--sp-5)">
+        <p class="body-text" style="color:rgba(255,255,255,0.6)">Email: hello@mariaisaeva.com</p>
+        <p class="body-text" style="color:rgba(255,255,255,0.6)">Studio: Berlin, Germany</p>
+        <p class="body-text" style="color:rgba(255,255,255,0.6);margin-top:var(--sp-4)">Behance / Dribbble / Instagram</p>
+      </div>
+      <p class="meta-label anim" style="transition-delay:0.3s;margin-top:var(--sp-7);color:rgba(255,255,255,0.3)">
+        leishifu-designer-portfolio · v1.0 · 2026
+      </p>
+    </div>
+    <div class="contact-gallery">
+      <div class="contact-cell">
+        <img src="../images/designer-portfolio/p8-contact1.png" class="img-art img-no-radius" alt="设计作品展示1">
+      </div>
+      <div class="contact-cell">
+        <img src="../images/designer-portfolio/p8-contact2.png" class="img-art img-no-radius" alt="设计作品展示2">
+      </div>
+      <div class="contact-cell">
+        <img src="../images/designer-portfolio/p8-contact3.png" class="img-art img-no-radius" alt="设计作品展示3">
+      </div>
+      <div class="contact-cell">
+        <img src="../images/designer-portfolio/p8-contact4.png" class="img-art img-no-radius" alt="设计作品展示4">
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 页脚导航 -->
+<nav class="nav" id="nav">
+  <span class="nav-counter" id="counter">1 / 8</span>
+  <span class="nav-title">← → · ESC</span>
+</nav>
+<div class="nav-progress" id="progress" style="width:12.5%"></div>
+
+<!-- 索引面板 -->
+<div class="index-panel" id="indexPanel"></div>
+
+<script>
+(function(){
+  const deck = document.getElementById('deck');
+  const slides = [...deck.querySelectorAll('.slide')];
+  const total = slides.length;
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const nav = document.getElementById('nav');
+  const indexPanel = document.getElementById('indexPanel');
+  let current = 0, throttled = false;
+
+  /* 索引面板填充 */
+  slides.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'index-thumb';
+    d.innerHTML = `<p class="num">${String(i+1).padStart(2,'0')}</p><p class="title">${s.dataset.title||''}</p>`;
+    d.onclick = () => { goTo(i); indexPanel.classList.remove('open'); };
+    indexPanel.appendChild(d);
+  });
+
+  function goTo(i) {
+    if (i < 0 || i >= total) return;
+    current = i;
+    slides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    counter.textContent = `${i+1} / ${total}`;
+    progress.style.width = ((i+1)/total*100) + '%';
+    triggerAnim(i);
+    updateNavTheme(i);
+  }
+
+  function updateNavTheme(i) {
+    const isSilver = slides[i].classList.contains('silver');
+    nav.classList.toggle('on-silver', isSilver);
+    progress.style.background = isSilver ? 'var(--color-blue)' : 'var(--accent)';
+  }
+
+  function triggerAnim(i) {
+    slides[i].querySelectorAll('.anim').forEach((el, j) => {
+      setTimeout(() => el.classList.add('visible'), j * 100);
+    });
+  }
+
+  function openIndex() { indexPanel.classList.toggle('open'); }
+
+  document.addEventListener('keydown', e => {
+    if (indexPanel.classList.contains('open')) {
+      if (e.key === 'Escape') indexPanel.classList.remove('open');
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current+1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current-1); }
+    else if (e.key === 'Escape') openIndex();
+  });
+
+  deck.addEventListener('wheel', e => {
+    if (throttled) return;
+    throttled = true;
+    setTimeout(() => throttled = false, 600);
+    if (e.deltaY > 20 || e.deltaX > 20) goTo(current+1);
+    else if (e.deltaY < -20 || e.deltaX < -20) goTo(current-1);
+  }, { passive: true });
+
+  let tx = 0;
+  deck.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  deck.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (dx < -50) goTo(current+1);
+    else if (dx > 50) goTo(current-1);
+  }, { passive: true });
+
+  /* 初始化 */
+  goTo(0);
+})();
+</script>
+</body>
+</html>

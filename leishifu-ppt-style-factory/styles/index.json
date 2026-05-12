@@ -1,7 +1,7 @@
 {
   "name": "leishifu-ppt-style-factory",
   "author": "leishifu",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "LeishiFu 的 PPT 风格模板库，含自研风格和归藏风格引用",
   "styles": [
     {
@@ -15,6 +15,19 @@
         "definition": "styles/leishifu-fashion-editorial.json",
         "template": "templates/template-leishifu-fashion-editorial.html",
         "images": "images/fashion-editorial/"
+      }
+    },
+    {
+      "name": "leishifu-designer-portfolio",
+      "displayName": "设计师作品集",
+      "category": "创意",
+      "createdAt": "2026-05-12",
+      "tags": ["克莱因蓝", "铬金属", "3D流体", "设计师", "Bebas Neue", "花体签名", "蓝黑银三色"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-designer-portfolio.json",
+        "template": "templates/template-leishifu-designer-portfolio.html",
+        "images": "images/designer-portfolio/"
       }
     },
     {

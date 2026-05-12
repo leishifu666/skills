@@ -237,10 +237,10 @@ def generate_image(api_cfg, prompt, output_path, size, style_suffix=None):
     print(f"  Prompt: {full_prompt[:80]}{'...' if len(full_prompt) > 80 else ''}", file=sys.stderr)
 
     try:
-        resp = requests.post(url, headers=headers, json=payload, timeout=120)
+        resp = requests.post(url, headers=headers, json=payload, timeout=300)
         resp.raise_for_status()
     except requests.exceptions.Timeout:
-        print("ERROR: API 请求超时 (120s)", file=sys.stderr)
+        print("ERROR: API 请求超时 (300s)", file=sys.stderr)
         sys.exit(1)
     except requests.exceptions.HTTPError as e:
         print(f"ERROR: API 返回错误 {resp.status_code}", file=sys.stderr)
