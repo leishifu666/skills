@@ -1,9 +1,48 @@
 {
   "name": "leishifu-ppt-style-factory",
   "author": "leishifu",
-  "version": "1.3.0",
+  "version": "1.6.0",
   "description": "LeishiFu 的 PPT 风格模板库，含自研风格和归藏风格引用",
   "styles": [
+    {
+      "name": "leishifu-new-reign",
+      "displayName": "蓝红编辑时尚",
+      "category": "音乐",
+      "createdAt": "2026-05-12",
+      "tags": ["蓝红撞色", "编辑时尚", "音乐专辑", "Anton", "超大色块", "三色轮换", "高冲击"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-new-reign.json",
+        "template": "templates/template-leishifu-new-reign.html",
+        "images": "images/new-reign/"
+      }
+    },
+    {
+      "name": "leishifu-street-dance",
+      "displayName": "街舞票券",
+      "category": "运动",
+      "createdAt": "2026-05-12",
+      "tags": ["荧光绿", "纯黑", "票券虚线", "警示胶带", "Oswald", "涂鸦风", "街舞文化"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-street-dance.json",
+        "template": "templates/template-leishifu-street-dance.html",
+        "images": "images/street-dance/"
+      }
+    },
+    {
+      "name": "leishifu-dark-photographer",
+      "displayName": "暗黑摄影师",
+      "category": "摄影",
+      "createdAt": "2026-05-12",
+      "tags": ["暗调", "微暖", "暗红强调", "Anton", "编号体系", "细线分隔", "艺术肖像"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-dark-photographer.json",
+        "template": "templates/template-leishifu-dark-photographer.html",
+        "images": "images/dark-photographer/"
+      }
+    },
     {
       "name": "leishifu-fashion-editorial",
       "displayName": "模特作品集",
