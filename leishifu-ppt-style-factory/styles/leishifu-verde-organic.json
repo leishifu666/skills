@@ -1,0 +1,121 @@
+{
+  "name": "leishifu-verde-organic",
+  "displayName": "有机自然",
+  "author": "leishifu",
+  "createdAt": "2026-05-13",
+  "version": "1.0.0",
+  "source": { "type": "screenshot", "ref": "verde-organic-natural" },
+  "dimensions": {
+    "D1_colorSystem": {
+      "ink": "#2d3a2d",
+      "ink-rgb": "45,58,45",
+      "paper": "#f7f4ef",
+      "paper-rgb": "247,244,239",
+      "paper-tint": "#eae5da",
+      "ink-tint": "#8a9a7e"
+    },
+    "D2_accentSystem": {
+      "accent": "#4a7c59",
+      "accent-rgb": "74,124,89",
+      "accent-alt": "#c17f3a",
+      "color-warn": "#c17f3a",
+      "color-success": "#4a7c59",
+      "color-info": "#5a8a6a"
+    },
+    "D3_headingFont": {
+      "heading": "'DM Serif Display', 'Noto Serif SC', serif",
+      "headingStyle": "serif",
+      "cjkHeading": "Noto Serif SC",
+      "headingImport": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Serif+SC:wght@400;700&display=swap"
+    },
+    "D4_bodyFont": {
+      "body": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "cjkBody": "Noto Sans SC",
+      "mono": "'JetBrains Mono', monospace",
+      "bodyImport": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;700&family=JetBrains+Mono:wght@400&display=swap"
+    },
+    "D5_fontWeight": {
+      "headingWeight": 400,
+      "headingBoldWeight": 400,
+      "bodyWeight": 400,
+      "bodyLightWeight": 300,
+      "emphasisWeight": 500,
+      "heroWeight": 400
+    },
+    "D6_fontSize": {
+      "heroSize": "min(8vw, 14vh)",
+      "xlSize": "clamp(2.2rem, 3.8vw, 4.5rem)",
+      "mdSize": "clamp(1.3rem, 2vw, 2.4rem)",
+      "subSize": "clamp(0.85rem, 1vw, 1.15rem)",
+      "bodySize": "clamp(0.75rem, 0.85vw, 0.9rem)",
+      "metaSize": "clamp(0.6rem, 0.7vw, 0.75rem)"
+    },
+    "D7_spacing": {
+      "density": "spacious",
+      "cardPadding": "clamp(1.8rem, 2.8vw, 3.2rem)",
+      "sectionGap": "clamp(2.5rem, 4vw, 5rem)",
+      "componentGap": "clamp(1rem, 1.5vw, 2rem)",
+      "slidePadding": "clamp(3rem, 5.5vw, 7rem)",
+      "navSafeBottom": "3.5rem"
+    },
+    "D8_background": {
+      "type": "solid",
+      "color": "#f7f4ef",
+      "opacity": 1,
+      "enabled": false,
+      "heroOnly": false
+    },
+    "D9_borderRadius": {
+      "borderRadius": "16px",
+      "borderRadiusLarge": "20px",
+      "borderWidth": "0px",
+      "borderColor": "transparent",
+      "borderStyle": "none"
+    },
+    "D10_shadow": {
+      "level": "subtle",
+      "shadowSm": "0 2px 8px rgba(45,58,45,0.06)",
+      "shadowMd": "0 4px 16px rgba(45,58,45,0.08)",
+      "shadowLg": "0 8px 32px rgba(45,58,45,0.1)",
+      "shadowColor": "rgba(45,58,45,0.08)"
+    },
+    "D11_animation": {
+      "level": "standard",
+      "entrance": "fade-up",
+      "duration": "0.6s",
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "stagger": "0.08s"
+    },
+    "D12_icons": {
+      "library": "none",
+      "style": "none",
+      "strokeWidth": 0
+    },
+    "D13_imageStyle": {
+      "filter": "saturate(0.85)",
+      "borderRadius": "16px",
+      "aspectRatio": "free",
+      "objectFit": "cover"
+    },
+    "D14_cardStyle": {
+      "style": "filled",
+      "background": "rgba(74,124,89,0.06)",
+      "hoverEffect": "none",
+      "activeVariant": "organic-filled"
+    },
+    "D15_decoration": {
+      "pattern": "botanical",
+      "density": "sparse",
+      "position": "corner",
+      "opacity": 0.08,
+      "elements": ["leaf-outline", "organic-curve", "seed-dot"]
+    },
+    "D16_mood": {
+      "aestheticTags": ["有机", "自然", "可持续", "柔和", "清新", "植物"],
+      "moodBoard": "Kinfolk + Aesop + Patagonia",
+      "bestFor": ["有机品牌", "可持续发展", "农业食品", "自然主题"],
+      "notFor": ["科技发布", "音乐活动", "金融报告"],
+      "era": "timeless"
+    }
+  }
+}

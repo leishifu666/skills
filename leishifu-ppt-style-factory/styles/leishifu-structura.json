@@ -1,0 +1,121 @@
+{
+  "name": "leishifu-structura",
+  "displayName": "建筑极简",
+  "author": "leishifu",
+  "createdAt": "2026-05-13",
+  "version": "1.0.0",
+  "source": { "type": "screenshot", "ref": "structura-architecture-minimal" },
+  "dimensions": {
+    "D1_colorSystem": {
+      "ink": "#1a1a1a",
+      "ink-rgb": "26,26,26",
+      "paper": "#f2f0ec",
+      "paper-rgb": "242,240,236",
+      "paper-tint": "#e8e5df",
+      "ink-tint": "#999999"
+    },
+    "D2_accentSystem": {
+      "accent": "#c8102e",
+      "accent-rgb": "200,16,46",
+      "accent-alt": "#1a1a1a",
+      "color-warn": "#c8102e",
+      "color-success": "#2d5a27",
+      "color-info": "#1a1a1a"
+    },
+    "D3_headingFont": {
+      "heading": "'Bebas Neue', 'Noto Sans SC', sans-serif",
+      "headingStyle": "display",
+      "cjkHeading": "Noto Sans SC",
+      "headingImport": "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;700;900&display=swap"
+    },
+    "D4_bodyFont": {
+      "body": "'Inter', 'Noto Sans SC', sans-serif",
+      "cjkBody": "Noto Sans SC",
+      "mono": "'JetBrains Mono', monospace",
+      "bodyImport": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;700&family=JetBrains+Mono:wght@400&display=swap"
+    },
+    "D5_fontWeight": {
+      "headingWeight": 400,
+      "headingBoldWeight": 400,
+      "bodyWeight": 400,
+      "bodyLightWeight": 300,
+      "emphasisWeight": 500,
+      "heroWeight": 400
+    },
+    "D6_fontSize": {
+      "heroSize": "min(10vw, 17vh)",
+      "xlSize": "clamp(2.6rem, 4.5vw, 5.5rem)",
+      "mdSize": "clamp(1.4rem, 2.2vw, 2.6rem)",
+      "subSize": "clamp(0.85rem, 1vw, 1.15rem)",
+      "bodySize": "clamp(0.75rem, 0.85vw, 0.9rem)",
+      "metaSize": "clamp(0.6rem, 0.7vw, 0.75rem)"
+    },
+    "D7_spacing": {
+      "density": "spacious",
+      "cardPadding": "clamp(2rem, 3vw, 3.5rem)",
+      "sectionGap": "clamp(2.5rem, 4vw, 5rem)",
+      "componentGap": "clamp(1rem, 1.5vw, 2rem)",
+      "slidePadding": "clamp(3rem, 5.5vw, 7rem)",
+      "navSafeBottom": "3.5rem"
+    },
+    "D8_background": {
+      "type": "solid",
+      "color": "#f2f0ec",
+      "opacity": 1,
+      "enabled": false,
+      "heroOnly": false
+    },
+    "D9_borderRadius": {
+      "borderRadius": "0px",
+      "borderRadiusLarge": "0px",
+      "borderWidth": "1px",
+      "borderColor": "rgba(26,26,26,0.12)",
+      "borderStyle": "solid"
+    },
+    "D10_shadow": {
+      "level": "none",
+      "shadowSm": "none",
+      "shadowMd": "none",
+      "shadowLg": "none",
+      "shadowColor": "rgba(0,0,0,0.05)"
+    },
+    "D11_animation": {
+      "level": "minimal",
+      "entrance": "fade",
+      "duration": "0.5s",
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "stagger": "0.1s"
+    },
+    "D12_icons": {
+      "library": "none",
+      "style": "none",
+      "strokeWidth": 0
+    },
+    "D13_imageStyle": {
+      "filter": "grayscale(0.3)",
+      "borderRadius": "0px",
+      "aspectRatio": "free",
+      "objectFit": "cover"
+    },
+    "D14_cardStyle": {
+      "style": "outlined",
+      "background": "transparent",
+      "hoverEffect": "none",
+      "activeVariant": "minimal-outlined"
+    },
+    "D15_decoration": {
+      "pattern": "lines",
+      "density": "sparse",
+      "position": "horizontal-dividers",
+      "opacity": 0.12,
+      "color": "ink"
+    },
+    "D16_mood": {
+      "aestheticTags": ["建筑", "极简", "瑞士风", "理性", "冷峻", "留白"],
+      "moodBoard": "Tadao Ando + Peter Zumthor + Swiss Typography",
+      "bestFor": ["建筑事务所", "设计工作室", "极简品牌", "学术展示"],
+      "notFor": ["儿童活动", "美食推广", "娱乐营销"],
+      "era": "modern"
+    }
+  }
+}

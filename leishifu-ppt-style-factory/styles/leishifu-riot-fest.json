@@ -1,0 +1,122 @@
+{
+  "name": "leishifu-riot-fest",
+  "displayName": "极繁孟菲斯音乐节",
+  "author": "leishifu",
+  "createdAt": "2026-05-13",
+  "version": "1.0.0",
+  "source": { "type": "screenshot", "ref": "riot-fest-memphis-poster" },
+  "dimensions": {
+    "D1_colorSystem": {
+      "ink": "#ffffff",
+      "ink-rgb": "255,255,255",
+      "paper": "#1a0a2e",
+      "paper-rgb": "26,10,46",
+      "paper-tint": "#2a1448",
+      "ink-tint": "#888888"
+    },
+    "D2_accentSystem": {
+      "accent": "#ff3366",
+      "accent-rgb": "255,51,102",
+      "accent-alt": "#00e5ff",
+      "color-yellow": "#ffdd00",
+      "color-purple": "#7b2dff",
+      "color-green": "#00ff88",
+      "color-orange": "#ff8800"
+    },
+    "D3_headingFont": {
+      "heading": "'Archivo Black', 'Noto Sans SC', sans-serif",
+      "headingStyle": "sans-serif",
+      "cjkHeading": "Noto Sans SC",
+      "headingImport": "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+SC:wght@400;700;900&display=swap"
+    },
+    "D4_bodyFont": {
+      "body": "'Inter', 'Noto Sans SC', sans-serif",
+      "cjkBody": "Noto Sans SC",
+      "mono": "'JetBrains Mono', monospace",
+      "bodyImport": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400&display=swap"
+    },
+    "D5_fontWeight": {
+      "headingWeight": 400,
+      "headingBoldWeight": 400,
+      "bodyWeight": 400,
+      "bodyLightWeight": 300,
+      "emphasisWeight": 600,
+      "heroWeight": 400
+    },
+    "D6_fontSize": {
+      "heroSize": "min(11vw, 18vh)",
+      "xlSize": "clamp(2.8rem, 5vw, 6rem)",
+      "mdSize": "clamp(1.5rem, 2.2vw, 2.6rem)",
+      "subSize": "clamp(0.85rem, 1vw, 1.15rem)",
+      "bodySize": "clamp(0.75rem, 0.85vw, 0.9rem)",
+      "metaSize": "clamp(0.6rem, 0.7vw, 0.75rem)"
+    },
+    "D7_spacing": {
+      "density": "compact",
+      "cardPadding": "clamp(1.2rem, 2vw, 2.5rem)",
+      "sectionGap": "clamp(1.5rem, 2.5vw, 3.5rem)",
+      "componentGap": "clamp(0.6rem, 1vw, 1.4rem)",
+      "slidePadding": "clamp(2rem, 3.5vw, 4.5rem)",
+      "navSafeBottom": "3.5rem"
+    },
+    "D8_background": {
+      "type": "solid",
+      "color": "#1a0a2e",
+      "opacity": 1,
+      "enabled": false,
+      "heroOnly": false
+    },
+    "D9_borderRadius": {
+      "borderRadius": "0px",
+      "borderRadiusLarge": "0px",
+      "borderWidth": "3px",
+      "borderColor": "rgba(255,255,255,0.3)",
+      "borderStyle": "solid"
+    },
+    "D10_shadow": {
+      "level": "none",
+      "shadowSm": "none",
+      "shadowMd": "none",
+      "shadowLg": "none",
+      "shadowColor": "rgba(0,0,0,0.2)"
+    },
+    "D11_animation": {
+      "level": "standard",
+      "entrance": "fade",
+      "duration": "0.4s",
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "stagger": "0.06s"
+    },
+    "D12_icons": {
+      "library": "none",
+      "style": "none",
+      "strokeWidth": 0
+    },
+    "D13_imageStyle": {
+      "filter": "none",
+      "borderRadius": "0px",
+      "aspectRatio": "free",
+      "objectFit": "cover"
+    },
+    "D14_cardStyle": {
+      "style": "filled",
+      "background": "multi-color-blocks",
+      "hoverEffect": "none",
+      "activeVariant": "memphis-block"
+    },
+    "D15_decoration": {
+      "pattern": "geometric-memphis",
+      "density": "heavy",
+      "position": "scattered",
+      "opacity": 1,
+      "elements": ["triangle", "circle", "star", "zigzag", "lightning", "wavy-line"]
+    },
+    "D16_mood": {
+      "aestheticTags": ["孟菲斯", "音乐节", "波普", "极繁", "涂鸦", "撞色"],
+      "moodBoard": "Memphis Design + 90s Rave Poster + Keith Haring",
+      "bestFor": ["音乐节", "潮牌发布", "青年活动", "派对邀请"],
+      "notFor": ["商务汇报", "学术演讲", "医疗健康"],
+      "era": "retro"
+    }
+  }
+}

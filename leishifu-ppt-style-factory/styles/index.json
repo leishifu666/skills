@@ -1,7 +1,7 @@
 {
   "name": "leishifu-ppt-style-factory",
   "author": "leishifu",
-  "version": "1.6.0",
+  "version": "1.10.0",
   "description": "LeishiFu 的 PPT 风格模板库，含自研风格和归藏风格引用",
   "styles": [
     {
@@ -110,6 +110,58 @@
         "themes": "../guizang-ppt-skill/references/themes-swiss.md",
         "layouts": "../guizang-ppt-skill/references/layouts-swiss.md",
         "components": "../guizang-ppt-skill/references/components.md"
+      }
+    },
+    {
+      "name": "leishifu-riot-fest",
+      "displayName": "极繁孟菲斯音乐节",
+      "category": "音乐",
+      "createdAt": "2026-05-13",
+      "tags": ["孟菲斯", "音乐节", "波普", "极繁", "涂鸦", "撞色", "Archivo Black", "多色", "几何装饰"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-riot-fest.json",
+        "template": "templates/template-leishifu-riot-fest.html",
+        "images": "images/riot-fest/"
+      }
+    },
+    {
+      "name": "leishifu-flavor-magazine",
+      "displayName": "美食杂志",
+      "category": "美食",
+      "createdAt": "2026-05-13",
+      "tags": ["美食杂志", "暖调", "衬线", "食欲感", "高级", "编辑风", "Playfair Display", "暗巧克力底"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-flavor-magazine.json",
+        "template": "templates/template-leishifu-flavor-magazine.html",
+        "images": "images/flavor-magazine/"
+      }
+    },
+    {
+      "name": "leishifu-structura",
+      "displayName": "建筑极简",
+      "category": "建筑",
+      "createdAt": "2026-05-13",
+      "tags": ["建筑", "极简", "瑞士风", "理性", "冷峻", "留白", "Bebas Neue", "红色强调", "线性分隔"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-structura.json",
+        "template": "templates/template-leishifu-structura.html",
+        "images": "images/structura/"
+      }
+    },
+    {
+      "name": "leishifu-verde-organic",
+      "displayName": "有机自然",
+      "category": "自然",
+      "createdAt": "2026-05-13",
+      "tags": ["有机", "自然", "可持续", "柔和", "清新", "植物", "DM Serif Display", "森林绿", "圆角"],
+      "source": "leishifu",
+      "files": {
+        "definition": "styles/leishifu-verde-organic.json",
+        "template": "templates/template-leishifu-verde-organic.html",
+        "images": "images/verde-organic/"
       }
     }
   ]
