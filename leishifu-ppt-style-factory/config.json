@@ -1,7 +1,7 @@
 {
   "image_api": {
     "base_url": "https://api.bltcy.ai",
-    "api_key": "sk-mcZyxiPYLkBpoGAtG2K9Vn18p8vex9ThS6jCTaHcZ8K08wlL",
+    "api_key": "your_api_key_here",
     "model": "gpt-image-2",
     "default_size": "1920x1080",
     "default_resolution": "2K",

@@ -1,0 +1,7 @@
+interface:
+  display_name: "雷师傅 Vibe UI 方案选择器"
+  short_description: "为视觉交互方向生成可选择的六方案 HTML 预览工具"
+  default_prompt: "使用 $leishifu-vibe-ui-selector 为一次视觉或 UI 方向决策生成六方案交互式 HTML 预览。"
+
+policy:
+  allow_implicit_invocation: true

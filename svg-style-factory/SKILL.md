@@ -1,11 +1,6 @@
 ---
 name: svg-style-factory
-description: >
-  强大的 SVG 设计工厂。两种模式：
-  1. 通过图片提取风格并保存为 XML (Image-to-Style)。
-  2. 从风格库中选择风格并生成 SVG (Library-Selection)。
-  支持生成可导入 Figma 的矢量文件。
-entry_point: none (Agent-driven)
+description: 强大的 SVG 设计工厂。两种模式： 1. 通过图片提取风格并保存为 XML (Image-to-Style)。 2. 从风格库中选择风格并生成 SVG (Library-Selection)。 支持生成可导入 Figma 的矢量文件。
 ---
 
 # SVG 风格工厂 (SVG Style Factory)

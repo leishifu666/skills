@@ -2,4 +2,10 @@
 __pycache__/
 .idea/
 .vscode/
+.omc/
+**/.omc/
+browse/dist/*.exe
+gstack/browse/dist/*.exe
+gstack/design/dist/*.exe
+gstack/bin/*.exe
 
