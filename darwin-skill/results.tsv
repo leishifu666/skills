@@ -1,0 +1,3 @@
+timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
+2026-06-26T14:22:58+08:00	f121f32	leishifu-vibe-ui-selector	87.0	87.0	keep	触发稳定性	judges A/B KEEP; 三个 test-prompts dry-run 均触发 HTML 选择页; 当前分数为 A/B 加权均值	dry_run
+2026-06-26T14:28:30+08:00	1e591e2	leishifu-vibe-ui-selector	87.0	89.3	keep	frontmatter+验收门槛	judges C/D KEEP; dim1/dim5/dim8 提升; 9418 bytes < 9487 上限	dry_run

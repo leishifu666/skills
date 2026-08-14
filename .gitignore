@@ -3,3 +3,13 @@ __pycache__/
 .idea/
 .vscode/
 
+# Local secrets and runtime output
+.env
+.env.*
+!.env.example
+*.log
+
+# Locally built gstack discovery binaries
+gstack/bin/gstack-global-discover
+gstack/bin/gstack-global-discover.exe
+

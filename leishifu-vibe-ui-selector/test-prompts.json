@@ -1,0 +1,17 @@
+[
+  {
+    "id": "regression-style-switch-html-cover",
+    "prompt": "我想要换风格，你出一些给我选",
+    "expected": "触发本技能；不要只列文字方案；生成包含 A-F 六个真实方案的 HTML 选择页，并给出可打开路径。"
+  },
+  {
+    "id": "xiaohongshu-cover-directions",
+    "prompt": "这个小红书封面方向不对，给我几个风格方向看看，我选一个",
+    "expected": "先生成可交互选择页；A-E 是不同视觉方向，F 是 DIY 参数；用户选择前不修改最终封面。"
+  },
+  {
+    "id": "component-style-selector",
+    "prompt": "这个按钮和卡片的感觉还没定，做几种动效和视觉样式让我选",
+    "expected": "结合项目风格和动效参考生成选择页，包含 hover/active/动效节奏差异，并验证点击选择和复制文本。"
+  }
+]

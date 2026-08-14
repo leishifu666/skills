@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Script Factory"
+  short_description: "面向Seedance 2.0的剧本拆解分镜与资产工厂"
+  default_prompt: "将剧本文本或分镜表拆解为 Seedance 2.0 可用的分镜表、角色库、场景库、道具库与提示词包。"
