@@ -24,7 +24,7 @@ if __name__ == "__main__":
         sys.exit(1)
         
     name = sys.argv[1]
-    root = r"C:\Users\20515\.claude\skills"
+    root = os.path.join(os.environ.get("CODEX_HOME", os.path.expanduser("~/.codex")), "skills")
     if len(sys.argv) > 2:
         root = sys.argv[2]
         

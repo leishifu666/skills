@@ -1,22 +1,19 @@
 ---
 name: review
+title: 代码变更审查
+description: 在合并前审查代码差异，重点发现行为回退、数据安全、信任边界和缺失测试等问题。
 preamble-tier: 4
 version: 1.0.0
-description: |
-  Pre-landing PR review. Analyzes diff against the base branch for SQL safety, LLM trust
-  boundary violations, conditional side effects, and other structural issues. Use when
-  asked to "review this PR", "code review", "pre-landing review", or "check my diff".
-  Proactively suggest when the user is about to merge or land code changes. (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Edit
-  - Write
-  - Grep
-  - Glob
-  - Agent
-  - AskUserQuestion
-  - WebSearch
+- Bash
+- Read
+- Edit
+- Write
+- Grep
+- Glob
+- Agent
+- AskUserQuestion
+- WebSearch
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

@@ -1,8 +1,7 @@
 ---
 name: penguin-magic-project
-description: >
-  坤坤工坊 (Penguin Magic) 项目全局知识库。
-  包含项目架构、技术栈、文件结构、核心模块、API 服务、常见修改路径等关键信息。
+title: Penguin Magic 项目
+description: 坤坤工坊 (Penguin Magic) 项目全局知识库。 包含项目架构、技术栈、文件结构、核心模块、API 服务、常见修改路径等关键信息。
   当需要修改、调试、扩展 Penguin-Magic 项目时，必须先阅读此文档以快速建立上下文。
 ---
 

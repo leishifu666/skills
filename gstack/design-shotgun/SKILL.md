@@ -1,21 +1,16 @@
 ---
 name: design-shotgun
+title: 设计方案探索
+description: 生成多个真正不同的设计方向并提供比较界面，适合视觉方向尚未确定或用户要求先看方案时使用。
 preamble-tier: 2
 version: 1.0.0
-description: |
-  Design shotgun: generate multiple AI design variants, open a comparison board,
-  collect structured feedback, and iterate. Standalone design exploration you can
-  run anytime. Use when: "explore designs", "show me options", "design variants",
-  "visual brainstorm", or "I don't like how this looks".
-  Proactively suggest when the user describes a UI feature but hasn't seen
-  what it could look like. (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Glob
-  - Grep
-  - Agent
-  - AskUserQuestion
+- Bash
+- Read
+- Glob
+- Grep
+- Agent
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

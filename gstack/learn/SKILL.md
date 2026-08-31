@@ -1,21 +1,17 @@
 ---
 name: learn
+title: 学习
+description: 用于处理“学习”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 preamble-tier: 2
 version: 1.0.0
-description: |
-  Manage project learnings. Review, search, prune, and export what gstack
-  has learned across sessions. Use when asked to "what have we learned",
-  "show learnings", "prune stale learnings", or "export learnings".
-  Proactively suggest when the user asks about past patterns or wonders
-  "didn't we fix this before?"
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - AskUserQuestion
-  - Glob
-  - Grep
+- Bash
+- Read
+- Write
+- Edit
+- AskUserQuestion
+- Glob
+- Grep
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

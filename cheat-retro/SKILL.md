@@ -1,6 +1,8 @@
 ---
 name: cheat-retro
-description: T+N 天数据回收 + 复盘 + 把新观察写入 rubric_notes.md。这是校准循环的反馈环节——不复盘的预测等于占星。触发词："复盘 [path]"/"retro this"/"T+3d 数据来了"/"抓数据 [path]"/"把这篇复盘了"。
+title: 技能：Cheat Retro
+description: T+N 天数据回收 + 复盘 + 把新观察写入 rubric_notes.md。这是校准循环的反馈环节——不复盘的预测等于占星。触发词："复盘
+  [path]"/"retro this"/"T+3d 数据来了"/"抓数据 [path]"/"把这篇复盘了"。
 ---
 
 # /cheat-retro — 数据回收与复盘

@@ -1,0 +1,5 @@
+interface:
+  display_name: "界面改动审查"
+  short_description: "审查分支、PR 与工作区中的界面改动"
+policy:
+  allow_implicit_invocation: false

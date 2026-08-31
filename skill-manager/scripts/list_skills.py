@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 import yaml
@@ -24,11 +25,15 @@ def list_skills(skills_root):
         skill_dir = os.path.join(skills_root, item)
         if not os.path.isdir(skill_dir):
             continue
-            
+
         skill_md = os.path.join(skill_dir, "SKILL.md")
+        if not os.path.isfile(skill_md):
+            continue
+
         skill_type = "Standard"
         version = "0.1.0"
-        description = "No description"
+        title = item
+        description = "暂无说明"
         
         if os.path.exists(skill_md):
             try:
@@ -39,6 +44,7 @@ def list_skills(skills_root):
                     meta = yaml.safe_load(parts[1])
                     if "github_url" in meta:
                         skill_type = "GitHub"
+                    title = meta.get("title", item)
                     version = str(meta.get("version", "0.1.0"))
                     description = meta.get("description", "No description").replace('\n', ' ')
             except:
@@ -52,10 +58,11 @@ def list_skills(skills_root):
             
         # Using a fixed width but acknowledging that Chinese chars take 2 cells
         # This is a basic fix, for perfect alignment one would need wcwidth
-        print(f"{item:<20} | {skill_type:<12} | {display_desc:<40} | {version:<8}")
+        print(f"{title:<20} | {skill_type:<12} | {display_desc:<40} | {version:<8}")
 
 if __name__ == "__main__":
-    skills_path = r"C:\Users\20515\.claude\skills"
-    if len(sys.argv) > 1:
-        skills_path = sys.argv[1]
-    list_skills(skills_path)
+    parser = argparse.ArgumentParser(description="列出本机已安装的技能")
+    parser.add_argument("skills_root", nargs="?", help="技能目录，默认使用 CODEX_HOME/skills")
+    args = parser.parse_args()
+    codex_home = os.environ.get("CODEX_HOME", os.path.expanduser("~/.codex"))
+    list_skills(args.skills_root or os.path.join(codex_home, "skills"))

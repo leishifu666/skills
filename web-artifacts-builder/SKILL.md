@@ -1,6 +1,8 @@
 ---
 name: web-artifacts-builder
-description: 一套用于使用现代前端技术（React, Tailwind CSS, shadcn/ui）创建复杂的、多组件的 claude.ai HTML 变体的工具。适用于需要状态管理、路由或 shadcn/ui 组件的复杂项目 - 不适用于简单的单文件 HTML/JSX 变体。
+title: 技能：WEB Artifacts Builder
+description: 一套用于使用现代前端技术（React, Tailwind CSS, shadcn/ui）创建复杂的、多组件的 claude.ai HTML
+  变体的工具。适用于需要状态管理、路由或 shadcn/ui 组件的复杂项目 - 不适用于简单的单文件 HTML/JSX 变体。
 license: Complete terms in LICENSE.txt
 ---
 

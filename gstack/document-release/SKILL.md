@@ -1,21 +1,17 @@
 ---
 name: document-release
+title: 文档 发布
+description: 用于处理“文档 发布”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 preamble-tier: 2
 version: 1.0.0
-description: |
-  Post-ship documentation update. Reads all project docs, cross-references the
-  diff, updates README/ARCHITECTURE/CONTRIBUTING/CLAUDE.md to match what shipped,
-  polishes CHANGELOG voice, cleans up TODOS, and optionally bumps VERSION. Use when
-  asked to "update the docs", "sync documentation", or "post-ship docs".
-  Proactively suggest after a PR is merged or code is shipped. (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - AskUserQuestion
+- Bash
+- Read
+- Write
+- Edit
+- Grep
+- Glob
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

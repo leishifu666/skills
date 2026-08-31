@@ -1,6 +1,7 @@
 ---
 name: gstack
-description: Fast headless browser for QA testing and site dogfooding. Navigate pages, interact with elements, verify state, diff before/after, take annotated screenshots, test responsive layouts, forms, uploads, dialogs, and capture bug evidence. Use when asked to open or test a site, verify a deployment, dogfood a user flow, or file a bug with screenshots. (gstack)
+title: 技能：Gstack
+description: 用于处理“Gstack”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 ---
 
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->

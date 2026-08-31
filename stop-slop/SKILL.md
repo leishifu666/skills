@@ -1,6 +1,7 @@
 ---
 name: stop-slop
-description: Remove AI writing patterns from prose. Use when drafting, editing, or reviewing text to eliminate predictable AI tells.
+title: 去除 AI 写作痕迹
+description: 清理文本中可预测、空泛和机械的 AI 写作模式，使表达更自然、具体和符合目标语气。
 metadata:
   trigger: Writing prose, editing drafts, reviewing content for AI patterns
   author: Hardik Pandya (https://hvpandya.com)

@@ -1,24 +1,18 @@
 ---
 name: design-html
+title: 设计稿网页实现
+description: 将已确认的设计方向转成可重排、可响应的生产级 HTML/CSS 实现。
 preamble-tier: 2
 version: 1.0.0
-description: |
-  Design finalization: takes an approved AI mockup from /design-shotgun and
-  generates production-quality Pretext-native HTML/CSS. Text actually reflows,
-  heights are computed, layouts are dynamic. 30KB overhead, zero deps.
-  Smart API routing: picks the right Pretext patterns for each design type.
-  Use when: "finalize this design", "turn this mockup into HTML", "implement
-  this design", or after /design-shotgun approves a direction.
-  Proactively suggest when user has approved a design in /design-shotgun. (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - Glob
-  - Grep
-  - Agent
-  - AskUserQuestion
+- Bash
+- Read
+- Write
+- Edit
+- Glob
+- Grep
+- Agent
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

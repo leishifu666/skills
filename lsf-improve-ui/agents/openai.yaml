@@ -1,0 +1,11 @@
+interface:
+  display_name: "LSF UI 优化审查"
+  short_description: "基于真实设计证据审查产品界面，并准备清晰可执行的优化实施计划"
+  default_prompt: "使用 $lsf-improve-ui 审查主要产品界面，找出有证据支持的 UI 问题并推荐优先优化项。"
+policy:
+  products:
+    - chatgpt
+    - codex
+    - api
+    - atlas
+  allow_implicit_invocation: true

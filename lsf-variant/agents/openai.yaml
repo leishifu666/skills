@@ -1,0 +1,5 @@
+interface:
+  display_name: "UI 多方案对比"
+  short_description: "在真实页面中切换比较同一块 UI 的多个版本"
+policy:
+  allow_implicit_invocation: false

@@ -1,23 +1,19 @@
 ---
 name: ship
+title: 技能：SHIP
+description: 用于处理“SHIP”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 preamble-tier: 4
 version: 1.0.0
-description: |
-  Ship workflow: detect + merge base branch, run tests, review diff, bump VERSION,
-  update CHANGELOG, commit, push, create PR. Use when asked to "ship", "deploy",
-  "push to main", "create a PR", "merge and push", or "get it deployed".
-  Proactively invoke this skill (do NOT push/PR directly) when the user says code
-  is ready, asks about deploying, wants to push code up, or asks to create a PR. (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - Agent
-  - AskUserQuestion
-  - WebSearch
+- Bash
+- Read
+- Write
+- Edit
+- Grep
+- Glob
+- Agent
+- AskUserQuestion
+- WebSearch
 sensitive: true
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->

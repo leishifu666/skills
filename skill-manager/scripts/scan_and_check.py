@@ -107,15 +107,9 @@ def check_updates(skills):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        # Default to standard Claude skills path if not provided
-        # Trying to guess typical Windows path for this user context
-        default_path = os.path.expanduser(r"~\.claude\skills")
-        # But we are in a tool env, let's use the provided one or current dir
-        if os.path.exists(r"C:\Users\20515\.claude\skills"):
-            target_dir = r"C:\Users\20515\.claude\skills"
-        else:
-            print("Usage: python scan_and_check.py <skills_dir>")
-            sys.exit(1)
+        target_dir = os.path.join(
+            os.environ.get("CODEX_HOME", os.path.expanduser("~/.codex")), "skills"
+        )
     else:
         target_dir = sys.argv[1]
 

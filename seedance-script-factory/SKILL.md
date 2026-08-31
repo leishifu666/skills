@@ -1,6 +1,8 @@
 ---
 name: seedance-script-factory
-description: Use when 用户需要把剧本、storyboard、shot list、已有视频 Prompt 或混合素材整理成适配 Seedance 2.0 的分镜、资产库、segment 单段总提示词，或需要处理角色漂移、参考图绑定、跨镜头一致性与 prompt-package 交付问题。
+title: 技能：Seedance Script Factory
+description: Use when 用户需要把剧本、storyboard、shot list、已有视频 Prompt 或混合素材整理成适配 Seedance
+  2.0 的分镜、资产库、segment 单段总提示词，或需要处理角色漂移、参考图绑定、跨镜头一致性与 prompt-package 交付问题。
 ---
 
 # Seedance Script Factory

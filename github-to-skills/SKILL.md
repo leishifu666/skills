@@ -1,6 +1,7 @@
 ---
 name: github-to-skills
-description: Automated factory for converting GitHub repositories into specialized AI skills. Use this skill when the user provides a GitHub URL and wants to "package", "wrap", or "create a skill" from it. It automatically fetches repository details, latest commit hashes, and generates a standardized skill structure with enhanced metadata suitable for lifecycle management.
+title: 技能：Github TO Skills
+description: 用于处理“Github TO Skills”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 license: MIT
 ---
 

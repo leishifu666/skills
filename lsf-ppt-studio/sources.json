@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "guizang": {
+    "skill_root": "C:\\Users\\Administrator\\.codex\\skill-sources\\guizang-ppt-skill",
+    "repository": "https://github.com/op7418/guizang-ppt-skill.git",
+    "branch": "main",
+    "locked_commit": "c91369c449d34755d320a8b81d0734000d99d1ab",
+    "checked_at": "2026-08-27",
+    "license": "AGPL-3.0"
+  },
+  "style_factory": {
+    "skill_root": "C:\\Users\\Administrator\\.codex\\skill-sources\\leishifu-ppt-style-factory",
+    "private_image_config": "C:\\Users\\Administrator\\.codex\\private\\leishifu-ppt-style-factory\\config.json",
+    "index": "styles\\index.json"
+  }
+}

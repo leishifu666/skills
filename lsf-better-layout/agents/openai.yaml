@@ -1,0 +1,3 @@
+interface:
+  display_name: "布局优化"
+  short_description: "结构、分组、对齐与响应式布局"

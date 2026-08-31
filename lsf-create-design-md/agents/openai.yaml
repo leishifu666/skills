@@ -1,0 +1,6 @@
+interface:
+  display_name: "LSF 设计规范生成"
+  short_description: "从现有产品证据中整理并生成 DESIGN.md 设计规范"
+  default_prompt: "使用 $lsf-create-design-md 为当前产品整理并生成 DESIGN.md。"
+policy:
+  allow_implicit_invocation: true

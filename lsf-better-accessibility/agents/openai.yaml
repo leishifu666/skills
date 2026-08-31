@@ -1,0 +1,3 @@
+interface:
+  display_name: "无障碍优化"
+  short_description: "焦点、键盘、ARIA、表单与屏幕阅读器"

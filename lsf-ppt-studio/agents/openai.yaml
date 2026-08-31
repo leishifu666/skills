@@ -1,0 +1,7 @@
+interface:
+  display_name: "LSF PPT Studio"
+  short_description: "融合完整演示稿生成、16维风格工厂与演讲者模式"
+  default_prompt: "使用 $lsf-ppt-studio 从内容与视觉需求生成一份可演讲、可验证的网页 PPT。"
+
+policy:
+  allow_implicit_invocation: true

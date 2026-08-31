@@ -1,5 +1,6 @@
 ---
 name: algorithmic-art
+title: 技能：Algorithmic ART
 description: 使用 p5.js 创建具有种子随机性和交互式参数探索的算法艺术。当用户请求使用代码创建艺术、生成艺术、算法艺术、流场或粒子系统时使用此功能。创建原创的算法艺术，而不是复制现有艺术家的作品，以避免侵权。
 license: Complete terms in LICENSE.txt
 ---

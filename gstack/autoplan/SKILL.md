@@ -1,26 +1,20 @@
 ---
 name: autoplan
+title: 自动审查计划
+description: 计划审查专项入口：自动依次执行产品、设计和工程审查并汇总决策。仅在已有计划需要完整自动审查或用户明确点名 autoplan 时使用。
 preamble-tier: 3
 version: 1.0.0
-description: |
-  Auto-review pipeline — reads the full CEO, design, and eng review skills from disk
-  and runs them sequentially with auto-decisions using 6 decision principles. Surfaces
-  taste decisions (close approaches, borderline scope, codex disagreements) at a final
-  approval gate. One command, fully reviewed plan out.
-  Use when asked to "auto review", "autoplan", "run all reviews", "review this plan
-  automatically", or "make the decisions for me".
-  Proactively suggest when the user has a plan file and wants to run the full review
-  gauntlet without answering 15-30 intermediate questions. (gstack)
-benefits-from: [office-hours]
+benefits-from:
+- office-hours
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - Glob
-  - Grep
-  - WebSearch
-  - AskUserQuestion
+- Bash
+- Read
+- Write
+- Edit
+- Glob
+- Grep
+- WebSearch
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

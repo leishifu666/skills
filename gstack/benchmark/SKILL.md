@@ -1,19 +1,15 @@
 ---
 name: benchmark
+title: 性能基准
+description: 建立并比较网页性能基准，包括加载时间、核心网页指标和资源体积，用于发现性能回退。
 preamble-tier: 1
 version: 1.0.0
-description: |
-  Performance regression detection using the browse daemon. Establishes
-  baselines for page load times, Core Web Vitals, and resource sizes.
-  Compares before/after on every PR. Tracks performance trends over time.
-  Use when: "performance", "benchmark", "page speed", "lighthouse", "web vitals",
-  "bundle size", "load time". (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Glob
-  - AskUserQuestion
+- Bash
+- Read
+- Write
+- Glob
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

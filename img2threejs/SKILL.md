@@ -1,14 +1,15 @@
 ---
 name: img2threejs
-description: Turn an object or character reference image into a quality-gated, animation-ready procedural Three.js model built in code. Use for image-to-3D reconstruction, detail-accurate object rebuilds, stylized/likeness-maximized human characters, sculpt specs, and staged code generation.
+title: 技能：Img2Threejs
+description: 用于处理“Img2Threejs”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 license: Apache-2.0
 version: 1.4.4
 github_url: https://github.com/img2threejs/img2threejs
 github_hash: d6673386f89673a58736f8d398dd16ece67874f5
-created_at: 2026-08-11T00:00:00+08:00
+created_at: 2026-08-11 00:00:00+08:00
 entry_point: forge/next.py
 dependencies:
-  - Python >= 3.10
+- Python >= 3.10
 ---
 
 # img2threejs — Image to procedural Three.js

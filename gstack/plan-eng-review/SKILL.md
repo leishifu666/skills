@@ -1,23 +1,19 @@
 ---
 name: plan-eng-review
+title: 工程计划审查
+description: 在编码前审查架构、数据流、边界条件、性能和测试覆盖，帮助锁定可执行的工程方案。
 preamble-tier: 3
 version: 1.0.0
-description: |
-  Eng manager-mode plan review. Lock in the execution plan — architecture,
-  data flow, diagrams, edge cases, test coverage, performance. Walks through
-  issues interactively with opinionated recommendations. Use when asked to
-  "review the architecture", "engineering review", or "lock in the plan".
-  Proactively suggest when the user has a plan or design doc and is about to
-  start coding — to catch architecture issues before implementation. (gstack)
-benefits-from: [office-hours]
+benefits-from:
+- office-hours
 allowed-tools:
-  - Read
-  - Write
-  - Grep
-  - Glob
-  - AskUserQuestion
-  - Bash
-  - WebSearch
+- Read
+- Write
+- Grep
+- Glob
+- AskUserQuestion
+- Bash
+- WebSearch
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

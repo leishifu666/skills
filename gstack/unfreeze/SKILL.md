@@ -1,14 +1,11 @@
 ---
 name: unfreeze
+title: 解除编辑限制
+description: 解除 freeze 设置的目录边界，恢复对其他目录的编辑权限。
 version: 0.1.0
-description: |
-  Clear the freeze boundary set by /freeze, allowing edits to all directories
-  again. Use when you want to widen edit scope without ending the session.
-  Use when asked to "unfreeze", "unlock edits", "remove freeze", or
-  "allow all edits". (gstack)
 allowed-tools:
-  - Bash
-  - Read
+- Bash
+- Read
 sensitive: true
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->

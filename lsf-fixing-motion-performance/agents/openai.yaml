@@ -1,0 +1,6 @@
+interface:
+  display_name: "LSF 动效性能修复"
+  short_description: "定位并修复动画卡顿、布局抖动、滚动关联动画与高开销视觉效果"
+  default_prompt: "使用 $lsf-fixing-motion-performance 检查并修复当前界面的动效性能问题。"
+policy:
+  allow_implicit_invocation: true

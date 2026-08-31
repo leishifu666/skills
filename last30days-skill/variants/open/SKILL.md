@@ -1,8 +1,10 @@
 ---
 name: last30days
-version: "2.1-open"
-description: "Research topics, manage watchlists, get briefings, query history. Also triggered by 'last30'. Sources: Reddit, X, YouTube, web."
-argument-hint: 'last30 AI video tools, last30 watch my competitor every week, last30 give me my briefing'
+title: 技能：Last30Days
+description: 用于处理“Last30Days”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+version: 2.1-open
+argument-hint: last30 AI video tools, last30 watch my competitor every week, last30
+  give me my briefing
 allowed-tools: Bash, Read, Write, AskUserQuestion, WebSearch
 ---
 

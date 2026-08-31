@@ -1,0 +1,6 @@
+interface:
+  display_name: "LSF 无障碍修复"
+  short_description: "系统检查并修复键盘操作、焦点管理、ARIA 标签与颜色对比度问题"
+  default_prompt: "使用 $lsf-fixing-accessibility 检查并修复当前界面的无障碍问题。"
+policy:
+  allow_implicit_invocation: true

@@ -1,5 +1,6 @@
 ---
 name: internal-comms
+title: 技能：Internal Comms
 description: 一套帮助编写各种内部沟通文档的资源，使用公司偏好的格式。当需要编写内部沟通（状态报告、领导层更新、3P 更新、公司简报、常见问题、事件报告、项目更新等）时，应使用此技能。
 license: Complete terms in LICENSE.txt
 ---

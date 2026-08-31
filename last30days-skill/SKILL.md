@@ -1,6 +1,7 @@
 ---
 name: last30days
-description: Deep research engine covering the last 30 days across 10+ sources - Reddit, X/Twitter, YouTube, TikTok, Instagram, Hacker News, Polymarket, Bluesky, Truth Social, web. AI synthesizes findings into grounded, cited reports. The most comprehensive recency research skill on ClawHub.
+title: 技能：Last30Days
+description: 用于处理“Last30Days”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 ---
 
 # last30days v2.9.5: Research Any Topic from the Last 30 Days

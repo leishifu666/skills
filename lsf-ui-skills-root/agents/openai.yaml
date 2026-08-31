@@ -1,0 +1,6 @@
+interface:
+  display_name: "LSF UI 技能总控"
+  short_description: "根据当前界面任务选择最小且足够的专项 UI 技能与规则组合"
+  default_prompt: "使用 $lsf-ui-skills-root 为当前 UI 工作选择合适的专项技能。"
+policy:
+  allow_implicit_invocation: true

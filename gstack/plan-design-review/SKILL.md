@@ -1,22 +1,16 @@
 ---
 name: plan-design-review
+title: 设计计划审查
+description: 在实现前审查 UI/UX 计划，逐项评估设计质量并完善计划；已实现界面应使用 design-review。
 preamble-tier: 3
 version: 2.0.0
-description: |
-  Designer's eye plan review — interactive, like CEO and Eng review.
-  Rates each design dimension 0-10, explains what would make it a 10,
-  then fixes the plan to get there. Works in plan mode. For live site
-  visual audits, use /design-review. Use when asked to "review the design plan"
-  or "design critique".
-  Proactively suggest when the user has a plan with UI/UX components that
-  should be reviewed before implementation. (gstack)
 allowed-tools:
-  - Read
-  - Edit
-  - Grep
-  - Glob
-  - Bash
-  - AskUserQuestion
+- Read
+- Edit
+- Grep
+- Glob
+- Bash
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

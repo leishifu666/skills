@@ -1,22 +1,18 @@
 ---
 name: careful
+title: 危险操作保护
+description: 对删除、强制推送、重置、生产环境变更等危险命令增加确认和安全检查。
 version: 0.1.0
-description: |
-  Safety guardrails for destructive commands. Warns before rm -rf, DROP TABLE,
-  force-push, git reset --hard, kubectl delete, and similar destructive operations.
-  User can override each warning. Use when touching prod, debugging live systems,
-  or working in a shared environment. Use when asked to "be careful", "safety mode",
-  "prod mode", or "careful mode". (gstack)
 allowed-tools:
-  - Bash
-  - Read
+- Bash
+- Read
 hooks:
   PreToolUse:
-    - matcher: "Bash"
-      hooks:
-        - type: command
-          command: "bash ${CLAUDE_SKILL_DIR}/bin/check-careful.sh"
-          statusMessage: "Checking for destructive commands..."
+  - matcher: Bash
+    hooks:
+    - type: command
+      command: bash ${CLAUDE_SKILL_DIR}/bin/check-careful.sh
+      statusMessage: Checking for destructive commands...
 sensitive: true
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->

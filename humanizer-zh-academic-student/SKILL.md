@@ -1,14 +1,18 @@
 ---
 name: humanizer-zh-academic-student
-description: |
-  交互式去除学生学术文本（论文、实验报告、大作业）中的 AI 生成痕迹，并在改写前自动采集语气严肃度与角色。
+title: 技能：Humanizer ZH Academic Student
+description: '交互式去除学生学术文本（论文、实验报告、大作业）中的 AI 生成痕迹，并在改写前自动采集语气严肃度与角色。
+
   致力于将浮夸、空洞、喜欢卖弄的 AI 学术腔调，转化为朴实、严谨、真诚且干脆的大学生学术写作风格。
+
   核心任务：先确认严肃度和写作角色，再从词汇、句法、结构与排版四个层面定向清洗 AI 痕迹。
+
+  '
 allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - AskUserQuestion
+- Read
+- Write
+- Edit
+- AskUserQuestion
 metadata:
   trigger: 编辑学术文本，先询问严肃度与角色，再去除 AI 词汇和句法痕迹，降低机械感与卖弄感
   source: 大学生真实学术写作场景优化 + 深度解析 AI 检测器底层逻辑 + 交互式参数采集

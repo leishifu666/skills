@@ -1,0 +1,6 @@
+interface:
+  display_name: "LSF 页面元数据修复"
+  short_description: "系统检查并完善 SEO、社交分享预览、结构化数据与页面元数据"
+  default_prompt: "使用 $lsf-fixing-metadata 检查并修复当前页面的元数据。"
+policy:
+  allow_implicit_invocation: true

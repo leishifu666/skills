@@ -1,6 +1,7 @@
 ---
 name: figma
-description: Use the Figma MCP server to fetch design context, screenshots, variables, and assets from Figma, and to translate Figma nodes into production code. Trigger when a task involves Figma URLs, node IDs, design-to-code implementation, or Figma MCP setup and troubleshooting.
+title: Figma 设计实现
+description: 读取 Figma 节点、截图、变量和素材，并将设计上下文转成生产代码；涉及 Figma 链接或节点时使用。
 ---
 
 # Figma MCP

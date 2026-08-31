@@ -1,19 +1,13 @@
 ---
 name: browse
+title: 无头浏览器测试
+description: 快速操作网页、检查页面状态、测试交互并生成截图证据。用于网页 QA、部署验证、用户流程测试和响应式检查。
 preamble-tier: 1
 version: 1.1.0
-description: |
-  Fast headless browser for QA testing and site dogfooding. Navigate any URL, interact with
-  elements, verify page state, diff before/after actions, take annotated screenshots, check
-  responsive layouts, test forms and uploads, handle dialogs, and assert element states.
-  ~100ms per command. Use when you need to test a feature, verify a deployment, dogfood a
-  user flow, or file a bug with evidence. Use when asked to "open in browser", "test the
-  site", "take a screenshot", or "dogfood this". (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - AskUserQuestion
-
+- Bash
+- Read
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

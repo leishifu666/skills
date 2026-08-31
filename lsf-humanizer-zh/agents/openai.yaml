@@ -1,0 +1,7 @@
+interface:
+  display_name: "LSF 中文人味编辑器"
+  short_description: "清理中文 AI 腔，同时锁住事实、原意与作者语气"
+  default_prompt: "使用 $lsf-humanizer-zh 保守润色这段中文，保留全部事实与原有语气，只输出改写结果。"
+
+policy:
+  allow_implicit_invocation: true

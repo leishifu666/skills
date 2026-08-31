@@ -1,0 +1,5 @@
+interface:
+  display_name: "组件破坏测试"
+  short_description: "用极端真实输入渲染组件并报告损坏状态"
+policy:
+  allow_implicit_invocation: false

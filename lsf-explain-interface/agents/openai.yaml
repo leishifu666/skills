@@ -1,0 +1,5 @@
+interface:
+  display_name: "界面实现拆解"
+  short_description: "从 URL 或截图解释界面效果如何实现"
+policy:
+  allow_implicit_invocation: false

@@ -1,16 +1,13 @@
 ---
 name: setup-browser-cookies
+title: 配置 浏览器 Cookies
+description: 用于处理“配置 浏览器 Cookies”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
 preamble-tier: 1
 version: 1.0.0
-description: |
-  Import cookies from your real Chromium browser into the headless browse session.
-  Opens an interactive picker UI where you select which cookie domains to import.
-  Use before QA testing authenticated pages. Use when asked to "import cookies",
-  "login to the site", or "authenticate the browser". (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - AskUserQuestion
+- Bash
+- Read
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->

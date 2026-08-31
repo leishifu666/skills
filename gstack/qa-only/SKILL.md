@@ -1,19 +1,15 @@
 ---
 name: qa-only
+title: 只读网页测试
+description: 系统测试网页应用并输出问题、截图和复现步骤，但不修改代码。用户明确要求只检查或只出报告时使用。
 preamble-tier: 4
 version: 1.0.0
-description: |
-  Report-only QA testing. Systematically tests a web application and produces a
-  structured report with health score, screenshots, and repro steps — but never
-  fixes anything. Use when asked to "just report bugs", "qa report only", or
-  "test but don't fix". For the full test-fix-verify loop, use /qa instead.
-  Proactively suggest when the user wants a bug report without any code changes. (gstack)
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - AskUserQuestion
-  - WebSearch
+- Bash
+- Read
+- Write
+- AskUserQuestion
+- WebSearch
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
