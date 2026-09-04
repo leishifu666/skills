@@ -2,8 +2,8 @@
 name: lsf-visual-image
 title: LSF AI 图像导演
 description: 图像提示词技能,适用于 Nano Banana (NBP/NB2) 和 GPT Image 2。编写可直接使用的提示词, 并附模型/质量/尺寸建议。触发场景:画图、生成图片、image
-  prompt、图片提示词、博客封面、 幻灯片、海报、产品拍摄图、UI 模型、分镜、角色表、图片编辑/上色、风格迁移、视觉分析、 图像转提示词、nb、NBP、NB2、gpt-image-2、多面板网格、电商产品摄影、时尚编辑大片、
-  食品/饮料广告、电影感人像。请勿用于:视频(使用 lsf-visual-video 技能)、3D 模型、 音频、非图像任务。
+  prompt、图片提示词、博客封面、 幻灯片、海报、产品拍摄图、UI 模型、分镜、角色表、角色身份设计、随机角色、人物设定、宠物设定、植物角色、不存在的生物、图片编辑/上色、风格迁移、视觉分析、
+  图像转提示词、nb、NBP、NB2、gpt-image-2、多面板网格、电商产品摄影、时尚编辑大片、食品/饮料广告、电影感人像。请勿用于:视频(使用 lsf-visual-video 技能)、3D 模型、 音频、非图像任务。
 license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visual-skills)
 github_url: https://github.com/smixs/visual-skills
 github_hash: 3c554715b5eb30f54de78fac3c0df4a7105e4955
@@ -57,6 +57,7 @@ SKILL.md 正文有意保持精简,避免仅靠阅读正文就能冒充成果。�
 - 图内文字、信息图、图表、多语言渲染 → [text-rendering.md](references/text-rendering.md)
 - 编辑已有图片(移除物体、换光、上色、修复、本地化) → [editing.md](references/editing.md)
 - 多图/多面板间的角色一致性 → [characters.md](references/characters.md)
+- **从零设计角色视觉身份**(人类、宠物、植物、虚构生物、随机角色、避免 AI 脸) → [character-identity-design.md](references/character-identity-design.md)。先生成身份档案与锁定锚点,再读取角色设定图模板;不要直接跳到画面提示词。
 - 演示幻灯片 → [slides.md](references/slides.md)
 - 顺序叙事(分镜、漫画、面板序列) → [storyboards.md](references/storyboards.md)
 - 草图 → 成品、线框图、结构输入 → [structural.md](references/structural.md)
@@ -69,7 +70,7 @@ SKILL.md 正文有意保持精简,避免仅靠阅读正文就能冒充成果。�
   - 食品与饮料广告 → [patterns/food-beverage.md](references/patterns/food-beverage.md)
   - 电影感人像 → [patterns/portrait-cinema.md](references/patterns/portrait-cinema.md)
   - 海报与插画 → [patterns/poster-illustration.md](references/patterns/poster-illustration.md)
-  - 角色设计(三视图、表情表、服装网格) → [patterns/character-design.md](references/patterns/character-design.md)
+  - 角色设定图(三视图、表情表、服装网格) → [patterns/character-design.md](references/patterns/character-design.md)。若角色尚未定型,先读 `character-identity-design.md`。
   - UI 模型与社媒格式 → [patterns/ui-social.md](references/patterns/ui-social.md)
 
 ### 第 5 步 — 生产级语言 → [creative-direction.md](references/creative-direction.md)

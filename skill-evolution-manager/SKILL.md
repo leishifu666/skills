@@ -59,3 +59,14 @@ Agent 调用 `scripts/smart_stitch.py`，将 `evolution.json` 的内容转化为
 
 - **不要直接修改 SKILL.md 的正文**：除非是明显的拼写错误。所有的经验修正应通过 `evolution.json` 通道进行，这样可以保证在 Skill 升级时经验不丢失。
 - **多 Skill 协同**：如果一次对话涉及多个 Skill，请依次为每个 Skill 执行上述流程。
+
+## User-Learned Best Practices & Constraints
+
+> **Auto-Generated Section**: This section is maintained by `skill-evolution-manager`. Do not edit manually.
+
+### Known Fixes & Workarounds
+- smart_stitch.py 的首次追加与后续更新必须使用同一套尾部空行规范，否则内容相同也会产生哈希变化；写入前应 rstrip，再统一添加两个换行与文件末尾换行。
+
+### Custom Instruction Injection
+
+每次缝合后连续运行两次 smart_stitch.py，并比较第二次前后的 SHA-256；只有哈希不变且演进章节恰好出现一次才算验证通过。

@@ -55,3 +55,22 @@ This skill helps you maintain your library of GitHub-wrapped skills by automatin
 This manager relies on the `github-to-skills` metadata standard:
 - `github_url`: Source of truth.
 - `github_hash`: State of truth.
+
+## User-Learned Best Practices & Constraints
+
+> **Auto-Generated Section**: This section is maintained by `skill-evolution-manager`. Do not edit manually.
+
+### User Preferences
+- 当用户明确“以本地为准”时，本机当前可识别的 Skills 集合是发布唯一准本；上游差异只记录，不自动合并。
+- 发布个人 Skills 仓库时，应同时核对默认 main 分支与既有同步分支，确保仓库首页展示最终镜像。
+
+### Known Fixes & Workarounds
+- Windows 上运行 Python Skill 校验器时先启用 UTF-8 模式；若全部报 UnicodeDecodeError，应判定为环境编码问题而非批量修改 Skill。
+- 标准更新扫描器只覆盖带 github_url/github_hash 元数据的 Skill；完整盘点还应检查嵌套 Git 仓库并用 git ls-remote 对比远端 HEAD。
+- 本地镜像发布必须排除 .system、嵌套 .git、.env、缓存、日志、node_modules、本机构建程序和超大文件，并逐路径暂存，禁止 git add -A。
+- 同步嵌套仓库后检查 Git tree mode 160000；需要完整镜像时将子仓库指针转换为普通文件目录，并复核本地与提交后的 Skill 数量。
+- 推送命令超时后先查询远端引用；只有远端未更新时才重试，避免重复操作。
+
+### Custom Instruction Injection
+
+执行 Skills 镜像发布时遵循 SCAN→PLAN→CONFIRM→EXECUTE→VERIFY。先确认用户说的“删除远端 Skills”是清空旧内容还是删除整个仓库；镜像完成后必须比较本地可识别 Skill 根目录与提交树，确保 missing=0、extra=0。

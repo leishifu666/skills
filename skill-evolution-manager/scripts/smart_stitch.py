@@ -27,7 +27,7 @@ def stitch_skill(skill_dir):
 
     # Prepare the Markdown content block
     evolution_section = []
-    evolution_section.append("\n\n## User-Learned Best Practices & Constraints")
+    evolution_section.append("## User-Learned Best Practices & Constraints")
     evolution_section.append("\n> **Auto-Generated Section**: This section is maintained by `skill-evolution-manager`. Do not edit manually.")
     
     if data.get("preferences"):
@@ -60,11 +60,11 @@ def stitch_skill(skill_dir):
     if match:
         # Replace existing section
         print("Updating existing evolution section...", file=sys.stderr)
-        new_content = content[:match.start()] + evolution_block
+        new_content = content[:match.start()].rstrip() + "\n\n" + evolution_block + "\n"
     else:
         # Append to end
         print("Appending new evolution section...", file=sys.stderr)
-        new_content = content + evolution_block
+        new_content = content.rstrip() + "\n\n" + evolution_block + "\n"
 
     # Write back
     with open(skill_md_path, 'w', encoding='utf-8') as f:

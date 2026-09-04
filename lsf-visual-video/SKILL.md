@@ -1,7 +1,7 @@
 ---
 name: lsf-visual-video
 title: LSF AI 影像导演
-description: 用户要求创建、优化、审查或拆分 AI 视频生成器（Seedance、Kling、Veo、Runway、Luma、Pika、Sora 及任何图生视频系统）的提示词时使用本技能。涵盖分镜脚本、镜头清单、导演阐述、动态蒙太奇、多片段故事结构、运镜导演、灯光、走位调度、节奏、角色一致性、对白与声音设计。当用户说"为视频想一个场景""拆成镜头""做分镜/分镜脚本""优化
+description: 用户要求创建、优化、审查或拆分 AI 视频生成器（Seedance、MiniMax H3/海螺、Kling、Veo、Runway、Luma、Pika、Sora 及任何图生视频系统）的提示词时使用本技能。涵盖分镜脚本、镜头清单、导演阐述、动态蒙太奇、多片段故事结构、H3 全参考/首尾帧模式、运镜导演、灯光、走位调度、节奏、角色一致性、对白与声音设计。当用户说"为视频想一个场景""拆成镜头""做分镜/分镜脚本""优化
   Kling 提示词""把剧本转成提示词""怎么用 AI 视频拍 X""给这个视频提示词改一改"，或分享一段提示词要求修复时触发。
 github_url: https://github.com/smixs/visual-skills
 github_hash: 3c554715b5eb30f54de78fac3c0df4a7105e4955
@@ -49,6 +49,7 @@ license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visua
 |---|---|
 | Seedance、字节、豆包、即梦、单条生成内含多个镜头、`--resolution`、`--duration`、`--camerafixed`、"Cut to"、`@img1`、快速多镜头剧情 | [seedance.md](references/seedance.md) |
 | **Seedance 2.5 生产级工作**：30 秒单遍生成、50 槽参考包、视频编辑/局部重渲染、延展、Ultra Long（30-180 秒）、3D 白模/绿幕、`@Image N`、`{ }` 对白标记 | [seedance.md](references/seedance.md) **+** [seedance-25.md](references/seedance-25.md) |
+| **MiniMax H3 / 海螺 H3**：T2VA、I2VA、FL2VA、L2VA、Ref2VA、全能参考生视频、`integrated_multimodal_description`、`subject_definitions`、`<d>[Chinese]` 对白 | [minimax-h3.md](references/minimax-h3.md)，再按其中路由只读匹配的官方参考文件 |
 | Kling、快手、Element Binding、Motion Brush、Motion Control、独立负面提示词字段、**Kling 3.0 多镜头 `[Character A: ...]` 标签、原生对白+口型同步、15 秒、Turbo（廉价口型同步）、Omni（参考+剪辑、4K）** | [kling.md](references/kling.md) |
 | Veo、Google 视频、对白/口型同步、JSON 提示词、同步音效、带配音的商业级打磨 | [veo.md](references/veo.md) |
 
@@ -57,6 +58,7 @@ license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visua
 - 对白/商业打磨/同步音效 → Veo；多角色对白场景（最长 15 秒）可用 Kling 3.0。
 - 大量社交短片之间的角色一致性 → Kling 2.6 Pro（更便宜）或 Kling 3.0（用提示词内 `[Character A: ...]` 标签）。
 - 10-15 秒连续叙事含音频 → Kling 3.0。
+- 用户明确指定 MiniMax H3 / 海螺 H3 → 使用 H3 官方结构；角色设定图或多模态素材只提供身份、场景、动作、声音或风格时选择 Ref2VA，不要误判为首帧 I2VA。
 - 15-30 秒连续单次生成弧线、重型参考包（最多 50 资产）、剪辑或延展现有素材、30-180 秒长形式 → Seedance 2.5。
 - 脸部密集剧情 → Seedance 2.5（真实人物+口型同步是招牌特性）、Kling 或 Veo。若只有 2.0 管道，把人脸镜头路由到 1.5 Pro（2.0 会对人脸大力过滤）。
 
@@ -95,7 +97,9 @@ license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visua
 - **E. 导演阐述。** 核心概念、情感弧线、视觉母题、节奏、运镜语言、灯光、声音、结束画面。（阐述 ≠ 提示词。）
 - **F. JSON（仅 Veo）。** 逐场景的结构化连贯性描述。见 `veo.md`。
 
-默认输出语言跟随用户。最终 AI 提示词本身用英文，除非用户另有所指——Seedance、Kling、Veo 用英文表现都更好。
+MiniMax H3 例外：A/B 仍表示单条或多片段交付，但每条提示词内部必须使用 [minimax-h3.md](references/minimax-h3.md) 规定的官方字段；Ref2VA 使用六段结构，其他四种基础模式使用三字段结构。
+
+默认输出语言跟随用户。最终 AI 提示词本身用英文，除非用户另有所指——Seedance、Kling、Veo 用英文表现都更好。MiniMax H3 的官方优化格式要求结构段使用英文，对白、歌词和真实画面文字保留原语言；用户明确要求中文结构时遵从用户并说明偏离官方格式。
 
 ---
 
@@ -110,3 +114,5 @@ license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visua
 ---
 
 *作者：Serge Shima（[t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)）· 许可：CC BY 4.0 —— 需注明出处 · 来源：[smixs/visual-skills](https://github.com/smixs/visual-skills)*
+
+*MiniMax H3 扩展：融合自 MiniMax 官方 [`MiniMax-AI/MiniMax-H3`](https://github.com/MiniMax-AI/MiniMax-H3/tree/main/skills/h3-prompt-writing) 的 `h3-prompt-writing` skill；官方参考文件受 MiniMax H3 Community License Agreement 约束。*

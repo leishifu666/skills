@@ -14,6 +14,16 @@ Use Case: editorial, product mockup, UI, poster, infographic
 Constraints: what must NOT change/appear (no watermarks, preserve face, no extra text)
 ```
 
+### 强制末尾收束语
+
+所有为 GPT Image 系列编写的生图提示词,都必须在提示词正文的最后原样追加以下句子。它用于抑制细节碎裂、材质断裂、异常锐化与局部纹理崩坏,不得缩写、改写或遗漏:
+
+```text
+画面干净通透，材质完整自然，纹理平滑统一，主体清晰，背景层次分明，避免过度锐化、色斑、噪点、碎纹、崩坏和畸变。
+```
+
+这句话放在全部 `Constraints` 内容之后,作为整个 Prompt 的最后一句;不要把它放进 `Notes`、负面提示词或提示词外的说明中。
+
 >「The fifth slot is where most mediocre prompts fail silently.」没有明确 constraints,模型就会漂移。
 
 ### 最小示例

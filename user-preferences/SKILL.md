@@ -32,3 +32,18 @@ description: '【🔴 必须在对话第一步读取】CRITICAL: MUST READ CLAUD
 | 10. FATAL铁律 | `CLAUDE.md` | 5条宪法级不可违反规则 |
 | 11. 大任务审核 | `CLAUDE.md` + `preferences.md` | 先计划书后执行 |
 | 12. 对话存档 | `对话历史.md` | 每次会话自动追加记录
+
+## User-Learned Best Practices & Constraints
+
+> **Auto-Generated Section**: This section is maintained by `skill-evolution-manager`. Do not edit manually.
+
+### User Preferences
+- Skills 仓库发布以本机当前安装且可被识别的 Skills 为准；上游版本默认只检查，不自动合并。
+- 雷师傅明确选择本地镜像时，远端本地不存在的旧 Skills 可以通过可恢复的普通 Git 提交删除。
+
+### Known Fixes & Workarounds
+- “删除远端 Skills”存在清空仓库内容与删除整个仓库两种含义，必须在执行前明确确认。
+
+### Custom Instruction Injection
+
+处理个人 Skills 仓库同步时，如果雷师傅说明“一切以本地为准”，停止合并上游变更，并把本地可识别 Skill 集合作为最终验收基线。
