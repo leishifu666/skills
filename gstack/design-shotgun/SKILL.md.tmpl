@@ -9,6 +9,10 @@ description: |
   "visual brainstorm", or "I don't like how this looks".
   Proactively suggest when the user describes a UI feature but hasn't seen
   what it could look like. (gstack)
+triggers:
+  - explore design variants
+  - show me design options
+  - visual design brainstorm
 allowed-tools:
   - Bash
   - Read
@@ -16,6 +20,26 @@ allowed-tools:
   - Grep
   - Agent
   - AskUserQuestion
+gbrain:
+  schema: 1
+  context_queries:
+    - id: prior-approved-variants
+      kind: filesystem
+      glob: "~/.gstack/projects/{repo_slug}/designs/*/approved.json"
+      sort: mtime_desc
+      limit: 5
+      render_as: "## Prior approved design variants for this project"
+    - id: design-md
+      kind: filesystem
+      glob: "DESIGN.md"
+      tail: 1
+      render_as: "## DESIGN.md (project design system)"
+    - id: recent-design-docs
+      kind: filesystem
+      glob: "~/.gstack/projects/{repo_slug}/*-design-*.md"
+      sort: mtime_desc
+      limit: 3
+      render_as: "## Recent design docs"
 ---
 
 {{PREAMBLE}}
@@ -26,7 +50,15 @@ You are a design brainstorming partner. Generate multiple AI design variants, op
 side-by-side in the user's browser, and iterate until they approve a direction. This is
 visual brainstorming, not a review process.
 
+---
+
+{{SECTION_INDEX:design-shotgun}}
+
+---
+
 {{DESIGN_SETUP}}
+
+{{SECTION:doctrine}}
 
 ## Step 0: Session Detection
 
@@ -116,7 +148,14 @@ Two rounds max of context gathering, then proceed with what you have and note as
 
 ## Step 2: Taste Memory
 
-Read prior approved designs to bias generation toward the user's demonstrated taste:
+Read both the persistent taste profile (cross-session) AND the per-session approved
+designs to bias generation toward the user's demonstrated taste.
+
+**Persistent taste profile (v1 schema at `~/.gstack/projects/$SLUG/taste-profile.json`):**
+
+{{TASTE_PROFILE}}
+
+**Per-session approved.json files (legacy, still supported):**
 
 ```bash
 setopt +o nomatch 2>/dev/null || true
@@ -124,13 +163,16 @@ _TASTE=$(find ~/.gstack/projects/$SLUG/designs/ -name "approved.json" -maxdepth 
 ```
 
 If prior sessions exist, read each `approved.json` and extract patterns from the
-approved variants. Include a taste summary in the design brief:
-
-"The user previously approved designs with these characteristics: [high contrast,
-generous whitespace, modern sans-serif typography, etc.]. Bias toward this aesthetic
-unless the user explicitly requests a different direction."
+approved variants. Merge these into the taste-profile.json-derived signal — if the
+profile already says "user prefers Geist font" (from aggregated history), the
+approved.json files add the specific recent approval context.
 
 Limit to last 10 sessions. Try/catch JSON parse on each (skip corrupted files).
+
+**Updating taste profile after a design-shotgun session:** When the user picks a
+variant, call `{{BIN_DIR}}/gstack-taste-update approved <variant-path>`. When they
+explicitly reject a variant, call `{{BIN_DIR}}/gstack-taste-update rejected <variant-path>`.
+The CLI handles schema migration from approved.json, decay, and conflict flagging.
 
 ## Step 3: Generate Variants
 
@@ -138,7 +180,7 @@ Set up the output directory:
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
-_DESIGN_DIR=~/.gstack/projects/$SLUG/designs/<screen-name>-$(date +%Y%m%d)
+_DESIGN_DIR="$HOME/.gstack/projects/$SLUG/designs/<screen-name>-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```
@@ -160,6 +202,15 @@ C) "Name" — one-line visual description of this direction
 ```
 
 Draw on DESIGN.md, taste memory, and the user's request to make each concept distinct.
+
+**Anti-convergence directive (hard requirement):** Each variant MUST use a different
+font family, color palette, and layout approach. If two variants look like siblings
+— same typographic feel, overlapping color temperature, comparable layout rhythm —
+one of them failed. Regenerate the weaker one with a deliberately different direction.
+
+Concrete test: if someone could swap the headline text between two variants without
+noticing, they're too similar. Variants should feel like they came from three
+different design teams, not the same team at three different coffee levels.
 
 ### Step 3b: Concept Confirmation
 
@@ -188,7 +239,10 @@ $B screenshot "$_DESIGN_DIR/current.png"
 ```
 
 **Launch N Agent subagents in a single message** (parallel execution). Use the Agent
-tool with `subagent_type: "general-purpose"` for each variant. Each agent is independent
+tool with `subagent_type: "general-purpose"` and `run_in_background: false` for each
+variant (parallel foreground calls in one message still run concurrently; subagents
+default to background since Claude Code v2.1.198, and the comparison board needs every
+variant's result). Each agent is independent
 and handles its own generation, quality check, verification, and retry.
 
 **Important: $D path propagation.** The `$D` variable from DESIGN SETUP is a shell

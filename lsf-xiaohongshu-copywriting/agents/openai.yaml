@@ -1,4 +1,0 @@
-interface:
-  display_name: "LSF 小红书文案标题撰写"
-  short_description: "从真实想法出发，撰写自然、不拔高的设计类小红书文案"
-  default_prompt: "使用 $lsf-xiaohongshu-copywriting，根据我的作品和真实想法撰写小红书标题与正文；需要时先逐步追问我。"

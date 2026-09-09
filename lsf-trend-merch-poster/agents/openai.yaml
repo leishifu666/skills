@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF 潮流周边海报"
+  short_description: "将参考图片变成七类实体造物杂志视觉，支持模态、背景选择与持续随机生图"
+  default_prompt: "使用 $lsf-trend-merch-poster 将我上传的图片转译为实体造物杂志视觉，先让我选择模态和背景配色。"
