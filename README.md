@@ -19,6 +19,17 @@ Many skills in this repo are open source (Apache 2.0). We've also included the d
 
 ## Disclaimer
 
+## Personal Use Only
+
+This repository is for my personal use only.
+
+- No copying, redistribution, public mirroring, or reposting is allowed without explicit written permission.
+- Commercial use in any form is prohibited, including for-profit products, SaaS offerings, paid services, or resale.
+- Public distribution or public fork as a public repository is not permitted without explicit written permission.
+- Modification and redistribution (including derivative works) for public or commercial purposes is forbidden.
+
+The preferred access mode for this repository is private visibility.
+
 **These skills are provided for demonstration and educational purposes only.** While some of these capabilities may be available in Claude, the implementations and behaviors you receive from Claude may differ from what is shown in these skills. These skills are meant to illustrate patterns and possibilities. Always test skills thoroughly in your own environment before relying on them for critical tasks.
 
 # Skill Sets
