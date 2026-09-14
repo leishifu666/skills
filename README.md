@@ -21,14 +21,14 @@ Many skills in this repo are open source (Apache 2.0). We've also included the d
 
 ## Personal Use Only
 
-This repository is for my personal use only.
+本仓库仅供我个人学习、研究与自用。
 
-- No copying, redistribution, public mirroring, or reposting is allowed without explicit written permission.
-- Commercial use in any form is prohibited, including for-profit products, SaaS offerings, paid services, or resale.
-- Public distribution or public fork as a public repository is not permitted without explicit written permission.
-- Modification and redistribution (including derivative works) for public or commercial purposes is forbidden.
+- 未经书面授权，不得复制、再分发、公开镜像或转载本仓库内容。
+- 禁止任何形式的商业用途，包括但不限于：面向第三方收取费用的产品、SaaS 服务、咨询服务或转售。
+- 未经书面授权，不得将仓库公开分发，或以公开仓库形式创建 public fork。
+- 禁止任何用于公共传播或商业目的的修改再发布（包括派生作品）。
 
-The preferred access mode for this repository is private visibility.
+如非仓库所有者，访问与使用本仓库请确保已获得我的书面许可。默认建议保持仓库为 `Private` 可见性。
 
 **These skills are provided for demonstration and educational purposes only.** While some of these capabilities may be available in Claude, the implementations and behaviors you receive from Claude may differ from what is shown in these skills. These skills are meant to illustrate patterns and possibilities. Always test skills thoroughly in your own environment before relying on them for critical tasks.
 
