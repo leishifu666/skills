@@ -1,0 +1,117 @@
+from __future__ import annotations
+
+import json
+import sys
+import tempfile
+import unittest
+from contextlib import redirect_stdout
+from io import StringIO
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "tools"))
+
+from cs2_review import evaluate_knife_review, load_review_scene, main as cs2_review_main  # noqa: E402
+
+
+class Cs2ReviewGateTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.scene = load_review_scene(ROOT / "tests" / "fixtures" / "knife_review_scene.json")
+        self.manifest = {
+            "schemaVersion": 1,
+            "state": "proceed",
+            "itemFamily": "knife",
+            "subtype": "karambit",
+            "componentAdapter": "cs2-knife-v1",
+            "route": "reference-projection",
+            "exactnessTier": "image-only",
+            "confidence": {"overall": 0.86, "hiddenRegions": 0.25},
+            "assumptions": {"hiddenRegions": "inferred"},
+        }
+
+    def passing_inputs(self) -> dict:
+        return {
+            "silhouetteIoU": 0.91,
+            "aspectRatioDelta": 0.02,
+            "scaleDelta": 0.04,
+            "finishMaterialResponse": 0.88,
+            "identityDetail": 0.9,
+            "paintedRegions": [{"id": "blade_finish", "score": 0.9, "confidence": 0.8}],
+            "projection": {"coverage": 0.94, "required": True},
+            "multiAngle": {"degenerate": False, "angles": [{"id": "orbit-a"}, {"id": "orbit-b"}]},
+            "criticalFeatures": [{"id": "karambit_ring", "score": 0.9, "threshold": 0.8}],
+            "approximationNotes": ["hidden blade side inferred from single view"],
+        }
+
+    def test_passing_knife_review_returns_machine_readable_report(self) -> None:
+        report = evaluate_knife_review(self.manifest, self.passing_inputs(), self.scene)
+
+        self.assertEqual(report["verdict"], "pass")
+        self.assertEqual(report["action"], "continue")
+        self.assertEqual(report["family"], "knife")
+        self.assertEqual(report["exactnessTier"], "image-only")
+        self.assertEqual(report["reviewScene"]["version"], 1)
+        self.assertEqual(report["failedGates"], [])
+        self.assertEqual(report["approximationNotes"], ["hidden blade side inferred from single view"])
+
+    def test_cli_writes_report_and_returns_verdict_status(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest_path = root / "manifest.json"
+            metrics_path = root / "metrics.json"
+            report_path = root / "report.json"
+            manifest_path.write_text(json.dumps(self.manifest), encoding="utf-8")
+            metrics_path.write_text(json.dumps(self.passing_inputs()), encoding="utf-8")
+            with redirect_stdout(StringIO()):
+                result = cs2_review_main([
+                    "--manifest", str(manifest_path),
+                    "--metrics", str(metrics_path),
+                    "--scene", str(ROOT / "tests" / "fixtures" / "knife_review_scene.json"),
+                    "--out", str(report_path),
+                ])
+            self.assertEqual(result, 0)
+            self.assertEqual(json.loads(report_path.read_text(encoding="utf-8"))["verdict"], "pass")
+
+    def test_a_family_without_authored_geometry_is_reviewed_not_rejected(self) -> None:
+        # This used to assert the opposite: a rifle was blocked on family alone, even with every
+        # visual metric passing. That was inherited from the era when a non-knife would have been
+        # handed the knife component tree. Now only the geometry is family-specific -- the finish,
+        # painted-region and identity-detail thresholds apply to any CS2 item, so a rifle whose
+        # surface passes gets a passing review and the run keeps its CS2 quality floors.
+        manifest = {**self.manifest, "itemFamily": "rifle"}
+        manifest.pop("componentAdapter", None)
+
+        report = evaluate_knife_review(manifest, self.passing_inputs(), self.scene)
+
+        self.assertEqual(report["verdict"], "pass")
+        self.assertEqual(report["failedGates"], [])
+        self.assertEqual(report["family"], "rifle")
+
+    def test_projection_coverage_and_identity_detail_are_blocking(self) -> None:
+        inputs = self.passing_inputs()
+        inputs["projection"] = {"coverage": 0.42, "required": True}
+        inputs["criticalFeatures"] = [{"id": "karambit_ring", "score": 0.4, "threshold": 0.8}]
+
+        report = evaluate_knife_review(self.manifest, inputs, self.scene)
+
+        self.assertEqual(report["verdict"], "reject")
+        self.assertEqual(report["action"], "refine-code")
+        self.assertIn("projection-coverage", report["failedGates"])
+        self.assertIn("critical-feature:karambit_ring", report["failedGates"])
+
+    def test_degenerate_orbit_is_blocking_and_missing_scene_metadata_is_error(self) -> None:
+        inputs = self.passing_inputs()
+        inputs["multiAngle"] = {"degenerate": True, "angles": [{"id": "orbit-a", "degenerate": True}]}
+        report = evaluate_knife_review(self.manifest, inputs, self.scene)
+        self.assertEqual(report["verdict"], "reject")
+        self.assertIn("degenerate-orbit", report["failedGates"])
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "invalid.json"
+            path.write_text(json.dumps({"version": 1}), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                load_review_scene(path)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

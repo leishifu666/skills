@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF 网站 Logo 风格切换加载视频"
+  short_description: "把用户 Logo 转成十五套风格并生成网站切换加载视频"
+  default_prompt: "使用 $lsf-website-logo-style-switch-loader-video 把我的 Logo 转成 15 套风格前置资产，再生成严格计时的网站 Logo 风格切换加载视频。"

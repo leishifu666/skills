@@ -1,7 +1,7 @@
 ---
 name: brand-guidelines
 title: 技能：Brand Guidelines
-description: 用于处理“Brand Guidelines”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "为明确要求 Anthropic 品牌风格的材料应用其配色与字体；不用于通用品牌设计。"
 license: Complete terms in LICENSE.txt
 ---
 

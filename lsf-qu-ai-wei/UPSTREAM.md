@@ -2,8 +2,8 @@
 
 - 仓库：https://github.com/LifelongLazyLearner/qu-ai-wei
 - 分支：main
-- 提交：39da1cfac4f0e3e4d2b46bc7188a0edc762b8d17
-- 版本：0.9.0
+- 提交：1d32e803f091ec90808a69683ebf49e8a970a5e7
+- 版本：0.9.1
 - Skill 路径：.
 - 安装时间：2026-09-09T15:20:30
 

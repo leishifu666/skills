@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF Hypit 视频创作"
+  short_description: "根据参考视频或需求，完成素材导演、视频复刻、编排修改与成片交付"
+  default_prompt: "使用 $lsf-hypit，根据我的需求和参考素材制作、复刻或修改视频。"

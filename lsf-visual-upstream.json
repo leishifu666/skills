@@ -1,19 +1,21 @@
 {
   "source": "https://github.com/smixs/visual-skills",
   "ref": "main",
-  "installed_hash": "3c554715b5eb30f54de78fac3c0df4a7105e4955",
+  "installed_hash": "ae26d624edd747e719fa21528d18d39e68c04a0e",
+  "adapted_at": "2026-09-16",
+  "note": "上游逐项适配；保留中文与本地规则，并非逐字镜像。",
   "skills": [
     {
       "name": "lsf-visual-video",
       "upstream_path": "video",
       "localization": "zh-CN",
-      "version": "1.0.0-lsf.1"
+      "version": "1.0.0-lsf.2"
     },
     {
       "name": "lsf-visual-image",
       "upstream_path": "image",
       "localization": "zh-CN",
-      "version": "1.0.0-lsf.1"
+      "version": "1.0.0-lsf.2"
     }
   ]
 }

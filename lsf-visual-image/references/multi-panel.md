@@ -45,7 +45,7 @@ Constraints: All 9 panels must be clearly separated, no merged cells, every pane
 - `{language}` — "Chinese" / "English" / "bilingual"
 
 **推荐尺寸:** 1536x1024 (横向)
-**模型:** GPT Image 2 `quality: high`(文字密集 — 时间戳与标题需要可读性)
+**模型:** GPT Image 2.5 `quality: high`(文字密集 — 时间戳与标题需要可读性)
 **常见坑:**
 - 遗漏面板编号会导致模型合并或跳过面板
 - 含糊的场景描述产生几乎相同的面板 — 每个面板必须有不同的动作、角度或主体
@@ -82,7 +82,7 @@ Constraints: same person in every panel, no wardrobe changes between panels, no 
 - `{lighting_style}` — (如 "single key light from upper left, subtle fill from right")
 
 **推荐尺寸:** 1024x1024 (方形)或 1024x1536 (竖图强调人像)
-**模型:** GPT Image 2 `quality: medium` 或 Nano Banana Pro(两者处理写实人像都很好)
+**模型:** GPT Image 2.5 `quality: medium` 或 Nano Banana Pro(两者处理写实人像都很好)
 **常见坑:**
 - 不在每个面板注明 "same person" — 模型可能生成四个不同的人
 - 不指明哪个象限用哪个角度 — 模型任意排列
@@ -121,7 +121,7 @@ Constraints: same person across all panels, consistent color grading, no stock-p
 - `{typography_instruction}` — 如 `Text: "{HEADLINE}" in bold condensed white, overlaid on Panel 1 lower third`,或者不需要文字时省略
 
 **推荐尺寸:** 1536x1024 (横向三联)或 1024x1536 (纵向三联)
-**模型:** GPT Image 2 `quality: medium` — 若需文字叠加,用 `quality: high`
+**模型:** GPT Image 2.5 `quality: medium` — 若需文字叠加,用 `quality: high`
 **常见坑:**
 - 不指定面板顺序 — "hero, close-up, action" 没有左/中/右的分配
 - 室内特写与室外 hero shot 混用时光线不一致 — 指定统一光线
@@ -204,7 +204,7 @@ Constraints: same person and wardrobe in every frame, no costume changes, consis
 - `{lighting_description}` — (如 "overcast natural light, soft shadows")
 
 **推荐尺寸:** 1536x1024 (横向,3x2 网格)
-**模型:** GPT Image 2 `quality: medium` 或 Nano Banana Pro
+**模型:** GPT Image 2.5 `quality: medium` 或 Nano Banana Pro
 **常见坑:**
 - 不逐个命名画帧 — "various angles" 太含糊,模型需要逐帧指令
 - 俯视与低角度同处一格会迷惑模型 — 必须把每帧锚定在网格位置上
@@ -242,7 +242,7 @@ Constraints: identical composition and camera angle on both sides, same lighting
 - `{use_case}` — "product marketing"、"renovation portfolio"、"skincare results"
 
 **推荐尺寸:** 1536x1024 (横向 — 让每半块有近似人像的比例)
-**模型:** GPT Image 2 `quality: medium` — 如需文字标签("BEFORE" / "AFTER"),用 `quality: high`
+**模型:** GPT Image 2.5 `quality: medium` — 如需文字标签("BEFORE" / "AFTER"),用 `quality: high`
 **常见坑:**
 - 不写 "same camera angle both sides" — 模型可能呈现两个完全不同的视角
 - 没有可见分隔线,两半可能合并成一个含糊场景
@@ -293,7 +293,7 @@ Quality: high
 - `{language}` — 字幕语言
 
 **推荐尺寸:** 1024x1536 (竖图 — 3 列 x 4 行需要纵向空间)
-**模型:** GPT Image 2 `quality: high`(文字密集 — 场景号与字幕必须可读)
+**模型:** GPT Image 2.5 `quality: high`(文字密集 — 场景号与字幕必须可读)
 **常见坑:**
 - 12 面板时角色漂移是最大风险 — 在提示词里重复角色设计细节,而不是只说 "same character"
 - 提示词中无显式场景编号,面板可能随机排序
@@ -315,9 +315,9 @@ Quality: high
 **阅读顺序:** 明确声明:"left-to-right, top-to-bottom" 或 "numbered 1-9 starting top-left." 否则叙事流可能混乱。
 
 **模型选择总结:**
-- 面板内有文字/标签 --> GPT Image 2 `quality: high`
+- 面板内有文字/标签 --> GPT Image 2.5 `quality: high`
 - 无文字、复杂构图 --> Nano Banana Pro
-- 预算/探索 --> Nano Banana 2 或 GPT Image 2 `quality: low`
+- 预算/探索 --> Nano Banana 2 或 GPT Image 2.5 `quality: low`
 
 ---
 

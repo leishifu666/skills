@@ -12,7 +12,7 @@ This skill helps you maintain your library of GitHub-wrapped skills by automatin
 ## Core Capabilities
 
 1.  **Audit**: Scans your local skills folder for skills with `github_url` metadata.
-2.  **Check**: Queries GitHub (via `git ls-remote`) to compare local commit hashes against the latest remote HEAD.
+2.  **Check**: Queries GitHub (via `git ls-remote`) to compare recorded local hashes with remote HEAD. Different hashes indicate a difference, not necessarily an upgrade: inspect ancestry, branch, and actual relevant files.
 3.  **Report**: Generates a status report identifying which skills are "Stale" or "Current".
 4.  **Update Workflow**: Provides a structured process for the Agent to upgrade a skill.
 5.  **Inventory Management**: Lists all local skills and provides deletion capabilities.
@@ -33,9 +33,9 @@ This skill helps you maintain your library of GitHub-wrapped skills by automatin
 
 **Trigger**: "Update [Skill Name]" (after a check)
 
-1.  **Fetch New Context**: The agent fetches the *new* README from the remote repo.
+1.  **Fetch New Context**: The agent reads the upstream release notes, relevant SKILL.md, templates, scripts and runtime requirements at a pinned commit; do not infer compatibility from the README alone.
 2.  **Diff Analysis**:
-    *   The agent compares the new README with the old `SKILL.md`.
+    *   Compare the same source files across the local baseline and pinned upstream, preserving local customizations. Prefer an upstream fix already covering the problem over a parallel rewrite.
     *   Identifies new features, deprecated flags, or usage changes.
 3.  **Refactor**:
     *   The agent rewrites `SKILL.md` to reflect the new capabilities.

@@ -1,6 +1,6 @@
 # 食品与饮料模式
 
-可复用的提示词模板:美食摄影、饮料活动、烹饪插画。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:美食摄影、饮料活动、烹饪插画。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 ---
 
@@ -32,7 +32,7 @@ Mood variant — {mood_name}:
 - `{arrangement_style}` — 对角线瀑布、紧簇布局右侧留白、单行
 - `{mood_name} / {mood_modifier}` — "Dark Indulgence": 拉高对比、加深阴影、加一缕烟雾 / "Bright Artisan": 阴天日光、提黑、粉彩强调 / "Origin Story": 大地原色、麻布质感、旁边放生可可豆
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 断口细节与可可粉精度
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 断口细节与可可粉精度
 
 ---
 
@@ -56,7 +56,7 @@ Constraints: model does not look directly at product (natural interaction), prod
 
 **关键调节项:** `{product_name}`、`{beverage_brand}`、`{model_description}`、`{location}` (阳光屋顶酒吧、大理石厨房台面、泳池边)、`{hold_position}` (喝到一半、垂在髋部、随动作举起)、`{model_action}` (笑谈中、看画外、行走)、`{film_aesthetic}` (暖 Kodak Portra 感、干净数字、冷编辑风)、`{product_angle}` (四分之三正面、正对、轻微低角度)、`{product_surface}` (湿黑石、磨砂玻璃架、白大理石)、`{lineup_count}` (3-5)、`{variant_colors}` (琥珀/红宝石/金、薄荷/柠檬/浆果)、`{divider_color}` (#FFFFFF、#1A1A1A)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 标签可读性与面板一致性
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 标签可读性与面板一致性
 
 ---
 
@@ -93,7 +93,7 @@ Constraints: food must look freshly prepared (not cold or sat-out), no human han
 - `{background_treatment}` — 暗角、干净明亮、乡村模糊
 - `{camera_angle}` — 45 度四分之三、正对平视、俯视平铺
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 蒸汽、冷凝与食材纹理保真
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 蒸汽、冷凝与食材纹理保真
 
 ---
 

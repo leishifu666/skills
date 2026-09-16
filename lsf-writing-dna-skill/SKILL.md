@@ -1,7 +1,7 @@
 ---
 name: lsf-writing-dna-skill
 title: LSF 写作 DNA 蒸馏器
-description: 从至少 20 篇完整文章中蒸馏可复用的写作 DNA，分析语言、文章结构、选题逻辑、素材策略、认知框架和视觉风格，并生成 Writing-DNA.md；按该 DNA 写作时会读取全部蒸馏产物和 5 篇相关原文。用于中英文作者、账号、品牌或出版物的风格分析与一致性写作。 Distill reusable Writing DNA from at least 20 complete articles for Chinese or English authors, publications, brands, and accounts; use for language, structure, topic logic, source strategy, cognitive-frame, and visual-style analysis.
+description: "从作者或账号的文章样本蒸馏 Writing-DNA.md，并用于风格一致的写作；用于系统性风格分析。"
 github_url: https://github.com/larashero3-dotcom/writing-dna-skill
 github_hash: ee3d97ee27268004b5187d97711161f44fc4aae4
 version: 0.1.0-lsf.1

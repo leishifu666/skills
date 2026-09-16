@@ -5,7 +5,7 @@
 ## 上游来源
 
 - 仓库：https://github.com/LifelongLazyLearner/qu-ai-wei
-- 版本：0.9.0
-- 提交：39da1cfac4f0e3e4d2b46bc7188a0edc762b8d17
+- 版本：0.9.1
+- 提交：1d32e803f091ec90808a69683ebf49e8a970a5e7
 
 更新时运行 `lsf-skill-updater`，或进入 `~/.codex/skill-repos/qu-ai-wei` 执行 `git pull` 后重跑安装脚本。

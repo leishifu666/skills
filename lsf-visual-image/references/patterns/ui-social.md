@@ -1,6 +1,6 @@
 # UI 效果图与社交媒体模式
 
-可复用的提示词模板:社交媒体广告、应用商店素材、仪表盘效果图和视觉分析板。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:社交媒体广告、应用商店素材、仪表盘效果图和视觉分析板。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 ---
 
@@ -20,7 +20,7 @@ Constraints: text must be legible on mobile screens (minimum visual weight), no 
 
 **关键调节项:** `{product_name}`、`{product_description}` (形状、材质、颜色)、`{gradient_top}` / `{gradient_bottom}` (如 #6C3CE1 紫到 #1A1A2E 深藏蓝、#FF6B6B 珊瑚到 #FFE66D 暖黄)、`{headline_text}`、`{headline_font}` (粗压缩无衬线、圆润几何体)、`{subtext}`、`{cta_text}` (如 "Swipe Up"、"Shop Now"、"Learn More")、`{accent_elements}` (半透明球体、柔和光斑、悬浮几何碎片)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 标题文字可读性与毛玻璃透明效果需要精确渲染
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 标题文字可读性与毛玻璃透明效果需要精确渲染
 
 ---
 
@@ -46,7 +46,7 @@ Constraints: all text must remain legible at 320px display width, no decorative 
 
 **关键调节项:** `{post_type}` (金句卡片、产品功能、公告、数据亮点)、`{content_description}`、`{primary_text}`、`{primary_font}` (几何无衬线、现代衬线、手写点缀)、`{text_color}` (深底用 #FFFFFF、浅底用 #1A1A1A)、`{bg_color}` / `{bg_treatment}`、`{accent_color}`、`{brand_name}`、`{brand_mark}`、`{palette}` (如藏蓝 #1B2A4A、金 #C9A84C、白 #FFFFFF)、`{supporting_element}` (产品照片、图标插画、大号数据数字)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 文字密集型版式;小尺寸下的可读性至关重要
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 文字密集型版式;小尺寸下的可读性至关重要
 
 ---
 
@@ -72,7 +72,7 @@ Constraints: device bezel must look physically accurate (not a flat rectangle), 
 
 **Key levers:** `{device_type}` (iPhone 16 Pro, Pixel 9, Galaxy S25), `{app_name}`, `{screen_description}` (brief: what the screen shows), `{screen_content}` / `{ui_description}` (detailed: specific UI elements visible), `{ui_style}` (iOS native, Material 3, custom dark theme), `{feature_headline}`, `{headline_font}` (SF Pro Display, condensed geometric), `{headline_position}` (above, below), `{headline_color}`, `{subheadline}`, `{gradient_top}` / `{gradient_bottom}` (e.g. #1A1A2E to #0D0D1A for dark, #F0F4FF to #FFFFFF for light)
 
-**Recommended model:** GPT Image 2 (`quality: high`) — device bezel precision, small UI text, and headline legibility all demand high quality
+**Recommended model:** GPT Image 2.5 (`quality: high`) — device bezel precision, small UI text, and headline legibility all demand high quality
 
 ---
 
@@ -101,7 +101,7 @@ Constraints: data must look plausible (proper scales, reasonable percentages, fo
 
 **Key levers:** `{theme_mode}` (dark / light), `{design_system}` (minimal flat, glassmorphism cards, shadowed Material), `{dashboard_title}`, `{data_domain}` (SaaS revenue, e-commerce orders, marketing campaign, IoT sensor monitoring), `{sidebar_bg}` (#0F1117 dark, #FFFFFF light), `{accent_color}` (#6366F1 indigo, #10B981 emerald, #F59E0B amber), `{nav_items}` (Dashboard, Analytics, Users, Settings, Reports), `{num_kpis}` (3-5), `{chart_1_type}` / `{chart_2_type}` (line chart, grouped bar chart, donut chart, area chart), `{chart_1_colors}` / `{chart_2_colors}` (hex values), `{card_bg}` (#1E1E2E dark card, #FFFFFF light card), `{secondary_widget}`
 
-**Recommended model:** GPT Image 2 (`quality: high`) — dense text (labels, numbers, navigation), precise chart rendering, and small UI elements require high fidelity
+**Recommended model:** GPT Image 2.5 (`quality: high`) — dense text (labels, numbers, navigation), precise chart rendering, and small UI elements require high fidelity
 
 ### Nano Banana version:
 
@@ -132,7 +132,7 @@ Constraints: same person in all panels showing the subject, swatches must be sol
 
 **Key levers:** `{subject_description}` (age, skin tone, hair color, eye color — needed for accurate seasonal analysis), `{season_type}` (Warm Spring, Cool Summer, Warm Autumn, Cool Winter — or sub-seasons like Soft Autumn, Bright Winter), `{palette_colors}` (12 hex values matching the season, e.g. Warm Autumn: rust #B7410E, olive #708238, mustard #E1AD01, burgundy #722F37...), `{num_palette}` (12), `{flattering_color}` / `{unflattering_color}` (specific colors with hex), `{good_label}` / `{bad_label}` (e.g. "Warm Coral" / "Cool Pink"), `{num_recs}` (4-6), `{rec_items}` (scarf in olive, blazer in navy, lipstick in warm rose, eyeglass frames in tortoise)
 
-**Recommended model:** GPT Image 2 (`quality: high`) — color accuracy of palette swatches is critical, plus small text labels throughout
+**Recommended model:** GPT Image 2.5 (`quality: high`) — color accuracy of palette swatches is critical, plus small text labels throughout
 
 ### Nano Banana version:
 

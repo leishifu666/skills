@@ -1,7 +1,7 @@
 ---
 name: theme-factory
 title: 技能：Theme Factory
-description: 用于处理“Theme Factory”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "为文档、幻灯片或网页选择并应用现成字体与配色主题。"
 license: Complete terms in LICENSE.txt
 ---
 

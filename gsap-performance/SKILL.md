@@ -1,7 +1,7 @@
 ---
 name: gsap-performance
 title: GSAP 性能
-description: 用于处理“GSAP 性能”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "诊断和优化 GSAP 动画卡顿、布局及绘制开销；用于已有 GSAP 性能问题。"
 license: MIT
 ---
 

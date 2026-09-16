@@ -1,7 +1,7 @@
 ---
 name: gsap-react
 title: 技能：GSAP React
-description: 用于处理“GSAP React”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "在 React/Next.js 中实现 GSAP 动画、作用域与卸载清理；用于已选择 GSAP 的项目。"
 license: MIT
 ---
 

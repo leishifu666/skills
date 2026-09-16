@@ -3,7 +3,7 @@
 通用风格、布局类型、示例。两种模型都适用,但渲染细节有差异:
 
 - **Nano Banana:** 100+ 语言的 SOTA,单帧多语言,可点名具体字体(「Century Gothic 12px」、「Brush Script」)。见 [nano-banana.md](nano-banana.md)。
-- **GPT Image 2:** EXACT TEXT 用 `"..."` 或 ALL CAPS,加「no extra words / no duplicate text」,小字用 `quality: high`。见 [gpt-image.md](gpt-image.md)。
+- **GPT Image 2.5:** EXACT TEXT 用 `"..."` 或 ALL CAPS,加「no extra words / no duplicate text」,小字用 `quality: high`。见 [gpt-image.md](gpt-image.md)。
 
 ## 提示词结构
 

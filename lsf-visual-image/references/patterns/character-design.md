@@ -1,6 +1,6 @@
 # 角色设计模式
 
-可复用的提示词模板:角色三视图、表情表、服装变体、手办/卡片格式。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:角色三视图、表情表、服装变体、手办/卡片格式。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 > 本文件负责“怎样展示已经确定的角色”。如果用户要从零设计身份、随机创建角色或解决模板化 AI 脸,必须先读 [character-identity-design.md](../character-identity-design.md),生成约 10 个锁定锚点后再填入本文件模板。服装变体、表情变化等模板只在用户明确授权对应变化时使用;否则身份档案中的所有锚点保持不变。
 
@@ -22,7 +22,7 @@ Constraints: no background elements, no props in hands, no dramatic poses — ne
 
 **关键调节项:** `{character_name}`、`{character_description}` (年龄、体形、发型、服装 — 要具体)、`{color_1}`/`{hex_1}` 至 `{color_3}`/`{hex_3}` (色卡标注的关键调色板颜色,如夹克藏青 #1B2A4A、皮肤暖米色 #D4A574、头发赭红 #8B3A2F)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 身高参考线与色卡文字需要精确渲染
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 身高参考线与色卡文字需要精确渲染
 
 ---
 
@@ -51,7 +51,7 @@ Constraints: same character identity in every cell — no variation in hair, acc
 
 **关键调节项:** `{character_name}`、`{character_description}` (脸型、肤色、发型、特征标志)、`{art_style}` (干净赛璐璐日式动画、绘画感半写实、扁平矢量插画)、`{label_font}` (窄体无衬线、等宽、圆体无衬线)、`{extra_expressions}` (添加 7-9 格:如 "Cell 7: smirk — one corner of mouth raised, knowing look. Label: 'SMIRK'")
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 文字标签与跨 9 格一致的面部身份需要精确控制
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 文字标签与跨 9 格一致的面部身份需要精确控制
 
 ---
 
@@ -79,7 +79,7 @@ Constraints: same character identity and pose in every cell, no background scene
 
 **关键调节项:** `{character_name}`、`{character_description}` (体形、脸、头发 — 锚定身份)、`{bg_color}` (#F0F0F0 浅灰、#FFF8F0 暖奶油、#E8EDF2 冷蓝灰)、`{grid_layout}` (2x3 或 3x3)、`{pose_description}` (双手叉腰、放松站立、单手抬起)、`{outfit_N_name}` / `{outfit_N_description}` (如 "Street Casual" — oversized denim jacket, white tee, black cargo pants, chunky sneakers)
 
-**推荐模型:** GPT Image 2 (`quality: medium`) — 角色一致性优先;仅当服装标签需要精细可读时才用 `high`
+**推荐模型:** GPT Image 2.5 (`quality: medium`) — 角色一致性优先;仅当服装标签需要精细可读时才用 `high`
 
 ---
 
@@ -107,7 +107,7 @@ Constraints: consistent face and outfit across all poses, chibi proportions must
 
 **关键调节项:** `{character_name}`、`{character_description_simplified}` (只保留关键服装与发型)、`{face_markers}` (如圆框眼镜、左颊伤疤、绿眼睛)、`{color_palette}` (2-3 个主色的 hex 值)、`{bg_gradient}` (#F5F0EB 到 #FFFFFF 暖色、#E0E8F0 到 #FFFFFF 冷色)、`{num_poses}` (3-5)、`{pose_N_description}` (如盘腿看书、双手挥手、手持咖啡杯)、`{base_color}` (白、黑、匹配角色主色)
 
-**推荐模型:** GPT Image 2 (`quality: medium`) — 光滑 3D 乙烯表面在 medium 下渲染良好;`high` 用于可营销的特写
+**推荐模型:** GPT Image 2.5 (`quality: medium`) — 光滑 3D 乙烯表面在 medium 下渲染良好;`high` 用于可营销的特写
 
 ### Nano Banana 版本:
 
@@ -139,7 +139,7 @@ Constraints: unified anime art style across all sections — portrait and full b
 
 **关键调节项:** `{character_name}`、`{character_description}` (详细:发色/发型、瞳色、服装层次、配饰)、`{face_details}` (独特面部特征 — 如异色瞳、面部纹身、锋利下颌线)、`{item_1}`/`{item_2}`/`{item_3}` (标志性武器、配饰、道具)、`{swatch_colors}` (如午夜蓝 #191970、樱桃红 #C41E3A、银 #C0C0C0、暖肤色 #E8B89D)、`{num_swatches}` (4-6)、`{class}` / `{height}` / `{affiliation}` (属性栏字段)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 含 hex 码、标签与属性栏的文字密集布局需要精确渲染
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 含 hex 码、标签与属性栏的文字密集布局需要精确渲染
 
 ### Nano Banana 版本:
 

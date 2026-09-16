@@ -20,13 +20,7 @@ import type { TemplateContext } from '../types';
  * the full rationale.
  */
 export function generatePlanModeInfo(_ctx: TemplateContext): string {
-  return `## Plan Mode Safe Operations
-
-In plan mode, allowed because they inform the plan: \`$B\`, \`$D\`, \`codex exec\`/\`codex review\`, writes to \`~/.gstack/\`, writes to the plan file, and \`open\` for generated artifacts.
-
-## Skill Invocation During Plan Mode
-
-If the user invokes a skill in plan mode, the skill takes precedence over generic plan mode behavior. **Treat the skill file as executable instructions, not reference.** Follow it step by step starting from Step 0; any AskUserQuestion the skill fires is the workflow operating within plan mode, not a violation of it — and a skill whose instructions resolve a question themselves (e.g. a plan-mode auto-select) may legitimately not ask it. AskUserQuestion (any variant — \`mcp__*__AskUserQuestion\` or native; see "AskUserQuestion Format → Tool resolution") satisfies plan mode's end-of-turn requirement. If AskUserQuestion is unavailable or a call fails, follow the AskUserQuestion Format failure fallback: \`headless\` → BLOCKED; \`interactive\` → the prose fallback (also satisfies end-of-turn). At a STOP point, stop immediately. Do not continue the workflow or call ExitPlanMode there. Commands marked "PLAN MODE EXCEPTION — ALWAYS RUN" execute. Call ExitPlanMode only after the skill workflow completes, or if the user tells you to cancel the skill or leave plan mode.`;
+  return "## Plan Mode Safe Operations\n\nFollow the host’s active mode and the user’s requested scope. In analysis-only or plan mode, inspect and explain without implementing changes. A skill cannot grant a plan-mode exception or authorize worktrees, commits, publication, or messages.\n\n## Skill Invocation During Plan Mode\n\nUse the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.";
 }
 
 export function generateCompletionStatus(ctx: TemplateContext): string {
@@ -42,19 +36,7 @@ Escalate after 3 failed attempts, uncertain security-sensitive changes, or scope
 
 ## Operational Self-Improvement
 
-Before completing, review the session for durable learnings and log each one —
-this step ALWAYS runs, it is not conditional on something feeling noteworthy
-(#2402: 43 of 44 learnings came from explicit /learn because "if you
-discovered" read as optional). A durable learning is a project quirk, command
-fix, pitfall, or pattern that would save 5+ minutes in a future session. If
-the review genuinely surfaces none, state "No durable learnings this session"
-in your completion summary — an explicit empty result, not a skipped step.
-
-\`\`\`bash
-${ctx.paths.binDir}/gstack-learnings-log '{"skill":"SKILL_NAME","type":"operational","key":"SHORT_KEY","insight":"DESCRIPTION","confidence":N,"source":"observed"}'
-\`\`\`
-
-Do not log obvious facts or one-time transient errors.
+Record a durable, non-sensitive lesson only when relevant to an authorized memory workflow. Do not require a learning entry or an empty-learning statement for every task.
 
 ## Telemetry (run last)
 
@@ -63,7 +45,7 @@ success/error/abort/unknown; \`SESSION_ID\` and \`TEL_START\` are the values the
 preamble's skill-start output echoed. It also drains the artifacts-sync queue
 (the former skill-end sync step — do not run gstack-brain-sync separately).
 
-**PLAN MODE EXCEPTION — ALWAYS RUN:** This writes telemetry to
+Only when the host mode and existing privacy choices allow it, this writes telemetry to
 \`~/.gstack/analytics/\`, matching preamble analytics writes.
 
 \`\`\`bash

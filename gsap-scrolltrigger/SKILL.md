@@ -1,7 +1,7 @@
 ---
 name: gsap-scrolltrigger
 title: 技能：GSAP Scrolltrigger
-description: 用于处理“GSAP Scrolltrigger”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "用 GSAP ScrollTrigger 实现滚动触发、scrub、pin 及响应式滚动动画。"
 license: MIT
 ---
 

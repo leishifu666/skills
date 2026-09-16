@@ -133,7 +133,7 @@ Nano Banana 是 motion 层之前的 image 层。一切关键内容都必须在�
 ## 已知失效点
 
 - 手和脸仍会漂移(手指、关节、likeness 漂移) — 明确的解剖指令 + 参考图 + 重生成。有报告称 NBP 人脸保持不如 NB2。
-- 小字在 1K 模糊 — 密集文字用 2K+ 或 GPT Image 2。
+- 小字在 1K 模糊 — 密集文字用 2K+ 或 GPT Image 2.5。
 - 信息图可能含事实错误数据 — 数字永远要人工核验，grounding 有帮助但不保证。
 - 倾向 overcooked HDR / 过饱和 — 要求「natural contrast, no HDR look」。
 - 所有生成物带 SynthID 水印（隐形）；Vertex 上另有 C2PA。

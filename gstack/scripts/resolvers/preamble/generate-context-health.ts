@@ -1,12 +1,7 @@
 import type { TemplateContext } from '../types';
 
 export function generateContextHealth(ctx?: TemplateContext): string {
-  if (ctx?.explainLevel === 'terse') return '';
-  return `## Context Health (soft directive)
-
-During long-running skill sessions, periodically write a brief \`[PROGRESS]\` summary: done, next, surprises.
-
-If you are looping on the same diagnostic, same file, or failed fix variants, STOP and reassess. Consider escalation or /context-save. Progress summaries must NEVER mutate git state.`;
+  return "## Context Health (soft directive)\n\nLoad references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.";
 }
 
 // Preamble Composition (tier → sections)

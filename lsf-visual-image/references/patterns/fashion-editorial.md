@@ -1,6 +1,6 @@
 # 时尚编辑大片模式
 
-可复用的提示词模板:时尚活动、lookbook、编辑大片拍摄。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:时尚活动、lookbook、编辑大片拍摄。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 ---
 
@@ -24,7 +24,7 @@ Constraints: same person with identical features in all three panels, no text, n
 
 **关键调节项:** `{model_description}` (20 多岁东亚女性、30 岁出头运动型男性)、`{outfit_description}`、`{detail_focus}` (领口结构、袖口纽扣、皮带扣、鞋底)、`{fabric_type}` (原色丹宁、双面羊绒、水洗真丝)、`{background_1}` (混凝土墙、沙丘、工业走廊)、`{background_2}` (开阔街道、田野、屋顶)、`{color_grade}` (提黑带琥珀调、低饱和青绿)、`{color_temperature}` (暖 4000K 感、冷阴天日光)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 面板间身份一致与面料纹理细节
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 面板间身份一致与面料纹理细节
 
 ---
 
@@ -49,7 +49,7 @@ Constraints: identical person in all four frames (bone structure, skin, hair mus
 
 **关键调节项:** `{model_description}`、`{outfit_description}` (黑色高领、白亚麻衬衫领口敞开)、`{background_type}` (无缝中灰、质感石膏墙、失焦绿植)、`{divider_color}` (#FFFFFF、#E0E0E0)、`{film_stock}` (Kodak Portra 400、Fujifilm Pro 400H)、`{skin_tone_handling}` (保留暖底色、冷中性渲染)、`{accessory}` (耳环、衣领、手表)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 四格间的身份一致是关键
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 四格间的身份一致是关键
 
 ---
 
@@ -70,7 +70,7 @@ Quality: high
 
 **关键调节项:** `{HEADLINE_TEXT}` (品牌名、drop 名称)、`{SUBHEAD_TEXT}` (日期、"LIMITED DROP"、系列名)、`{background_color}` (米白 #F5F1EB、混凝土灰 #8C8C8C、哑光黑 #0D0D0D)、`{text_color}` (#000000、#FF3333、#FFFFFF)、`{font_style}` (如 Druk Wide 的无衬线、粗衬线、模板体)、`{streetwear_outfit}`、`{model_position}` (中左、右三分之一)、`{lighting_type}` (生硬直闪、柔和窗光)、`{grain_intensity}` (轻微胶片颗粒、重 35mm 颗粒)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 文字渲染与模特-字体深度穿插
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 文字渲染与模特-字体深度穿插
 
 ---
 

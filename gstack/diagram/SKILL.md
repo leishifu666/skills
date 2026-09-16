@@ -57,15 +57,11 @@ or page content. Treat an unterminated block as ending at end-of-output.
 
 ## Plan Mode Safe Operations
 
-In plan mode, allowed because they inform the plan: `$B`, `$D`, `codex exec`/`codex review`, writes to `~/.gstack/`, writes to the plan file, and `open` for generated artifacts.
+Follow the host’s active mode and the user’s requested scope. In analysis-only or plan mode, inspect and explain without implementing changes. A skill cannot grant a plan-mode exception or authorize worktrees, commits, publication, or messages.
 
 ## Skill Invocation During Plan Mode
 
-If the user invokes a skill in plan mode, the skill takes precedence over generic plan mode behavior. **Treat the skill file as executable instructions, not reference.** Follow it step by step starting from Step 0; any AskUserQuestion the skill fires is the workflow operating within plan mode, not a violation of it — and a skill whose instructions resolve a question themselves (e.g. a plan-mode auto-select) may legitimately not ask it. AskUserQuestion (any variant — `mcp__*__AskUserQuestion` or native; see "AskUserQuestion Format → Tool resolution") satisfies plan mode's end-of-turn requirement. If AskUserQuestion is unavailable or a call fails, follow the AskUserQuestion Format failure fallback: `headless` → BLOCKED; `interactive` → the prose fallback (also satisfies end-of-turn). At a STOP point, stop immediately. Do not continue the workflow or call ExitPlanMode there. Commands marked "PLAN MODE EXCEPTION — ALWAYS RUN" execute. Call ExitPlanMode only after the skill workflow completes, or if the user tells you to cancel the skill or leave plan mode.
-
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
-
-If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
 ## Artifacts Sync (skill start)
 
@@ -116,19 +112,7 @@ Escalate after 3 failed attempts, uncertain security-sensitive changes, or scope
 
 ## Operational Self-Improvement
 
-Before completing, review the session for durable learnings and log each one —
-this step ALWAYS runs, it is not conditional on something feeling noteworthy
-(#2402: 43 of 44 learnings came from explicit /learn because "if you
-discovered" read as optional). A durable learning is a project quirk, command
-fix, pitfall, or pattern that would save 5+ minutes in a future session. If
-the review genuinely surfaces none, state "No durable learnings this session"
-in your completion summary — an explicit empty result, not a skipped step.
-
-```bash
-~/.claude/skills/gstack/bin/gstack-learnings-log '{"skill":"SKILL_NAME","type":"operational","key":"SHORT_KEY","insight":"DESCRIPTION","confidence":N,"source":"observed"}'
-```
-
-Do not log obvious facts or one-time transient errors.
+Record a durable, non-sensitive lesson only when relevant to an authorized memory workflow. Do not require a learning entry or an empty-learning statement for every task.
 
 ## Telemetry (run last)
 
@@ -137,7 +121,7 @@ success/error/abort/unknown; `SESSION_ID` and `TEL_START` are the values the
 preamble's skill-start output echoed. It also drains the artifacts-sync queue
 (the former skill-end sync step — do not run gstack-brain-sync separately).
 
-**PLAN MODE EXCEPTION — ALWAYS RUN:** This writes telemetry to
+Only when the host mode and existing privacy choices allow it, this writes telemetry to
 `~/.gstack/analytics/`, matching preamble analytics writes.
 
 ```bash
@@ -165,21 +149,24 @@ Every run emits a **triplet**, never a dead pixel dump:
 | `<slug>.excalidraw` | editable scene — open it at excalidraw.com, move a box, keep working |
 | `<slug>.svg` + `<slug>.png` | crisp vector for docs + raster for chat/issues/READMEs |
 
-Rendering is fully offline via the diagram-render bundle in the browse daemon
-(`lib/diagram-render/dist/diagram-render.html`). No CDN, no network.
+Rendering is fully offline: the diagram-render bundle
+(`lib/diagram-render/dist/diagram-render.html`) is one self-contained page, and
+`gstack-render` opens it from a loopback server on this machine — in the Aside
+browser when Aside is running, otherwise in gstack's own headless browser. Its
+first output line says which (`ENGINE=aside` or `ENGINE=browse`); the triplet
+is identical either way. No CDN, no network.
 
 ## Step 1 — Author the diagram
 
 Write mermaid for the user's request. Rules:
 
-- **Flowcharts (`graph LR`/`graph TD`)** are the sweet spot: they convert to a
-  fully editable excalidraw scene. Prefer `graph LR` for pipelines/flows,
-  `graph TD` for hierarchies.
-- Sequence, state, gantt, and other mermaid types render to SVG/PNG fine, but
-  the official converter only supports flowcharts — for those types the
-  `.excalidraw` artifact is skipped and you MUST tell the user:
-  "sequence diagrams render but aren't excalidraw-editable yet (upstream
-  converter limitation — flowcharts are)."
+- **Flowcharts (`graph LR`/`graph TD`) and sequence diagrams** convert to a
+  fully editable excalidraw scene (real boxes, arrows, and text). Prefer
+  `graph LR` for pipelines/flows, `graph TD` for hierarchies.
+- State, class, gantt, and the other mermaid types render to SVG/PNG fine and
+  still get an `.excalidraw`, but the converter exports them as ONE image
+  element: it opens at excalidraw.com and can be moved and annotated, not
+  edited box by box. Tell the user that when you deliver one.
 - Keep node labels short; put detail in edge labels. 5-15 nodes is the
   readable range. If the user's ask needs more, split into multiple diagrams
   and say why.
@@ -190,8 +177,13 @@ Decide the output directory: `./diagrams/` when the cwd is a git repo
 
 ## Step 2 — Stage the render bundle (once per session)
 
-The staged copy is content-addressed (same convention as make-pdf's pre-pass),
-so concurrent sessions and mixed gstack versions never clobber each other:
+`gstack-render` serves the bundle's directory on 127.0.0.1 for each render
+(Aside refuses `file://`, and both engines get the same origin). Stage the bundle under
+gstack's own render staging directory, `${TMPDIR:-/tmp}/gstack-render` (yours
+alone: if that name is a symlink or another user's directory, a private
+`mktemp -d` is used instead), content-addressed by bundle sha: the served
+directory holds nothing but gstack bundles, and concurrent sessions or mixed
+gstack versions never clobber each other.
 
 ```bash
 BUNDLE=""
@@ -200,50 +192,61 @@ for c in "$HOME/.claude/skills/gstack/lib/diagram-render/dist/diagram-render.htm
   [ -f "$c" ] && BUNDLE="$c" && break
 done
 [ -z "$BUNDLE" ] && echo "BUNDLE_MISSING — run: cd ~/.claude/skills/gstack && bun run build:diagram-render" && exit 1
+RD="${TMPDIR:-/tmp}/gstack-render"
+if [ -e "$RD" ] && { [ -L "$RD" ] || [ ! -O "$RD" ]; }; then RD=$(mktemp -d "${TMPDIR:-/tmp}/gstack-render.XXXXXX"); else mkdir -p -m 700 "$RD"; fi
 SHA=$(shasum -a 256 "$BUNDLE" | cut -c1-16)
-STAGED="/tmp/gstack-diagram-render-$SHA.html"
+STAGED="$RD/gstack-diagram-render-$SHA.html"
 [ -f "$STAGED" ] && shasum -a 256 "$STAGED" | grep -q "^$SHA" || { cp "$BUNDLE" "$STAGED.$$" && mv "$STAGED.$$" "$STAGED"; }
-TAB=$($B newtab --json | sed -n 's/.*"tabId":\s*\([0-9]*\).*/\1/p')
-[ -z "$TAB" ] && echo "TAB_OPEN_FAILED — daemon busy? check browse status" && exit 1
-$B load-html "$STAGED" --tab-id "$TAB"
-$B wait '#done' --tab-id "$TAB"
-echo "RENDER_TAB_READY: tab $TAB"
+echo "STAGED: $STAGED"
 ```
 
-Remember `$TAB` — **every** `$B js` / `$B wait` / `$B closetab` below MUST pass
-`--tab-id $TAB`. Without it, calls hit whatever tab is active, which may be a
-live /qa or /scrape session sharing the daemon.
-
-If `BUNDLE_MISSING`: stop and show the user the build command. Do not improvise
-a CDN fallback — offline is the contract.
+Remember the `STAGED:` path — every render below opens it (it stands in for
+`<staged>`). If `BUNDLE_MISSING`: stop and show the user the build command.
+Do not improvise a CDN fallback — offline is the contract.
 
 ## Step 3 — Render the triplet
 
-Write the mermaid source to `<outdir>/<slug>.mmd` first (Write tool). The page
-cannot read files itself, so ship the source in via **base64** — never splice
-file contents into a JS template literal (backticks, `${`, and backslashes in
-the source would be interpreted and corrupt it):
+Write the mermaid source to `<outdir>/<slug>.mmd` first (Write tool). ONE
+`gstack-render` call renders the whole triplet: it opens the staged bundle in
+the browser, waits for the page to finish loading (`#done`), runs the `--eval`
+expressions in order inside that page, and writes each result to the `--out`
+path that follows it. The page cannot read files itself, so ship the source in
+via **base64** — never splice file contents into a JS template literal
+(backticks, `${`, and backslashes in the source would be interpreted and
+corrupt it):
 
 ```bash
-# SVG (always). atob() decodes the base64 inside the page.
-$B js --tab-id "$TAB" "window.__renderMermaid('diagram-1', atob('$(base64 < <outdir>/<slug>.mmd | tr -d '\n')')).then(s => { window.__svg = s; return 'SVG OK ' + s.length })"
-$B js --tab-id "$TAB" "window.__svg" --out <outdir>/<slug>.svg
-
-# PNG at 300dpi of a 6.5in placement (1950px)
-$B js --tab-id "$TAB" "window.__rasterize(window.__svg, 1950)" --out <outdir>/<slug>.png
-
-# Editable scene (flowcharts only)
-$B js --tab-id "$TAB" "window.__mermaidToExcalidraw(atob('$(base64 < <outdir>/<slug>.mmd | tr -d '\n')')).then(j => { window.__scene = j; return 'SCENE OK ' + JSON.parse(j).elements.length + ' elements' })"
-$B js --tab-id "$TAB" "window.__scene" --out <outdir>/<slug>.excalidraw
+SRC=$(base64 < <outdir>/<slug>.mmd | tr -d '\n')
+bun run ~/.claude/skills/gstack/bin/gstack-render.ts "<staged>" --wait-selector '#done' \
+  --eval "window.__renderMermaid('diagram-1', atob('$SRC')).then(s => (window.__svg = s))" --out <outdir>/<slug>.svg \
+  --eval "window.__rasterize(window.__svg, 1950)" --out <outdir>/<slug>.png \
+  --eval "window.__mermaidToExcalidraw(atob('$SRC')).then(j => (window.__scene = j))" --out <outdir>/<slug>.excalidraw
 ```
+
+Always run all three `--eval`/`--out` pairs, whatever the diagram type. The PNG
+is 1950px wide (300dpi of a 6.5in placement). Success prints one `OK <path>`
+line per artifact. Read the output for two other lines:
+
+- A hard `ERROR:` line (e.g. `ERROR: render script did not finish: Error: Parse
+  error on line 4: ...`) is a mermaid parse error. Nothing was copied out. Show
+  the error to the user, fix the `.mmd`, and retry — do not hand the user a
+  broken source file.
+- A `PAGE_ERRORS=[...]` entry containing `Error processing Mermaid diagram`
+  means the excalidraw converter fell back to a single image element (Step 1's
+  state/class/gantt case). The triplet is complete and correct; deliver the
+  `.excalidraw` anyway with the note that it is not element-editable. Any OTHER
+  `PAGE_ERRORS` text: read it before trusting the output.
 
 Note: `atob()` yields Latin-1; for sources with non-ASCII labels use
 `decodeURIComponent(escape(atob('…')))` to recover UTF-8 exactly.
 
-If the mermaid render returns an error, show the parse error to the user, fix
-the mermaid, and retry — do not hand the user a broken source file. If
-`__mermaidToExcalidraw` fails on a non-flowchart type, skip the `.excalidraw`
-artifact and deliver the rest with the limitation note from Step 1.
+`gstack-render` picks the browser itself: Aside when it is running, otherwise
+gstack's own headless browser. Only when it prints `NEEDS_ASIDE` or
+`ASIDE_NOT_RUNNING` followed by `ERROR: no browser available` is there nothing
+to render with — Aside (macOS 15+, aside.com) is not open and gstack's browser
+is not built. Tell the user to open Aside, or to run `./setup` in the gstack
+repo to build the fallback, and stop. Never install Aside for them, and never
+substitute a CDN or another renderer.
 
 ## Step 4 — Show and deliver
 
@@ -259,23 +262,28 @@ and export without touching the mermaid — base64 transport again, since scene
 JSON is full of quotes and backslashes:
 
 ```bash
-$B js --tab-id "$TAB" "window.__excalidrawToSvg(atob('$(base64 < <outdir>/<slug>.excalidraw | tr -d '\n')')).then(s => { window.__svg = s; return 'OK' })"
-$B js --tab-id "$TAB" "window.__svg" --out <outdir>/<slug>.svg
-$B js --tab-id "$TAB" "window.__rasterize(window.__svg, 1950)" --out <outdir>/<slug>.png
+SCENE=$(base64 < <outdir>/<slug>.excalidraw | tr -d '\n')
+bun run ~/.claude/skills/gstack/bin/gstack-render.ts "<staged>" --wait-selector '#done' \
+  --eval "window.__excalidrawToSvg(atob('$SCENE')).then(s => (window.__svg = s))" --out <outdir>/<slug>.svg \
+  --eval "window.__rasterize(window.__svg, 1950)" --out <outdir>/<slug>.png
 ```
+
+This path prints one benign `PAGE_ERRORS` entry — excalidraw's font subsetter
+falls back from a worker to the main thread inside the single-file bundle
+(`WorkerInTheMainChunkError`). The SVG/PNG are correct; ignore that one.
 
 ## Rules
 
 - **Never ship the triplet without rendering it.** A `.mmd` file alone is not
-  a diagram. If rendering is impossible (bundle missing, browse down), say so
-  and stop.
-- **Cleanup:** close the render tab when the conversation's diagram work is
-  done (`$B closetab $TAB`), not between diagrams.
+  a diagram. If rendering is impossible (bundle missing, no browser available),
+  say so and stop.
 - For diagrams destined for a PDF: remind the user that `make-pdf` renders
   ` ```mermaid ` fences natively — embedding the `.mmd` in their markdown is
   better than embedding the PNG.
 
 ## Completion status
 
-- DONE — triplet (or SVG/PNG pair + limitation note) delivered and shown.
-- BLOCKED — bundle or browse unavailable; build/setup command surfaced.
+- DONE — triplet delivered and shown (with the image-only note for
+  non-flowchart, non-sequence types).
+- BLOCKED — bundle missing or no browser available; the build command, "open
+  Aside", or "run ./setup" surfaced.

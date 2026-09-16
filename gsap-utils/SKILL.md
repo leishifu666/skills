@@ -1,7 +1,7 @@
 ---
 name: gsap-utils
 title: 技能：GSAP Utils
-description: 用于处理“GSAP Utils”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "使用 gsap.utils 完成动画中的插值、映射、随机、吸附和单位处理。"
 license: MIT
 ---
 

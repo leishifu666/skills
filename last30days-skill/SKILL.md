@@ -1,7 +1,7 @@
 ---
 name: last30days
 title: 技能：Last30Days
-description: 用于处理“Last30Days”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "调研指定主题最近 30 天的讨论、产品和变化，核对日期并汇总来源。"
 ---
 
 # last30days v2.9.5: Research Any Topic from the Last 30 Days

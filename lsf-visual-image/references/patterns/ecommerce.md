@@ -1,6 +1,6 @@
 # 电商产品摄影模式
 
-可复用的提示词模板:产品广告、包装、商业视觉。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:产品广告、包装、商业视觉。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 ---
 
@@ -20,7 +20,7 @@ Constraints: no text, no logos other than product label, no floating elements, p
 
 **关键调节项:** `{product_name}`、`{product_material}` (磨砂玻璃、哑光铝、亮面塑料)、`{surface_color}` (白大理石、原色混凝土、浅色桦木)、`{accent_color}` (安全橙 #FF6600、黄 #FFD600)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 精确的小人偶细节与产品标签可读性
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 精确的小人偶细节与产品标签可读性
 
 ---
 
@@ -40,7 +40,7 @@ Constraints: no text overlays, no human hands, background stays dark (#0a0a0a to
 
 **关键调节项:** `{background_surface}` (nero marquina 大理石、湿润黑曜石板、拉丝枪灰)、`{product_finish}` (磨砂玻璃、烤漆黑、拉丝金)、`{accent_material}` (原石水晶、干薰衣草茎、黑河石)、`{palette}` (金色 #C9A84C 与黑、玫瑰 #B76E79 与奶油、祖母绿 #2D6A4F 与银)、`{time_mood}` (冷蓝、暖琥珀)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 表面材质与冷凝细节
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 表面材质与冷凝细节
 
 ---
 
@@ -72,7 +72,7 @@ Constraints: consistent character identity across all panels, no panel numbering
 
 **关键调节项:** `{product_name}`、`{protagonist}` (30 多岁女性、年轻情侣、家庭)、`{setting}` (明亮厨房、户外露台、都市咖啡)、`{emotion}` (满足、惊喜、放松)、`{beauty_surface}` (白大理石、灰色渐变)、`{tagline}`、`{duration}` (15、30)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 网格精度与面板 9 的文字
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 网格精度与面板 9 的文字
 
 ---
 
@@ -92,7 +92,7 @@ Constraints: no ingredients overlapping the product label, no motion blur (every
 
 **关键调节项:** `{product_name}`、`{background_gradient}` (#F5F0EB 到 #FFFFFF 亮色、#1A0A2E 到 #0D0D0D 暗色)、`{liquid_type}` (琥珀果汁、白牛奶、绿色冰沙)、`{ingredient_list}` (草莓切片 + 薄荷叶 + 冰块、可可碎 + 榛子 + 香草荚)、`{texture_details}` (草莓切面可见籽、冰面霜花)、`{tilt_angle}` (15、25)、`{max_ingredients}` (6-8)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 定格细节精度与标签可读性
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 定格细节精度与标签可读性
 
 ---
 

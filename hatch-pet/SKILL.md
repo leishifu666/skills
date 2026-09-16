@@ -1,7 +1,7 @@
 ---
 name: hatch-pet
 title: 技能：Hatch PET
-description: 用于处理“Hatch PET”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "根据概念或参考图创建 Codex 动画宠物图集，并校验图集尺寸、动作和安装契约。"
 ---
 
 # Hatch Pet

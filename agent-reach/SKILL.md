@@ -1,7 +1,7 @@
 ---
 name: agent-reach
 title: 联网调研
-description: 用户要求调研、搜索、查找或核实互联网信息时使用，负责从多个网络来源收集并整理证据。
+description: "通过 Agent Reach 的平台后端检索社交内容、视频字幕和网页资料；需要这些专用后端时使用。"
 triggers:
 - research: 调研/全网调研/帮我调研/研究一下/research/深入了解
 - search: 搜/查/找/search/搜索/查一下/帮我搜/看看大家怎么说
@@ -25,7 +25,7 @@ metadata:
 
 # Agent Reach — 互联网能力路由器
 
-15 平台、多后端。**本 skill 存在时必须用它访问这些平台，不要自己发明方案。**
+按目标平台选择已配置的后端；已有专用连接器或直接读取工具能完成任务时，优先使用它们。
 
 ## 常驻规则（全程适用）
 
@@ -33,12 +33,8 @@ metadata:
    `agent-reach doctor --json`，按各平台 `active_backend` 字段选命令组。
 2. **声明你在用什么**：开始干活前说一句「使用 agent-reach 的 X 平台 / Y 后端」。
 3. **失败按 references 里的重试链处理**，不要瞎猜命令。
-4. **全网调研类任务**：组合多平台（Exa 搜索 + Twitter/Reddit 看讨论 + 小红书/B站看中文场景），并行收集再汇总。
-5. **替用户盯版本**：完成一次较大的调研/多平台任务后，顺手跑
-   `agent-reach check-update`（很快，一个 API 调用）。有新版就在收尾汇报里附一句：
-   「Agent Reach 有新版 vX.Y.Z，复制这句话给我即可更新：帮我更新 Agent Reach：
-   https://raw.githubusercontent.com/Panniantong/agent-reach/main/docs/update.md」。
-   不要中断当前任务去更新，也不要重复提醒同一个版本。
+4. 多平台调研按问题选择有价值的来源；仅在有独立子任务且允许委派时使用子代理。
+5. 仅在用户要求维护或兼容性问题确有需要时检查版本，不把更新检查加入普通调研收尾。
 
 ## 路由表
 

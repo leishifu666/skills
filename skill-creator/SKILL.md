@@ -1,7 +1,7 @@
 ---
 name: skill-creator
 title: 技能创建器
-description: 创建、修改和优化技能，并通过测试与评测验证效果。用户要新建技能、改进 SKILL.md 或优化触发说明时使用。
+description: "为 Claude 技能创建或运行基于现有脚本的行为评测、盲测和评测查看器；普通 Codex 技能编写优先使用系统 skill-creator。"
 ---
 
 # Skill Creator
@@ -47,7 +47,7 @@ It's OK to briefly explain terms if you're in doubt, and feel free to clarify te
 
 ### Capture Intent
 
-Start by understanding the user's intent. The current conversation might already contain a workflow the user wants to capture (e.g., they say "turn this into a skill"). If so, extract answers from the conversation history first — the tools used, the sequence of steps, corrections the user made, input/output formats observed. The user may need to fill the gaps, and should confirm before proceeding to the next step.
+Start by understanding the user's intent. The current conversation might already contain a workflow the user wants to capture (e.g., they say "turn this into a skill"). If so, extract answers from the conversation history first — the tools used, the sequence of steps, corrections the user made, input/output formats observed. Ask only for gaps that materially affect the result; existing instructions and authorization do not need reconfirmation.
 
 1. What should this skill enable Claude to do?
 2. When should this skill trigger? (what user phrases/contexts)
@@ -65,7 +65,7 @@ Check available MCPs - if useful for research (searching docs, finding similar s
 Based on the user interview, fill in these components:
 
 - **name**: Skill identifier
-- **description**: When to trigger, what it does. This is the primary triggering mechanism - include both what the skill does AND specific contexts for when to use it. All "when to use" info goes here, not in the body. Note: currently Claude has a tendency to "undertrigger" skills -- to not use them when they'd be useful. To combat this, please make the skill descriptions a little bit "pushy". So for instance, instead of "How to build a simple fast dashboard to display internal Anthropic data.", you might write "How to build a simple fast dashboard to display internal Anthropic data. Make sure to use this skill whenever the user mentions dashboards, data visualization, internal metrics, or wants to display any kind of company data, even if they don't explicitly ask for a 'dashboard.'"
+- **description**: When to trigger, what it does. This is the primary triggering mechanism - include both what the skill does AND specific contexts for when to use it. All "when to use" info goes here, not in the body. Keep the description concise and specific to the actual workflow. Do not broaden triggers to compensate for older model behavior.
 - **compatibility**: Required tools, dependencies (optional, rarely needed)
 - **the rest of the skill :)**
 

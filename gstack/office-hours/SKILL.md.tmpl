@@ -2,18 +2,7 @@
 name: office-hours
 preamble-tier: 3
 version: 2.0.0
-description: |
-  YC Office Hours — two modes. Startup mode: six forcing questions that expose
-  demand reality, status quo, desperate specificity, narrowest wedge, observation,
-  and future-fit. Builder mode: design thinking brainstorming for side projects,
-  hackathons, learning, and open source. Saves a design doc.
-  Use when asked to "brainstorm this", "I have an idea", "help me think through
-  this", "office hours", or "is this worth building".
-  Proactively invoke this skill (do NOT answer directly) when the user describes
-  a new product idea, asks whether something is worth building, wants to think
-  through design decisions for something that doesn't exist yet, or is exploring
-  a concept before any code is written.
-  Use before /plan-ceo-review or /plan-eng-review. (gstack)
+description: "围绕产品想法进行需求访谈与方案探索；用户要求讨论方向或评估想法时使用。"
 allowed-tools:
   - Bash
   - Read
@@ -60,8 +49,6 @@ gbrain:
 {{PREAMBLE}}
 
 {{THIRD_PARTY_ACTIONS}}
-
-{{BROWSE_SETUP}}
 
 # YC Office Hours
 
@@ -164,31 +151,40 @@ If no matches found, proceed silently.
 
 ---
 
+{{ASIDE_RESEARCH}}
+
 ## Phase 2.75: Landscape Awareness
 
 Read ETHOS.md for the full Search Before Building framework (three layers, eureka moments). The preamble's Search Before Building section has the ETHOS.md path.
 
 After understanding the problem through questioning, search for what the world thinks. This is NOT competitive research (that's /design-consultation's job). This is understanding conventional wisdom so you can evaluate where it's wrong.
 
-**Privacy gate:** Before searching, use AskUserQuestion: "I'd like to search for what the world thinks about this space to inform our discussion. This sends generalized category terms (not your specific idea) to a search provider. OK to proceed?"
+**Privacy gate:** Before searching, use AskUserQuestion: "I'd like to search for what the world thinks about this space to inform our discussion. This sends generalized category terms (not your specific idea) to a search engine through your Aside browser (or the WebSearch tool if Aside is not running). OK to proceed?"
 Options: A) Yes, search away  B) Skip — keep this session private
 If B: skip this phase entirely and proceed to Phase 3. Use only in-distribution knowledge.
 
 When searching, use **generalized category terms** — never the user's specific product name, proprietary concept, or stealth idea. For example, search "task management app landscape" not "SuperTodo AI-powered task killer."
 
-If WebSearch is unavailable, skip this phase and note: "Search unavailable — proceeding with in-distribution knowledge only."
+If the Aside check did not print `READY`, run the same searches with the WebSearch tool when the host provides it; with neither, skip this phase and note: "Search unavailable — proceeding with in-distribution knowledge only."
 
-**Startup mode:** WebSearch for:
+Research through Aside (Web research runs in Aside, above), one read-only request per mode:
+
+**Startup mode:** search for:
 - "[problem space] startup approach {current year}"
 - "[problem space] common mistakes"
 - "why [incumbent solution] fails" OR "why [incumbent solution] works"
 
-**Builder mode:** WebSearch for:
+**Builder mode:** search for:
 - "[thing being built] existing solutions"
 - "[thing being built] open source alternatives"
 - "best [thing category] {current year}"
 
-Read the top 2-3 results. Run the three-layer synthesis:
+```bash
+{{ASIDE_EXEC_PRELUDE}}
+_aside_exec "Search the web for [problem space] startup approach {current year}, [problem space] common mistakes, and why [incumbent solution] works or fails. Read-only: do not sign in, submit, or change anything. Reply with up to 8 bullets, each with its source URL, then stop."
+```
+
+Read the top 2-3 sources it cites. Run the three-layer synthesis:
 - **[Layer 1]** What does everyone already know about this space?
 - **[Layer 2]** What are the search results and current discourse saying?
 - **[Layer 3]** Given what WE learned in Phase 2A/2B — is there a reason the conventional approach is wrong?
@@ -317,7 +313,7 @@ selection in Phase 6 Beat 3.5.
 
 ## Section self-check (before you finish)
 
-Confirm you Read every section the Section index named as applying to this run, and executed it in full. The conversation phase is section-backed too — if you ran the diagnostic or brainstorm from memory without Reading `sections/phase-2a-startup-diagnostic.md` (startup mode) or `sections/phase-2b-builder-brainstorm.md` (builder mode), the questions lost their teeth. The design doc and the handoff are the deliverables — if you produced them from memory without Reading `sections/design-and-handoff.md`, stop and Read it now.
+Confirm you Read every section the Section index named as applying to this run, and executed it. The conversation phase is section-backed too — if you ran the diagnostic or brainstorm from memory without Reading `sections/phase-2a-startup-diagnostic.md` (startup mode) or `sections/phase-2b-builder-brainstorm.md` (builder mode), the questions lost their teeth. If you produced the design doc or handoff from memory without Reading `sections/design-and-handoff.md`, stop and Read it now.
 
 ---
 

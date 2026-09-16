@@ -1,7 +1,7 @@
 ---
 name: github-to-skills
 title: 技能：Github TO Skills
-description: 用于处理“Github TO Skills”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "将指定 GitHub 项目的功能包装为可复用技能，生成入口及必要资源。"
 license: MIT
 ---
 

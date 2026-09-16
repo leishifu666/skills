@@ -6,6 +6,6 @@
 
 - 仓库：https://github.com/imraywang/wewrite
 - 版本：4.2.1
-- 提交：a363da0d92d30fc442aba6549d1a8824ebb0c115
+- 提交：e8df474ea8d9fd1b06b474115cee568dc46c9ab2
 
 更新时运行 `lsf-skill-updater`，或进入 `~/.codex/skill-repos/wewrite` 执行 `git pull` 后重跑安装脚本。

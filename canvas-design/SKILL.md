@@ -1,7 +1,7 @@
 ---
 name: canvas-design
 title: Canvas 设计
-description: 用于处理“Canvas 设计”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "创建海报、静态视觉设计或艺术画布，输出 PNG/PDF；用于明确的静态设计任务。"
 license: Complete terms in LICENSE.txt
 ---
 

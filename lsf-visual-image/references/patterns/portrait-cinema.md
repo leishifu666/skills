@@ -1,6 +1,6 @@
 # 人像与电影模式
 
-可复用的提示词模板:电影感人像、氛围人物摄影、情绪驱动的人像。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:电影感人像、氛围人物摄影、情绪驱动的人像。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 ---
 
@@ -20,7 +20,7 @@ Constraints: face must be visible and well-exposed despite backlight (not silhou
 
 **关键调节项:** `{street_description}` (带石墙的欧洲窄巷、两旁椴树的宽阔大道、砖墙工业后巷)、`{person_description}`、`{expression}` (安静的自信、闭唇浅笑、沉思凝视)、`{bounce_surface}` (奶油色粉刷墙、停放的白色面包车、沙色建筑)、`{clothing_detail}` (亚麻衬衫领、皮夹克肩缝、围巾边缘)、`{ground_surface}` (湿润鹅卵石、干沥青、压实泥土)、`{color_grade}` (Kodak Portra 400 的暖感、微提黑位带琥珀色偏、干净数码感配暖白平衡)
 
-**推荐模型:** GPT Image 2 — 逆光曝光控制与皮肤渲染
+**推荐模型:** GPT Image 2.5 — 逆光曝光控制与皮肤渲染
 
 ---
 
@@ -40,7 +40,7 @@ Constraints: face clearly visible — neither light source blows out features, n
 
 **关键调节项:** `{store_type}` (韩式便利店、社区小杂货店 bodega、深夜药店、24 小时自助洗衣店)、`{fluorescent_color}` (冷蓝白、偏绿白、暖钨丝)、`{neon_sign_description}` (红色 "OPEN" 招牌、蓝色啤酒品牌 logo、粉色手写体字样)、`{neon_color}` (红 #FF2D2D、蓝 #3366FF、粉 #FF69B4、绿 #39FF14)、`{person_description}`、`{pose_description}` (倚靠门框、坐在翻倒的板条箱上、双手插兜站立)、`{clothing_description}` (吸光的深色卫衣、反射两种颜色的白色 T 恤、镜面反射的皮革)、`{camera_feel}` (Cinestill 800T 霓虹光晕、干净的夜间数码、Fujifilm 色彩科学)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 皮肤上双光源色彩的精确渲染
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 皮肤上双光源色彩的精确渲染
 
 ---
 
@@ -60,7 +60,7 @@ Constraints: glitch lines must look digital (clean horizontal displacement, not 
 
 **关键调节项:** `{person_description}`、`{direction}` (左、右)、`{hair_detail}` (显露头骨轮廓的紧贴寸头、及肩长发带逆光下飞散的发丝、向后束起的发髻)、`{glitch_positions}` (横穿眼部、横穿嘴部、横穿额头 — 指定 2-3 个位置)、`{accent_color}` (#FF0000 红、#00FF41 终端绿、#FF00FF 品红)、`{max_glitch_lines}` (3-5)
 
-**推荐模型:** GPT Image 2 — 高对比单色渲染与受控的故障定位
+**推荐模型:** GPT Image 2.5 — 高对比单色渲染与受控的故障定位
 
 ---
 

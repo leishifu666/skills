@@ -1,6 +1,6 @@
 # 海报与插画模式
 
-可复用的提示词模板:海报、艺术印刷品、活动拼贴与平面插画。每个模式用 `{variables}` 定制。默认模型:GPT Image 2 (5 段式格式),除非另有说明。
+可复用的提示词模板:海报、艺术印刷品、活动拼贴与平面插画。每个模式用 `{variables}` 定制。默认模型:GPT Image 2.5 (5 段式格式),除非另有说明。
 
 ---
 
@@ -56,7 +56,7 @@ Constraints: same athlete across all panels (consistent identity, gear, wraps), 
 
 **关键调节项:** `{athlete_description}`、`{gym_environment}` (带重沙袋的工业风拳馆、户外混凝土训练场、昏暗的地下拳台)、`{atmosphere_detail}` (逆光中的粉笔灰、冷空气中呼出的蒸汽、高窗洒下的金色光线)、`{action_type}` (出后手直拳、重沙袋上勾拳、跳绳)、`{action_detail}` (拳头击中沙袋产生可见的冲击波纹、绳索在头顶成弧线定格)、`{gear_description}` (红色手绑带、磨损的皮革手套、不戴手套 — 缠胶带的指节)、`{expression}` (专注的强度、克制的呼气、战吼)、`{detail_subject}` (贴胶带的指节抵着红色帆布、磨损的拳击靴鞋带、汗水从下巴滴落到帆布上)、`{detail_description}` (每根胶带纤维清晰可见、皮革在弯曲处开裂、单个汗滴悬在半空)、`{color_treatment}` (低饱和配暖中间调、高对比单色配棕褐色、青橙分离色调)、`{canvas_color}` (哑光黑 #0D0D0D、深炭灰 #1A1A1A)、`{divider_style}` (2px 细白线、无分隔线 — 边缘出血)
 
-**推荐模型:** GPT Image 2 — 面板间的身份一致性与汗水/纹理细节
+**推荐模型:** GPT Image 2.5 — 面板间的身份一致性与汗水/纹理细节
 
 ---
 
@@ -79,7 +79,7 @@ Quality: high
 
 **关键调节项:** `{device_name}`、`{color_light}` / `{color_dark}` (薰衣草紫 #E6D5F5 到 #7B4FA0、薄荷绿 #D0F0E0 到 #1B7A5A、珊瑚 #FFDDD2 到 #C44536)、`{device_finish}` (哑光铝、抛光钛、磨砂玻璃背板)、`{screen_content}` (干净的带应用图标的主屏、显示风景的相机应用、渐变壁纸)、`{accent_shapes}` (球体、圆角胶囊、柔和立方体、圆环)、`{accent_shape_color}` — 与背景同色系但更浅或更饱和、`{accent_size}` (高尔夫球到葡萄柚大小)、`{HEADLINE}` / `{SUBHEADLINE}`、`{headline_color}` (白 #FFFFFF、色系的深色调)、`{color_family}` (薰衣草紫、鼠尾草绿、暖赤陶)、`{tilt_angle}` (5-15)、`{horizontal_position}` (左三分之一、居中、右三分之一)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 文字渲染、屏幕内容可读性与设备准确性
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 文字渲染、屏幕内容可读性与设备准确性
 
 ---
 
@@ -100,7 +100,7 @@ Quality: high
 
 **关键调节项:** `{background_color}` (祖母绿 #006B3F、钴蓝 #0047AB、藏红花黄 #F4C430、亮粉 #FF1493)、`{model_description}`、`{outfit_description}` (超大皮风衣 + 厚底运动鞋、短款飞行员夹克 + 阔腿裤 + 厚底靴)、`{pose_description}` (宽站姿双臂交叉、一只手整理衣领、行走步态定格在半步之间)、`{MAIN_TITLE}` / `{SUBTITLE}`、`{title_font_style}` (几何无衬线、怪诞体、模板镂空体)、`{title_color}` (#FFFFFF、#000000、奶油白 #FFF5E1)、`{subtitle_color}` (与标题同色但 60% 不透明度)、`{fabric_details}` (皮革可见颗粒、灯芯绒棱纹、丹宁布锁边)、`{graphic_accents}` (无、距边缘 20px 的细白边框、左下角小 logo 标志)
 
-**推荐模型:** GPT Image 2 (`quality: high`) — 排印渲染与人物-字体层次穿插
+**推荐模型:** GPT Image 2.5 (`quality: high`) — 排印渲染与人物-字体层次穿插
 
 ---
 

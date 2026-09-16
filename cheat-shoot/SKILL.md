@@ -1,8 +1,7 @@
 ---
 name: cheat-shoot
 title: 技能：Cheat Shoot
-description: 登记一条视频已拍摄。**建 video folder + 询问实际拍摄稿是否与 scripts/[id].md 一致 + buffer +1**。与
-  cheat-publish 配对：拍了进队列，发了出队列。触发词："拍了"/"拍了 X"/"shot"/"shot it"/"已拍 X"/"录完了"。
+description: "登记视频已拍摄、核对实际稿件并更新待发布队列。"
 ---
 
 # /cheat-shoot — 登记拍摄完成 + 建 video folder + (改稿则) 触发 v2 预测

@@ -1,0 +1,30 @@
+{
+  "id": "cs2",
+  "setupSteps": [
+    [
+      "cs2-contract-read",
+      "Read {plugin_dir}/grimoire/intake/cs2_intake_contract.md completely"
+    ],
+    [
+      "cs2-authoritative-classification",
+      "Obtain an authoritative CS2 family/subtype classification record"
+    ],
+    [
+      "cs2-manifest",
+      "python3 {plugin_dir}/tools/cs2_manifest.py {reference} --classification classification.json --admission admission.json --probe probe.json --out cs2-intake.json"
+    ],
+    [
+      "cs2-spec-augmentation",
+      "python3 {plugin_dir}/tools/emit_spec_augmentation.py --manifest cs2-intake.json --out spec-augmentation.json"
+    ]
+  ],
+  "setupAnchorBefore": "local-spec-search",
+  "passSteps": [
+    [
+      "cs2-review",
+      "python3 {plugin_dir}/tools/cs2_review.py --manifest cs2-intake.json --metrics cs2-review-inputs.json --scene {plugin_dir}/tests/fixtures/knife_review_scene.json --out cs2-review.json --allow-deferrals"
+    ]
+  ],
+  "passAnchorBefore": "ai-review-recorded",
+  "specCollection": "cs2"
+}

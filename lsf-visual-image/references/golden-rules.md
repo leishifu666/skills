@@ -1,6 +1,6 @@
 # 黄金规则
 
-通用原则。适用于**两大家族**模型(Nano Banana 与 GPT Image 2)。
+通用原则。适用于**两大家族**模型(Nano Banana 与 GPT Image 2.5)。
 模型专属细节见 [nano-banana.md](nano-banana.md)、[gpt-image.md](gpt-image.md)。
 
 ## 1. 以动词开头
@@ -71,12 +71,12 @@ Mood: [Emotional descriptor]
 Format: [ASPECT RATIO]
 ```
 
-> **思考模式** (仅 NB)、**`quality: low/medium/high`** (仅 GPT Image 2) — 见对应 references。
+> **思考模式** (仅 NB)、**`quality: low/medium/high/xhigh/max`** (仅 GPT Image 2.5) — 见对应 references。
 
 ## 成本优化(批量工作)
 
 - **Nano Banana:** 先用 `0.5K` Flash 跑一批变体 → 精选 → 在 `2K`/`4K` 重生成优胜者。
-- **GPT Image 2:** 先用 `quality: low` 跑 → 精选 → 在 `medium` 或 `high` 重生成。
+- **GPT Image 2.5:** 先用 `quality: low` 跑 → 精选 → 在 `medium` 或 `high` 重生成。
 
 两种情况都是:廉价侦察 → 昂贵定稿。
 
@@ -90,7 +90,7 @@ Format: [ASPECT RATIO]
 
 ## 参考图
 
-多图输入:**NB 最多 14 张**,**GPT Image 2 最多 16 张**。为每张图标注角色。
+多图输入:**NB 最多 14 张**,**GPT Image 2.5 最多 16 张**。为每张图标注角色。
 
 用于:
 
@@ -133,7 +133,7 @@ Combine: face from Image 1, outfit style from Image 2, setting from Image 3.
 
 ## 世界知识锚点
 
-GPT Image 2 对文化、时代和视觉风格有深厚知识。与其描述每一个细节——不如给模型一个文化/时代/类型锚点,它会自动填充地道细节。
+GPT Image 2.5 对文化、时代和视觉风格有深厚知识。与其描述每一个细节——不如给模型一个文化/时代/类型锚点,它会自动填充地道细节。
 
 ### 三种锚点类型
 
@@ -158,7 +158,7 @@ GPT Image 2 对文化、时代和视觉风格有深厚知识。与其描述每�
 1. **当作 HIGH-LEVEL 方向** — 锚点设定情绪与美学,而不是替代整个提示词
 2. **与具体视觉细节组合** — 锚点建立世界,细节建立特定性
 3. **不要堆叠多个 type 锚点** — 只选一个。"Peter Lindbergh + Wes Anderson" = 混乱
-4. **时代/文化锚点在 GPT Image 2 上效果更好**(world knowledge)。Nano Banana 上的结果较不可预测——NB 更依赖显式描述
+4. **时代/文化锚点在 GPT Image 2.5 上效果更好**(world knowledge)。Nano Banana 上的结果较不可预测——NB 更依赖显式描述
 
 ### 示例
 

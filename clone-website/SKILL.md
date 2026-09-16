@@ -1,7 +1,7 @@
 ---
 name: clone-website
 title: 技能：Clone Website
-description: 用于处理“Clone Website”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "根据指定网页和截图重建其视觉布局与交互；用户要求复刻网站时使用。"
 argument-hint: <url1> [<url2> ...]
 user-invocable: true
 ---

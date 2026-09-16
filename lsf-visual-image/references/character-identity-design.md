@@ -153,7 +153,7 @@ Notes:
 
 先按主技能要求读取 `models.md` 和用户指定模型的参考文件。
 
-- GPT Image 2:使用 Scene / Subject / Important Details / Use Case / Constraints 五段式;文字密集设定图使用 `quality: high`;把全部身份锚点写入 Subject/Details,并在 Constraints 中逐项锁定。
+- GPT Image 2.5:使用 Scene / Subject / Important Details / Use Case / Constraints 五段式;文字密集设定图使用 `quality: high`;把全部身份锚点写入 Subject/Details,并在 Constraints 中逐项锁定。
 - Nano Banana:使用自然语言 1–2 段;复杂多区域布局可以使用结构化 JSON;不要写数字镜头参数;逐个描述布局区域和精确文字。
 - 其他模型:若技能中没有经过验证的专属参考,不要臆造参数或权重语法。输出清晰的通用自然语言版本,明确标注“未使用模型专属参数”。
 

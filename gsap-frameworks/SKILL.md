@@ -1,7 +1,7 @@
 ---
 name: gsap-frameworks
 title: 技能：GSAP Frameworks
-description: 用于处理“GSAP Frameworks”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "在 Vue、Nuxt、Svelte 等框架中集成 GSAP 生命周期与清理逻辑；React 使用 gsap-react。"
 license: MIT
 ---
 

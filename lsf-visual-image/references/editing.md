@@ -3,7 +3,7 @@
 通用模式。编辑逻辑因模型而异:
 
 - **Nano Banana:** 对话式,无需蒙版。「Keep X same, change Y」。对物理与材质理解良好。
-- **GPT Image 2:** 双栏逻辑 **Change / Preserve / Constraints**。每轮重复 preserve list,否则漂移。可选 `mask_image_url` 做点状编辑。identity preservation 最佳。见 [gpt-image.md](gpt-image.md#editing--двухколоночная-логика)。
+- **GPT Image 2.5:** 双栏逻辑 **Change / Preserve / Constraints**。每轮重复 preserve list,否则漂移。局部编辑按所用接口的蒙版字段传入，不把第三方的 `mask_image_url` 当作通用参数。检查身份是否保持。见 [gpt-image.md](gpt-image.md#editing--двухколоночная-логика)。
 
 通用规则:**每轮一次编辑**,不要一次改所有东西。
 

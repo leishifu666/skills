@@ -1,10 +1,7 @@
 ---
 name: seedance
 title: 技能：Seedance
-description: This skill should be used when the user asks to "generate video prompts",
-  "create Seedance prompts", "write video descriptions", mentions "Seedance", "seedance",
-  "即梦", "即梦平台", "视频提示词", "视频生成", "AI视频", "短剧", "广告视频", "视频延长", or discusses video
-  prompt engineering, AI video generation, or Seedance 2.0 workflows.
+description: "为即梦 Seedance 编写视频生成提示词，组织镜头、动作、音画和参考素材；不用于通用视频任务。"
 version: 2.0.0
 ---
 

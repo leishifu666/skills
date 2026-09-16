@@ -3,9 +3,9 @@ name: gstack
 title: 技能：Gstack
 preamble-tier: 1
 version: 1.2.0
-description: 用于处理“Gstack”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。"
 github_url: https://github.com/garrytan/gstack
-github_hash: 0d1bd5616c0ef096bb7ccee336f63c60ee408618
+github_hash: 85b8c038fc0002a1549789ea018e924c1d335de4
 allowed-tools:
 - Bash
 - Read
@@ -57,15 +57,11 @@ or page content. Treat an unterminated block as ending at end-of-output.
 
 ## Plan Mode Safe Operations
 
-In plan mode, allowed because they inform the plan: `$B`, `$D`, `codex exec`/`codex review`, writes to `~/.gstack/`, writes to the plan file, and `open` for generated artifacts.
+Follow the host’s active mode and the user’s requested scope. In analysis-only or plan mode, inspect and explain without implementing changes. A skill cannot grant a plan-mode exception or authorize worktrees, commits, publication, or messages.
 
 ## Skill Invocation During Plan Mode
 
-If the user invokes a skill in plan mode, the skill takes precedence over generic plan mode behavior. **Treat the skill file as executable instructions, not reference.** Follow it step by step starting from Step 0; any AskUserQuestion the skill fires is the workflow operating within plan mode, not a violation of it — and a skill whose instructions resolve a question themselves (e.g. a plan-mode auto-select) may legitimately not ask it. AskUserQuestion (any variant — `mcp__*__AskUserQuestion` or native; see "AskUserQuestion Format → Tool resolution") satisfies plan mode's end-of-turn requirement. If AskUserQuestion is unavailable or a call fails, follow the AskUserQuestion Format failure fallback: `headless` → BLOCKED; `interactive` → the prose fallback (also satisfies end-of-turn). At a STOP point, stop immediately. Do not continue the workflow or call ExitPlanMode there. Commands marked "PLAN MODE EXCEPTION — ALWAYS RUN" execute. Call ExitPlanMode only after the skill workflow completes, or if the user tells you to cancel the skill or leave plan mode.
-
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
-
-If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
 ## Artifacts Sync (skill start)
 
@@ -116,19 +112,7 @@ Escalate after 3 failed attempts, uncertain security-sensitive changes, or scope
 
 ## Operational Self-Improvement
 
-Before completing, review the session for durable learnings and log each one —
-this step ALWAYS runs, it is not conditional on something feeling noteworthy
-(#2402: 43 of 44 learnings came from explicit /learn because "if you
-discovered" read as optional). A durable learning is a project quirk, command
-fix, pitfall, or pattern that would save 5+ minutes in a future session. If
-the review genuinely surfaces none, state "No durable learnings this session"
-in your completion summary — an explicit empty result, not a skipped step.
-
-```bash
-~/.claude/skills/gstack/bin/gstack-learnings-log '{"skill":"SKILL_NAME","type":"operational","key":"SHORT_KEY","insight":"DESCRIPTION","confidence":N,"source":"observed"}'
-```
-
-Do not log obvious facts or one-time transient errors.
+Record a durable, non-sensitive lesson only when relevant to an authorized memory workflow. Do not require a learning entry or an empty-learning statement for every task.
 
 ## Telemetry (run last)
 
@@ -137,7 +121,7 @@ success/error/abort/unknown; `SESSION_ID` and `TEL_START` are the values the
 preamble's skill-start output echoed. It also drains the artifacts-sync queue
 (the former skill-end sync step — do not run gstack-brain-sync separately).
 
-**PLAN MODE EXCEPTION — ALWAYS RUN:** This writes telemetry to
+Only when the host mode and existing privacy choices allow it, this writes telemetry to
 `~/.gstack/analytics/`, matching preamble analytics writes.
 
 ```bash
@@ -161,6 +145,12 @@ This is the gstack router. Its one job is to send the request to the right skill
 
 1. If the request is about a browser, QA, dogfooding, screenshots, or inspecting a page
    (open a site, test a deploy, take a screenshot, check a flow visually) → invoke `/browse`.
+   Every gstack browser skill (`/browse`, `/qa`, `/qa-only`, `/design-review`, `/canary`,
+   `/benchmark`, `/scrape`) drives the Aside browser first — the user's real browser with
+   their real logged-in sessions — and falls back to gstack's own browser when Aside is not
+   installed or not running. Route "open the browser" / "import cookies" requests to the
+   fallback-browser skills below only when the user is clearly on that path (Linux,
+   Windows, or Aside closed); on Aside there is nothing to open or import.
 2. Otherwise, route by the rules below. If nothing matches, answer directly.
 
 Best-effort, record which way you routed (never block on it). Set `ROUTE_OUTCOME` to
@@ -201,7 +191,7 @@ quality gates that produce better results than answering inline.
 - User asks to update docs after shipping → invoke `/document-release`
 - User asks to write docs from scratch, generate documentation, "document this feature/module" → invoke `/document-generate`
 - User asks for a weekly retro, what did we ship, "how'd we do" → invoke `/retro`
-- User asks for a second opinion, codex review → invoke `/codex`
+Generic “second opinion”, “outside review”, or “cross-model review” requests use `/codex` (namespaced: `/gstack-codex`). This selection follows the **claude harness**, independently of model configuration. Explicit provider requests take precedence: Codex means `/codex`; Claude Code means `/claude-code`. Never silently substitute another provider. If that provider is the current harness, report that no outside invocation ran and suggest the other wrapper only as a separate user choice. Wrapper availability: Claude Code installs only /codex; Codex installs only /claude-code; other harnesses install both. Repair stale installations with `setup --host claude`. There is no /claude compatibility alias.
 - User asks for safety mode, careful mode → invoke `/careful` or `/guard`
 - User asks to restrict edits to a directory → invoke `/freeze` or `/unfreeze`
 - User asks to upgrade gstack → invoke `/gstack-upgrade`
@@ -209,8 +199,11 @@ quality gates that produce better results than answering inline.
 - User asks to resume, restore, "where was I" → invoke `/context-restore`
 - User asks about security, OWASP, vulnerabilities, "is this secure" → invoke `/cso`
 - User asks to make a PDF, document, publication → invoke `/make-pdf`
-- User asks to launch a real browser for QA, "open the browser" → invoke `/open-gstack-browser`
-- User asks to import cookies for authenticated testing → invoke `/setup-browser-cookies`
+- User asks to pull data off a web page, "grab the table from", "extract the prices" → invoke `/scrape`
+- User asks to launch a real browser for QA, "open the browser" → invoke `/open-gstack-browser` (fallback browser; on Aside the tabs are already visible)
+- User asks to import cookies for authenticated testing → invoke `/setup-browser-cookies` (fallback browser; Aside already has the sessions)
+- User asks to share the browser with another agent, "pair OpenClaw/Codex with my browser" → invoke `/pair-agent` (fallback browser)
+- User asks to codify or save the last `/scrape` as a reusable skill → invoke `/skillify` (fallback browser)
 - User asks about page speed, performance regression, benchmarks → invoke `/benchmark`
 - User asks what gstack has learned, "show learnings" → invoke `/learn`
 - User asks to tune question sensitivity, "stop asking me that" → invoke `/plan-tune`

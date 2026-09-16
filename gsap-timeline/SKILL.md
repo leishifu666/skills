@@ -1,7 +1,7 @@
 ---
 name: gsap-timeline
 title: 技能：GSAP Timeline
-description: 用于处理“GSAP Timeline”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "用 GSAP timeline 编排多段动画的顺序、并行关系和时间位置。"
 license: MIT
 ---
 

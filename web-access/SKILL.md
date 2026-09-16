@@ -5,7 +5,7 @@ license: MIT
 github: https://github.com/eze-is/web-access
 github_url: https://github.com/eze-is/web-access
 github_hash: 33eef84a55b1919396a80e7a55650a07bb83f590
-description: 所有需要联网、网页抓取、登录态操作、网络交互或社交媒体读取的任务都通过此技能处理。
+description: "用本地 CDP 工具处理需要登录态或页面交互的浏览任务；直接搜索或抓取已能完成时无需启用。"
 metadata:
   author: 一泽Eze
   version: 2.5.4
@@ -15,7 +15,7 @@ metadata:
 
 ## 前置检查
 
-在开始联网操作前，先检查 CDP 模式可用性：
+仅当当前任务需要本技能的 CDP 后端时，检查其可用性；普通搜索和静态读取跳过此步骤：
 
 ```bash
 node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
@@ -32,11 +32,7 @@ node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
 
 切换浏览器时，proxy 是长驻进程，需先 `pkill -f cdp-proxy.mjs` 再重跑 check-deps。
 
-检查通过后并必须在回复中向用户直接展示以下须知，再启动 CDP Proxy 执行操作：
-
-```
-温馨提示：部分站点对浏览器自动化操作检测严格，存在账号封禁风险。已内置防护措施但无法完全避免，Agent 继续操作即视为接受。
-```
+若遇到实际登录、权限或站点限制，说明具体阻碍并遵循现有授权；不把继续操作视为用户新增同意。
 
 ## 浏览哲学
 

@@ -1,9 +1,7 @@
 ---
 name: cheat-trends
 title: 技能：Cheat Trends
-description: 从配置的热点源（HN / Reddit / YouTube trending / B 站热门 / 等）抓今天的热门话题，去重 + 粗打分
-  + 写入 candidates.md。**绝大部分人没有候选池——这是让"我没素材"问题在 onboarding 第二步就消失的钥匙**。触发词："抓热点"/"fetch
-  trends"/"今天有什么可做的"/"trending now"/"找选题"。
+description: "从已配置的热点源获取话题，去重评分后写入 cheat-on-content 候选池。"
 ---
 
 # /cheat-trends — 热点抓取

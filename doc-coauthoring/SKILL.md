@@ -1,7 +1,7 @@
 ---
 name: doc-coauthoring
 title: 技能：DOC Coauthoring
-description: 用于处理“DOC Coauthoring”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "协作撰写或迭代技术文档、提案和决策说明；需要梳理结构及验证读者理解时使用。"
 ---
 
 # Doc Co-Authoring Workflow

@@ -2,7 +2,7 @@
 
 构建提示词的通用清单。适用于**两大家族**模型。差异见:
 - [nano-banana.md](nano-banana.md) — NB 专属 (grounding、extreme ratios、thinking mode、JSON)
-- [gpt-image.md](gpt-image.md) — GPT Image 2 (5-slot template、anti-slop、quality settings)
+- [gpt-image.md](gpt-image.md) — GPT Image 2.5 (5-slot template、anti-slop、quality settings)
 - [models.md](models.md) — 何时选哪种模型
 
 ## 任务类型(技能)
@@ -41,7 +41,7 @@
 
 > ⚠️ **镜头参数** (50mm、85mm、f/2.8、ISO):
 > - **Nano Banana** — 忽略数字,写描述(「shallow depth of field」)
-> - **GPT Image 2** — 允许「50mm feel」作为 high-level look,但不能作为精确物理模拟
+> - **GPT Image 2.5** — 允许「50mm feel」作为 high-level look,但不能作为精确物理模拟
 
 ## 细节模式(模式)
 

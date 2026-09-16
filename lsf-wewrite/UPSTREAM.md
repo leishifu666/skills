@@ -2,7 +2,7 @@
 
 - 仓库：https://github.com/imraywang/wewrite
 - 分支：main
-- 提交：a363da0d92d30fc442aba6549d1a8824ebb0c115
+- 提交：e8df474ea8d9fd1b06b474115cee568dc46c9ab2
 - 版本：4.2.1
 - Skill 路径：.
 - 安装时间：2026-09-09T15:20:30

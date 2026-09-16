@@ -1,7 +1,7 @@
 ---
 name: gsap-plugins
 title: 技能：GSAP Plugins
-description: 用于处理“GSAP Plugins”相关任务。仅在用户明确提出该需求，或任务与该技能的专业范围直接匹配时使用。
+description: "配置和使用 GSAP 插件，包括 Flip、Draggable、SVG、路径及文字动画。"
 license: MIT
 ---
 
