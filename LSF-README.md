@@ -53,9 +53,9 @@
 
 ## 上游仓库
 
-- `wewrite`：https://github.com/imraywang/wewrite（a363da0d92d30fc442aba6549d1a8824ebb0c115）
+- `wewrite`：https://github.com/imraywang/wewrite（e8df474ea8d9fd1b06b474115cee568dc46c9ab2）
 - `creator-buddy`：https://github.com/SpaceZephyr/creator-buddy（edf46c567ff54b72ee2157d06f3a02dbd67aaa9c）
-- `qu-ai-wei`：https://github.com/LifelongLazyLearner/qu-ai-wei（39da1cfac4f0e3e4d2b46bc7188a0edc762b8d17）
+- `qu-ai-wei`：https://github.com/LifelongLazyLearner/qu-ai-wei（1d32e803f091ec90808a69683ebf49e8a970a5e7）
 
 ## 更新方式
 

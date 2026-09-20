@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF｜音视频采集"
+  short_description: "下载在线视频和微信视频号，获取音频、字幕与元数据，支持 Windows 验证和故障处理"
+  default_prompt: "使用 $lsf-yt-dlp 按我的要求检查链接，下载普通视频或微信视频号，获取音频、字幕或元数据。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF｜Logo 几何规整与标准制图"
+  short_description: "规整 Logo 或草图为 SVG，默认交付贯穿定位线、构造圆、灰色排线与图上比例标注的标准制图"
+  default_prompt: "使用 $lsf-logo-geometry-system 优化我上传的 Logo 或草图，保留识别特征，交付 SVG、B 式比例定位标准制图、前后对比及验证报告。"

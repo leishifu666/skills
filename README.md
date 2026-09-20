@@ -1,36 +1,25 @@
-> **说明：** 本仓库包含 Anthropic 为 Claude 提供的 Skills 实现。关于 Agent Skills 标准，可查看 [agentskills.io](http://agentskills.io)。
+> **Note:** This repository contains Anthropic's implementation of skills for Claude. For information about the Agent Skills standard, see [agentskills.io](http://agentskills.io).
 
 # Skills
-`Skills` 是一组目录，内含指令、脚本和资源，Claude 可动态加载它们以提升特定场景下的任务表现。无论是按企业品牌规范生成文档、按你的业务流程做数据分析，还是自动化日常个人事务，Skills 都能以可复用的方式稳定产出结果。
+Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. Skills teach Claude how to complete specific tasks in a repeatable way, whether that's creating documents with your company's brand guidelines, analyzing data using your organization's specific workflows, or automating personal tasks.
 
 For more information, check out:
-- [什么是 Skills？](https://support.claude.com/en/articles/12512176-what-are-skills)
-- [如何在 Claude 中使用 Skills](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
-- [如何创建自定义 Skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
-- [如何通过 Agent Skills 让 Agent 更贴近真实场景](https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
+- [What are skills?](https://support.claude.com/en/articles/12512176-what-are-skills)
+- [Using skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+- [How to create custom skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
+- [Equipping agents for the real world with Agent Skills](https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 
-# 关于本仓库
+# About This Repository
 
-本仓库收录了一组 Skill 示例，演示了 Claude Skills 系统可实现的能力。示例覆盖从创意方向（如艺术、音乐、设计）到技术方向（如网页应用测试、MCP 服务生成），再到企业工作流（如沟通、品牌传播等）等多种场景。
+This repository contains skills that demonstrate what's possible with Claude's skills system. These skills range from creative applications (art, music, design) to technical tasks (testing web apps, MCP server generation) to enterprise workflows (communications, branding, etc.).
 
-每个 Skill 都是独立目录，并含有 `SKILL.md`，其中存放 Claude 读取的说明与元数据。你可以浏览这些示例，借鉴实现思路，或理解不同的模式与实现路径。
+Each skill is self-contained in its own folder with a `SKILL.md` file containing the instructions and metadata that Claude uses. Browse through these skills to get inspiration for your own skills or to understand different patterns and approaches.
 
-本仓库中的不少 Skill 采用 Apache 2.0 开源许可；同时我们也在 [`skills/docx`](./skills/docx)、[`skills/pdf`](./skills/pdf)、[`skills/pptx`](./skills/pptx)、[`skills/xlsx`](./skills/xlsx) 目录里提供了支撑 [Claude 文档能力](https://www.anthropic.com/news/create-files)的相关实现。它们为源码可见（source-available）而非完整开源，目的是给开发者提供更复杂 Skill 的参考。
+Many skills in this repo are open source (Apache 2.0). We've also included the document creation & editing skills that power [Claude's document capabilities](https://www.anthropic.com/news/create-files) under the hood in the [`skills/docx`](./skills/docx), [`skills/pdf`](./skills/pdf), [`skills/pptx`](./skills/pptx), and [`skills/xlsx`](./skills/xlsx) subfolders. These are source-available, not open source, but we wanted to share these with developers as a reference for more complex skills that are actively used in a production AI application.
 
-## 免责声明
+## Disclaimer
 
-## 仅供个人使用
-
-本仓库仅供我个人学习、研究与自用。
-
-- 未经书面授权，不得复制、再分发、公开镜像或转载本仓库内容。
-- 禁止任何形式的商业用途，包括但不限于：面向第三方收取费用的产品、SaaS 服务、咨询服务或转售。
-- 未经书面授权，不得将仓库公开分发，或以公开仓库形式创建 public fork。
-- 禁止任何用于公共传播或商业目的的修改再发布（包括派生作品）。
-
-如非仓库所有者，访问与使用本仓库请确保已获得我的书面许可。默认建议保持仓库为 `Private` 可见性。
-
-**本仓库中的示例仅用于演示与学习。** Claude 某些能力可能已在官方产品中可用，但你在本仓库中的实际实现与 Claude 实际表现可能存在差异。示例主要用于展示模式与思路，仅可用于实验与学习，关键场景请先在你的环境充分测试。
+**These skills are provided for demonstration and educational purposes only.** While some of these capabilities may be available in Claude, the implementations and behaviors you receive from Claude may differ from what is shown in these skills. These skills are meant to illustrate patterns and possibilities. Always test skills thoroughly in your own environment before relying on them for critical tasks.
 
 # Skill Sets
 - [./skills](./skills): Skill examples for Creative & Design, Development & Technical, Enterprise & Communication, and Document Skills
