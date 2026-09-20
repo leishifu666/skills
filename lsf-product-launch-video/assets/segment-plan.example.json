@@ -1,0 +1,155 @@
+{
+  "title": "LSF｜分段参考与交接计划示例",
+  "status": "planning_example_not_rendered",
+  "scope": "三段字段示例，不是完整产品介绍；真实运行 UI、输入录制和声音选材尚待实施",
+  "fps": 60,
+  "durationFrames": 840,
+  "width": 1920,
+  "height": 1080,
+  "conventions": {
+    "intervals": "left_closed_right_open",
+    "referenceTimeUnit": "seconds in the downloaded reference file",
+    "eventFrameUnit": "absolute master frame",
+    "inputTimeUnit": "absolute master milliseconds",
+    "audioEventFrame": "sample onset; not automatically the audible peak",
+    "style": "current approved product DESIGN.md",
+    "voiceover": false,
+    "generatedMediaClaims": "demo fixtures; no elapsed generation-time claim",
+    "sourceRoot": "project original directory",
+    "referenceRoot": "skill directory"
+  },
+  "referenceLibrary": [
+    {
+      "id": "input-reading",
+      "source": "https://x.com/bohdanmotion/status/2100600903862452583/video/1",
+      "file": "assets/mg-rhythm-research-2026-09-19/references/bohdan-bolt.mp4",
+      "inSeconds": 7.5,
+      "outSeconds": 9.8,
+      "review": {"date": "2026-09-19", "method": "sampled_frames", "sampleFPS": 2, "scope": "structure only; denser sampling required for exact timing", "audioAudited": false}
+    },
+    {
+      "id": "send-pullback",
+      "source": "https://x.com/bohdanmotion/status/2100600903862452583/video/1",
+      "file": "assets/mg-rhythm-research-2026-09-19/references/bohdan-bolt.mp4",
+      "inSeconds": 9.8,
+      "outSeconds": 11.2,
+      "review": {"date": "2026-09-19", "method": "native_frames", "sampleFPS": 25, "audioAudited": false}
+    },
+    {
+      "id": "cards-to-ui",
+      "source": "https://flashmotion.io/portfolio",
+      "file": "assets/mg-rhythm-research-2026-09-19/references/bolt-slides.mp4",
+      "inSeconds": 7.5,
+      "outSeconds": 10.3,
+      "review": {"date": "2026-09-19", "method": "sampled_frames", "sampleFPS": 12, "audioAudited": false}
+    }
+  ],
+  "scenes": [
+    {
+      "id": "input",
+      "startFrame": 0,
+      "endFrame": 360,
+      "message": "把想法写进画布节点",
+      "focus": "当前真实图像节点的输入区域",
+      "action": "聚焦、推进、两组输入、停留、拉回发送入口、真实发送接触",
+      "evidence": "制作前从当前 NodeCanvas 调用链核对真实输入 UI，不能替换为桌面 BottomInputBar",
+      "references": [{"refId": "input-reading", "role": "reading rhythm", "borrow": "输入时稳定，后续运动服务发送", "exclude": "原片字体、品牌、显示器外框、精确节奏"}],
+      "assetIds": ["tea-reference"],
+      "camera": {"entry": "交代节点", "action": "推进输入区域后稳定", "exit": "拉回发送入口", "implementation": "GSAP camera track"},
+      "entryState": "选中的节点，空输入框，图片参考已就位",
+      "exitState": "输入完成，发送已在 frame 354 触发一次，继承运行反馈初态",
+      "typingGroupIds": ["type-g1", "type-g2"],
+      "renderHandles": {"handleInFrames": 0, "handleOutFrames": 30},
+      "review": {"nativeInteractionCaptured": false, "rendered": false, "audioAudited": false}
+    },
+    {
+      "id": "result",
+      "startFrame": 360,
+      "endFrame": 540,
+      "message": "想法成为可检查的作品",
+      "focus": "同一节点内的发送、运行和结果",
+      "action": "接续同一次发送的原生运行反馈、揭示预置演示结果",
+      "evidence": "当前节点运行/结果组件；剪辑压缩等待需注明，不据此宣传生成耗时",
+      "references": [{"refId": "send-pullback", "role": "camera and contact", "borrow": "接触后拉远至结果上下文", "exclude": "原片按钮涟漪、模拟等待速度"}],
+      "assetIds": ["tea-reference", "tea-result"],
+      "camera": {"entry": "发送入口特写", "action": "沿同一方向拉回节点", "exit": "结果图稳定可读"},
+      "entryState": "继承 input 的光标、按钮位置、相机与发送后的运行状态；不再次发送",
+      "exitState": "同一节点显示 tea-result",
+      "renderHandles": {"handleInFrames": 30, "handleOutFrames": 30},
+      "review": {"nativeInteractionCaptured": false, "rendered": false, "audioAudited": false}
+    },
+    {
+      "id": "organize",
+      "startFrame": 540,
+      "endFrame": 840,
+      "message": "把作品组织成下一次创作的素材",
+      "focus": "真实画布作品与素材组织入口",
+      "action": "由同一结果图带出作品组，展示当前真实整理操作",
+      "evidence": "NodeCanvasAssetPanel 与当前保存/加入入口，制作前核对完整调用路径",
+      "references": [{"refId": "cards-to-ui", "role": "spatial handoff", "borrow": "同一作品与队列的空间关系延续", "exclude": "幻灯片产品 UI、无关图片"}],
+      "assetIds": ["tea-result", "tea-series"],
+      "camera": {"entry": "继承结果图矩形", "action": "退至作品组", "exit": "整理结果稳定阅读"},
+      "entryState": "tea-result 的可见裁切与上一镜一致",
+      "exitState": "作品组及真实整理反馈可见",
+      "renderHandles": {"handleInFrames": 30, "handleOutFrames": 0},
+      "review": {"nativeInteractionCaptured": false, "rendered": false, "audioAudited": false}
+    }
+  ],
+  "transitions": [
+    {
+      "id": "input-to-result",
+      "from": "input",
+      "to": "result",
+      "reason": "同一次发送从操作局部进入结果上下文",
+      "technique": "cut_on_action",
+      "startFrame": 342,
+      "cutFrame": 360,
+      "endFrame": 390,
+      "carryObject": "同一节点与发送按钮",
+      "exitState": "继承输入段实际测量的相机、光标、按钮矩形",
+      "entryState": "动作相位继续，不重复发送",
+      "motion": "共享 master 相机状态；接触附近有意停稳，再拉回",
+      "audioBridge": {"type": "L_cut", "ownerScene": "input", "eventIds": ["send-contact"], "intent": "接触发生在 input 末尾，余响延续到 result；仅处理该真实事件一次"},
+      "checks": ["真实点击命中", "发送只执行一次", "切点前后原生帧", "异步结果不早于发送"]
+    },
+    {
+      "id": "result-to-organize",
+      "from": "result",
+      "to": "organize",
+      "reason": "生成结果仍是下一段组织的对象",
+      "technique": "match_cut",
+      "startFrame": 516,
+      "cutFrame": 540,
+      "endFrame": 570,
+      "carryObject": "tea-result",
+      "exitState": "从上一镜实际渲染值取得位置、尺寸、裁切和旋转",
+      "entryState": "共享同一图片资源和屏幕投影",
+      "motion": "持续拉开到作品组，接点不无意归零",
+      "audioBridge": {"type": "transition_cue", "ownerScene": null, "eventIds": ["group-sweep"], "intent": "气流跨越切点；不把无场景归属的 whoosh 冒称 J-cut"},
+      "checks": ["图片身份与内部裁切", "运动方向与速度", "声音峰值与运动峰值", "尾音不截断"]
+    }
+  ],
+  "typingGroups": [
+    {"id": "type-g1", "sceneId": "input", "startMs": 1600, "endMs": 2250, "commitMs": 2250, "textDelta": "春日茶饮", "mode": "editorial_group_insert", "physicalKeystrokesObserved": false, "soundMethod": "拟音短组，待按实际输入回放选样", "cueIds": ["type-g1-a", "type-g1-b", "type-g1-c"]},
+    {"id": "type-g2", "sceneId": "input", "startMs": 2800, "endMs": 3600, "commitMs": 3600, "textDelta": " 摄影海报 留白", "mode": "editorial_group_insert", "physicalKeystrokesObserved": false, "soundMethod": "拟音短组，待按实际输入回放选样", "cueIds": ["type-g2-a", "type-g2-b", "type-g2-c"]}
+  ],
+  "audioAssets": [
+    {"id": "key1", "candidate": "outputs/audio-motion-refinement/audio/SND02_piano/type_01.wav", "source": "https://snd.dev/", "redistributeRaw": false, "earAudited": false},
+    {"id": "key2", "candidate": "outputs/audio-motion-refinement/audio/SND02_piano/type_02.wav", "source": "https://snd.dev/", "redistributeRaw": false, "earAudited": false},
+    {"id": "key3", "candidate": "outputs/audio-motion-refinement/audio/SND02_piano/type_03.wav", "source": "https://snd.dev/", "redistributeRaw": false, "earAudited": false},
+    {"id": "send", "candidate": "outputs/audio-motion-refinement/audio/SND02_piano/button.wav", "source": "https://snd.dev/", "redistributeRaw": false, "earAudited": false},
+    {"id": "sweep", "candidate": null, "source": "https://opengameart.org/content/air-whoosh", "status": "choose excerpt after audition", "earAudited": false}
+  ],
+  "events": [
+    {"id": "type-g1-a", "frame": 96, "durationFrames": 9, "kind": "type", "gain": 0.12, "pan": 0, "assetId": "key1", "visual": "第一输入短组开始；拟音，不是逐物理按键记录"},
+    {"id": "type-g1-b", "frame": 108, "durationFrames": 9, "kind": "type", "gain": 0.1, "pan": 0, "assetId": "key2", "visual": "第一输入短组继续"},
+    {"id": "type-g1-c", "frame": 124, "durationFrames": 9, "kind": "type", "gain": 0.11, "pan": 0, "assetId": "key3", "visual": "第一输入短组末次拟音"},
+    {"id": "type-g2-a", "frame": 168, "durationFrames": 9, "kind": "type", "gain": 0.11, "pan": 0, "assetId": "key2", "visual": "第二输入短组开始"},
+    {"id": "type-g2-b", "frame": 184, "durationFrames": 9, "kind": "type", "gain": 0.12, "pan": 0, "assetId": "key1", "visual": "第二输入短组继续"},
+    {"id": "type-g2-c", "frame": 204, "durationFrames": 9, "kind": "type", "gain": 0.1, "pan": 0, "assetId": "key3", "visual": "第二输入短组末次拟音"},
+    {"id": "send-contact", "frame": 354, "durationFrames": 18, "kind": "tap", "gain": 0.18, "pan": 0, "assetId": "send", "visual": "真实发送接触，尾音进入结果镜头；待实际操作确定峰值偏移"},
+    {"id": "group-sweep", "frame": 520, "durationFrames": 42, "kind": "sweep", "gain": 0.14, "pan": 0, "assetId": "sweep", "visual": "结果图拉开到作品组，运动声跨切点；待选样"}
+  ],
+  "music": {"enabled": false, "selectionStatus": "not_selected_for_this_schema_example", "note": "正式片保留用户要求的背景音乐；这里没有用假 BPM 代表选曲完成"},
+  "review": {"planOnly": true, "nativeUiVerified": false, "transitionRendered": false, "earAudited": false, "userApproved": false}
+}

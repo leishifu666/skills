@@ -1,0 +1,594 @@
+{
+  "title": "坤坤魔法：让灵感成为作品",
+  "fps": 30,
+  "durationFrames": 630,
+  "width": 1920,
+  "height": 1080,
+  "claim": "创意模板、模型选择和节点工作流串联创作",
+  "materialDisclosure": "已有项目作品，运行状态为按帧演示，生成时长经过剪辑；纵深图群为宣传编排",
+  "scenes": [
+    {
+      "id": "home",
+      "startFrame": 0,
+      "endFrame": 79,
+      "message": "让灵感动起来",
+      "focus": "原生卡片展开",
+      "action": "出生、展开、选中卡片",
+      "evidence": "components/ViscoseHome/vendor/ViscoseCarousel.jsx"
+    },
+    {
+      "id": "connect",
+      "startFrame": 79,
+      "endFrame": 113,
+      "message": "从一个灵感 连起创作",
+      "focus": "模板与图片节点",
+      "action": "模板落位后出现连线",
+      "evidence": "components/NodeCanvas/nodes/TextNode.tsx + ConnectionLayer.tsx"
+    },
+    {
+      "id": "typing",
+      "startFrame": 113,
+      "endFrame": 191,
+      "message": "电影感肖像 窗边自然光 细腻的胶片色彩",
+      "focus": "真实节点输入框",
+      "action": "推进、打字、停留",
+      "evidence": "components/NodeCanvas/panels/ImagePanel.tsx"
+    },
+    {
+      "id": "models",
+      "startFrame": 191,
+      "endFrame": 236,
+      "message": "多模型创作",
+      "focus": "真实模型选择器",
+      "action": "浮层展开、指针到位、切换模型",
+      "evidence": "components/NodeCanvas/panels/ImagePanel.tsx + utils/modelIcons.ts"
+    },
+    {
+      "id": "send",
+      "startFrame": 236,
+      "endFrame": 268,
+      "message": "发送生成",
+      "focus": "玻璃发送按钮",
+      "action": "快速推近，帧248调用原组件回调后拉远",
+      "evidence": "components/shared/GlassSendButton.tsx + ImagePanel.tsx"
+    },
+    {
+      "id": "running",
+      "startFrame": 268,
+      "endFrame": 304,
+      "message": "生成中",
+      "focus": "目标节点",
+      "action": "原生shader与加载指示器",
+      "evidence": "components/NodeCanvas/nodes/ImageNode.tsx"
+    },
+    {
+      "id": "reveal",
+      "startFrame": 304,
+      "endFrame": 349,
+      "message": "作品出现",
+      "focus": "历史作品3981",
+      "action": "原节点出现结果，推进后保持矩形交接",
+      "evidence": "components/NodeCanvas/nodes/ImageNode.tsx + 已有图片素材"
+    },
+    {
+      "id": "depth",
+      "startFrame": 349,
+      "endFrame": 439,
+      "message": "多种创意",
+      "focus": "同一主作品和图片队列",
+      "action": "纵深展开，两次不等长快速移动",
+      "evidence": "当前项目真实图片；新增GSAP镜头"
+    },
+    {
+      "id": "collection",
+      "startFrame": 439,
+      "endFrame": 506,
+      "message": "让想法 尽情展开",
+      "focus": "作品群",
+      "action": "群像停留、收束同一主作品",
+      "evidence": "当前项目真实图片；新增GSAP编排"
+    },
+    {
+      "id": "mark",
+      "startFrame": 506,
+      "endFrame": 551,
+      "message": "坤坤魔法",
+      "focus": "真实品牌形状",
+      "action": "主作品进入品牌遮罩，缩小落位",
+      "evidence": "项目Logo + GSAP"
+    },
+    {
+      "id": "brand",
+      "startFrame": 551,
+      "endFrame": 630,
+      "message": "让灵感成为作品",
+      "focus": "品牌与三项真实能力",
+      "action": "标题落定、停留",
+      "evidence": "项目组件对应：创意模板、模型选择、节点工作流"
+    }
+  ],
+  "events": [
+    {
+      "id": "cue-4",
+      "frame": 31,
+      "durationFrames": 14,
+      "kind": "sweep",
+      "gain": 0.2,
+      "pan": 0.2,
+      "visual": "出生、展开、选中卡片",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-5",
+      "frame": 80,
+      "durationFrames": 12,
+      "kind": "sweep",
+      "gain": 0.3,
+      "pan": -0.3,
+      "visual": "模板落位后出现连线",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-6",
+      "frame": 112,
+      "durationFrames": 8,
+      "kind": "sweep",
+      "gain": 0.25,
+      "pan": 0.15,
+      "visual": "模板落位后出现连线",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-7",
+      "frame": 236,
+      "durationFrames": 7,
+      "kind": "sweep",
+      "gain": 0.32,
+      "pan": 0.3,
+      "visual": "快速推近，帧248调用原组件回调后拉远",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-8",
+      "frame": 259,
+      "durationFrames": 9,
+      "kind": "sweep",
+      "gain": 0.4,
+      "pan": -0.2,
+      "visual": "快速推近，帧248调用原组件回调后拉远",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-9",
+      "frame": 315,
+      "durationFrames": 10,
+      "kind": "sweep",
+      "gain": 0.3,
+      "pan": 0,
+      "visual": "原节点出现结果，推进后保持矩形交接",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-10",
+      "frame": 350,
+      "durationFrames": 15,
+      "kind": "sweep",
+      "gain": 0.26,
+      "pan": 0.4,
+      "visual": "纵深展开，两次不等长快速移动",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-11",
+      "frame": 383,
+      "durationFrames": 7,
+      "kind": "sweep",
+      "gain": 0.35,
+      "pan": -0.5,
+      "visual": "纵深展开，两次不等长快速移动",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-12",
+      "frame": 405,
+      "durationFrames": 6,
+      "kind": "sweep",
+      "gain": 0.28,
+      "pan": -0.4,
+      "visual": "纵深展开，两次不等长快速移动",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-13",
+      "frame": 424,
+      "durationFrames": 13,
+      "kind": "sweep",
+      "gain": 0.3,
+      "pan": 0.3,
+      "visual": "纵深展开，两次不等长快速移动",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-14",
+      "frame": 485,
+      "durationFrames": 13,
+      "kind": "sweep",
+      "gain": 0.35,
+      "pan": 0,
+      "visual": "群像停留、收束同一主作品",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-15",
+      "frame": 514,
+      "durationFrames": 9,
+      "kind": "sweep",
+      "gain": 0.32,
+      "pan": 0,
+      "visual": "主作品进入品牌遮罩，缩小落位",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-16",
+      "frame": 296,
+      "durationFrames": 8,
+      "kind": "rise",
+      "gain": 0.23,
+      "pan": 0,
+      "visual": "原生shader与加载指示器",
+      "source": "whoosh2_0.wav",
+      "sourceTrim": [
+        0.04,
+        0.73
+      ]
+    },
+    {
+      "id": "cue-17",
+      "frame": 9,
+      "durationFrames": 9,
+      "kind": "click",
+      "gain": 0.1,
+      "pan": 0,
+      "visual": "出生、展开、选中卡片",
+      "source": "open_002.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-18",
+      "frame": 93,
+      "durationFrames": 6,
+      "kind": "click",
+      "gain": 0.24,
+      "pan": -0.2,
+      "visual": "模板落位后出现连线",
+      "source": "drop_002.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-19",
+      "frame": 101,
+      "durationFrames": 1,
+      "kind": "click",
+      "gain": 0.2,
+      "pan": 0.2,
+      "visual": "模板落位后出现连线",
+      "source": "select_002.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-20",
+      "frame": 203,
+      "durationFrames": 4,
+      "kind": "click",
+      "gain": 0.22,
+      "pan": -0.2,
+      "visual": "浮层展开、指针到位、切换模型",
+      "source": "open_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-21",
+      "frame": 226,
+      "durationFrames": 11,
+      "kind": "click",
+      "gain": 0.3,
+      "pan": 0,
+      "visual": "浮层展开、指针到位、切换模型",
+      "source": "select_003.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-22",
+      "frame": 248,
+      "durationFrames": 1,
+      "kind": "click",
+      "gain": 0.5,
+      "pan": 0.15,
+      "visual": "快速推近，帧248调用原组件回调后拉远",
+      "source": "click_005.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-23",
+      "frame": 304,
+      "durationFrames": 9,
+      "kind": "click",
+      "gain": 0.27,
+      "pan": 0,
+      "visual": "原节点出现结果，推进后保持矩形交接",
+      "source": "confirmation_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-24",
+      "frame": 528,
+      "durationFrames": 8,
+      "kind": "click",
+      "gain": 0.2,
+      "pan": 0,
+      "visual": "主作品进入品牌遮罩，缩小落位",
+      "source": "glass_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-25",
+      "frame": 125,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.08,
+      "pan": -0.2,
+      "visual": "推进、打字、停留",
+      "source": "tick_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-26",
+      "frame": 129,
+      "durationFrames": 3,
+      "kind": "type",
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "visual": "推进、打字、停留",
+      "source": "click_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-27",
+      "frame": 135,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.065,
+      "pan": 0.09999999999999998,
+      "visual": "推进、打字、停留",
+      "source": "tick_002.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-28",
+      "frame": 140,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.08,
+      "pan": -0.2,
+      "visual": "推进、打字、停留",
+      "source": "tick_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-29",
+      "frame": 146,
+      "durationFrames": 3,
+      "kind": "type",
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "visual": "推进、打字、停留",
+      "source": "click_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-30",
+      "frame": 152,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.065,
+      "pan": 0.09999999999999998,
+      "visual": "推进、打字、停留",
+      "source": "tick_002.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-31",
+      "frame": 157,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.08,
+      "pan": -0.2,
+      "visual": "推进、打字、停留",
+      "source": "tick_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-32",
+      "frame": 164,
+      "durationFrames": 3,
+      "kind": "type",
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "visual": "推进、打字、停留",
+      "source": "click_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-33",
+      "frame": 170,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.065,
+      "pan": 0.09999999999999998,
+      "visual": "推进、打字、停留",
+      "source": "tick_002.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-34",
+      "frame": 176,
+      "durationFrames": 1,
+      "kind": "type",
+      "gain": 0.08,
+      "pan": -0.2,
+      "visual": "推进、打字、停留",
+      "source": "tick_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-35",
+      "frame": 181,
+      "durationFrames": 3,
+      "kind": "type",
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "visual": "推进、打字、停留",
+      "source": "click_001.ogg",
+      "sourceTrim": null
+    },
+    {
+      "id": "cue-36",
+      "frame": 79,
+      "durationFrames": 5,
+      "kind": "thump",
+      "gain": 0.28,
+      "pan": 0,
+      "visual": "模板落位后出现连线",
+      "source": "160bpm_electronic_loop.wav",
+      "sourceTrim": [
+        18,
+        18.17
+      ]
+    },
+    {
+      "id": "cue-37",
+      "frame": 304,
+      "durationFrames": 5,
+      "kind": "thump",
+      "gain": 0.35,
+      "pan": 0,
+      "visual": "原节点出现结果，推进后保持矩形交接",
+      "source": "160bpm_electronic_loop.wav",
+      "sourceTrim": [
+        18,
+        18.17
+      ]
+    },
+    {
+      "id": "cue-38",
+      "frame": 382,
+      "durationFrames": 5,
+      "kind": "thump",
+      "gain": 0.28,
+      "pan": 0,
+      "visual": "纵深展开，两次不等长快速移动",
+      "source": "160bpm_electronic_loop.wav",
+      "sourceTrim": [
+        18,
+        18.17
+      ]
+    },
+    {
+      "id": "cue-39",
+      "frame": 405,
+      "durationFrames": 5,
+      "kind": "thump",
+      "gain": 0.24,
+      "pan": 0,
+      "visual": "纵深展开，两次不等长快速移动",
+      "source": "160bpm_electronic_loop.wav",
+      "sourceTrim": [
+        18,
+        18.17
+      ]
+    },
+    {
+      "id": "cue-40",
+      "frame": 506,
+      "durationFrames": 5,
+      "kind": "thump",
+      "gain": 0.3,
+      "pan": 0,
+      "visual": "主作品进入品牌遮罩，缩小落位",
+      "source": "160bpm_electronic_loop.wav",
+      "sourceTrim": [
+        18,
+        18.17
+      ]
+    },
+    {
+      "id": "cue-41",
+      "frame": 551,
+      "durationFrames": 5,
+      "kind": "thump",
+      "gain": 0.27,
+      "pan": 0,
+      "visual": "标题落定、停留",
+      "source": "160bpm_electronic_loop.wav",
+      "sourceTrim": [
+        18,
+        18.17
+      ]
+    }
+  ],
+  "music": {
+    "enabled": true,
+    "bpm": 160,
+    "gain": 0.64,
+    "source": "RUOK / 160BPM Electronic Loop / CC0",
+    "envelope": "详见 audio-cues.json 和 source/sound.py"
+  }
+}

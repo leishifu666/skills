@@ -1,0 +1,782 @@
+{
+  "videos": [
+    {
+      "file": "references/comfy-layout.mp4",
+      "duration": 2.375,
+      "bytes": 1027697,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/comfy-main.mp4",
+      "duration": 4.541667,
+      "bytes": 726479,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/comfy-masks.mp4",
+      "duration": 7.833333,
+      "bytes": 1174952,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/comfy-spatial.mp4",
+      "duration": 11.25,
+      "bytes": 1908598,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/launchvideo-shaders.mp4",
+      "duration": 10.233333,
+      "bytes": 975367,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 1600,
+          "height": 900,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/launchvideo-statistics.mp4",
+      "duration": 15.061333,
+      "bytes": 3334869,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "r_frame_rate": "0/0",
+          "sample_rate": "48000",
+          "channels": 2
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/nils-original.mp4",
+      "duration": 16.896,
+      "bytes": 6756922,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 2902,
+          "height": 2160,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "r_frame_rate": "0/0",
+          "sample_rate": "48000",
+          "channels": 2
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/spline-preview.mp4",
+      "duration": 4.033333,
+      "bytes": 473340,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 720,
+          "height": 720,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/spline-process.mp4",
+      "duration": 8.933333,
+      "bytes": 337074,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 960,
+          "height": 540,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    },
+    {
+      "file": "references/webflow-ecommerce.mp4",
+      "duration": 4.0,
+      "bytes": 508024,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "width": 720,
+          "height": 720,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "decodeOK": true,
+      "decodeErrors": ""
+    }
+  ],
+  "sounds": [
+    {
+      "file": "audio/kenney-interface/Audio/back_001.ogg",
+      "duration": 0.063878,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/back_002.ogg",
+      "duration": 0.069841,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/back_003.ogg",
+      "duration": 0.09288,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/back_004.ogg",
+      "duration": 0.072993,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/bong_001.ogg",
+      "duration": 0.122834,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/click_001.ogg",
+      "duration": 0.100023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/click_002.ogg",
+      "duration": 0.010023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/click_003.ogg",
+      "duration": 0.010023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/click_004.ogg",
+      "duration": 0.010023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/click_005.ogg",
+      "duration": 0.010023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/close_001.ogg",
+      "duration": 0.147778,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/close_002.ogg",
+      "duration": 0.313787,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/close_003.ogg",
+      "duration": 0.313787,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/close_004.ogg",
+      "duration": 0.32288,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/confirmation_001.ogg",
+      "duration": 0.289841,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/confirmation_002.ogg",
+      "duration": 0.539002,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/confirmation_003.ogg",
+      "duration": 0.322018,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/confirmation_004.ogg",
+      "duration": 0.490408,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/drop_001.ogg",
+      "duration": 0.109819,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/drop_002.ogg",
+      "duration": 0.191088,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/drop_003.ogg",
+      "duration": 0.191088,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/drop_004.ogg",
+      "duration": 0.286689,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_001.ogg",
+      "duration": 0.164558,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_002.ogg",
+      "duration": 0.164558,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_003.ogg",
+      "duration": 0.533469,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_004.ogg",
+      "duration": 0.102698,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_005.ogg",
+      "duration": 0.500045,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_006.ogg",
+      "duration": 0.500045,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_007.ogg",
+      "duration": 0.191995,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/error_008.ogg",
+      "duration": 0.13932,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glass_001.ogg",
+      "duration": 0.278435,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glass_002.ogg",
+      "duration": 0.125306,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glass_003.ogg",
+      "duration": 0.123673,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glass_004.ogg",
+      "duration": 0.692268,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glass_005.ogg",
+      "duration": 0.110794,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glass_006.ogg",
+      "duration": 0.110794,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glitch_001.ogg",
+      "duration": 0.020023,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glitch_002.ogg",
+      "duration": 0.030023,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glitch_003.ogg",
+      "duration": 0.010023,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/glitch_004.ogg",
+      "duration": 0.022902,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_001.ogg",
+      "duration": 0.25839,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_002.ogg",
+      "duration": 0.258277,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_003.ogg",
+      "duration": 0.211859,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_004.ogg",
+      "duration": 0.417959,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_005.ogg",
+      "duration": 0.526372,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_006.ogg",
+      "duration": 0.379955,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_007.ogg",
+      "duration": 0.18576,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_008.ogg",
+      "duration": 0.225351,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/maximize_009.ogg",
+      "duration": 0.224785,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_001.ogg",
+      "duration": 0.25839,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_002.ogg",
+      "duration": 0.258277,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_003.ogg",
+      "duration": 0.211859,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_004.ogg",
+      "duration": 0.417959,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_005.ogg",
+      "duration": 0.526372,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_006.ogg",
+      "duration": 0.379955,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_007.ogg",
+      "duration": 0.18576,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_008.ogg",
+      "duration": 0.225351,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/minimize_009.ogg",
+      "duration": 0.224785,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/open_001.ogg",
+      "duration": 0.147778,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/open_002.ogg",
+      "duration": 0.313787,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/open_003.ogg",
+      "duration": 0.313787,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/open_004.ogg",
+      "duration": 0.32288,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/pluck_001.ogg",
+      "duration": 0.102426,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/pluck_002.ogg",
+      "duration": 0.164558,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/question_001.ogg",
+      "duration": 0.49068,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/question_002.ogg",
+      "duration": 0.332517,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/question_003.ogg",
+      "duration": 0.332494,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/question_004.ogg",
+      "duration": 0.332472,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scratch_001.ogg",
+      "duration": 0.13932,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scratch_002.ogg",
+      "duration": 0.13932,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scratch_003.ogg",
+      "duration": 0.123424,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scratch_004.ogg",
+      "duration": 0.325079,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scratch_005.ogg",
+      "duration": 0.325079,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scroll_001.ogg",
+      "duration": 1.000023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scroll_002.ogg",
+      "duration": 1.000023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scroll_003.ogg",
+      "duration": 1.000023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scroll_004.ogg",
+      "duration": 1.000023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/scroll_005.ogg",
+      "duration": 1.000023,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_001.ogg",
+      "duration": 0.043288,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_002.ogg",
+      "duration": 0.043288,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_003.ogg",
+      "duration": 0.382766,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_004.ogg",
+      "duration": 0.382766,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_005.ogg",
+      "duration": 0.382766,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_006.ogg",
+      "duration": 1.943923,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_007.ogg",
+      "duration": 0.046939,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/select_008.ogg",
+      "duration": 0.046939,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_001.ogg",
+      "duration": 0.617664,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_002.ogg",
+      "duration": 0.610952,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_003.ogg",
+      "duration": 0.5,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_004.ogg",
+      "duration": 0.5,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_005.ogg",
+      "duration": 0.611927,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_006.ogg",
+      "duration": 0.610544,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/switch_007.ogg",
+      "duration": 0.614354,
+      "sampleRate": "44100",
+      "channels": 2
+    },
+    {
+      "file": "audio/kenney-interface/Audio/tick_001.ogg",
+      "duration": 0.02322,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/tick_002.ogg",
+      "duration": 0.02322,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/tick_004.ogg",
+      "duration": 0.054807,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/toggle_001.ogg",
+      "duration": 0.13932,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/toggle_002.ogg",
+      "duration": 0.13932,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/toggle_003.ogg",
+      "duration": 0.13932,
+      "sampleRate": "44100",
+      "channels": 1
+    },
+    {
+      "file": "audio/kenney-interface/Audio/toggle_004.ogg",
+      "duration": 0.066168,
+      "sampleRate": "44100",
+      "channels": 1
+    }
+  ],
+  "audioListening": "Not audited by ear",
+  "sampling": "Overview 2–4 fps; selected transitions 12 fps; Nils entire clip 8 fps; displayed sample times nominal"
+}

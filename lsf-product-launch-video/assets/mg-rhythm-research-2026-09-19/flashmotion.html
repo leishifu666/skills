@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Motion — Videos for SaaS, AI & Tech</title>
+  <meta name="description" content="Flash Motion is a motion design studio producing animated product videos and explainer videos for SaaS, AI and tech companies. Transparent per-second pricing, 6-step production workflow, and 50+ delivered projects.">
+  <link rel="canonical" href="https://flashmotion.io/">
+  <meta property="og:site_name" content="Flash Motion">
+  <meta property="og:title" content="Flash Motion — Motion Design Studio for SaaS, AI & Tech">
+  <meta property="og:description" content="Flash Motion is a motion design studio producing animated product videos and explainer videos for SaaS, AI and tech companies. Transparent per-second pricing, 6-step production workflow, and 50+ delivered projects.">
+  <meta property="og:image" content="https://flashmotion.io/assets/img/og-image.png?v=20260601">
+  <meta property="og:image:secure_url" content="https://flashmotion.io/assets/img/og-image.png?v=20260601">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Flash Motion — Videos for SaaS, AI & Tech">
+  <meta property="og:url" content="https://flashmotion.io/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@flashmotion_io">
+  <meta name="twitter:title" content="Flash Motion — Motion Design Studio for SaaS, AI & Tech">
+  <meta name="twitter:description" content="High-impact motion design videos for SaaS, AI and tech companies — built for product launches, feature announcements, and growth campaigns.">
+  <meta name="twitter:image" content="https://flashmotion.io/assets/img/og-image.png?v=20260601">
+  <meta name="twitter:image:alt" content="Flash Motion — Videos for SaaS, AI & Tech">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:#0c0c0c;--bg2:#111;--bg3:#161616;
+      --border:#222;--border2:#2e2e2e;
+      --text:#e8e5df;--muted:#444;--muted2:#777;
+    }
+    html{scrollbar-gutter:stable;}
+    body{
+      background:var(--bg);color:var(--text);
+      font-family:'DM Sans',sans-serif;
+      padding-top:96px;
+      overflow-x:hidden;
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:16px;left:50%;transform:translateX(-50%);
+      z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;height:60px;
+      background:rgba(12,12,12,0.6);
+      backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+      border:0.5px solid rgba(255,255,255,0.1);
+      border-top:0.5px solid rgba(255,255,255,0.18);
+      border-radius:16px;
+      width:calc(100% - 48px);
+      max-width:860px;
+      gap:24px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .nav-logo{font-size:15px;font-weight:500;color:var(--text);text-decoration:none;white-space:nowrap;}
+    .nav-links{display:flex;gap:32px;list-style:none;flex:1;justify-content:center;}
+    .nav-links a{font-size:12px;color:var(--muted2);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color .2s;white-space:nowrap;}
+    .nav-links a:hover{color:var(--text);}
+
+    /* ── PREMIUM BUTTON ── */
+    @property --btn-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+    @keyframes btn-spin{to{--btn-angle:360deg;}}
+    @keyframes btn-sweep{0%{left:-100%;}45%{left:150%;}100%{left:150%;}}
+    @keyframes arrow-drift{0%,100%{transform:translateX(0);}50%{transform:translateX(3px);}}
+
+    .btn-premium{
+      position:relative;display:inline-flex;border-radius:8px;flex-shrink:0;
+    }
+    .btn-premium::before{
+      content:'';position:absolute;inset:-1.5px;border-radius:9px;z-index:0;
+      background:conic-gradient(from var(--btn-angle),
+        transparent 0deg, transparent 55deg,
+        rgba(255,255,255,0.5) 75deg, rgba(255,255,255,0.85) 90deg,
+        rgba(255,255,255,0.5) 105deg,
+        transparent 125deg, transparent 360deg);
+      animation:btn-spin 3s linear infinite;
+    }
+    .btn-premium::after{
+      content:'';position:absolute;inset:1px;border-radius:7px;
+      background:#e8e5df;z-index:1;transition:background 0.3s ease;
+    }
+    .btn-premium:hover::after{background:#161616;}
+    .btn-premium-inner{
+      position:relative;z-index:2;
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+      color:#0c0c0c;padding:13px 28px;border-radius:7px;border:none;
+      cursor:pointer;font-family:inherit;background:#e8e5df;overflow:hidden;
+      white-space:nowrap;transition:color 0.3s ease,background 0.3s ease;
+    }
+    .btn-premium:hover .btn-premium-inner{color:#e8e5df;background:#161616;}
+    .btn-premium-inner::before{
+      content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;
+      background:linear-gradient(to right,transparent,rgba(255,255,255,0.22),transparent);
+      animation:btn-sweep 3s ease-in-out infinite;z-index:0;
+    }
+    .btn-premium-inner > *{position:relative;z-index:1;}
+    .btn-premium-inner svg{animation:arrow-drift 2s ease-in-out infinite;}
+
+    .nav-cta{display:none;}
+
+    /* Small variant for nav */
+    .btn-premium.sm .btn-premium-inner{font-size:12px;padding:8px 18px;gap:6px;}
+    .btn-premium.sm::after{border-radius:7px;}
+
+    .nav-cta-wrap{flex-shrink:0;}
+
+    /* ── BURGER ── */
+    .burger{
+      display:none;
+      flex-direction:column;justify-content:center;gap:5px;
+      width:36px;height:36px;cursor:pointer;
+      background:none;border:none;padding:4px;flex-shrink:0;
+    }
+    .burger span{
+      display:block;height:1.5px;width:100%;background:var(--text);
+      transition:transform 0.3s ease,opacity 0.3s ease;
+      transform-origin:center;
+    }
+    .burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+    .burger.open span:nth-child(2){opacity:0;}
+    .burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu{
+      display:none;
+      position:fixed;top:88px;left:50%;
+      transform:translateX(-50%) translateY(-8px);
+      z-index:99;
+      width:calc(100% - 48px);max-width:860px;
+      background:rgba(12,12,12,0.75);
+      backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+      border:0.5px solid rgba(255,255,255,0.1);
+      border-top:0.5px solid rgba(255,255,255,0.18);
+      border-radius:16px;overflow:hidden;
+      flex-direction:column;
+      opacity:0;
+      transition:opacity 0.3s ease,transform 0.3s ease;
+      pointer-events:none;
+      box-shadow:none;
+    }
+    .mobile-menu.open{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mobile-menu a{
+      display:block;padding:16px 24px;
+      font-size:13px;letter-spacing:0.06em;text-transform:uppercase;
+      color:var(--muted2);text-decoration:none;
+      border-bottom:0.5px solid rgba(255,255,255,0.06);
+      transition:color .2s,background .2s;
+    }
+    .mobile-menu a:last-child{border-bottom:none;}
+    .mobile-menu a:hover{color:var(--text);background:rgba(255,255,255,0.04);}
+    .section-divider{height:0.5px;background:var(--border);}
+    .view-all-btn{position:relative;display:inline-flex;border-radius:8px;flex-shrink:0;cursor:pointer;}
+    .view-all-btn::before{content:'';position:absolute;inset:-1.5px;border-radius:9px;z-index:0;background:conic-gradient(from var(--btn-angle),transparent 0deg,transparent 55deg,rgba(255,255,255,0.5) 75deg,rgba(255,255,255,0.85) 90deg,rgba(255,255,255,0.5) 105deg,transparent 125deg,transparent 360deg);animation:btn-spin 3s linear infinite;}
+    .view-all-btn::after{content:'';position:absolute;inset:1px;border-radius:7px;background:#e8e5df;z-index:1;transition:background 0.3s ease;}
+    .view-all-btn:hover::after{background:#161616;}
+    .view-all-btn-inner{position:relative;z-index:2;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:#0c0c0c;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;padding:12px 24px;border-radius:7px;background:#e8e5df;overflow:hidden;transition:color 0.3s ease,background 0.3s ease;}
+    .view-all-btn:hover .view-all-btn-inner{color:#e8e5df;background:#161616;}
+    .view-all-btn-inner::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(to right,transparent,rgba(255,255,255,0.22),transparent);animation:btn-sweep 3s ease-in-out infinite;z-index:0;}
+    .view-all-btn-inner > *{position:relative;z-index:1;}
+    .view-all-btn-inner svg{animation:arrow-drift 2s ease-in-out infinite;}
+
+    /* ── HERO ── */
+    .hero-wrap{
+      position:relative;
+      overflow-x:clip; /* prevent horizontal scroll from reel bleed */
+    }
+    .hero{
+      display:grid;
+      grid-template-columns:55fr 45fr;
+      align-items:center;
+      gap:0;
+      padding:80px 64px 80px;
+      min-height:88vh;
+      position:relative;
+      max-width:1100px;
+      margin:0 auto;
+      overflow:visible;
+    }
+    .hero-frame{
+      position:relative;
+      display:flex;flex-direction:column;align-items:flex-start;
+      width:100%;
+      padding-right:48px;
+    }
+    .hero-eyebrow{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted2);margin-bottom:20px;}
+    .hero-h1{user-select:none;font-size:clamp(32px,4.5vw,68px);font-weight:300;letter-spacing:-0.03em;line-height:1.04;color:var(--text);margin-bottom:22px;font-style:italic;}
+    .hero-h1 span.bold{font-weight:600;font-style:normal;}
+    .hero-keyword-wrap{
+      display:inline-block;
+      position:relative;
+      overflow:hidden;
+      vertical-align:top;
+      line-height:inherit;
+      user-select:none;
+    }
+    .hero-keyword{
+      display:inline-block;
+      font-weight:600;font-style:normal;
+      white-space:nowrap;
+      transition:transform 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.55s cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-keyword.kw-active{
+      position:relative;
+      transform:translateY(0);opacity:1;
+      user-select:text;
+    }
+    .hero-keyword.kw-exit-up{
+      position:absolute;top:0;left:0;
+      transform:translateY(-110%);opacity:0;
+      pointer-events:none;user-select:none;
+    }
+    .hero-keyword.kw-enter-down{
+      position:absolute;top:0;left:0;
+      transform:translateY(110%);opacity:0;
+      pointer-events:none;user-select:none;
+    }
+
+    .hero-sub{
+      font-size:16px;color:var(--muted2);font-weight:300;margin-bottom:36px;
+    }
+
+    .hero-btns{display:inline-flex;gap:12px;align-items:center;flex-wrap:nowrap;justify-content:flex-start;}
+
+    /* ── CLIENT LOGO STRIP ── */
+    .client-strip{margin-top:44px;}
+    .client-strip-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted2);text-align:left;margin-bottom:18px;}
+    .client-logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:22px 32px;}
+    .client-logos img{height:18px;width:auto;display:block;opacity:0.55;filter:grayscale(1) brightness(1.6);transition:opacity 0.25s ease;}
+    .client-logos img:hover{opacity:0.9;}
+    .client-logos img[alt="BitGo"]{height:25px;}
+    .client-logos img[alt="UXCam"]{height:15px;}
+    .client-more{font-size:14px;color:var(--muted2);white-space:nowrap;}
+    /* ── HERO CARD REEL (vertical, overlapping) ── */
+    .hero-reel{
+      position:relative;
+      /* Bleed top/bottom past hero padding using negative margins */
+      margin-top:-96px;
+      margin-bottom:-40px;
+      align-self:stretch;
+      overflow:hidden;
+      width:100%;
+    }
+    .hero-cards{
+      position:relative;
+      width:100%;height:100%;
+    }
+    .hero-card{
+      position:absolute;
+      left:0;right:0;
+      border-radius:10px;overflow:hidden;
+      border:0.5px solid var(--border);
+      background:var(--bg3);
+      visibility:hidden; /* hidden until JS positions cards */
+      transition:
+        transform 0.65s cubic-bezier(0.22,1,0.36,1),
+        filter 0.65s cubic-bezier(0.22,1,0.36,1);
+      will-change:transform,filter;
+      transform-origin:center center;
+    }
+    .hero-cards.fm-positioned .hero-card{visibility:visible;}
+    .hero-card video{
+      width:100%;height:100%;object-fit:cover;display:block;
+      opacity:0;transition:opacity 0.5s ease;
+    }
+    .hero-card video.fm-ready{opacity:1;}
+    /* Skeleton shimmer */
+    .hero-card::before{
+      content:'';
+      position:absolute;inset:0;
+      background:linear-gradient(
+        90deg,
+        #1a1a1a 0%,
+        #1a1a1a 30%,
+        #2a2a2a 50%,
+        #1a1a1a 70%,
+        #1a1a1a 100%
+      );
+      background-size:200% 100%;
+      animation:fm-shimmer 1.6s ease-in-out infinite;
+      z-index:1;
+      border-radius:10px;
+      transition:opacity 0.5s ease;
+    }
+    .hero-card.fm-loaded::before{
+      opacity:0;
+      pointer-events:none;
+    }
+    @keyframes fm-shimmer{
+      0%{background-position:200% 0;}
+      100%{background-position:-200% 0;}
+    }
+    /* Solid bg overlay — fades in to dim without blending card content through */
+    .hero-card-overlay{
+      position:absolute;inset:0;
+      background:#0c0c0c;
+      opacity:0;
+      transition:opacity 0.65s cubic-bezier(0.22,1,0.36,1);
+      pointer-events:none;
+      z-index:2;
+    }
+    /* Inverted variant — grey bg, white text; hover swaps to white bg, dark text */
+    .btn-premium.inv::after{background:#161616;}
+    .btn-premium.inv .btn-premium-inner{color:var(--text);background:#161616;}
+    .btn-premium.inv:hover::after{background:var(--text);}
+    .btn-premium.inv:hover .btn-premium-inner{color:#0c0c0c;background:var(--text);}
+    /* Inverted static — same colours but no spinning stroke or sweep */
+    .btn-premium.inv-static::before{display:none;}
+    .btn-premium.inv-static::after{background:#161616;border:0.5px solid #2a2a2a;}
+    .btn-premium.inv-static .btn-premium-inner{color:var(--text);background:#161616;}
+    .btn-premium.inv-static .btn-premium-inner::before{display:none;}
+    .btn-premium.inv-static .btn-premium-inner svg{animation:none;}
+    .btn-premium.inv-static:hover::after{background:#222;border-color:#3a3a3a;}
+    .btn-premium.inv-static:hover .btn-premium-inner{color:var(--text);background:#222;}
+
+    .hero-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+      color:#0c0c0c;background:var(--text);
+      padding:13px 28px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;transition:opacity .2s;
+    }
+    .hero-btn:hover{opacity:0.85;}
+    .hero-btn svg,.nav-cta svg,.view-all-btn-inner svg{animation:arrow-drift 2s ease-in-out infinite;}
+    @keyframes arrow-drift{
+      0%,100%{transform:translateX(0);}
+      50%{transform:translateX(3px);}
+    }
+
+    /* ── SECTION ── */
+    .section-wrap{padding:100px 64px;max-width:1100px;margin:0 auto;}
+    .section-label{
+      display:block;text-align:center;
+      font-size:clamp(28px,3.5vw,42px);font-weight:300;font-style:italic;
+      letter-spacing:-0.025em;line-height:1.1;color:var(--text);
+      margin-bottom:56px;
+    }
+    .section-label strong{font-weight:600;font-style:normal;}
+
+    /* ── PORTFOLIO REVEAL ── */
+
+    /* ── PORTFOLIO GRID ── */
+    .portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);}
+    .p-card{background:var(--bg);padding:24px 24px 28px;display:flex;flex-direction:column;gap:10px;transition:background .2s;min-width:0;}
+    .p-card:hover{background:var(--bg3);}
+    .p-thumb{
+      width:100%;aspect-ratio:16/9;background:var(--bg3);
+      border-radius:2px;overflow:hidden;margin-bottom:4px;
+      border:0.5px solid var(--border);position:relative;cursor:pointer;
+    }
+    .p-thumb video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .p-thumb-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+    .play-overlay{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.15);transition:background .25s;z-index:2;
+    }
+    .p-thumb:hover .play-overlay{background:rgba(0,0,0,0.4);}
+    .play-btn{
+      width:52px;height:52px;border-radius:50%;
+      background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);
+      border:1.5px solid rgba(255,255,255,0.4);
+      display:flex;align-items:center;justify-content:center;
+      transition:transform .25s,background .25s;
+      animation:pulse 2.5s ease-in-out infinite;
+    }
+    .p-thumb:hover .play-btn{transform:scale(1.1);background:rgba(255,255,255,0.25);animation:none;}
+    .play-btn svg{width:20px;height:20px;fill:white;}
+    @keyframes pulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.2);}
+      50%{box-shadow:0 0 0 10px rgba(255,255,255,0);}
+    }
+    .yt-btn{width:38px;height:26px;background:#ff0000;border-radius:5px;display:flex;align-items:center;justify-content:center;}
+    .p-client{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);}
+    .p-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;}
+    .p-desc{font-size:12px;color:var(--muted2);line-height:1.7;font-weight:300;}
+    .p-link{font-size:11px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;margin-top:2px;transition:color .2s;display:inline-flex;align-items:center;gap:4px;}
+    .p-link:hover{color:var(--text);}
+    /* ── DURATION TAG (featured grid) ── */
+    @property --ptag-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+    @keyframes ptag-spin{to{--ptag-angle:360deg;}}
+    @keyframes dot-pulse{
+      0%,100%{transform:scale(1);opacity:1;}
+      50%{transform:scale(0.8);opacity:0.6;}
+    }
+    .p-dur-tag{position:relative;display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:0.04em;font-weight:500;color:var(--text);background:var(--bg3);border-radius:10px;padding:6px 14px;cursor:pointer;text-decoration:none;overflow:hidden;transition:background .25s,color .25s;border:0.5px solid var(--border2);align-self:flex-start;}
+    
+    
+    
+    
+    .p-dur-tag-label{position:relative;z-index:3;transition:color .25s;}
+    .p-dur-tag-divider{position:relative;z-index:3;width:0.5px;height:12px;background:var(--border2);flex-shrink:0;transition:background .25s;}
+    .p-dur-tag-cta{position:relative;z-index:3;font-size:11px;letter-spacing:0.04em;color:var(--text);font-weight:500;transition:color .25s;white-space:nowrap;}
+    .p-dur-tag:hover{background:var(--text);border-color:var(--text);}
+    .p-dur-tag-arrow{position:relative;z-index:3;color:var(--text);flex-shrink:0;transition:color .25s,transform .25s;}
+    .p-dur-tag:hover .p-dur-tag-arrow{color:#333;transform:translateX(2px);}
+    
+    .p-dur-tag:hover .p-dur-tag-label{color:#0c0c0c;}
+    .p-dur-tag:hover .p-dur-tag-divider{background:#bbb;}
+    .p-dur-tag:hover .p-dur-tag-cta{color:#333;}
+
+    /* ── WORKFLOW ── */
+    .wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);}
+    .wf-card{background:var(--bg);padding:36px 32px;transition:background .25s, color .25s;cursor:default;}
+    .wf-card:hover{background:var(--text);}
+    .wf-card:hover .wf-num{color:#555;}
+    .wf-card:hover .wf-title{color:#0c0c0c;}
+    .wf-card:hover .wf-desc{color:#555;}
+    .wf-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;}
+    .wf-num{font-size:40px;font-weight:300;color:#555;letter-spacing:-0.02em;line-height:1;transition:color .25s;}
+    .wf-title{font-size:18px;font-weight:300;font-style:italic;color:var(--text);transition:color .25s;}
+    .wf-desc{font-size:13px;color:var(--muted2);line-height:1.78;font-weight:300;transition:color .25s;}
+
+    /* ── CAL ── */
+    .cal-section{padding:100px 64px;}
+    #book-a-call{scroll-margin-top:96px;}
+    .cal-header{text-align:center;margin-bottom:56px;}
+    .cal-header h2{font-size:clamp(28px,4vw,52px);font-weight:300;font-style:italic;letter-spacing:-0.02em;margin-bottom:12px;}
+    .cal-header h2 span{font-weight:600;font-style:normal;}
+    .cal-header p{font-size:15px;color:var(--muted2);font-weight:300;}
+    .cal-wrap{width:100%;min-height:700px;border-radius:6px;overflow:hidden;}
+    #my-cal-inline-meeting{width:100%;min-height:700px;overflow:scroll;}
+
+    /* ── LIGHTBOX ── */
+    .lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;padding:24px;}
+    .lightbox.open{display:flex;}
+    .lightbox-inner{position:relative;width:100%;max-width:900px;aspect-ratio:16/9;}
+    .lightbox-inner iframe{width:100%;height:100%;border:none;border-radius:4px;display:block;}
+    .lightbox-close{position:absolute;top:-44px;right:0;width:36px;height:36px;background:none;border:0.5px solid #444;border-radius:50%;color:#aaa;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s;}
+    .lightbox-close:hover{border-color:#aaa;color:#fff;}
+
+    /* ── FOOTER ── */
+    footer{border-top:0.5px solid var(--border);padding:48px 64px 40px;}
+    .footer-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr auto auto auto;column-gap:72px;row-gap:40px;}
+    .footer-logo{font-size:14px;font-weight:500;color:var(--text);margin-bottom:12px;display:block;}
+    .footer-tagline{font-size:12px;color:var(--muted2);font-weight:300;line-height:1.6;margin-bottom:20px;}
+    .footer-email{font-size:12px;color:var(--muted2);text-decoration:none;transition:color .2s;}
+    .footer-email:hover{color:var(--text);}
+    .footer-col-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+    .footer-nav{list-style:none;display:flex;flex-direction:column;gap:10px;}
+    .footer-nav a{font-size:13px;color:var(--muted2);text-decoration:none;transition:color .2s;font-weight:300;}
+    .footer-nav a:hover{color:var(--text);}
+    .footer-social{display:flex;flex-direction:column;gap:10px;}
+    .footer-social a{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--muted2);text-decoration:none;font-weight:300;transition:color .2s;}
+    .footer-social a:hover{color:var(--text);}
+    .footer-social svg{width:14px;height:14px;flex-shrink:0;opacity:0.6;}
+    .footer-bottom{grid-column:1/-1;padding-top:24px;border-top:0.5px solid var(--border);display:flex;flex-direction:column;gap:6px;}
+    .footer-copy{font-size:11px;color:var(--muted);}
+    .footer-legal{font-size:11px;color:#6f6f6f;line-height:1.85;font-weight:300;text-wrap:pretty;}
+
+    /* ── PRICING ── */
+    .pricing-section{position:relative;z-index:1;}
+    .pricing-inner{max-width:1100px;margin:0 auto;padding:100px 64px;}
+    .pricing-calc{max-width:100%;}
+    .pc-eyebrow{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;}
+    .pc-total-wrap{display:flex;align-items:baseline;gap:16px;}
+    .pc-total{font-size:clamp(44px,7vw,72px);font-weight:300;font-style:italic;letter-spacing:-0.03em;line-height:1;color:var(--text);}
+    .pc-total b{font-weight:600;font-style:normal;}
+    .pc-div{height:0.5px;background:var(--border);margin:28px 0;}
+    .pc-ctrl-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+    .pc-label{font-size:12px;letter-spacing:0.07em;text-transform:uppercase;color:var(--text);}
+    .pc-val{font-size:13px;font-weight:500;color:var(--text);}
+    .pc-slider-ends{display:flex;justify-content:space-between;margin-top:6px;}
+    .pc-slider-end{font-size:12px;color:var(--muted2);}
+    input.pc-range{-webkit-appearance:none;appearance:none;width:100%;height:1px;background:#2a2a2a;outline:none;cursor:pointer;}
+    input.pc-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--text);cursor:pointer;border:none;}
+    input.pc-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--text);cursor:pointer;border:none;}
+    .pc-pkg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .pc-add-btn{font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#888;background:none;border:0.5px solid var(--border2);padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;transition:color .2s,border-color .2s;}
+    .pc-add-btn:hover{color:var(--text);border-color:#444;}
+    .pc-pkg-list{display:flex;flex-direction:column;gap:10px;}
+    .pc-pkg{position:relative;background:#111;border:0.5px solid var(--border);border-radius:10px;padding:18px 18px 16px;transition:border-color .2s;}
+    .pc-pkg:hover{border-color:var(--border2);}
+    .pc-pkg-remove{position:absolute;top:12px;right:12px;background:none;border:0.5px solid var(--border);border-radius:6px;color:#2e2e2e;cursor:pointer;font-size:14px;line-height:1;padding:4px 8px;transition:color .2s,border-color .2s;font-family:inherit;}
+    .pc-pkg-remove:hover{color:#888;border-color:#444;}
+    .pc-pkg-title{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text);margin-bottom:14px;}
+    .pc-dur-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+    .pc-dur-label{font-size:12px;color:var(--muted2);white-space:nowrap;}
+    .pc-dur-val{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;min-width:28px;text-align:right;}
+    .pc-fmt-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;}
+.pc-fmt-list{display:flex;flex-wrap:wrap;gap:10px;}
+    .pc-chip{display:flex;align-items:center;gap:7px;font-size:11px;color:#555;border:0.5px solid #222;border-radius:6px;padding:9px 13px;cursor:pointer;transition:border-color .2s,color .2s,background .2s;user-select:none;}
+    .pc-chip:hover{border-color:#333;color:#888;}
+    .pc-chip.base{color:var(--text);cursor:default;border-color:#444;background:#161616;}
+    .pc-chip.base .pc-chip-res{color:#555;}
+    .pc-chip.sel{border-color:#444;color:var(--text);background:#161616;}
+    .pc-check{width:12px;height:12px;border-radius:2px;border:0.5px solid #333;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;}
+    .pc-chip.sel .pc-check{background:var(--text);border-color:var(--text);}
+    .pc-chip.sel .pc-check::after{content:'';display:block;width:6px;height:4px;border-left:1.5px solid #0c0c0c;border-bottom:1.5px solid #0c0c0c;transform:rotate(-45deg) translateY(-1px);}
+    .pc-chip-info{line-height:1.3;}
+    .pc-chip-name{display:block;font-size:11px;}
+    .pc-chip-res{display:block;font-size:10px;color:#333;}
+    .pc-chip.sel .pc-chip-res{color:#555;}
+    .pc-sub{margin-top:14px;padding-top:12px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;}
+    .pc-sub-label{font-size:11px;color:var(--muted2);}
+    .pc-sub-val{font-size:13px;font-weight:500;color:var(--text);}
+    .pc-tl-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+    .pc-tl-card{box-shadow:inset 0 0 0 0.5px var(--border);border-radius:8px;padding:12px 10px;cursor:pointer;transition:box-shadow .2s,background .2s;text-align:center;user-select:none;}
+    .pc-tl-card:hover{box-shadow:inset 0 0 0 0.5px var(--border2);}
+    .pc-tl-card.sel{box-shadow:inset 0 0 0 0.5px var(--text);background:#161616;}
+    .pc-tl-speed{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;}
+    .pc-tl-extra{font-size:10px;color:#444;margin-bottom:6px;}
+    .pc-tl-card.sel .pc-tl-extra{color:#666;}
+    .pc-tl-days{font-size:10px;color:#2a2a2a;}
+    .pc-tl-card.sel .pc-tl-days{color:#555;}
+    .pc-summary{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:8px;overflow:hidden;}
+    .pc-sum-cell{background:#0f0f0f;padding:16px 18px;}
+    .pc-sum-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;}
+    .pc-sum-val{font-size:22px;font-weight:300;font-style:italic;color:var(--text);letter-spacing:-0.02em;}
+    .pc-sum-val b{font-weight:600;font-style:normal;}
+    .pc-sum-sub{font-size:11px;color:var(--muted2);margin-top:3px;}
+    .pc-breakdown{display:flex;flex-direction:column;gap:5px;}
+    .pc-brow{display:flex;justify-content:space-between;font-size:12px;color:var(--muted2);}
+    .pc-brow.lit{color:var(--muted2);}
+    .pc-brow.hint{color:var(--muted);font-style:italic;}
+    .pc-brow.tot{color:var(--text);padding-top:8px;border-top:0.5px solid var(--border);margin-top:4px;}
+    .pc-note{font-size:11px;color:var(--muted2);line-height:1.75;margin-top:24px;padding-top:20px;border-top:0.5px solid var(--border);}
+    .pc-note strong{color:var(--text);}
+    /* ── MODE TOGGLE ── */
+    .pc-mode-toggle{display:flex;gap:6px;margin-bottom:30px;}
+    .pc-mode-btn{flex:1;font-size:12px;font-family:inherit;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:9px 16px;border-radius:8px;border:0.5px solid #2a2a2a;background:transparent;color:#555;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+    .pc-mode-btn.sel{background:#1a1a1a;color:var(--text);border-color:#3a3a3a;}
+    .pc-mode-btn:hover:not(.sel){border-color:#333;color:#888;}
+    .pc-mode-btn:focus{outline:none;}
+    .pc-mode-btn:focus-visible{outline:1px solid #666;outline-offset:3px;}
+    .pc-choice-label{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;}
+    /* ── WORLD-CLASS HIGHLIGHT ── */
+    .hl{color:var(--text);font-weight:500;}
+    /* ── PACKAGES (cards) ── */
+    .pc-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+    .pc-card{background:#111;border:0.5px solid #262626;border-radius:14px;padding:30px 26px 26px;display:flex;flex-direction:column;position:relative;transition:border-color .2s;min-width:0;}
+    .pc-card:hover{border-color:#333;}
+    .pc-card.pop{border-color:#4a4a4a;background:#141414;}
+    .pc-card-badge{position:absolute;top:-11px;left:26px;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#0c0c0c;background:var(--text);border-radius:20px;padding:4px 11px;font-weight:600;}
+    .pc-card-name{font-size:16px;font-weight:500;letter-spacing:-0.005em;margin-bottom:16px;}
+    .pc-card-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}
+    .pc-card-price{font-size:38px;font-weight:300;font-style:italic;letter-spacing:-0.02em;line-height:1;color:var(--text);}
+    .pc-card-price b{font-weight:600;font-style:normal;}
+    .pc-card-scope{font-size:11px;color:var(--muted2);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:18px;}
+    .pc-card-div{height:0.5px;background:var(--border);margin-bottom:20px;}
+    .pc-card-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:13px;margin-bottom:26px;flex:1;}
+    .pc-card-list li{display:flex;gap:10px;font-size:12.5px;color:#c9c6c0;line-height:1.5;}
+    .pc-card-check{width:15px;height:15px;border-radius:50%;border:0.5px solid #3a3a3a;color:var(--text);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+    .pc-card>.btn-premium{align-self:flex-start;}
+    /* ── AD-ON (Ad Creative) ── */
+    .pc-addon{background:#0c0c0c;border:0.5px solid var(--border2);border-radius:14px;padding:26px 30px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;margin-bottom:14px;}
+    .pc-addon-left{display:flex;flex-direction:column;gap:6px;min-width:0;}
+    .pc-addon-name{font-size:15px;font-weight:500;color:var(--text);}
+    .pc-addon-scope{font-size:11px;color:var(--muted2);letter-spacing:0.04em;text-transform:uppercase;}
+    .pc-addon-desc{font-size:12.5px;color:var(--muted2);font-weight:300;max-width:440px;}
+    .pc-addon-right{display:flex;align-items:center;gap:20px;flex-shrink:0;}
+    .pc-addon-price{font-size:20px;font-weight:300;font-style:italic;color:var(--text);white-space:nowrap;}
+    .pc-addon-price b{font-weight:600;font-style:normal;}
+    .pc-addon-price-wrap{display:flex;flex-direction:column;gap:2px;}
+    .pc-addon-note{font-size:11px;font-style:normal;color:var(--muted2);white-space:nowrap;}
+    .pc-addon-btn .btn-premium-inner{font-size:12px;padding:8px 18px;gap:6px;}
+    .pc-addon-btn::after{border-radius:7px;}
+    /* ── SHARE BUTTON + TOAST ── */
+    .pc-share-wrap{margin-top:20px;display:flex;flex-direction:column;gap:8px;}
+    .pc-share-btn{position:relative;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-family:inherit;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#0c0c0c;background:transparent;border:none;border-radius:8px;padding:0;cursor:pointer;width:fit-content;overflow:visible;}
+    .pc-share-btn::before{content:'';position:absolute;inset:-1.5px;border-radius:9px;z-index:0;background:conic-gradient(from var(--btn-angle),transparent 0deg,transparent 55deg,rgba(255,255,255,0.5) 75deg,rgba(255,255,255,0.85) 90deg,rgba(255,255,255,0.5) 105deg,transparent 125deg,transparent 360deg);animation:btn-spin 3s linear infinite;}
+    .pc-share-btn::after{content:'';position:absolute;inset:1px;border-radius:7px;background:#e8e5df;z-index:1;transition:background .3s;}
+    .pc-share-btn:hover::after{background:#161616;}
+    .pc-share-btn-inner{position:relative;z-index:2;display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:7px;background:#e8e5df;color:#0c0c0c;overflow:hidden;white-space:nowrap;transition:color .3s,background .3s;}
+    .pc-share-btn:hover .pc-share-btn-inner{color:#e8e5df;background:#161616;}
+    .pc-share-btn-inner::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(to right,transparent,rgba(255,255,255,0.22),transparent);animation:btn-sweep 3s ease-in-out infinite;z-index:0;}
+    .pc-share-btn-inner > *{position:relative;z-index:1;}
+    .pc-share-hint{font-size:11px;color:#666;line-height:1.6;}
+    .pc-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(8px);background:#1a1a1a;border:0.5px solid #333;color:var(--text);font-size:12px;font-family:inherit;letter-spacing:0.04em;padding:10px 18px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:99999;white-space:nowrap;}
+    .pc-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    .pc-section-label{font-size:12px;letter-spacing:0.07em;text-transform:uppercase;color:var(--text);margin-bottom:10px;margin-top:16px;}
+    .pc-two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .pc-hook-chip{display:flex;align-items:center;gap:7px;font-size:11px;color:#555;border:0.5px solid #222;border-radius:6px;padding:9px 13px;cursor:pointer;transition:border-color .2s,color .2s,background .2s;user-select:none;}
+    .pc-hook-chip:hover{border-color:#333;color:#888;}
+    .pc-hook-chip.sel{border-color:#444;color:var(--text);background:#161616;}
+    .pc-hook-chip .pc-check{width:12px;height:12px;border-radius:2px;border:0.5px solid #333;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;}
+    .pc-hook-chip.sel .pc-check{background:var(--text);border-color:var(--text);}
+    .pc-hook-chip.sel .pc-check::after{content:'';display:block;width:6px;height:4px;border-left:1.5px solid #0c0c0c;border-bottom:1.5px solid #0c0c0c;transform:rotate(-45deg) translateY(-1px);}
+    .pc-brow-group{display:flex;flex-direction:column;gap:0;padding:16px 0;border-top:0.5px solid var(--border);}
+    .pc-brow-group:first-child{border-top:none;padding-top:0;}
+    .pc-brow-group-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;letter-spacing:-0.01em;}
+    .pc-brow-item{display:flex;justify-content:space-between;font-size:12px;color:var(--text);padding-left:12px;padding:5px 0 5px 12px;}
+    .pc-brow-item.sub-total{color:var(--text);font-weight:500;padding-left:0;margin-top:10px;font-size:13px;border-top:0.5px solid #2a2a2a;padding-top:10px;}
+    .pc-brow-item.timeline{color:var(--muted2);font-size:11px;padding:1px 0 6px 12px;font-style:italic;}
+    .pc-brow-item.rush{display:flex;justify-content:space-between;font-size:12px;color:var(--muted2);padding:5px 0 5px 12px;}
+    .pc-brow-item.sub-total .strike{color:var(--muted);text-decoration:line-through;margin-right:8px;font-weight:400;}
+    .pc-brow-total .strike{color:var(--muted);text-decoration:line-through;margin-right:8px;font-weight:400;}
+    .pc-brow-rush{display:flex;justify-content:space-between;font-size:12px;color:var(--muted2);padding:8px 0;border-top:0.5px solid var(--border);}
+    .pc-brow-hint{font-size:11px;color:var(--muted);font-style:italic;padding:4px 0;}
+    .pc-brow-total{display:flex;justify-content:space-between;font-size:14px;color:var(--text);font-weight:500;padding-top:12px;border-top:0.5px solid var(--border);margin-top:4px;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      nav{padding:0 24px;width:calc(100% - 32px);}
+      .nav-links{display:none;}
+      .btn-premium.sm{display:none;}
+      .burger{display:flex;}
+      .mobile-menu{display:flex;}
+      .hero{grid-template-columns:1fr;padding:48px 20px 40px;min-height:auto;gap:32px;}
+      .hero-frame{align-items:flex-start;padding:0;}
+      .hero-frame::before,.hero-frame::after{display:none;}
+      .hero-btns{gap:8px;}
+      .hero-btns .btn-premium-inner{font-size:11px;padding:10px 14px;gap:5px;}
+      .hero-btns .btn-premium-inner svg{width:11px;height:11px;}
+      .hero-reel{position:relative;margin-top:0;margin-bottom:0;width:100%;height:44vw;overflow:hidden;align-self:auto;}
+      .section-wrap{padding:48px 20px;}
+      .client-strip{margin-top:32px;}
+      .client-logos{gap:18px 24px;}
+      .client-logos img{height:16px;}
+      .client-logos img[alt="BitGo"]{height:22px;}
+      .client-logos img[alt="UXCam"]{height:13px;}
+      .portfolio-grid{grid-template-columns:1fr;}
+      .wf-grid{grid-template-columns:1fr;}
+      .cal-section{padding:64px 20px;}
+      .pricing-inner{padding:48px 20px 64px;}
+      #pricing{scroll-margin-top:80px;}
+      #workflow{scroll-margin-top:80px;}
+      #book-a-call{scroll-margin-top:80px;}
+      .pc-tl-grid{grid-template-columns:repeat(2,1fr);}
+      .pc-summary{grid-template-columns:1fr;}
+      .pc-fmt-list{gap:6px;}
+      .pc-chip{padding:5px 9px;}
+      .pc-two-col{grid-template-columns:1fr;}
+      .pc-card-grid{grid-template-columns:1fr;}
+      .pc-addon{grid-template-columns:1fr;justify-items:start;}
+      #my-cal-inline-meeting{min-height:600px;}
+      footer{padding:40px 20px;}
+      .footer-inner{grid-template-columns:1fr;}
+      .footer-legal{text-align:left;}
+    }
+  
+
+/* ── CASE STUDY MODAL ── */
+.cs-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:24px;}
+.cs-modal.open{display:flex;}
+.cs-wrap{position:relative;width:100%;max-width:860px;}
+.cs-close{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:none;border:0.5px solid #444;color:#aaa;cursor:pointer;transition:border-color .2s,color .2s;margin-left:auto;margin-bottom:10px;flex-shrink:0;}
+.cs-close:hover{border-color:#aaa;color:#fff;}
+.cs-inner{position:relative;width:100%;background:#111;border:0.5px solid #2a2a2a;border-radius:16px;overflow:hidden;max-height:85vh;overflow-y:auto;}
+.cs-video{width:100%;aspect-ratio:16/9;background:#000;}
+.cs-video iframe{width:100%;height:100%;border:none;display:block;}
+.cs-body{padding:32px 36px 36px;}
+.cs-title{font-size:18px;font-weight:500;color:#e8e5df;margin-bottom:8px;line-height:1.3;}
+.cs-dur{font-size:11px;color:#555;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:28px;}
+.cs-sections{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.cs-section-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#555;margin-bottom:8px;}
+.cs-section-text{font-size:13px;color:#999;line-height:1.65;font-weight:300;}
+@media(max-width:768px){.cs-sections{grid-template-columns:1fr;}.cs-body{padding:20px;}.cs-title{font-size:15px;}}
+</style>
+  <link rel="icon" type="image/png" href="/assets/img/logo.png">
+  <link rel="apple-touch-icon" href="/assets/img/logo.png">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://flashmotion.io/#organization",
+      "name": "Flash Motion",
+      "legalName": "Flash Motion s.r.o.",
+      "url": "https://flashmotion.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://flashmotion.io/assets/img/logo.png"
+      },
+      "image": "https://flashmotion.io/assets/img/og-image.png",
+      "description": "Flash Motion is a motion design studio producing animated product videos, explainer videos, and motion graphics for SaaS, AI & Tech products. We create videos for product launches, feature announcements, and growth campaigns.",
+      "foundingDate": "2022",
+      "founder": {
+        "@type": "Person",
+        "name": "Bohdan Serdiuk"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Malešická 2855/2b",
+        "addressLocality": "Prague",
+        "addressCountry": "CZ"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "info@flashmotion.io",
+        "url": "https://flashmotion.io/#book-a-call"
+      },
+      "sameAs": [
+        "https://x.com/flashmotion_io",
+        "https://www.linkedin.com/company/flash-motion",
+        "https://www.instagram.com/flashmotion/",
+        "https://www.youtube.com/channel/UCfLuBJvv-IXbliPq_moaMSQ"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://flashmotion.io/#website",
+      "url": "https://flashmotion.io/",
+      "name": "Flash Motion",
+      "description": "Motion design studio for SaaS, AI and tech companies",
+      "publisher": {
+        "@id": "https://flashmotion.io/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://flashmotion.io/#webpage",
+      "url": "https://flashmotion.io/",
+      "name": "Flash Motion — Videos for SaaS, AI & Tech",
+      "description": "Flash Motion creates high-impact animated videos for SaaS, AI and tech companies — product explainers, launch videos, feature announcements, and motion graphics.",
+      "isPartOf": {
+        "@id": "https://flashmotion.io/#website"
+      },
+      "about": {
+        "@id": "https://flashmotion.io/#organization"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://flashmotion.io/"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://flashmotion.io/#service",
+      "name": "Flash Motion — Motion Design Studio",
+      "url": "https://flashmotion.io/",
+      "description": "Flash Motion specializes in animated product videos, SaaS explainer videos, feature announcement videos, and motion graphics for tech companies. Services include motion-led videos, founder-led videos with motion graphics, format adaptations for social media, and hook variations for A/B testing.",
+      "provider": {
+        "@id": "https://flashmotion.io/#organization"
+      },
+      "areaServed": "Worldwide",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Video Production Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Motion-Led Product Video",
+              "description": "Fully animated product and explainer videos for SaaS and tech companies. Priced per second of final video from $100/s. Ideal for product launches, feature announcements, and homepage hero videos."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Founder-Led Video with Motion Graphics",
+              "description": "Founder-led story or demo videos with motion graphics overlays. Post-production at $15/s for full runtime, motion graphics billed at main rate for animated sections."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Format Adaptations",
+              "description": "Same video resized for LinkedIn, Instagram, X, and website. Billed at $10/s per format version."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://flashmotion.io/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What types of videos does Flash Motion produce?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Flash Motion produces motion-led animated product videos, SaaS explainer videos, feature announcement videos, launch promos, founder-led videos with motion graphics, and format adaptations for social media. We specialize in short-to-medium format videos for SaaS, AI & Tech products."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does a motion design video cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Flash Motion prices videos per second of final duration. Motion-led videos range from $100/s to $200/s depending on quality tier, determined during project scoping. Founder-led video post-production is $15/s for full runtime, with motion graphics billed at the main rate. Format adaptations are $10/s per version."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the production process at Flash Motion?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Flash Motion uses a 6-step production workflow: (1) Discovery call to align on product, audience, and goals. (2) Creative direction to define style, pacing, and audio. (3) Script writing focused on clarity and impact. (4) Design in Figma with a detailed storyboard. (5) Animation in After Effects with Frame.io reviews. (6) Final delivery including all formats (16:9, 5:4, 9:16) and source files."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What industries does Flash Motion work with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Flash Motion primarily works with SaaS, AI, and B2B tech companies. Past clients include compliance automation platforms, workplace platforms, AI localization tools, AI product asset platforms, content operations tools, AI app builders, agentic AI platforms, founder-led startups, and more."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is Flash Motion located?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Flash Motion (Flash Motion s.r.o.) is based in Prague, Czech Republic. The studio works with clients globally and delivers remotely."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<style>
+    /* ── FOOTER LIVE CLOCK (Prague) ── */
+    .footer-clock{display:flex;flex-direction:column;gap:7px;margin-top:28px;}
+    .footer-clock-head{display:inline-flex;align-items:center;gap:7px;}
+    .footer-clock-dot{width:5px;height:5px;border-radius:50%;background:#e8e5df;flex-shrink:0;animation:fm-clock-pulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(232,229,223,0.5),0 0 10px rgba(232,229,223,0.2);}
+    @keyframes fm-clock-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.55;transform:scale(0.8);}}
+    .footer-clock-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#777;font-weight:400;white-space:nowrap;}
+    .footer-clock-times{display:inline-flex;align-items:baseline;gap:9px;}
+    .footer-clock-time{font-size:14px;font-weight:500;color:#e8e5df;letter-spacing:0.03em;white-space:nowrap;}
+    .footer-clock-sep{font-size:13px;color:#444;font-weight:300;}
+    .footer-clock-date{font-size:14px;font-weight:500;color:#e8e5df;letter-spacing:0.03em;white-space:nowrap;}
+    .footer-clock-times{flex-wrap:wrap;row-gap:4px;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">flashmotion.io</a>
+  <ul class="nav-links">
+    <li><a href="/portfolio">Portfolio</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <button class="nav-cta" onclick="goToBook()">Let's talk</button>
+  <div class="btn-premium sm" onclick="goToBook()" style="cursor:pointer;">
+    <button class="btn-premium-inner">Let's talk <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+  </div>
+  <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/portfolio" onclick="closeMenu()">Portfolio</a>
+  <a href="#workflow" onclick="closeMenu()">Workflow</a>
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <div class="btn-premium" onclick="goToBook();closeMenu();" style="margin:8px 16px 16px;cursor:pointer;">
+    <button class="btn-premium-inner" style="width:100%;justify-content:space-between;">
+      Let's talk
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="hero-wrap">
+<section class="hero">
+  <div class="hero-frame" id="hero-frame">
+    <div class="hero-eyebrow">Motion design studio</div>
+    <h1 class="hero-h1" id="hero-h1"></h1>
+    <p class="hero-sub" id="hero-sub">Animated explainers and launch videos for SaaS, AI & Tech products, from fast-growing startups to enterprise teams</p>
+    <div class="hero-btns">
+      <div class="btn-premium" id="hero-btn-wrap" onclick="goToBook()" style="cursor:pointer;">
+        <button class="btn-premium-inner">
+          Let's talk
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="btn-premium inv-static" id="hero-btn-portfolio" onclick="window.location.href='/portfolio'" style="cursor:pointer;">
+        <button class="btn-premium-inner">
+          View portfolio
+        </button>
+      </div>
+    </div>
+    <div class="client-strip">
+      <div class="client-strip-label">Trusted by</div>
+      <div class="client-logos">
+        <img src="/assets/img/clients/bolt-new.svg" alt="Bolt.new" loading="lazy">
+        <img src="/assets/img/clients/bitgo.svg" alt="BitGo" loading="lazy">
+        <img src="/assets/img/clients/contra.svg" alt="Contra" loading="lazy">
+        <img src="/assets/img/clients/fomo.svg" alt="Fomo" loading="lazy">
+        <img src="/assets/img/clients/indeed.svg" alt="Indeed" loading="lazy">
+        <img src="/assets/img/clients/secureframe.svg" alt="Secureframe" loading="lazy">
+        <img src="/assets/img/clients/shownmedia.svg" alt="Shown Media" loading="lazy">
+        <img src="/assets/img/clients/uxcam.svg" alt="UXCam" loading="lazy">
+        <span class="client-more">+70 more</span>
+      </div>
+    </div>
+  </div>
+  <!-- Reel as second grid column -->
+  <div class="hero-reel" id="hero-reel">
+  <div class="hero-cards" id="hero-cards">
+    <div class="hero-card" data-state="hidden">
+      <video autoplay muted loop playsinline><source src="/assets/video/secureframe.webm" type="video/webm"></video>
+      <div class="hero-card-overlay"></div>
+    </div>
+    <div class="hero-card" data-state="hidden">
+      <video autoplay muted loop playsinline><source src="/assets/video/appspace.webm" type="video/webm"></video>
+      <div class="hero-card-overlay"></div>
+    </div>
+    <div class="hero-card" data-state="hidden">
+      <video autoplay muted loop playsinline><source src="/assets/video/creativeforce.webm" type="video/webm"></video>
+      <div class="hero-card-overlay"></div>
+    </div>
+    <div class="hero-card" data-state="hidden">
+      <video autoplay muted loop playsinline><source src="/assets/video/fl0ck.webm" type="video/webm"></video>
+      <div class="hero-card-overlay"></div>
+    </div>
+    <div class="hero-card" data-state="hidden">
+      <video autoplay muted loop playsinline><source src="/assets/video/dreem.webm" type="video/webm"></video>
+      <div class="hero-card-overlay"></div>
+    </div>
+    <div class="hero-card" data-state="hidden">
+      <video autoplay muted loop playsinline><source src="/assets/video/timeliner.webm" type="video/webm"></video>
+      <div class="hero-card-overlay"></div>
+    </div>
+  </div>
+  </div>
+</section>
+</div>
+
+<div id="portfolio">
+  <div class="section-wrap" style="padding-bottom:0;">
+    <div class="section-label" id="lbl-portfolio">Featured <strong>projects</strong></div>
+    <div class="portfolio-grid">
+
+      <div class="p-card">
+        <div class="p-thumb" onclick="openLightbox('MTYFUaD8IM8')">
+          <video class="fm-lazy" muted loop playsinline><source data-src="/assets/video/secureframe.webm" type="video/webm"></video>
+          <div class="play-overlay"><div class="play-btn"><svg viewBox="0 0 20 20"><path d="M7 4.5l10 5.5-10 5.5V4.5z"/></svg></div></div>
+        </div>
+        <div class="p-title">Video for Secureframe: Compliance Automation Platform</div>
+        <div class="p-desc">A crisp 40s explainer that turns a complex compliance product into something prospects actually want to watch — and act on.</div>
+        <a class="p-dur-tag" href="javascript:void(0)" onclick="openCS('secureframe')"><span class="p-dur-tag-cta">View case study</span><svg class="p-dur-tag-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+
+      <div class="p-card">
+        <div class="p-thumb" onclick="openLightbox('YMUNXZ6_LL0')">
+          <video class="fm-lazy" muted loop playsinline><source data-src="/assets/video/appspace.webm" type="video/webm"></video>
+          <div class="play-overlay"><div class="play-btn"><svg viewBox="0 0 20 20"><path d="M7 4.5l10 5.5-10 5.5V4.5z"/></svg></div></div>
+        </div>
+        <div class="p-title">Video for Appspace: Workplace Platform</div>
+        <div class="p-desc">A high-energy conference launch video built to grab attention in a room full of people — and make the product impossible to forget.</div>
+        <a class="p-dur-tag" href="javascript:void(0)" onclick="openCS('appspace')"><span class="p-dur-tag-cta">View case study</span><svg class="p-dur-tag-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+
+      <div class="p-card">
+        <div class="p-thumb" onclick="openLightbox('L3l4ePO6-5g')">
+          <video class="fm-lazy" muted loop playsinline><source data-src="/assets/video/creativeforce.webm" type="video/webm"></video>
+          <div class="play-overlay"><div class="play-btn"><svg viewBox="0 0 20 20"><path d="M7 4.5l10 5.5-10 5.5V4.5z"/></svg></div></div>
+        </div>
+        <div class="p-title">Video for Creative Force: Content Operations Platform</div>
+        <div class="p-desc">A social-first motion video designed to go viral — fast cuts, clear value, and a feature that sells itself in under a minute.</div>
+        <a class="p-dur-tag" href="javascript:void(0)" onclick="openCS('creativeforce')"><span class="p-dur-tag-cta">View case study</span><svg class="p-dur-tag-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+
+      <div class="p-card">
+        <div class="p-thumb" onclick="openLightbox('BTvhyYHxHLo')">
+          <video class="fm-lazy" muted loop playsinline><source data-src="/assets/video/fl0ck.webm" type="video/webm"></video>
+          <div class="play-overlay"><div class="play-btn"><svg viewBox="0 0 20 20"><path d="M7 4.5l10 5.5-10 5.5V4.5z"/></svg></div></div>
+        </div>
+        <div class="p-title">Video for FL0CK: AI Personas Platform</div>
+        <div class="p-desc">A launch promo that makes an abstract AI concept feel real, relatable, and worth clicking — built for social-first distribution.</div>
+        <a class="p-dur-tag" href="javascript:void(0)" onclick="openCS('flock')"><span class="p-dur-tag-cta">View case study</span><svg class="p-dur-tag-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+
+      <div class="p-card">
+        <div class="p-thumb" onclick="openLightbox('JGseMqRS6aM')">
+          <video class="fm-lazy" muted loop playsinline><source data-src="/assets/video/dreem.webm" type="video/webm"></video>
+          <div class="play-overlay"><div class="play-btn"><svg viewBox="0 0 20 20"><path d="M7 4.5l10 5.5-10 5.5V4.5z"/></svg></div></div>
+        </div>
+        <div class="p-title">Video for Dreem: AI Product Asset Platform</div>
+        <div class="p-desc">A sleek, fashion-forward video that positions the product as premium from the first frame — and keeps viewers watching to the end.</div>
+        <a class="p-dur-tag" href="javascript:void(0)" onclick="openCS('dreem2')"><span class="p-dur-tag-cta">View case study</span><svg class="p-dur-tag-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+
+      <div class="p-card">
+        <div class="p-thumb" onclick="openLightbox('5bP-hRzKoK4')">
+          <video class="fm-lazy" muted loop playsinline><source data-src="/assets/video/timeliner.webm" type="video/webm"></video>
+          <div class="play-overlay"><div class="play-btn"><svg viewBox="0 0 20 20"><path d="M7 4.5l10 5.5-10 5.5V4.5z"/></svg></div></div>
+        </div>
+        <div class="p-title">Video for Timeliner: Creative Workflow Platform</div>
+        <div class="p-desc">A 2-minute product walkthrough that replaces a sales call — showing exactly how the tool works without losing the viewer's attention.</div>
+        <a class="p-dur-tag" href="javascript:void(0)" onclick="openCS('timeliner')"><span class="p-dur-tag-cta">View case study</span><svg class="p-dur-tag-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+
+    </div>
+    <div style="text-align:center;padding:48px 0 80px;">
+      <div class="view-all-btn">
+        <a href="/portfolio" class="view-all-btn-inner">
+          View portfolio
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="workflow">
+  <div class="section-wrap">
+    <div class="section-label" id="lbl-workflow">Production <strong>workflow</strong></div>
+    <div class="wf-grid" id="wf-grid">
+      <div class="wf-card"><div class="wf-head"><span class="wf-num">01</span><span class="wf-title">Discovery call</span></div><div class="wf-desc">Understanding your product, audience, and goals. Aligning on positioning, messaging, and the video's core idea before anything else.</div></div>
+      <div class="wf-card"><div class="wf-head"><span class="wf-num">02</span><span class="wf-title">Creative Direction</span></div><div class="wf-desc">Defining the overall style, pacing, and audio direction. Locking the rhythm and format early, before a single frame is designed.</div></div>
+      <div class="wf-card"><div class="wf-head"><span class="wf-num">03</span><span class="wf-title">Script</span></div><div class="wf-desc">A concise script focused on clarity and impact. Every line written to support the product story, nothing extra, nothing missing.</div></div>
+      <div class="wf-card"><div class="wf-head"><span class="wf-num">04</span><span class="wf-title">Design</span></div><div class="wf-desc">A detailed storyboard in Figma with real-time access and frame-by-frame visibility into structure and flow before animation begins.</div></div>
+      <div class="wf-card"><div class="wf-head"><span class="wf-num">05</span><span class="wf-title">Animation</span></div><div class="wf-desc">After Effects production with Frame.io reviews. Comment on exact timestamps, suggest changes, and follow progress clearly throughout.</div></div>
+      <div class="wf-card"><div class="wf-head"><span class="wf-num">06</span><span class="wf-title">Final Delivery</span></div><div class="wf-desc">All formats (16:9, 5:4, 9:16), After Effects and Figma source files, packaged and handed over cleanly.</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="pricing" class="pricing-section">
+  <div class="pricing-inner">
+    <div class="section-label" id="lbl-pricing">Our <strong>pricing</strong></div>
+    <div class="pricing-calc">
+
+      <div class="pc-choice-label">Choose pricing</div>
+
+      <div class="pc-mode-toggle">
+        <button class="pc-mode-btn sel" id="pcfixed-packages" onclick="pcSetFixedMode('packages')">Packages</button>
+        <button class="pc-mode-btn" id="pcfixed-custom" onclick="pcSetFixedMode('custom')">Custom Project</button>
+      </div>
+
+      <div id="pc-packages-panel">
+        <div class="pc-card-grid" id="pc-card-grid"></div>
+        <div class="pc-addon" id="pc-addon"></div>
+      </div>
+
+      <div id="pc-custom-panel" style="display:none;">
+
+      <div class="pc-choice-label">Choose video type</div>
+
+      <div class="pc-mode-toggle">
+        <button class="pc-mode-btn sel" id="pcmode-motion" onclick="pcSetMode('motion')">Fully Animated</button>
+        <button class="pc-mode-btn" id="pcmode-founder" onclick="pcSetMode('founder')">Footage + Motion</button>
+      </div>
+
+      <div class="pc-eyebrow">Estimated project fee</div>
+      <div class="pc-total-wrap">
+        <div class="pc-total">$<b id="pc-total">0</b></div>
+      </div>
+      <div class="pc-div"></div>
+      <div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:20px;">
+        <span style="font-size:28px;font-weight:300;letter-spacing:-0.03em;line-height:1;color:var(--text);">$<span id="pc-rate-out">120</span>/s</span>
+        <span class="pc-label" id="pc-rate-label" style="padding-bottom:3px;">Motion graphics rate <span style="color:var(--muted);font-style:italic;font-weight:300;text-transform:none;letter-spacing:0;">(determined on the call)</span></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <span class="pc-slider-end">$100/s</span>
+        <input class="pc-range" type="range" id="pc-rate" min="100" max="200" value="120" step="5" style="flex:1;">
+        <span class="pc-slider-end">$200/s</span>
+      </div>
+      <div class="pc-div"></div>
+      <div class="pc-pkg-head">
+        <span class="pc-label">Videos <span id="pc-pkg-badge" style="color:#333;font-style:italic;font-weight:300;"></span></span>
+        <button class="pc-add-btn" onclick="pcAddPkg()">+ Add video</button>
+      </div>
+      <div class="pc-pkg-list" id="pc-pkg-list"></div>
+      <div class="pc-div"></div>
+      <div class="pc-ctrl-head" style="margin-bottom:16px;">
+        <span class="pc-label">Delivery timeline</span>
+      </div>
+      <div class="pc-tl-grid" id="pc-tl-grid"></div>
+      <div class="pc-div"></div>
+      <div class="pc-summary">
+        <div class="pc-sum-cell">
+          <div class="pc-sum-label">Total estimate</div>
+          <div class="pc-sum-val">$<b id="pc-sum-price">0</b></div>
+          <div class="pc-sum-sub" id="pc-sum-price-sub"></div>
+        </div>
+        <div class="pc-sum-cell">
+          <div class="pc-sum-label">Delivery</div>
+          <div class="pc-sum-val" id="pc-sum-days">—</div>
+          <div class="pc-sum-sub" id="pc-sum-days-sub"></div>
+        </div>
+      </div>
+      <div class="pc-div"></div>
+      <div class="pc-breakdown" id="pc-breakdown"></div>
+      <div class="pc-share-wrap">
+        <button class="pc-share-btn" onclick="pcCopyLink()">
+          <span class="pc-share-btn-inner">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            Copy estimate link
+          </span>
+        </button>
+        <div class="pc-share-hint">Share this estimate with your team or client — they'll open the site with the same values selected.</div>
+      </div>
+      <div class="pc-note">
+        For fully animated videos, pricing is based on the full final duration because the entire video is designed and animated. For footage + motion videos, pricing is split into full-video post-production at <strong>$15/s</strong> and motion graphics billed only for the actual animated sections. Format adaptations are billed at <strong>$10/s</strong> per selected version. Hook variations apply only to fully animated videos and are billed at <strong>main rate × 5s</strong> per hook. Rush delivery fees apply to the full project scope. All rates are confirmed in writing before production begins. Delivery timelines are in <strong>business days</strong>, Monday–Friday, excluding public holidays, and begin from the project kickoff date.
+      </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<span id="start-a-project" style="display:block;position:absolute;pointer-events:none;" aria-hidden="true"></span><span id="lets-talk" style="display:block;position:absolute;pointer-events:none;" aria-hidden="true"></span><div class="cal-section" id="book-a-call">
+  <div class="cal-header">
+    <h2>Let's <span>talk</span></h2>
+    <p style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;">Prefer async? <a href="https://t.me/bohdan_motion" target="_blank" rel="noopener" style="color:var(--text);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(232,229,223,0.3);">Telegram</a> <span style="color:var(--muted2);">•</span> <a href="https://wa.me/message/KIZ4RL2P7NKTB1" target="_blank" rel="noopener" style="color:var(--text);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(232,229,223,0.3);">WhatsApp</a> <span style="color:var(--muted2);">•</span> <a href="mailto:info@flashmotion.io" style="color:var(--text);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(232,229,223,0.3);">Email</a></p>
+  </div>
+  <div class="cal-wrap"><div id="my-cal-inline-meeting"></div></div>
+</div>
+
+<footer>
+<div class="footer-inner">
+  <div>
+    <span class="footer-logo">flashmotion.io</span>
+    <p class="footer-tagline">Motion design studio for SaaS,<br>AI &amp; tech companies.</p>
+    <a class="footer-email" href="mailto:info@flashmotion.io">info@flashmotion.io</a>
+    <div class="footer-clock" aria-label="Current local time in Prague">
+      <div class="footer-clock-head">
+        <span class="footer-clock-dot"></span>
+        <span class="footer-clock-label">Local time — Prague (CET timezone)</span>
+      </div>
+      <div class="footer-clock-times">
+        <span class="footer-clock-date" id="fm-clock-date"></span>
+        <span class="footer-clock-sep">·</span>
+        <span class="footer-clock-time" id="fm-clock-12">--:-- --</span>
+        <span class="footer-clock-sep">·</span>
+        <span class="footer-clock-time" id="fm-clock-24">--:--</span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-label">Navigation</div>
+    <ul class="footer-nav">
+      <li><a href="/portfolio">Portfolio</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#lets-talk">Let's talk</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-label">Follow us</div>
+    <div class="footer-social">
+      <a href="https://x.com/flashmotion_io" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X / Twitter</a>
+      <a href="https://www.linkedin.com/company/flash-motion" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+      <a href="https://www.instagram.com/flashmotion/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>Instagram</a>
+      <a href="https://www.youtube.com/channel/UCfLuBJvv-IXbliPq_moaMSQ" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-label">Legal</div>
+    <ul class="footer-nav">
+      <li><a href="/terms">Terms of Service</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">Copyright © 2026 Flash Motion s.r.o.</div>
+    <div class="footer-legal">Flash Motion is a video production agency based in Prague, at the heart of Central Europe. We help SaaS, AI, and technology companies worldwide explain, launch, and grow their products through <span style="white-space:nowrap">high-end</span> motion graphics, animated product videos, explainer videos, and video ads. The agency operates as Flash Motion s.r.o., a limited liability company registered in the Czech Republic under Company ID (IČO) 23061073 and VAT ID CZ23061073, with its registered office at Malešická 2855/2b, Prague, and is entered in the Commercial Register maintained by the Municipal Court in Prague, Section C, Insert 420741.</div>
+  </div>
+</div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <iframe id="lightbox-iframe" src="" title="Video" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function(C,A,L){let p=function(a,ar){a.q.push(ar);};let d=C.document;C.Cal=C.Cal||function(){let cal=C.Cal;let ar=arguments;if(!cal.loaded){cal.ns={};cal.q=cal.q||[];d.head.appendChild(d.createElement("script")).src=A;cal.loaded=true;}if(ar[0]===L){const api=function(){p(api,arguments);};const namespace=ar[1];api.q=api.q||[];if(typeof namespace==="string"){cal.ns[namespace]=cal.ns[namespace]||api;p(cal.ns[namespace],ar);p(cal,["initNamespace",namespace]);}else p(cal,ar);return;}p(cal,ar);};})(window,"https://app.cal.com/embed/embed.js","init");
+  Cal("init","meeting",{origin:"https://app.cal.com"});
+  Cal.ns.meeting("inline",{elementOrSelector:"#my-cal-inline-meeting",config:{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"},calLink:"flashmotion/meeting"});
+  Cal.ns.meeting("ui",{"theme":"dark","hideEventTypeDetails":false,"layout":"month_view"});
+
+  /* Watchdog: if embed.js failed to load, the container stays empty forever.
+     Retry the script twice; the original queued commands flush on load
+     (no duplicate iframes). If still dead, show a direct booking link. */
+  (function(){
+    var tries=0;
+    function hasIframe(){var el=document.getElementById('my-cal-inline-meeting');return el&&el.querySelector('iframe');}
+    function check(){
+      if(hasIframe())return;
+      tries++;
+      if(tries<=2){
+        try{var sc=document.createElement('script');sc.src='https://app.cal.com/embed/embed.js';document.head.appendChild(sc);}catch(e){}
+        setTimeout(check,4000);
+      }else{
+        var el=document.getElementById('my-cal-inline-meeting');
+        if(!el||hasIframe())return;
+        el.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:60px 20px;text-align:center;">'+
+          '<p style="color:#777;font-size:14px;margin:0;">The booking calendar couldn\'t load.</p>'+
+          '<a href="https://cal.com/flashmotion/meeting" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;color:#e8e5df;font-size:13px;font-weight:500;text-decoration:none;background:#161616;box-shadow:inset 0 0 0 0.5px #2e2e2e;border-radius:10px;padding:12px 20px;">Open booking page <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>'+
+          '</div>';
+      }
+    }
+    if(document.readyState==='complete'){setTimeout(check,4000);}
+    else{window.addEventListener('load',function(){setTimeout(check,4000);});}
+  })();
+</script>
+<script>
+  function toggleMenu(){document.getElementById('burger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
+  function closeMenu(){document.getElementById('burger').classList.remove('open');document.getElementById('mobile-menu').classList.remove('open');}
+  function goToBook(){
+    location.hash='lets-talk';
+    setTimeout(function(){
+      const el=document.getElementById('book-a-call');
+      if(!el)return;
+      const top=el.getBoundingClientRect().top+window.scrollY-96;
+      window.scrollTo({top:top,behavior:'instant'});
+    },50);
+  }
+
+  // Handle /call route — scroll to booking embed
+  if(window.location.pathname==='/call'){
+    window.addEventListener('load',function(){
+      setTimeout(function(){
+        const el=document.getElementById('book-a-call');
+        if(el)el.scrollIntoView({behavior:'smooth'});
+      },400);
+    });
+  }
+  document.addEventListener('click',e=>{const b=document.getElementById('burger');const m=document.getElementById('mobile-menu');if(!b.contains(e.target)&&!m.contains(e.target)){b.classList.remove('open');m.classList.remove('open');}});
+  function openLightbox(id){document.getElementById('lightbox-iframe').src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0';document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+  function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.getElementById('lightbox-iframe').src='';document.body.style.overflow='';}
+  function closeLightboxOnBg(e){if(e.target===document.getElementById('lightbox'))closeLightbox();}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
+<script>
+const PC_ADAPT=10,PC_DAYS=4,PC_HOOK_DUR=5,PC_ASSEMBLY_RATE=15;
+const PC_FMTS=[{id:'916',name:'9:16',res:'1080\u00d71920'},{id:'11',name:'1:1',res:'1080\u00d71080'},{id:'45',name:'4:5',res:'1080\u00d71350'},{id:'custom',name:'Custom',res:'resolution'}];
+const PC_HOOKS=[{id:'problem',name:'Problem'},{id:'dream',name:'Dream Outcome'},{id:'persona',name:'Persona callout'},{id:'social',name:'Social proof'},{id:'custom',name:'Custom'}];
+const PC_RUSH=[{id:'standard',label:'Standard',speed:1,fee:0,desc:'no fee'},{id:'x125',label:'\u00d71.25',speed:1.25,fee:0.25,desc:'+25%'},{id:'x15',label:'\u00d71.5',speed:1.5,fee:0.50,desc:'+50%'},{id:'x2',label:'\u00d72',speed:2,fee:1.00,desc:'+100%'},{id:'x3',label:'\u00d73',speed:3,fee:1.50,desc:'+150%'},{id:'x4',label:'\u00d74',speed:4,fee:2.00,desc:'+200%'}];
+let pcId=0,pcPkgs=[],pcRush='standard',pcMode='motion';
+let pcFixedMode='packages';
+
+const PC_PACKAGES=[
+  {
+    id:'launch',name:'Feature Launch Video',price:'5,000',
+    scope:'30–60 seconds',
+    desc:'A focused launch video that turns one product feature or announcement into a clear, memorable story.',
+    fullIncludes:['1x <span class="hl">world-class</span> launch video','Complete script-to-screen production','Messaging and script','One creative direction','Custom storyboard and UI polish','2D and UI animation','Music and sound design','Main 16:9 version','Source files']
+  },
+  {
+    id:'ad',name:'Ad Creative',price:'2,000',priceNote:'(minimum x3 videos)',
+    scope:'10–25 second ad',
+    desc:'A short, high-impact ad cut built for paid media — sized to hook attention fast and drive action across your ad platforms.',
+    fullIncludes:['1x <span class="hl">world-class</span> ad creative','Built for paid social or search campaigns','Concept and script tailored for performance','2D or UI animation','Music and sound design','Delivered in your primary ad format','Minimum order of 3 ads per booking']
+  },
+  {
+    id:'explainer',name:'Full Product Explainer',price:'8,000',popular:true,
+    scope:'65–120 seconds',
+    desc:'A complete product story that makes a complex SaaS or AI product easy to understand.',
+    fullIncludes:['1x <span class="hl">world-class</span> explainer video','Deeper messaging and script development','Custom visual concept and storyboard','Full custom design and animation','Music and sound design','Main 16:9 version','Source files']
+  },
+  {
+    id:'flagship',name:'Flagship Launch Video',price:'15,000',priceSuffix:'+',
+    scope:'Custom scope',
+    desc:'A high-stakes launch film with a distinct creative concept and an expanded campaign system.',
+    fullIncludes:['1x <span class="hl">world-class</span> flagship video','Advanced creative direction','Advanced 2D, 3D, or mixed-media production','May include hooks, cutdowns, adaptations, or additional campaign assets','Final pricing confirmed after discovery']
+  }
+];
+function pcFmt(n){return Math.round(n).toLocaleString('en-US');}
+function pcFmtDur(s){return s+'s';}
+function pcFmtDays(d){if(d<=4){const h=Math.round(d*24);return h+' hour'+(h===1?'':'s');}return Math.ceil(d)+' day'+(Math.ceil(d)===1?'':'s');}
+function pcRate(){return parseInt(document.getElementById('pc-rate').value);}
+function pcER(){return pcRate();}
+
+// Per-mode saved state (in-memory only, resets on page refresh)
+const pcSavedState={motion:null,founder:null};
+
+function pcSetFixedMode(mode){
+  pcFixedMode=mode;
+  document.getElementById('pcfixed-packages').className='pc-mode-btn'+(mode==='packages'?' sel':'');
+  document.getElementById('pcfixed-custom').className='pc-mode-btn'+(mode==='custom'?' sel':'');
+  document.getElementById('pc-packages-panel').style.display=mode==='packages'?'block':'none';
+  document.getElementById('pc-custom-panel').style.display=mode==='custom'?'block':'none';
+  if(mode==='packages'){
+    pcRenderPackages();
+    try{history.replaceState(null,'',window.location.pathname+'#pricing');}catch(e){}
+  } else {
+    if(pcPkgs.length===0)pcAddPkg();
+    try{history.replaceState(null,'',pcEncodeURL());}catch(e){}
+  }
+}
+
+function pcRenderPackages(){
+  const grid=document.getElementById('pc-card-grid');
+  const cards=PC_PACKAGES.filter(p=>p.id!=='ad');
+  grid.innerHTML=cards.map(pkg=>`
+    <div class="pc-card${pkg.popular?' pop':''}">
+      ${pkg.popular?'<span class="pc-card-badge">Popular</span>':''}
+      <div class="pc-card-name">${pkg.name}</div>
+      <div class="pc-card-price-row"><span class="pc-card-price">$<b>${pkg.price}${pkg.priceSuffix||''}</b></span></div>
+      <div class="pc-card-scope">${pkg.scope}</div>
+      <div class="pc-card-div"></div>
+      <ul class="pc-card-list">${pkg.fullIncludes.map(i=>`<li><span class="pc-card-check">✓</span><span>${i}</span></li>`).join('')}</ul>
+      <div class="btn-premium" onclick="goToBook()" style="cursor:pointer;">
+        <button class="btn-premium-inner">Let's talk <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  `).join('');
+
+  const ad=PC_PACKAGES.find(p=>p.id==='ad');
+  const addon=document.getElementById('pc-addon');
+  if(ad){
+    addon.innerHTML=`
+      <div class="pc-addon-left">
+        <span class="pc-addon-name">${ad.name}</span>
+        <span class="pc-addon-scope">${ad.scope}</span>
+        <span class="pc-addon-desc">${ad.desc}</span>
+      </div>
+      <div class="pc-addon-right">
+        <div class="pc-addon-price-wrap">
+          <span class="pc-addon-price">$<b>${ad.price}</b></span>
+          ${ad.priceNote?`<span class="pc-addon-note">${ad.priceNote}</span>`:''}
+        </div>
+        <div class="btn-premium pc-addon-btn" onclick="goToBook()" style="cursor:pointer;">
+          <button class="btn-premium-inner">Let's talk <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function pcSerializeState(){
+  // Deep-copy current pkgs into plain objects (Sets → Arrays)
+  return {
+    pkgs: pcPkgs.map(pkg=>{
+      const base={id:pkg.id,formats:[...pkg.formats]};
+      if(pcMode==='motion'){base.dur=pkg.dur;base.hooks=[...pkg.hooks];}
+      else{base.flDur=pkg.flDur;base.mgDur=pkg.mgDur;}
+      return base;
+    }),
+    rush: pcRush,
+    nextId: pcId
+  };
+}
+
+function pcRestoreState(state){
+  pcId=state.nextId;
+  pcRush=state.rush;
+  pcPkgs=[];
+  document.getElementById('pc-pkg-list').innerHTML='';
+  state.pkgs.forEach(s=>{
+    if(pcMode==='motion'){
+      const pkg={id:s.id,dur:s.dur,formats:new Set(s.formats),hooks:new Set(s.hooks)};
+      pcPkgs.push(pkg);pcBuildDOM(s.id);
+      // Restore slider value and warn visibility
+      const sl=document.getElementById('pcslider-'+s.id);
+      if(sl){sl.value=s.dur;document.getElementById('pcdurval-'+s.id).textContent=s.dur+'s';}
+      // Restore format chip states
+      s.formats.forEach(fid=>{const c=document.getElementById(`pc-chip-${s.id}-${fid}`);if(c)c.className='pc-chip sel';});
+      // Restore hook chip states
+      s.hooks.forEach(hid=>{const c=document.getElementById(`pc-hook-${s.id}-${hid}`);if(c)c.className='pc-hook-chip sel';});
+    } else {
+      const pkg={id:s.id,flDur:s.flDur,mgDur:s.mgDur,formats:new Set(s.formats)};
+      pcPkgs.push(pkg);pcBuildFlDOM(s.id);
+      // Restore slider values
+      const flSl=document.getElementById('pcfl-'+s.id);
+      if(flSl){flSl.value=s.flDur;document.getElementById('pcfldur-'+s.id).textContent=pcFmtDur(s.flDur);}
+      const mgSl=document.getElementById('pcmg-'+s.id);
+      if(mgSl){mgSl.max=s.flDur;mgSl.value=s.mgDur;document.getElementById('pcmgdur-'+s.id).textContent=s.mgDur+'s';}
+      // Restore format chip states
+      s.formats.forEach(fid=>{const c=document.getElementById(`pc-chip-${s.id}-${fid}`);if(c)c.className='pc-chip sel';});
+    }
+  });
+}
+
+function pcSetMode(mode){
+  if(mode===pcMode)return; // already on this mode, nothing to do
+  // Save current mode's state before switching
+  pcSavedState[pcMode]=pcSerializeState();
+  pcMode=mode;
+  document.getElementById('pcmode-motion').className='pc-mode-btn'+(mode==='motion'?' sel':'');
+  document.getElementById('pcmode-founder').className='pc-mode-btn'+(mode==='founder'?' sel':'');
+  const lbl=document.getElementById('pc-rate-label');
+  if(mode==='founder'){lbl.innerHTML='Motion graphics rate';}
+  else{lbl.innerHTML='Motion graphics rate';}
+  // Restore saved state, or boot fresh if first visit to this mode
+  if(pcSavedState[mode]){
+    pcRestoreState(pcSavedState[mode]);
+    pcRefreshMeta();pcUpdate();
+  } else {
+    pcId=0;pcPkgs=[];
+    document.getElementById('pc-pkg-list').innerHTML='';
+    pcAddPkg();
+  }
+}
+function pcBaseDays(){
+  let days=0;
+  if(pcMode==='motion'){
+    pcPkgs.forEach(pkg=>{days+=Math.ceil(pkg.dur/5);days+=pkg.formats.size*1;days+=pkg.hooks.size*2;});
+  } else {
+    pcPkgs.forEach(pkg=>{days+=Math.ceil(pkg.flDur/30);days+=Math.ceil(pkg.mgDur/5);days+=pkg.formats.size*1;});
+  }
+  return Math.max(1, days);
+}
+function pcAddPkg(){
+  pcId++;const id=pcId;
+  if(pcMode==='founder'){pcPkgs.push({id,flDur:120,mgDur:30,formats:new Set()});pcBuildFlDOM(id);}
+  else{pcPkgs.push({id,dur:30,formats:new Set(),hooks:new Set()});pcBuildDOM(id);}
+  pcUpdate();
+}
+function pcRemovePkg(id){pcPkgs=pcPkgs.filter(p=>p.id!==id);const el=document.getElementById('pcpkg-'+id);if(el)el.remove();pcRefreshMeta();pcUpdate();}
+function pcToggleFmt(id,fid){const pkg=pcPkgs.find(p=>p.id===id);if(!pkg)return;if(pkg.formats.has(fid))pkg.formats.delete(fid);else pkg.formats.add(fid);PC_FMTS.forEach(f=>{const c=document.getElementById(`pc-chip-${id}-${f.id}`);if(c)c.className='pc-chip'+(pkg.formats.has(f.id)?' sel':'');});pcUpdate();}
+function pcToggleHook(id,hid){const pkg=pcPkgs.find(p=>p.id===id);if(!pkg)return;if(pkg.hooks.has(hid))pkg.hooks.delete(hid);else pkg.hooks.add(hid);PC_HOOKS.forEach(h=>{const c=document.getElementById(`pc-hook-${id}-${h.id}`);if(c)c.className='pc-hook-chip'+(pkg.hooks.has(h.id)?' sel':'');});pcUpdate();}
+function pcSelectRush(id){pcRush=id;pcRenderTimeline();pcUpdate();}
+function pcBuildDOM(id){
+  const idx=pcPkgs.findIndex(p=>p.id===id);const pkg=pcPkgs[idx];
+  const div=document.createElement('div');div.className='pc-pkg';div.id='pcpkg-'+id;
+  let fmtChips=`<div class="pc-chip base"><div class="pc-chip-info"><span class="pc-chip-name">16:9 <span style="color:#555;font-weight:300;">(default)</span></span><span class="pc-chip-res">1920\u00d71080</span></div></div>`;
+  PC_FMTS.forEach(f=>{fmtChips+=`<div class="pc-chip" id="pc-chip-${id}-${f.id}" onclick="pcToggleFmt(${id},'${f.id}')"><div class="pc-check"></div><div class="pc-chip-info"><span class="pc-chip-name">${f.name}</span><span class="pc-chip-res">${f.res}</span></div></div>`;});
+  let hookChips='';
+  PC_HOOKS.forEach(h=>{hookChips+=`<div class="pc-hook-chip" id="pc-hook-${id}-${h.id}" onclick="pcToggleHook(${id},'${h.id}')"><div class="pc-check"></div><span>${h.name}</span></div>`;});
+  div.innerHTML=`<button class="pc-pkg-remove" id="pcrm-${id}" onclick="pcRemovePkg(${id})">×</button><div class="pc-pkg-title" id="pctitle-${id}">Video ${idx+1}</div><div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:12px;"><span style="font-size:28px;font-weight:300;letter-spacing:-0.03em;line-height:1;color:var(--text);" id="pcdurval-${id}">${pkg.dur}s</span><span class="pc-label" style="padding-bottom:3px;">Final duration (<span class="pc-rate-ref">$${pcRate()}</span>/s)</span></div><div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;"><span class="pc-slider-end">5s</span><input class="pc-range" type="range" style="flex:1;" min="5" max="120" value="${pkg.dur}" step="5" id="pcslider-${id}"><span class="pc-slider-end">120s</span></div><div class="pc-section-label" style="margin-top:24px;">Format adaptations ($10/s each)</div><div class="pc-fmt-list">${fmtChips}</div><div style="font-size:11px;color:#666;font-style:italic;margin-top:12px;">Same video, resized for each platform. LinkedIn, Instagram, X, and your website.</div><div class="pc-section-label" style="margin-top:28px;">Hook variations (<span class="pc-rate-ref">$${pcRate()}</span>/s \u00d7 ${PC_HOOK_DUR} each)</div><div class="pc-fmt-list">${hookChips}</div><div style="font-size:11px;color:#666;font-style:italic;margin-top:12px;">Alternative openings for the same video. Test different messages without remaking the whole video.</div><div class="pc-sub"><span class="pc-sub-label" id="pcsublabel-${id}"></span><span class="pc-sub-val" id="pcsubval-${id}"></span></div>`;
+  document.getElementById('pc-pkg-list').appendChild(div);
+  document.getElementById('pcslider-'+id).addEventListener('input',function(){const pkg=pcPkgs.find(p=>p.id===id);if(pkg)pkg.dur=parseInt(this.value);document.getElementById('pcdurval-'+id).textContent=this.value+'s';pcUpdate();});
+}
+function pcBuildFlDOM(id){
+  const idx=pcPkgs.findIndex(p=>p.id===id);const pkg=pcPkgs[idx];
+  const div=document.createElement('div');div.className='pc-pkg';div.id='pcpkg-'+id;
+  let fmtChips=`<div class="pc-chip base"><div class="pc-chip-info"><span class="pc-chip-name">16:9 <span style="color:#555;font-weight:300;">(default)</span></span><span class="pc-chip-res">1920\u00d71080</span></div></div>`;
+  PC_FMTS.forEach(f=>{fmtChips+=`<div class="pc-chip" id="pc-chip-${id}-${f.id}" onclick="pcToggleFmt(${id},'${f.id}')"><div class="pc-check"></div><div class="pc-chip-info"><span class="pc-chip-name">${f.name}</span><span class="pc-chip-res">${f.res}</span></div></div>`;});
+  div.innerHTML=`<button class="pc-pkg-remove" id="pcrm-${id}" onclick="pcRemovePkg(${id})">×</button><div class="pc-pkg-title" id="pctitle-${id}">Video ${idx+1}</div><div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:12px;"><span style="font-size:28px;font-weight:300;letter-spacing:-0.03em;line-height:1;color:var(--text);" id="pcfldur-${id}">${pkg.flDur}s</span><span class="pc-label" style="padding-bottom:3px;">Final duration ($${PC_ASSEMBLY_RATE}/s)</span></div><div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;"><span class="pc-slider-end">30s</span><input class="pc-range" type="range" style="flex:1;" min="30" max="300" value="${pkg.flDur}" step="15" id="pcfl-${id}"><span class="pc-slider-end">300s</span></div><div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:12px;"><span style="font-size:28px;font-weight:300;letter-spacing:-0.03em;line-height:1;color:var(--text);" id="pcmgdur-${id}">${pkg.mgDur}s</span><span class="pc-label" style="padding-bottom:3px;">Motion graphics (<span class="pc-rate-ref">$${pcRate()}</span>/s)</span></div><div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;"><span class="pc-slider-end">0s</span><input class="pc-range" type="range" style="flex:1;" min="0" max="${pkg.flDur}" value="${pkg.mgDur}" step="5" id="pcmg-${id}"><span class="pc-slider-end" id="pcmgmax-${id}">${pkg.flDur}s</span></div><div class="pc-section-label" style="margin-top:24px;">Format adaptations ($10/s each)</div><div class="pc-fmt-list">${fmtChips}</div><div style="font-size:11px;color:#666;font-style:italic;margin-top:12px;">Based on full final runtime. Same video, resized for each platform.</div><div class="pc-sub"><span class="pc-sub-label" id="pcsublabel-${id}"></span><span class="pc-sub-val" id="pcsubval-${id}"></span></div>`;
+  document.getElementById('pc-pkg-list').appendChild(div);
+  document.getElementById('pcfl-'+id).addEventListener('input',function(){
+    const pkg=pcPkgs.find(p=>p.id===id);if(!pkg)return;
+    pkg.flDur=parseInt(this.value);
+    document.getElementById('pcfldur-'+id).textContent=pcFmtDur(pkg.flDur);
+    const mgmax=document.getElementById('pcmgmax-'+id);if(mgmax)mgmax.textContent=pkg.flDur+'s';
+    if(pkg.mgDur>pkg.flDur){pkg.mgDur=pkg.flDur;const mg=document.getElementById('pcmg-'+id);if(mg){mg.value=pkg.mgDur;document.getElementById('pcmgdur-'+id).textContent=pkg.mgDur+'s';}}
+    const mg=document.getElementById('pcmg-'+id);if(mg)mg.max=pkg.flDur;
+    pcUpdate();
+  });
+  document.getElementById('pcmg-'+id).addEventListener('input',function(){
+    const pkg=pcPkgs.find(p=>p.id===id);if(!pkg)return;
+    pkg.mgDur=Math.min(parseInt(this.value),pkg.flDur);this.value=pkg.mgDur;
+    document.getElementById('pcmgdur-'+id).textContent=pkg.mgDur+'s';
+    pcUpdate();
+  });
+}
+function pcRenderTimeline(){
+  const bd=pcBaseDays();const grid=document.getElementById('pc-tl-grid');grid.innerHTML='';
+  PC_RUSH.forEach(r=>{const days=bd/r.speed;const card=document.createElement('div');card.className='pc-tl-card'+(pcRush===r.id?' sel':'');card.onclick=()=>pcSelectRush(r.id);card.innerHTML=`<div class="pc-tl-speed">${r.label}</div><div class="pc-tl-extra">${r.desc}</div><div class="pc-tl-days">${pcFmtDays(days)}</div>`;grid.appendChild(card);});
+}
+function pcRefreshMeta(){pcPkgs.forEach((pkg,i)=>{const t=document.getElementById('pctitle-'+pkg.id);if(t)t.textContent='Video '+(i+1);const rm=document.getElementById('pcrm-'+pkg.id);if(rm)rm.style.display=pcPkgs.length>1?'':'none';});}
+function pcUpdate(){
+  const rate=pcRate(),er=pcER();
+  const rush=PC_RUSH.find(r=>r.id===pcRush);
+  document.getElementById('pc-rate-out').textContent=rate;
+  document.querySelectorAll('.pc-rate-ref').forEach(el=>el.textContent='$'+rate);
+  document.getElementById('pc-pkg-badge').textContent=pcPkgs.length>0?`(${pcPkgs.length})`:'';
+  pcRefreshMeta();pcRenderTimeline();
+  let grandBase=0;
+  if(pcMode==='motion'){
+    pcPkgs.forEach(pkg=>{
+      const vidCost=pkg.dur*er,adaptCost=pkg.formats.size*pkg.dur*PC_ADAPT,hookCost=pkg.hooks.size*PC_HOOK_DUR*er;
+      const pkgBase=vidCost+adaptCost+hookCost;grandBase+=pkgBase;
+      let lbl=`${pkg.dur}s \u00d7 $${pcFmt(er)}/s`;
+      if(pkg.formats.size>0)lbl+=` + ${pkg.formats.size} adaptation${pkg.formats.size>1?'s':''}`;
+      if(pkg.hooks.size>0)lbl+=` + ${pkg.hooks.size} hook${pkg.hooks.size>1?'s':''}`;
+      if(rush.fee>0)lbl+=` (incl. rush)`;
+      const sl=document.getElementById('pcsublabel-'+pkg.id);const sv=document.getElementById('pcsubval-'+pkg.id);
+      if(sl)sl.textContent=lbl;if(sv)sv.textContent='$'+pcFmt(pkgBase*(1+rush.fee));
+    });
+  } else {
+    pcPkgs.forEach(pkg=>{
+      const assemblyCost=pkg.flDur*PC_ASSEMBLY_RATE,mgCost=pkg.mgDur*er,adaptCost=pkg.formats.size*pkg.flDur*PC_ADAPT;
+      const pkgBase=assemblyCost+mgCost+adaptCost;grandBase+=pkgBase;
+      let lbl=`${pcFmtDur(pkg.flDur)} post-production + ${pkg.mgDur}s MG`;
+      if(pkg.formats.size>0)lbl+=` + ${pkg.formats.size} adaptation${pkg.formats.size>1?'s':''}`;
+      if(rush.fee>0)lbl+=` (incl. rush)`;
+      const sl=document.getElementById('pcsublabel-'+pkg.id);const sv=document.getElementById('pcsubval-'+pkg.id);
+      if(sl)sl.textContent=lbl;if(sv)sv.textContent='$'+pcFmt(pkgBase*(1+rush.fee));
+    });
+  }
+  const grand=grandBase*(1+rush.fee),rushAmt=grandBase*rush.fee;
+  const bd=pcBaseDays(),finalDays=bd/rush.speed;
+  document.getElementById('pc-total').textContent=pcFmt(grand);
+  document.getElementById('pc-sum-price').textContent=pcFmt(grand);
+  document.getElementById('pc-sum-days').textContent=pcFmtDays(finalDays);
+  document.getElementById('pc-sum-price-sub').textContent=rush.fee>0?`incl. rush fee ${rush.desc} (+$${pcFmt(rushAmt)})`:'No rush fee';
+  document.getElementById('pc-sum-days-sub').textContent=rush.speed>1?`${rush.label} faster \u00b7 standard: ${pcFmtDays(bd)}`:'Standard timeline';
+  let bd2='';
+  if(pcPkgs.length>0){
+    if(pcMode==='motion'){
+      pcPkgs.forEach((pkg,i)=>{
+        const vidCost=pkg.dur*er,adaptCost=pkg.formats.size*pkg.dur*PC_ADAPT,hookCost=pkg.hooks.size*PC_HOOK_DUR*er;
+        const pkgBase=vidCost+adaptCost+hookCost,pkgTotal=pkgBase*(1+rush.fee);
+        const vidDays=Math.ceil(pkg.dur/5),adaptDays=pkg.formats.size,hookDays=pkg.hooks.size*2;
+        const pkgDays=vidDays+adaptDays+hookDays,pkgFinalDays=pkgDays/rush.speed;
+        bd2+=`<div class="pc-brow-group"><div class="pc-brow-group-title">Video ${i+1}</div>`;
+        bd2+=`<div class="pc-brow-item"><span>Main cut: ${pkg.dur}s \u00d7 $${pcFmt(er)}/s</span><span>$${pcFmt(vidCost)}</span></div>`;
+        bd2+=`<div class="pc-brow-item timeline"><span>${vidDays} days production (1 day per 5s)</span></div>`;
+        if(pkg.formats.size>0){const names=[...pkg.formats].map(fid=>PC_FMTS.find(f=>f.id===fid)?.name).filter(Boolean).join(', ');bd2+=`<div class="pc-brow-item"><span>Adaptations: ${names}: ${pkg.formats.size} \u00d7 ${pkg.dur}s \u00d7 $${PC_ADAPT}/s</span><span>+$${pcFmt(adaptCost)}</span></div><div class="pc-brow-item timeline"><span>+${adaptDays} day${adaptDays>1?'s':''} (1 day per format)</span></div>`;}
+        if(pkg.hooks.size>0){const hookNames=[...pkg.hooks].map(hid=>PC_HOOKS.find(h=>h.id===hid)?.name).filter(Boolean).join(', ');bd2+=`<div class="pc-brow-item"><span>Hooks: ${hookNames}: ${pkg.hooks.size} \u00d7 5s \u00d7 $${pcFmt(er)}/s</span><span>+$${pcFmt(hookCost)}</span></div><div class="pc-brow-item timeline"><span>+${hookDays} day${hookDays===1?'':`s`} (2 days per hook)</span></div>`;}
+        bd2+=`<div class="pc-brow-item sub-total"><span>Subtotal: ${pcFmtDays(pkgDays)}</span><span>$${pcFmt(pkgBase)}</span></div></div>`;
+      });
+    } else {
+      pcPkgs.forEach((pkg,i)=>{
+        const assemblyCost=pkg.flDur*PC_ASSEMBLY_RATE,mgCost=pkg.mgDur*er,adaptCost=pkg.formats.size*pkg.flDur*PC_ADAPT;
+        const pkgBase=assemblyCost+mgCost+adaptCost,pkgTotal=pkgBase*(1+rush.fee);
+        const assemblyDays=Math.ceil(pkg.flDur/30),mgDays=Math.ceil(pkg.mgDur/5),adaptDays=pkg.formats.size;
+        const pkgDays=assemblyDays+mgDays+adaptDays,pkgFinalDays=pkgDays/rush.speed;
+        bd2+=`<div class="pc-brow-group"><div class="pc-brow-group-title">Video ${i+1}</div>`;
+        bd2+=`<div class="pc-brow-item"><span>Founder-led post-production: ${pcFmtDur(pkg.flDur)} \u00d7 $${PC_ASSEMBLY_RATE}/s</span><span>$${pcFmt(assemblyCost)}</span></div>`;
+        bd2+=`<div class="pc-brow-item timeline"><span>${assemblyDays} day${assemblyDays>1?'s':''} post-production (1 day per 30s)</span></div>`;
+        bd2+=`<div class="pc-brow-item"><span>Motion graphics: ${pkg.mgDur}s \u00d7 $${pcFmt(er)}/s</span><span>$${pcFmt(mgCost)}</span></div>`;
+        bd2+=`<div class="pc-brow-item timeline"><span>${mgDays} days motion graphics (1 day per 5s)</span></div>`;
+        if(pkg.formats.size>0){const names=[...pkg.formats].map(fid=>PC_FMTS.find(f=>f.id===fid)?.name).filter(Boolean).join(', ');bd2+=`<div class="pc-brow-item"><span>Adaptations: ${names}: ${pkg.formats.size} \u00d7 ${pcFmtDur(pkg.flDur)} \u00d7 $${PC_ADAPT}/s</span><span>+$${pcFmt(adaptCost)}</span></div><div class="pc-brow-item timeline"><span>+${adaptDays} day${adaptDays>1?'s':''} (1 day per format)</span></div>`;}
+        bd2+=`<div class="pc-brow-item sub-total"><span>Subtotal: ${pcFmtDays(pkgDays)}</span><span>$${pcFmt(pkgBase)}</span></div></div>`;
+      });
+    }
+    bd2+=`<div class="pc-brow-total"><span>Total estimate \u2014 ${pcFmtDays(finalDays)}${rush.fee>0?`<span style="font-size:11px;font-weight:300;color:var(--muted2);margin-left:10px;">incl. rush ${rush.label} &nbsp;${rush.desc}</span>`:''}</span><span>$${pcFmt(grand)}${rush.fee>0?`<span style="font-size:11px;font-weight:300;color:var(--muted2);margin-left:6px;">+$${pcFmt(rushAmt)}</span>`:''}</span></div>`;
+  }
+  document.getElementById('pc-breakdown').innerHTML=bd2;
+}
+document.getElementById('pc-rate').addEventListener('input',pcUpdate);
+
+// ── SHARE: encode current state into URL params ───────────────────────────
+function pcEncodeURL(){
+  const rate=pcRate();
+  const params=new URLSearchParams();
+  params.set('type',pcMode);
+  params.set('rate',rate);
+  params.set('rush',pcRush);
+  if(pcMode==='motion'){
+    params.set('videos',pcPkgs.map(p=>p.dur).join(';'));
+    params.set('formats',pcPkgs.map(p=>[...p.formats].join('|')).join(';'));
+    params.set('hooks',pcPkgs.map(p=>[...p.hooks].join('|')).join(';'));
+  } else {
+    params.set('videos',pcPkgs.map(p=>`${p.flDur}:${p.mgDur}`).join(';'));
+    params.set('formats',pcPkgs.map(p=>[...p.formats].join('|')).join(';'));
+  }
+  const base=window.location.origin+window.location.pathname;
+  return `${base}?${params.toString()}#pricing`;
+}
+
+function pcCopyLink(){
+  const url=pcEncodeURL();
+  navigator.clipboard.writeText(url).then(()=>pcShowToast('Estimate link copied to clipboard'),()=>pcShowToast('Couldn\u2019t copy link'));
+}
+
+let pcToastTimer=null;
+function pcShowToast(msg){
+  let t=document.getElementById('pc-toast');
+  if(!t){t=document.createElement('div');t.id='pc-toast';t.className='pc-toast';document.body.appendChild(t);}
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(pcToastTimer);
+  pcToastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ── RESTORE: parse URL params on load ────────────────────────────────────
+function pcClamp(val,min,max,def){const n=parseInt(val);return isNaN(n)?def:Math.min(max,Math.max(min,n));}
+function pcRestoreFromURL(){
+  const p=new URLSearchParams(window.location.search);
+
+  // ── Fixed-project URL ──
+  if(!p.has('type'))return false; // no estimate params, use defaults
+  const mode=p.get('type')==='founder'?'founder':'motion';
+  const rate=pcClamp(p.get('rate'),50,200,100);
+  const rush=PC_RUSH.find(r=>r.id===p.get('rush'))?p.get('rush'):'standard';
+
+  // Set mode buttons
+  pcMode=mode;
+  document.getElementById('pcmode-motion').className='pc-mode-btn'+(mode==='motion'?' sel':'');
+  document.getElementById('pcmode-founder').className='pc-mode-btn'+(mode==='founder'?' sel':'');
+  const lbl=document.getElementById('pc-rate-label');
+  if(mode==='founder'){lbl.innerHTML='Motion graphics rate';}
+
+  // Set rate slider
+  const rateEl=document.getElementById('pc-rate');
+  rateEl.value=rate;
+  document.getElementById('pc-rate-out').textContent=rate;
+  document.querySelectorAll('.pc-rate-ref').forEach(el=>el.textContent='$'+rate);
+
+  // Parse videos
+  const videoStr=p.get('videos')||'';
+  const fmtStr=p.get('formats')||'';
+  const hookStr=p.get('hooks')||'';
+  const videoArr=videoStr?videoStr.split(';'):[];
+  const fmtArr=fmtStr?fmtStr.split(';'):[];
+  const hookArr=hookStr?hookStr.split(';'):[];
+
+  const validFmtIds=PC_FMTS.map(f=>f.id);
+  const validHookIds=PC_HOOKS.map(h=>h.id);
+
+  pcId=0;pcPkgs=[];
+  document.getElementById('pc-pkg-list').innerHTML='';
+
+  const pkgCount=Math.max(1,Math.min(videoArr.length,8)); // cap at 8 videos
+  for(let i=0;i<pkgCount;i++){
+    pcId++;const id=pcId;
+    const fmtSet=new Set((fmtArr[i]||'').split('|').filter(f=>validFmtIds.includes(f)));
+    if(mode==='motion'){
+      const dur=pcClamp(videoArr[i],5,120,60);
+      const hookSet=new Set((hookArr[i]||'').split('|').filter(h=>validHookIds.includes(h)));
+      pcPkgs.push({id,dur,formats:fmtSet,hooks:hookSet});
+      pcBuildDOM(id);
+      const sl=document.getElementById('pcslider-'+id);
+      if(sl){sl.value=dur;document.getElementById('pcdurval-'+id).textContent=dur+'s';}
+      fmtSet.forEach(fid=>{const c=document.getElementById(`pc-chip-${id}-${fid}`);if(c)c.className='pc-chip sel';});
+      hookSet.forEach(hid=>{const c=document.getElementById(`pc-hook-${id}-${hid}`);if(c)c.className='pc-hook-chip sel';});
+    } else {
+      const parts=(videoArr[i]||'').split(':');
+      const flDur=pcClamp(parts[0],30,300,120);
+      const mgDur=pcClamp(parts[1],0,flDur,Math.min(60,flDur));
+      pcPkgs.push({id,flDur,mgDur,formats:fmtSet});
+      pcBuildFlDOM(id);
+      const flSl=document.getElementById('pcfl-'+id);
+      if(flSl){flSl.value=flDur;document.getElementById('pcfldur-'+id).textContent=pcFmtDur(flDur);}
+      const mgSl=document.getElementById('pcmg-'+id);
+      if(mgSl){mgSl.max=flDur;mgSl.value=mgDur;document.getElementById('pcmgdur-'+id).textContent=mgDur+'s';}
+      fmtSet.forEach(fid=>{const c=document.getElementById(`pc-chip-${id}-${fid}`);if(c)c.className='pc-chip sel';});
+    }
+  }
+  pcRush=rush;
+  pcRefreshMeta();pcUpdate();
+  return true;
+}
+
+// Boot: try restoring from URL, else use defaults
+(function(){
+  pcRenderPackages();
+  const restored=pcRestoreFromURL();
+  if(restored){
+    // A shared calculator link was restored — show the Custom Project calculator, not the default Packages view
+    pcSetFixedMode('custom');
+  } else {
+    pcAddPkg();
+    // Packages panel is already visible by default; nothing else needed
+  }
+})();
+
+// Hero text with cycling keyword
+(function(){
+  const h1 = document.getElementById('hero-h1');
+  if(!h1) return;
+
+  const KEYWORDS = ['SaaS products', 'AI products', 'Tech products'];
+  let current = 0;
+
+  // "Videos that make "
+  h1.appendChild(document.createTextNode('Videos that make '));
+
+  // Keyword wrapper
+  const wrap = document.createElement('span');
+  wrap.className = 'hero-keyword-wrap';
+
+  // Build all keyword spans
+  const spans = KEYWORDS.map((kw, i) => {
+    const s = document.createElement('span');
+    s.className = 'hero-keyword bold ' + (i === 0 ? 'kw-active' : 'kw-enter-down');
+    s.textContent = kw;
+    wrap.appendChild(s);
+    return s;
+  });
+
+  h1.appendChild(wrap);
+
+  // Line break
+  h1.appendChild(document.createElement('br'));
+
+  // "impossible to ignore"
+  h1.appendChild(document.createTextNode('impossible to ignore'));
+
+  // Size the wrapper to the widest keyword so layout doesn't jump
+  function sizeWrap(){
+    let maxW = 0, maxH = 0;
+    spans.forEach(s => {
+      const pos = s.style.position;
+      s.style.position = 'absolute';
+      maxW = Math.max(maxW, s.offsetWidth);
+      maxH = Math.max(maxH, s.offsetHeight);
+      s.style.position = pos;
+    });
+    wrap.style.width = maxW + 'px';
+    wrap.style.height = maxH + 'px';
+  }
+  sizeWrap();
+  window.addEventListener('resize', sizeWrap);
+
+  // Cycle
+  setInterval(() => {
+    const prev = current;
+    current = (current + 1) % KEYWORDS.length;
+
+    // Exit current upward
+    spans[prev].className = 'hero-keyword bold kw-exit-up';
+    spans[prev].style.position = 'absolute';
+
+    // Enter next from below
+    spans[current].className = 'hero-keyword bold kw-active';
+    spans[current].style.position = 'relative';
+
+    // Reset exited span after transition for next cycle
+    setTimeout(() => {
+      spans[prev].className = 'hero-keyword bold kw-enter-down';
+    }, 560);
+  }, 2800);
+})();
+
+// ── HERO CARD CAROUSEL (vertical desktop / horizontal mobile) ───────────────
+(function(){
+  const reel  = document.getElementById('hero-reel');
+  const cards = Array.from(document.querySelectorAll('.hero-card'));
+  if(!reel || !cards.length) return;
+
+  const total = cards.length;
+  let active  = 0;
+
+  const OVERLAY  = [0, 0.3, 0.7, 1];
+  const SCALE_V  = [1, 0.9, 0.8, 0.72];   // vertical (desktop)
+  const SCALE_H  = [1, 0.92, 0.84, 0.76]; // horizontal (mobile) — subtler scale
+  const VIS_V    = 0.62; // vertical visible fraction
+  const VIS_H    = 0.72; // horizontal visible fraction — show more of side cards
+
+  function isMobile(){ return window.innerWidth <= 768; }
+
+  function layout(){
+    const mobile = isMobile();
+    const W = reel.offsetWidth;
+    const H = Math.round(W * 9 / 16);
+
+    if(mobile){
+      // ── HORIZONTAL MODE ──
+      // Card width fixed at ~55% of reel width so 3 cards are visible
+      const reelH = reel.offsetHeight;
+      const cardW = Math.round(W * 0.55);
+      const STEP  = Math.round(cardW * VIS_H);
+      const centerX = W / 2;
+
+      cards.forEach((card, i) => {
+        const cardH = Math.round(cardW * 9 / 16);
+        card.style.height = cardH + 'px';
+        card.style.width  = cardW + 'px';
+        card.style.top    = Math.round((reelH - cardH) / 2) + 'px';
+        card.style.left   = 'auto';
+        card.style.right  = 'auto';
+
+        let offset = i - active;
+        if(offset > total / 2)  offset -= total;
+        if(offset < -total / 2) offset += total;
+
+        const dist = Math.abs(offset);
+        const x  = centerX - cardW / 2 + offset * STEP;
+        const sc = SCALE_H[Math.min(dist, SCALE_H.length - 1)];
+        const ov = OVERLAY[Math.min(dist, OVERLAY.length - 1)];
+        const bl = dist === 0 ? 0 : dist === 1 ? 3 : 8;
+
+        card.style.transform = 'translateX(' + x + 'px) scale(' + sc + ')';
+        card.style.filter    = 'blur(' + bl + 'px)';
+        card.style.zIndex    = 10 - dist;
+
+        const overlay = card.querySelector('.hero-card-overlay');
+        if(overlay) overlay.style.opacity = ov;
+      });
+
+    } else {
+      // ── VERTICAL MODE ──
+      const STEP  = Math.round(H * VIS_V);
+      const reelH = reel.offsetHeight;
+      const centerY = reelH / 2;
+
+      cards.forEach((card, i) => {
+        card.style.height = H + 'px';
+        card.style.width  = '';
+        card.style.top    = '';
+
+        let offset = i - active;
+        if(offset > total / 2)  offset -= total;
+        if(offset < -total / 2) offset += total;
+
+        const dist = Math.abs(offset);
+        const y  = centerY - H / 2 + offset * STEP;
+        const sc = SCALE_V[Math.min(dist, SCALE_V.length - 1)];
+        const ov = OVERLAY[Math.min(dist, OVERLAY.length - 1)];
+        const bl = dist === 0 ? 0 : dist === 1 ? 4 : 10;
+
+        card.style.transform = 'translateY(' + y + 'px) scale(' + sc + ')';
+        card.style.filter    = 'blur(' + bl + 'px)';
+        card.style.zIndex    = 10 - dist;
+
+        const overlay = card.querySelector('.hero-card-overlay');
+        if(overlay) overlay.style.opacity = ov;
+      });
+    }
+  }
+
+  function advance(){
+    active = (active + 1) % total;
+    layout();
+  }
+
+  // First layout instant — no transition
+  cards.forEach(c => c.style.transition = 'none');
+  const overlays = document.querySelectorAll('.hero-card-overlay');
+  overlays.forEach(o => o.style.transition = 'none');
+  layout();
+  // Mark as positioned — cards become visible all at once after first layout
+  document.getElementById('hero-cards').classList.add('fm-positioned');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    cards.forEach(c => c.style.transition = '');
+    overlays.forEach(o => o.style.transition = '');
+  }));
+  window.addEventListener('resize', layout);
+  setInterval(advance, 2800);
+})();
+
+// ── HERO CARD SKELETON → reveal all at once when all videos ready ─────────
+(function(){
+  const cards  = Array.from(document.querySelectorAll('.hero-card'));
+  const videos = cards.map(c => c.querySelector('video'));
+  let ready = 0;
+
+  function onReady(video){
+    video.classList.add('fm-ready'); // fade in this video
+    ready++;
+    if(ready === videos.length){
+      // All loaded — remove shimmer from all cards simultaneously
+      cards.forEach(c => c.classList.add('fm-loaded'));
+      // Now start loading portfolio videos
+      loadPortfolioVideos();
+    }
+  }
+
+  videos.forEach(function(video){
+    if(video.readyState >= 3){ // HAVE_FUTURE_DATA — safe to play
+      onReady(video);
+    } else {
+      video.addEventListener('canplay', function handler(){
+        video.removeEventListener('canplay', handler);
+        onReady(video);
+      });
+    }
+  });
+
+  // Safety fallback — reveal everything after 6s regardless
+  setTimeout(function(){
+    cards.forEach(c => c.classList.add('fm-loaded'));
+    videos.forEach(v => v.classList.add('fm-ready'));
+    loadPortfolioVideos();
+  }, 6000);
+})();
+
+// ── PORTFOLIO LAZY LOAD — starts after hero carousel is ready ─────────────
+function loadPortfolioVideos(){
+  document.querySelectorAll('video.fm-lazy').forEach(function(video){
+    const source = video.querySelector('source[data-src]');
+    if(!source || source.src) return; // already loaded
+    source.src = source.getAttribute('data-src');
+    video.load();
+    video.play().catch(function(){});
+  });
+}
+
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<!-- CASE STUDY MODAL -->
+<div class="cs-modal" id="cs-modal" onclick="csCloseBg(event)">
+  <div class="cs-wrap">
+    <button class="cs-close" onclick="closeCS()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></button>
+    <div class="cs-inner">
+      <div class="cs-video"><iframe id="cs-iframe" src="" allowfullscreen allow="autoplay;encrypted-media"></iframe></div>
+      <div class="cs-body">
+        <div class="cs-title" id="cs-title"></div>
+        <div class="cs-dur" id="cs-dur"></div>
+        <div class="cs-sections">
+          <div><div class="cs-section-label">The Brief</div><div class="cs-section-text" id="cs-brief"></div></div>
+          <div><div class="cs-section-label">What We Made</div><div class="cs-section-text" id="cs-made"></div></div>
+          <div><div class="cs-section-label">The Result</div><div class="cs-section-text" id="cs-result"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const caseStudies = {
+  'secureframe': {title:'Video for Secureframe: Compliance Automation Platform',dur:'40s video',yt:'MTYFUaD8IM8',brief:'Needed a launch animation explaining compliance automation to security-conscious buyers.',made:'A 40s clean motion explainer covering audits, policies, and monitoring in one platform.',result:'Used for homepage hero and security conference marketing.'},
+  'appspace': {title:'Video for Appspace: Workplace Platform',dur:'50s video',yt:'YMUNXZ6_LL0',brief:'Needed a high-energy video for a live conference showcasing their workplace platform.',made:'A 50s bold motion video built for a live audience with dynamic pacing and visuals.',result:'Played live at company conference and reused in sales materials.'},
+  'creativeforce': {title:'Video for Creative Force: Content Operations',dur:'60s video',yt:'L3l4ePO6-5g',brief:'Needed a viral-style video showcasing their Product Tagging feature for e-commerce studios.',made:'A 60s fast-paced feature video built for social and product channel distribution.',result:'Used across LinkedIn, email campaigns, and in-product onboarding.'},
+  'flock': {title:'Video for FL0CK: AI Personas Platform',dur:'70s video',yt:'BTvhyYHxHLo',brief:'Needed an energetic launch promo for their AI Twitter persona management platform.',made:'A 70s modern motion video built around the platform\'s core value proposition.',result:'Used for Product Hunt launch and social media growth campaign.'},
+  'dreem2': {title:'Video for Dreem 2.0: AI Product Asset Platform',dur:'40s video',yt:'JGseMqRS6aM',brief:'Needed to demonstrate how a single product image becomes ready-to-use marketing assets.',made:'A 40s product demo video showing the full AI asset generation workflow.',result:'Used on homepage and in brand partnership presentations.'},
+  'timeliner': {title:'Video for Timeliner: Creative Project Management',dur:'120s video',yt:'5bP-hRzKoK4',brief:'Needed a full-length walkthrough for their creative project management tool.',made:'A 120s deep-dive product video covering planning, scheduling, and team collaboration.',result:'Used for agency sales demos and onboarding new clients.'},
+};
+
+function openCS(id) {
+  const s = caseStudies[id];
+  if (!s) return;
+  document.getElementById('cs-title').textContent = s.title;
+  document.getElementById('cs-dur').textContent = s.dur;
+  document.getElementById('cs-brief').textContent = s.brief;
+  document.getElementById('cs-made').textContent = s.made;
+  document.getElementById('cs-result').textContent = s.result;
+  document.getElementById('cs-iframe').src = 'https://www.youtube.com/embed/' + s.yt + '?autoplay=1&rel=0&modestbranding=1';
+  document.getElementById('cs-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCS() {
+  document.getElementById('cs-modal').classList.remove('open');
+  document.getElementById('cs-iframe').src = '';
+  document.body.style.overflow = '';
+}
+function csCloseBg(e) { if (e.target === document.getElementById('cs-modal')) closeCS(); }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeCS(); });
+
+</script>
+<script>
+  (function(){
+    var el12 = document.getElementById('fm-clock-12');
+    var el24 = document.getElementById('fm-clock-24');
+    var elDate = document.getElementById('fm-clock-date');
+    if (!el12 || !el24) return;
+    function tick(){
+      var now = new Date();
+      var t12 = now.toLocaleTimeString('en-US', { timeZone: 'Europe/Prague', hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+      var t24 = now.toLocaleTimeString('en-GB', { timeZone: 'Europe/Prague', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+      el12.textContent = t12;
+      el24.textContent = t24;
+      if (elDate) {
+        var parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Prague', day: 'numeric', month: 'long', year: 'numeric' }).formatToParts(now);
+        var get = function(t){ return (parts.find(function(p){ return p.type === t; }) || {}).value || ''; };
+        var d = parseInt(get('day'), 10);
+        var suf = (d % 100 >= 11 && d % 100 <= 13) ? 'th' : ({1:'st',2:'nd',3:'rd'}[d % 10] || 'th');
+        elDate.textContent = d + suf + ' ' + get('month') + ' ' + get('year');
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+</body>
+</html>

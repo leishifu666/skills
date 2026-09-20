@@ -1,0 +1,60 @@
+{
+  "sources": [
+    {
+      "file": "components/ViscoseHome/vendor/ViscoseCarousel.jsx",
+      "sha256": "b5f13bb64d031f304822e3f2cf9bbc2866270154fcab787be32fc67f07e772e8"
+    },
+    {
+      "file": "components/ViscoseHome/projects.ts",
+      "sha256": "8581d2e1e72ae800478f4d352783f7e7d09639550001b59e9ac0863e6db757e7"
+    },
+    {
+      "file": "components/NodeCanvas/NodeShell.tsx",
+      "sha256": "5240d9eba96cda9fa8111bec1aa1bb6179ab6b1dfbb5560dab0050d308be7e22"
+    },
+    {
+      "file": "components/NodeCanvas/nodes/TextNode.tsx",
+      "sha256": "54343f1cc794b672eb181b4c968723aa1f7cf22b057942b7c124291b55ddb89d"
+    },
+    {
+      "file": "components/NodeCanvas/nodes/ImageNode.tsx",
+      "sha256": "89f314781e17965e0d0e15235d9d8d7090a1b93d31159d6ea9e99d19102c7b11"
+    },
+    {
+      "file": "components/NodeCanvas/panels/ImagePanel.tsx",
+      "sha256": "572695f97a377eb0192fb646adefd7b6222f5ba253ad458b37012f225e359c3c"
+    },
+    {
+      "file": "components/shared/GlassSendButton.tsx",
+      "sha256": "a86828606a3ada0a8218052c6753fd17f806e32e7bbbb230c152ea4ab4c11dfc"
+    },
+    {
+      "file": "components/NodeCanvas/ConnectionLayer.tsx",
+      "sha256": "ab0f9f6da11150f1a805425115b2582690f6e2dbb8f030378c1d612679784ba7"
+    },
+    {
+      "file": "utils/modelIcons.ts",
+      "sha256": "64c3bbb1d014702fe07c69bbca668f202a14ece6671a261b3cfacc3dde4affa7"
+    }
+  ],
+  "editorial": {
+    "fps": 30,
+    "frames": 780,
+    "seconds": 26,
+    "engine": "GSAP + actual React components + frame-controlled native Three.js and MeshGradient",
+    "fixture": "Prompt/model/loading controlled for repeatable filming; real send handler invoked; no network generation or persistence",
+    "homeTimelineStartsAt": 0,
+    "noTopNavigation": true,
+    "resultSource": "Existing project history image 3981",
+    "templateIds": [
+      153,
+      146,
+      139,
+      207,
+      211
+    ]
+  },
+  "approvedDesign": "../kunkun-product-video-v3/DESIGN.md",
+  "sampleLicense": "Kenney CC0",
+  "referenceFootageIncludedInFilm": false
+}

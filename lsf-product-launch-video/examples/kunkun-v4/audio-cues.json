@@ -1,0 +1,234 @@
+{
+  "source": "https://kenney.nl/assets/interface-sounds",
+  "license": "CC0",
+  "earAudited": false,
+  "method": "External original samples, edit, gain, pan and minor playback-rate changes; no synthesized track",
+  "peakDbFS": -6.000000000000001,
+  "duration": 26,
+  "events": [
+    {
+      "source": "open_002.ogg",
+      "time": 0.24,
+      "gain": 0.12,
+      "pan": 0,
+      "playbackRate": 1
+    },
+    {
+      "source": "maximize_003.ogg",
+      "time": 1.8,
+      "gain": 0.17,
+      "pan": 0.2,
+      "playbackRate": 1
+    },
+    {
+      "source": "scroll_003.ogg",
+      "time": 2.7,
+      "gain": 0.11,
+      "pan": -0.15,
+      "playbackRate": 0.9
+    },
+    {
+      "source": "maximize_006.ogg",
+      "time": 3.45,
+      "gain": 0.23,
+      "pan": 0,
+      "playbackRate": 0.9
+    },
+    {
+      "source": "drop_002.ogg",
+      "time": 4.72,
+      "gain": 0.17,
+      "pan": -0.4,
+      "playbackRate": 1
+    },
+    {
+      "source": "select_002.ogg",
+      "time": 5.19,
+      "gain": 0.12,
+      "pan": 0.2,
+      "playbackRate": 1
+    },
+    {
+      "source": "maximize_001.ogg",
+      "time": 5.97,
+      "gain": 0.14,
+      "pan": 0.25,
+      "playbackRate": 1
+    },
+    {
+      "source": "click_003.ogg",
+      "time": 6.45,
+      "gain": 0.1,
+      "pan": -0.12,
+      "playbackRate": 1
+    },
+    {
+      "source": "open_001.ogg",
+      "time": 9.03,
+      "gain": 0.12,
+      "pan": -0.25,
+      "playbackRate": 1
+    },
+    {
+      "source": "select_003.ogg",
+      "time": 10.13,
+      "gain": 0.17,
+      "pan": 0,
+      "playbackRate": 1
+    },
+    {
+      "source": "click_005.ogg",
+      "time": 10.7,
+      "gain": 0.23,
+      "pan": 0.45,
+      "playbackRate": 0.95
+    },
+    {
+      "source": "maximize_007.ogg",
+      "time": 11.16,
+      "gain": 0.15,
+      "pan": 0.15,
+      "playbackRate": 0.92
+    },
+    {
+      "source": "confirmation_001.ogg",
+      "time": 13.72,
+      "gain": 0.21,
+      "pan": 0.3,
+      "playbackRate": 0.95
+    },
+    {
+      "source": "maximize_006.ogg",
+      "time": 14.6,
+      "gain": 0.24,
+      "pan": 0,
+      "playbackRate": 0.9
+    },
+    {
+      "source": "scroll_004.ogg",
+      "time": 17.04,
+      "gain": 0.21,
+      "pan": -0.45,
+      "playbackRate": 0.92
+    },
+    {
+      "source": "scroll_005.ogg",
+      "time": 17.26,
+      "gain": 0.13,
+      "pan": 0.5,
+      "playbackRate": 1.03
+    },
+    {
+      "source": "glass_002.ogg",
+      "time": 17.65,
+      "gain": 0.11,
+      "pan": 0.15,
+      "playbackRate": 0.92
+    },
+    {
+      "source": "scroll_002.ogg",
+      "time": 19.5,
+      "gain": 0.08,
+      "pan": -0.3,
+      "playbackRate": 0.92
+    },
+    {
+      "source": "minimize_006.ogg",
+      "time": 22.5,
+      "gain": 0.24,
+      "pan": 0,
+      "playbackRate": 0.88
+    },
+    {
+      "source": "glass_001.ogg",
+      "time": 23.65,
+      "gain": 0.16,
+      "pan": 0,
+      "playbackRate": 0.95
+    },
+    {
+      "source": "tick_001.ogg",
+      "time": 6.6,
+      "gain": 0.045,
+      "pan": -0.13,
+      "playbackRate": 0.96
+    },
+    {
+      "source": "click_001.ogg",
+      "time": 6.69,
+      "gain": 0.035,
+      "pan": -0.07,
+      "playbackRate": 1.03
+    },
+    {
+      "source": "tick_002.ogg",
+      "time": 6.82,
+      "gain": 0.05,
+      "pan": -0.010000000000000009,
+      "playbackRate": 1
+    },
+    {
+      "source": "tick_001.ogg",
+      "time": 6.97,
+      "gain": 0.028,
+      "pan": 0.04999999999999999,
+      "playbackRate": 0.91
+    },
+    {
+      "source": "click_001.ogg",
+      "time": 7.09,
+      "gain": 0.045,
+      "pan": -0.13,
+      "playbackRate": 0.96
+    },
+    {
+      "source": "tick_002.ogg",
+      "time": 7.31,
+      "gain": 0.035,
+      "pan": -0.07,
+      "playbackRate": 1.03
+    },
+    {
+      "source": "tick_001.ogg",
+      "time": 7.44,
+      "gain": 0.05,
+      "pan": -0.010000000000000009,
+      "playbackRate": 1
+    },
+    {
+      "source": "click_001.ogg",
+      "time": 7.57,
+      "gain": 0.028,
+      "pan": 0.04999999999999999,
+      "playbackRate": 0.91
+    },
+    {
+      "source": "tick_002.ogg",
+      "time": 7.79,
+      "gain": 0.045,
+      "pan": -0.13,
+      "playbackRate": 0.96
+    },
+    {
+      "source": "tick_001.ogg",
+      "time": 7.93,
+      "gain": 0.035,
+      "pan": -0.07,
+      "playbackRate": 1.03
+    },
+    {
+      "source": "click_001.ogg",
+      "time": 8.08,
+      "gain": 0.05,
+      "pan": -0.010000000000000009,
+      "playbackRate": 1
+    },
+    {
+      "source": "tick_002.ogg",
+      "time": 8.21,
+      "gain": 0.028,
+      "pan": 0.04999999999999999,
+      "playbackRate": 0.91
+    }
+  ]
+}

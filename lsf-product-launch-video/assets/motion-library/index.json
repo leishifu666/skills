@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "scope": "Technique observations and original reusable recipes; not third-party media redistribution",
+  "recipes": [
+    {
+      "id": "focus-read-release",
+      "tags": [
+        "camera",
+        "typing",
+        "native-ui",
+        "slow-fast"
+      ],
+      "intent": "交代界面后聚焦输入，读完再拉回操作范围",
+      "source": "https://screen.studio/videos/hero/hero-demo.mp4",
+      "timeRange": [
+        0,
+        0.83
+      ],
+      "viewedRange": [
+        0,
+        6.3
+      ],
+      "sampleFps": 12,
+      "observed": "放大过程中目标单元格保持可追踪，尾段退回全景",
+      "inferred": "镜头轨道与指针可分层编排；原曲线未知",
+      "confidence": "运动结构中高；精确曲线未知",
+      "inputContract": {
+        "object": "visible native target",
+        "velocity": "settled",
+        "contact": false
+      },
+      "outputContract": {
+        "object": "same target",
+        "velocity": "settled",
+        "readable": true
+      },
+      "tunables": {
+        "travelSeconds": [
+          0.8,
+          1.5
+        ],
+        "holdSeconds": [
+          1.2,
+          5
+        ],
+        "scale": [
+          1.2,
+          2
+        ]
+      },
+      "recipe": "recipes.mjs#focusReadRelease",
+      "curveProvenance": "原创 quintic smoothstep，不是原作者曲线",
+      "doNotCopy": [
+        "桌面背景",
+        "人物窗口",
+        "产品界面"
+      ],
+      "licenseScope": "只复用动作关系与原创配方",
+      "status": "candidate"
+    },
+    {
+      "id": "same-object-handoff",
+      "tags": [
+        "transition",
+        "match-cut",
+        "object-continuity"
+      ],
+      "intent": "同一结果从节点进入作品特写",
+      "source": "https://developer.apple.com/videos/play/wwdc2018/803/",
+      "timeRange": [
+        1859.4,
+        1862.6
+      ],
+      "viewedRange": [
+        1855,
+        1893
+      ],
+      "sampleFps": 12,
+      "observed": "入口图标与展开、返回的空间来源连续",
+      "inferred": "可迁移为同一图片边界承接；系统物理参数未知",
+      "confidence": "身份/来源关系高；参数未知",
+      "inputContract": {
+        "object": "same asset",
+        "rect": "measured screen bounds",
+        "crop": "record object-fit"
+      },
+      "outputContract": {
+        "object": "same asset",
+        "rect": "new framing",
+        "velocity": "settled"
+      },
+      "tunables": {
+        "durationSeconds": [
+          0.65,
+          1.1
+        ],
+        "overlapFrames": [
+          6,
+          18
+        ]
+      },
+      "recipe": "recipes.mjs#sameObjectHandoff",
+      "curveProvenance": "原创 quintic 插值；保留图像裁切关系",
+      "doNotCopy": [
+        "Apple UI",
+        "品牌素材",
+        "系统转场代码"
+      ],
+      "licenseScope": "研究观察与原创配方",
+      "status": "candidate"
+    },
+    {
+      "id": "directional-layer-pass",
+      "tags": [
+        "transition",
+        "depth",
+        "overlap",
+        "fast-travel"
+      ],
+      "intent": "让相关内容按同一方向接入，打破逐张幻灯",
+      "source": "https://media.ordinary.co/video/home/lark-magic-share.mp4",
+      "timeRange": [
+        0.75,
+        1.67
+      ],
+      "viewedRange": [
+        0,
+        5.04
+      ],
+      "sampleFps": 12,
+      "observed": "层次错开且后一组沿前一组方向接入",
+      "inferred": "2D/3D 原实现未知；用独立对象变换近似运动关系",
+      "confidence": "中；仅观察官网短循环",
+      "inputContract": {
+        "direction": "consistent",
+        "contact": false,
+        "object": "related content group"
+      },
+      "outputContract": {
+        "direction": "same",
+        "focus": "one lead object",
+        "velocity": "settled"
+      },
+      "tunables": {
+        "durationSeconds": [
+          0.6,
+          1.2
+        ],
+        "staggerSeconds": [
+          0.08,
+          0.18
+        ],
+        "depthPixels": [
+          0,
+          180
+        ]
+      },
+      "recipe": "recipes.mjs#directionalLayerPass",
+      "curveProvenance": "原创 GSAP power2.inOut 起点，按距离再调",
+      "doNotCopy": [
+        "人物",
+        "紫色品牌材质",
+        "原音乐",
+        "完整镜头顺序"
+      ],
+      "licenseScope": "仅动作结构，媒体留本地研究库",
+      "status": "candidate"
+    },
+    {
+      "id": "typing-send-breath",
+      "tags": [
+        "typing",
+        "cut-on-action",
+        "sound-bridge",
+        "input"
+      ],
+      "intent": "先读懂输入，再用提交连接结果镜头",
+      "source": "https://x.com/bohdanmotion/status/2100600903862452583/video/1",
+      "timeRange": [
+        7.5,
+        11.2
+      ],
+      "viewedRange": [
+        0,
+        36.523
+      ],
+      "sampleFps": 25,
+      "observationScope": "全片2fps，输入段2fps，9.8–11.2秒原25fps；不是全片25fps精看",
+      "observed": "输入停留与发送附近快速推进形成节奏对比，接触反馈可见",
+      "inferred": "可以把发送尾声延续进结果；原音轨未听审",
+      "confidence": "动作时序中高，声音推断不作为原片结论",
+      "inputContract": {
+        "text": "readable",
+        "focus": "native editor",
+        "cursor": "at target before contact"
+      },
+      "outputContract": {
+        "action": "submitted",
+        "audioTail": "may continue",
+        "result": "only after action"
+      },
+      "tunables": {
+        "dwellSeconds": [
+          0.12,
+          0.28
+        ],
+        "pressFrames60": [
+          5,
+          9
+        ],
+        "typingGroupPauseSeconds": [
+          0.2,
+          0.6
+        ]
+      },
+      "recipe": "../segment-plan.example.json",
+      "curveProvenance": "光标速度依距离重新规划；不抄短程猛冲",
+      "doNotCopy": [
+        "模型品牌",
+        "原输入文案",
+        "未经授权音轨"
+      ],
+      "licenseScope": "工程事件与动作关系",
+      "status": "candidate"
+    },
+    {
+      "id": "pen-proof-intercut",
+      "tags": [
+        "editing",
+        "intercut",
+        "typography",
+        "native-ui"
+      ],
+      "intent": "操作与独立短句交叉，落到结果",
+      "source": "https://x.com/tomkrcha/status/2100570466692071493",
+      "timeRange": [
+        15.5,
+        20.5
+      ],
+      "viewedRange": [
+        0,
+        33.130667
+      ],
+      "sampleFps": 12,
+      "observationScope": "全片 1 fps；仅 15.5–20.5 秒 12 fps；未听审",
+      "observed": "片头把 Import 做成金属质感的独立物件，随后在界面、短句与设计结果之间切换。15.5–20.5 秒明确可见：文字 → 输入 → edit → 发送 → with agents → 多个设计结果。片尾域名是 pen.dev；发现目录使用 Pencil 名称",
+      "inferred": "让输入、提交和结果承担事实证明；把价值短句单独成镜，让操作之间有叙事节拍。真实 UI 的片段仍要保留真实反馈",
+      "confidence": "镜头编排关系已抽帧核对；精确曲线、原工程与声音未知",
+      "inputContract": {
+        "meaning": "目标和素材已可识别"
+      },
+      "outputContract": {
+        "meaning": "操作结果可见，插句不破坏因果"
+      },
+      "recipe": "../../references/promo-shot-mix-2026-09-20.md#pen-proof-intercut",
+      "recipeType": "editorial procedure, not executable GSAP code",
+      "curveProvenance": "未知；自实现时重新设计，不声称恢复原片",
+      "doNotCopy": [
+        "不照搬它的金属按键、模型标识或完整镜头次序；不把参考片的屏幕合成方式说成已经查明的原生实现"
+      ],
+      "licenseScope": "仅研究观察与原创编排步骤；第三方媒体留本地研究库",
+      "status": "candidate"
+    },
+    {
+      "id": "arrow-object-application",
+      "tags": [
+        "montage",
+        "match-cut",
+        "same-object",
+        "application"
+      ],
+      "intent": "同一作品跨载体，展示使用价值",
+      "source": "https://x.com/QuiverAI/status/2100295136261349802",
+      "timeRange": [
+        21.4,
+        26.4
+      ],
+      "viewedRange": [
+        0,
+        43.882667
+      ],
+      "sampleFps": 12,
+      "observationScope": "全片 1 fps；仅 21.4–26.4 秒 12 fps；未听审",
+      "observed": "开头混合插画、图标和技术图；中段把路径、成品和生成界面穿插起来。21.4–26.4 秒的加密抽帧显示：奔跑姿态序列 → 单只豹 → 鞋、衣服、杯子、帽子和手机等应用镜头。主角与朝向持续可识别，承载物与材质快速变化",
+      "inferred": "先建立一个稳定的视觉主角，再换构图、材质和使用情境。奶茶片可以让同一杯、同一张海报进入成品特写、店内灯箱和手机海报，避免逐张播放无关图片",
+      "confidence": "镜头编排关系已抽帧核对；精确曲线、原工程与声音未知",
+      "inputContract": {
+        "meaning": "同一主角与设计可识别"
+      },
+      "outputContract": {
+        "meaning": "应用情境成立，未暗示未实现能力"
+      },
+      "recipe": "../../references/promo-shot-mix-2026-09-20.md#arrow-object-application",
+      "recipeType": "editorial procedure, not executable GSAP code",
+      "curveProvenance": "未知；自实现时重新设计，不声称恢复原片",
+      "doNotCopy": [
+        "成品应用是传播情境，不自动证明软件能制作这些实物。只按坤坤魔法已实现能力展示操作，店铺样机另标为作品应用示意"
+      ],
+      "licenseScope": "仅研究观察与原创编排步骤；第三方媒体留本地研究库",
+      "status": "candidate"
+    },
+    {
+      "id": "linear-concept-to-symbol",
+      "tags": [
+        "concept",
+        "camera",
+        "depth",
+        "brand"
+      ],
+      "intent": "功能关系图形化后收束焦点",
+      "source": "https://x.com/linear/status/2079233260161323371",
+      "timeRange": [
+        25.5,
+        28.5
+      ],
+      "viewedRange": [
+        0,
+        40.45
+      ],
+      "sampleFps": 12,
+      "observationScope": "全片 1 fps；仅 25.5–28.5 秒 12 fps；未听审",
+      "observed": "环轨承载任务步骤和移动亮点，多个循环在不同深度交叠。25.5–28.5 秒逐步拉远，流程标签淡出，环轨缩成画面中央的符号；后面接 Loops 和 Linear 标识。整体更偏概念动画，不能替代操作证据",
+      "inferred": "Agent 段可以短暂离开面板，把参考图、创作目标、方案和结果的关系做成概念镜头，然后回到真实画布确认结果。图形中的每条关系都须对应真实产品逻辑",
+      "confidence": "镜头编排关系已抽帧核对；精确曲线、原工程与声音未知",
+      "inputContract": {
+        "meaning": "图形关系对应真实产品逻辑"
+      },
+      "outputContract": {
+        "meaning": "结果/符号清晰，必要时返回 UI 验证"
+      },
+      "recipe": "../../references/promo-shot-mix-2026-09-20.md#linear-concept-to-symbol",
+      "recipeType": "editorial procedure, not executable GSAP code",
+      "curveProvenance": "未知；自实现时重新设计，不声称恢复原片",
+      "doNotCopy": [
+        "不为了炫酷塞入无含义的球体或轨道；不把图形隐喻伪装成应用界面，也不照搬 Linear 的环形视觉"
+      ],
+      "licenseScope": "仅研究观察与原创编排步骤；第三方媒体留本地研究库",
+      "status": "candidate"
+    }
+  ]
+}

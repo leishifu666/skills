@@ -1,0 +1,77 @@
+[
+  {
+    "file": "specular_city_1.mp3",
+    "author": "vitalezzz",
+    "page": "https://opengameart.org/content/specular-city",
+    "download": "https://opengameart.org/sites/default/files/specular_city_1.mp3",
+    "license": "CC0",
+    "licenseEvidence": "specular-city-license.html",
+    "bytes": 8272513,
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "codec_type": "audio",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "206.811425"
+      }
+    },
+    "earAudited": false
+  },
+  {
+    "file": "whoosh2_0.wav",
+    "author": "pyranostudios",
+    "page": "https://opengameart.org/content/air-whoosh",
+    "download": "https://opengameart.org/sites/default/files/whoosh2_0.wav",
+    "license": "CC0",
+    "licenseEvidence": "air-whoosh-license.html",
+    "bytes": 925662,
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "pcm_s16le",
+          "codec_type": "audio",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "5.246599"
+      }
+    },
+    "earAudited": false
+  },
+  {
+    "file": "160bpm_electronic_loop.wav",
+    "author": "RUOK",
+    "page": "https://opengameart.org/content/160bpm-electronic-loop",
+    "download": "https://opengameart.org/sites/default/files/160bpm_electronic_loop.wav",
+    "license": "CC0",
+    "licenseEvidence": "160bpm-electronic-loop-license.html",
+    "bytes": 23040044,
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "pcm_s16le",
+          "codec_type": "audio",
+          "sample_rate": "96000",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "60.000000"
+      }
+    },
+    "earAudited": false
+  }
+]

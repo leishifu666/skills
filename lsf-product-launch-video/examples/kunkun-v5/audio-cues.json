@@ -1,0 +1,528 @@
+{
+  "duration": 21,
+  "earAudited": false,
+  "sources": [
+    "https://opengameart.org/content/160bpm-electronic-loop",
+    "https://opengameart.org/content/air-whoosh",
+    "https://kenney.nl/assets/interface-sounds"
+  ],
+  "license": "CC0 for all selected recordings",
+  "method": "Licensed recordings only: editing, envelope, pan, resampling, loudness normalization",
+  "deliberateMusicDrop": [
+    9.75,
+    10.125
+  ],
+  "events": [
+    {
+      "kind": "music",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 0,
+      "end": 6.375,
+      "sourceStart": 0,
+      "gain": 0.48,
+      "bpm": 160
+    },
+    {
+      "kind": "music",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 6.375,
+      "end": 9.75,
+      "sourceStart": 12.375,
+      "gain": 0.4,
+      "bpm": 160
+    },
+    {
+      "kind": "music",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 10.125,
+      "end": 16.875,
+      "sourceStart": 18,
+      "gain": 0.64,
+      "bpm": 160
+    },
+    {
+      "kind": "music",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 16.875,
+      "end": 21,
+      "sourceStart": 30,
+      "gain": 0.5,
+      "bpm": 160
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 1.04,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.2,
+      "pan": 0.2,
+      "rate": 1.5,
+      "reverse": false,
+      "duration": 0.46
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 2.65,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.3,
+      "pan": -0.3,
+      "rate": 1.8,
+      "reverse": false,
+      "duration": 0.38333333333333336
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 3.74,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.25,
+      "pan": 0.15,
+      "rate": 2.5,
+      "reverse": false,
+      "duration": 0.276
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 7.87,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.32,
+      "pan": 0.3,
+      "rate": 3,
+      "reverse": false,
+      "duration": 0.23
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 8.63,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.4,
+      "pan": -0.2,
+      "rate": 2.2,
+      "reverse": false,
+      "duration": 0.31364583333333335
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 10.5,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.3,
+      "pan": 0,
+      "rate": 2.1,
+      "reverse": false,
+      "duration": 0.32858333333333334
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 11.68,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.26,
+      "pan": 0.4,
+      "rate": 1.4,
+      "reverse": false,
+      "duration": 0.492875
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 12.77,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.35,
+      "pan": -0.5,
+      "rate": 2.8,
+      "reverse": false,
+      "duration": 0.2464375
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 13.49,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.28,
+      "pan": -0.4,
+      "rate": 3.4,
+      "reverse": false,
+      "duration": 0.20295833333333332
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 14.12,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.3,
+      "pan": 0.3,
+      "rate": 1.65,
+      "reverse": false,
+      "duration": 0.4181875
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 16.18,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.35,
+      "pan": 0,
+      "rate": 1.6,
+      "reverse": false,
+      "duration": 0.43125
+    },
+    {
+      "kind": "motion",
+      "source": "whoosh2_0.wav",
+      "time": 17.15,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.32,
+      "pan": 0,
+      "rate": 2.2,
+      "reverse": false,
+      "duration": 0.31364583333333335
+    },
+    {
+      "kind": "anticipation",
+      "source": "whoosh2_0.wav",
+      "time": 9.86,
+      "sourceTrim": [
+        0.04,
+        0.73
+      ],
+      "gain": 0.23,
+      "pan": 0,
+      "rate": 2.6,
+      "reverse": true,
+      "duration": 0.26539583333333333
+    },
+    {
+      "kind": "contact",
+      "source": "open_002.ogg",
+      "time": 0.3,
+      "sourceTrim": null,
+      "gain": 0.1,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.3137916666666667
+    },
+    {
+      "kind": "contact",
+      "source": "drop_002.ogg",
+      "time": 3.09,
+      "sourceTrim": null,
+      "gain": 0.24,
+      "pan": -0.2,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.1881875
+    },
+    {
+      "kind": "contact",
+      "source": "select_002.ogg",
+      "time": 3.37,
+      "sourceTrim": null,
+      "gain": 0.2,
+      "pan": 0.2,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.04039583333333333
+    },
+    {
+      "kind": "contact",
+      "source": "open_001.ogg",
+      "time": 6.77,
+      "sourceTrim": null,
+      "gain": 0.22,
+      "pan": -0.2,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.14779166666666665
+    },
+    {
+      "kind": "contact",
+      "source": "select_003.ogg",
+      "time": 7.533,
+      "sourceTrim": null,
+      "gain": 0.3,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.379875
+    },
+    {
+      "kind": "contact",
+      "source": "click_005.ogg",
+      "time": 8.2666667,
+      "sourceTrim": null,
+      "gain": 0.5,
+      "pan": 0.15,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.007125
+    },
+    {
+      "kind": "contact",
+      "source": "confirmation_001.ogg",
+      "time": 10.1333333,
+      "sourceTrim": null,
+      "gain": 0.27,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.2898541666666667
+    },
+    {
+      "kind": "contact",
+      "source": "glass_001.ogg",
+      "time": 17.6,
+      "sourceTrim": null,
+      "gain": 0.2,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.2755416666666667
+    },
+    {
+      "kind": "typing",
+      "source": "tick_001.ogg",
+      "time": 4.16,
+      "sourceTrim": null,
+      "gain": 0.08,
+      "pan": -0.2,
+      "rate": 0.96,
+      "reverse": false,
+      "duration": 0.046875
+    },
+    {
+      "kind": "typing",
+      "source": "click_001.ogg",
+      "time": 4.3,
+      "sourceTrim": null,
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "rate": 1.04,
+      "reverse": false,
+      "duration": 0.09339583333333333
+    },
+    {
+      "kind": "typing",
+      "source": "tick_002.ogg",
+      "time": 4.5,
+      "sourceTrim": null,
+      "gain": 0.065,
+      "pan": 0.09999999999999998,
+      "rate": 1.12,
+      "reverse": false,
+      "duration": 0.018166666666666668
+    },
+    {
+      "kind": "typing",
+      "source": "tick_001.ogg",
+      "time": 4.68,
+      "sourceTrim": null,
+      "gain": 0.08,
+      "pan": -0.2,
+      "rate": 0.96,
+      "reverse": false,
+      "duration": 0.046875
+    },
+    {
+      "kind": "typing",
+      "source": "click_001.ogg",
+      "time": 4.85,
+      "sourceTrim": null,
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "rate": 1.04,
+      "reverse": false,
+      "duration": 0.09339583333333333
+    },
+    {
+      "kind": "typing",
+      "source": "tick_002.ogg",
+      "time": 5.07,
+      "sourceTrim": null,
+      "gain": 0.065,
+      "pan": 0.09999999999999998,
+      "rate": 1.12,
+      "reverse": false,
+      "duration": 0.018166666666666668
+    },
+    {
+      "kind": "typing",
+      "source": "tick_001.ogg",
+      "time": 5.24,
+      "sourceTrim": null,
+      "gain": 0.08,
+      "pan": -0.2,
+      "rate": 0.96,
+      "reverse": false,
+      "duration": 0.046875
+    },
+    {
+      "kind": "typing",
+      "source": "click_001.ogg",
+      "time": 5.47,
+      "sourceTrim": null,
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "rate": 1.04,
+      "reverse": false,
+      "duration": 0.09339583333333333
+    },
+    {
+      "kind": "typing",
+      "source": "tick_002.ogg",
+      "time": 5.65,
+      "sourceTrim": null,
+      "gain": 0.065,
+      "pan": 0.09999999999999998,
+      "rate": 1.12,
+      "reverse": false,
+      "duration": 0.018166666666666668
+    },
+    {
+      "kind": "typing",
+      "source": "tick_001.ogg",
+      "time": 5.86,
+      "sourceTrim": null,
+      "gain": 0.08,
+      "pan": -0.2,
+      "rate": 0.96,
+      "reverse": false,
+      "duration": 0.046875
+    },
+    {
+      "kind": "typing",
+      "source": "click_001.ogg",
+      "time": 6.02,
+      "sourceTrim": null,
+      "gain": 0.055,
+      "pan": -0.05000000000000002,
+      "rate": 1.04,
+      "reverse": false,
+      "duration": 0.09339583333333333
+    },
+    {
+      "kind": "music-accent",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 2.625,
+      "sourceTrim": [
+        18,
+        18.17
+      ],
+      "gain": 0.28,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.17
+    },
+    {
+      "kind": "music-accent",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 10.1333333,
+      "sourceTrim": [
+        18,
+        18.17
+      ],
+      "gain": 0.35,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.17
+    },
+    {
+      "kind": "music-accent",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 12.75,
+      "sourceTrim": [
+        18,
+        18.17
+      ],
+      "gain": 0.28,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.17
+    },
+    {
+      "kind": "music-accent",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 13.5,
+      "sourceTrim": [
+        18,
+        18.17
+      ],
+      "gain": 0.24,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.17
+    },
+    {
+      "kind": "music-accent",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 16.875,
+      "sourceTrim": [
+        18,
+        18.17
+      ],
+      "gain": 0.3,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.17
+    },
+    {
+      "kind": "music-accent",
+      "source": "160bpm_electronic_loop.wav",
+      "time": 18.375,
+      "sourceTrim": [
+        18,
+        18.17
+      ],
+      "gain": 0.27,
+      "pan": 0,
+      "rate": 1,
+      "reverse": false,
+      "duration": 0.17
+    }
+  ]
+}

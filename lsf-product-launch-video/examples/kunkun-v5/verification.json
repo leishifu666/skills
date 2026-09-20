@@ -1,0 +1,83 @@
+{
+  "media": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "30/1",
+        "duration": "21.000000",
+        "nb_frames": "630",
+        "side_data_list": [
+          {}
+        ]
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "duration": "21.000000",
+        "nb_frames": "986"
+      }
+    ],
+    "format": {
+      "duration": "21.000000",
+      "size": "6127649"
+    }
+  },
+  "fullDecodePassed": true,
+  "decodeErrors": "",
+  "blackSegments": [],
+  "encodedAudioPeakDbFS": -1.5047214031219482,
+  "clippedSamples": 0,
+  "loudness": {
+    "integratedLUFS": "-14.62",
+    "truePeakDbTP": "-1.50",
+    "loudnessRangeLU": "5.20"
+  },
+  "earAudited": false,
+  "render": {
+    "mode": "full",
+    "frames": 630,
+    "fps": 30,
+    "errors": []
+  },
+  "runtime": {
+    "events": [
+      {
+        "frame": 248,
+        "event": "native-send-callback"
+      }
+    ],
+    "frames": 630
+  },
+  "review": {
+    "errors": [],
+    "viewports": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "videoWidth": 1336
+      },
+      {
+        "width": 600,
+        "overflow": false,
+        "videoWidth": 564
+      }
+    ],
+    "playback": {
+      "time": 0.153619,
+      "duration": 21,
+      "paused": false,
+      "error": null
+    },
+    "seek": {
+      "time": 6.477295,
+      "error": null
+    }
+  },
+  "brokenLinks": []
+}

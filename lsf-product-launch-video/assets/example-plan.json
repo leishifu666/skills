@@ -1,0 +1,30 @@
+{
+  "title": "坤坤魔法：每次变化，都看得见",
+  "fps": 30,
+  "durationFrames": 540,
+  "width": 1920,
+  "height": 1080,
+  "claim": "图片前后滑动对比，支持键盘每次 5% 微调",
+  "materialDisclosure": "茶罐为原创演示图形，不代表模型生成结果；视频场景外壳为宣传编排",
+  "scenes": [
+    {"id":"question","startFrame":0,"endFrame":90,"message":"改了哪里？一眼看清。","focus":"前后两张同主体演示图","action":"先呈现比较问题","evidence":"ImagePreviewModal.tsx:519 接入多图对比"},
+    {"id":"drag","startFrame":90,"endFrame":210,"message":"拉一下，看清差别。","focus":"真实对比组件的分隔条","action":"光标到位后拖动，position 50→82","evidence":"BeforeAfterSlider.tsx 的受控 position、clipPath 和拖动处理"},
+    {"id":"detail","startFrame":210,"endFrame":360,"message":"同一位置，细节更清楚。","focus":"同位置茶罐标签与色彩变化","action":"相机推进，滑块 82→22→50，反向前停顿","evidence":"BeforeAfterSlider.tsx 叠图及 objectFit=contain；镜头属于视频编排"},
+    {"id":"keyboard","startFrame":360,"endFrame":450,"message":"方向键，每次微调 5%。","focus":"键盘操作与分隔条步进","action":"position 50→55→60→65，与三个按键音共享帧号","evidence":"BeforeAfterSlider.tsx:handleKeyDown step=5；Shift=20，本片仅演示5"},
+    {"id":"brand","startFrame":450,"endFrame":540,"message":"每次变化，都看得见。","focus":"坤坤魔法名称与图片前后对比功能","action":"界面退出，真实品牌图标与结束文案进入","evidence":"resources/icon.png；产品名称取项目 AGENTS.md"}
+  ],
+  "events": [
+    {"id":"opening","frame":9,"durationFrames":18,"kind":"thump","gain":0.3,"pan":0,"visual":"开头主标题进入"},
+    {"id":"stage-in","frame":90,"durationFrames":20,"kind":"swish","gain":0.52,"pan":0,"visual":"从对照图切到真实滑块组件"},
+    {"id":"grab","frame":120,"durationFrames":5,"kind":"click","gain":0.26,"pan":0,"visual":"光标抵达滑块中心并按下"},
+    {"id":"drag-right","frame":130,"durationFrames":60,"kind":"swish","gain":0.45,"pan":0.25,"visual":"滑块50→82"},
+    {"id":"zoom","frame":210,"durationFrames":24,"kind":"swish","gain":0.32,"pan":0,"visual":"相机推进到演示图中心"},
+    {"id":"drag-left","frame":240,"durationFrames":54,"kind":"swish","gain":0.38,"pan":-0.25,"visual":"滑块82→22"},
+    {"id":"drag-return","frame":315,"durationFrames":24,"kind":"swish","gain":0.3,"pan":0.1,"visual":"滑块22→50"},
+    {"id":"key-1","frame":372,"durationFrames":5,"kind":"click","gain":0.28,"pan":0.1,"visual":"右键一次，50→55"},
+    {"id":"key-2","frame":390,"durationFrames":5,"kind":"click","gain":0.28,"pan":0.15,"visual":"右键一次，55→60"},
+    {"id":"key-3","frame":408,"durationFrames":5,"kind":"click","gain":0.28,"pan":0.2,"visual":"右键一次，60→65"},
+    {"id":"resolve","frame":454,"durationFrames":50,"kind":"chime","gain":0.3,"pan":0,"visual":"坤坤魔法品牌收尾"}
+  ],
+  "music":{"enabled":true,"bpm":100,"gain":0.043}
+}

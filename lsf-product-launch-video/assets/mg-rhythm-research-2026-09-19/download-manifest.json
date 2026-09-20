@@ -1,0 +1,124 @@
+[
+  {
+    "name": "secureframe",
+    "sourcePage": "https://flashmotion.io/",
+    "media": "https://flashmotion.io/assets/video/secureframe.webm",
+    "duration": "5.600000",
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "file": "secureframe.webm",
+    "scope": "Official silent excerpt, not full film",
+    "bytes": 1113458,
+    "sha256": "e909709c542fe72081d91e3dc6c5403c783d917513aa113df0f82fed95d7e3a0",
+    "earAudited": false
+  },
+  {
+    "name": "creativeforce",
+    "sourcePage": "https://flashmotion.io/",
+    "media": "https://flashmotion.io/assets/video/creativeforce.webm",
+    "duration": "5.680000",
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "file": "creativeforce.webm",
+    "scope": "Official silent excerpt, not full film",
+    "bytes": 956532,
+    "sha256": "4ffc7ecabe014afda28a159b66f0269409e2cfe96ee200f213ad9774334eedf8",
+    "earAudited": false
+  },
+  {
+    "name": "dreem",
+    "sourcePage": "https://flashmotion.io/",
+    "media": "https://flashmotion.io/assets/video/dreem.webm",
+    "duration": "4.760000",
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "file": "dreem.webm",
+    "scope": "Official silent excerpt, not full film",
+    "bytes": 735362,
+    "sha256": "b7721190e05aa7c0b6f802c41a543ff0a23664442e7d98aa190f43daa0b77dc8",
+    "earAudited": false
+  },
+  {
+    "name": "appspace",
+    "sourcePage": "https://flashmotion.io/",
+    "media": "https://flashmotion.io/assets/video/appspace.webm",
+    "duration": "5.400000",
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "file": "appspace.webm",
+    "scope": "Official silent excerpt, not full film",
+    "bytes": 433248,
+    "sha256": "9616389e764f81883ec4293d650edc67f6fcf6200256af44e1b1c83db794951f",
+    "earAudited": false
+  },
+  {
+    "name": "bohdan-bolt",
+    "sourcePage": "https://x.com/bohdanmotion/status/2100600903862452583/video/1",
+    "file": "bohdan-bolt.mp4",
+    "source": "User-supplied post, downloaded with yt-dlp",
+    "duration": "36.522667",
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1080,
+        "height": 824,
+        "r_frame_rate": "25/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "scope": "Complete downloaded video",
+    "bytes": 7122224,
+    "sha256": "51e6e940d87528fbf50032607bab8dce1d6d3977fc729cea4754a88d7cc33a7e",
+    "earAudited": false
+  },
+  {
+    "name": "bolt-slides",
+    "sourcePage": "https://flashmotion.io/portfolio",
+    "file": "bolt-slides.mp4",
+    "media": "https://stream.mux.com/9esRYYG5SZKM6IPqmC35kMRiwoXZyqr7KAg02vbGQiuw.m3u8",
+    "duration": "41.130667",
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "25/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "scope": "Complete downloaded video",
+    "bytes": 14276646,
+    "sha256": "24e563a8a3fa38453113262d073e0f7a6894831fd20896b904743454cc7691d9",
+    "earAudited": false
+  }
+]

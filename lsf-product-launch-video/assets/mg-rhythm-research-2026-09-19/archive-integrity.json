@@ -1,0 +1,217 @@
+[
+  {
+    "file": "audio-analysis.json",
+    "bytes": 6744,
+    "sha256": "314f420606655e3930c7424d95d826e94470522b1ca82a0ef3f24c80360d9da6"
+  },
+  {
+    "file": "download-manifest.json",
+    "bytes": 3537,
+    "sha256": "0cf7d5ee1a0b08e682876c12994b9449fd071fbe17f419c2ad8a2f02354a9077"
+  },
+  {
+    "file": "flashmotion.html",
+    "bytes": 121066,
+    "sha256": "52c3dac9070ab3990e6a268e50bb0906369604f4a8551d7c3682a3acb8c2149e"
+  },
+  {
+    "file": "portfolio.html",
+    "bytes": 198980,
+    "sha256": "8033ea2fcb883c38660e7205288751a3be922810c91941e2a9346d84469bbf26"
+  },
+  {
+    "file": "research-review.html",
+    "bytes": 14522,
+    "sha256": "179bfbb69d9ab4999f6efc0963a84dfb78ca5fc3e115a5af6c247f3eeb0f6d1a"
+  },
+  {
+    "file": "研究结论.md",
+    "bytes": 10478,
+    "sha256": "83d70af43cade05367971d19e0de14715ddb89ec2e67c32c45bbc41f9bf1e4e3"
+  },
+  {
+    "file": "audio/160bpm-electronic-loop-license.html",
+    "bytes": 19429,
+    "sha256": "5ddbee63a01c5235f1ec62f16eb6638b80338df628147adb3bfee9c7dd2b0187"
+  },
+  {
+    "file": "audio/160bpm_electronic_loop.wav",
+    "bytes": 23040044,
+    "sha256": "c660a0ac9cdf06e5abe2ce83021319c589b6b43b265d87b97e679fb9d8bb8943"
+  },
+  {
+    "file": "audio/air-whoosh-license.html",
+    "bytes": 19893,
+    "sha256": "d6f2a0e6647ceeeafb0a95adf43d26cb18f18fbc3642cc1f0ce57085279346b4"
+  },
+  {
+    "file": "audio/sources.json",
+    "bytes": 2008,
+    "sha256": "eb5fe111ee2d235e38346f68eefcd3442869cd74b1ace5fd78d48fbf66dc8bca"
+  },
+  {
+    "file": "audio/specular-city-license.html",
+    "bytes": 30790,
+    "sha256": "30986b0a6fb7c322f026bed44b6dae40c6babb5d4cdae36ce4aff31f45d3d8dd"
+  },
+  {
+    "file": "audio/specular_city_1.mp3",
+    "bytes": 8272513,
+    "sha256": "c3865e5435ac38a1a7c5611a674f629b212a912421a95999845e0a4801004ce1"
+  },
+  {
+    "file": "audio/whoosh2_0.wav",
+    "bytes": 925662,
+    "sha256": "d3fbff5bb78b289af16b2dfa29083f07ef83b0cbaff4514c48dfda16d082b468"
+  },
+  {
+    "file": "evidence/appspace-0.jpg",
+    "bytes": 73827,
+    "sha256": "6cb6d5f4a9f436370fff7b50d3102b2d6b5a0b1f3b81af71b4c514f7f4f561ad"
+  },
+  {
+    "file": "evidence/bohdan-bolt-0.jpg",
+    "bytes": 348402,
+    "sha256": "a1d23a3cb503a2df89a8caf533b03e27e0e618e6652c0babbdba26c1dea02af2"
+  },
+  {
+    "file": "evidence/bohdan-bolt-1.jpg",
+    "bytes": 418835,
+    "sha256": "3b2f2ab71c1af3a7ce026aa664a1442e32441a693ddc21e1e16f7f3b13927663"
+  },
+  {
+    "file": "evidence/bohdan-bolt-2.jpg",
+    "bytes": 378899,
+    "sha256": "e59229993bdb13f4a70fbc0643de27b9e451c74329bd133cc6f98afc8072b1d8"
+  },
+  {
+    "file": "evidence/bohdan-bolt-3.jpg",
+    "bytes": 18399,
+    "sha256": "6f2dbb8a088c101de67f0a6ec132d57334b0008a746f24760cfadb540745b1bf"
+  },
+  {
+    "file": "evidence/bolt-click-0.jpg",
+    "bytes": 388559,
+    "sha256": "c4984aa2c5724d0d86559cbab202df4414bb742c4ee3702ced6cd6659ba67e0c"
+  },
+  {
+    "file": "evidence/bolt-click-1.jpg",
+    "bytes": 99003,
+    "sha256": "fd0896a28c8f637e28be1d8efb2806c4080af69c31915f718c6f09d6be6a8de2"
+  },
+  {
+    "file": "evidence/bolt-click-native-0.jpg",
+    "bytes": 401098,
+    "sha256": "914a935568bd3cecb46432205a3ec87fdf0b7fd845915a923b275117fb172f00"
+  },
+  {
+    "file": "evidence/bolt-click-native-1.jpg",
+    "bytes": 167134,
+    "sha256": "cb4123f616c0ec1c4f8fa44cebe8b4e87af8369fa295c86280f95fe0e795ccf4"
+  },
+  {
+    "file": "evidence/bolt-outro-0.jpg",
+    "bytes": 369535,
+    "sha256": "55dab82d939bc1a4dfb1e07e9a63a187a56143be69dac656eee559dc1571aa98"
+  },
+  {
+    "file": "evidence/bolt-outro-1.jpg",
+    "bytes": 417815,
+    "sha256": "82790088e70cf8d05be4a226dcfd127ea1bf007ff3adfeaf11b8a749ca5f0ad9"
+  },
+  {
+    "file": "evidence/creative-depth-0.jpg",
+    "bytes": 355551,
+    "sha256": "aa61a27fed9e6d89f49cbd84f3a71d47ecc00aaf45853278785057aa76807572"
+  },
+  {
+    "file": "evidence/creative-depth-1.jpg",
+    "bytes": 183191,
+    "sha256": "888570f18d888832a2ecbee0d1c6f7732a87aee1633515c647671e31c3bcbfb7"
+  },
+  {
+    "file": "evidence/creativeforce-0.jpg",
+    "bytes": 177846,
+    "sha256": "39c1f59793675d0278cc57181c2140c804a0f741d482f46f07129e150a5b0f0d"
+  },
+  {
+    "file": "evidence/dreem-0.jpg",
+    "bytes": 119203,
+    "sha256": "e050095790ef3da183c06469d6cf384bed0baafbdf8a0952dda67c8bd9a6b8ce"
+  },
+  {
+    "file": "evidence/dreem-depth-0.jpg",
+    "bytes": 304034,
+    "sha256": "1a7155c3d11b3d4d69020d3b368a42013a2f7d37e51690943f40c1cbd6cd9e32"
+  },
+  {
+    "file": "evidence/dreem-depth-1.jpg",
+    "bytes": 55060,
+    "sha256": "f7b552b88b50a1d9368b8a74de3b1718e6a717dd002cdf2b371c5d5dc227defb"
+  },
+  {
+    "file": "evidence/secureframe-0.jpg",
+    "bytes": 144998,
+    "sha256": "f3b981e86b50a3cc7f59776f7f9fab817191660c3538792f082d1e733cabecbd"
+  },
+  {
+    "file": "evidence/slides-0.jpg",
+    "bytes": 234840,
+    "sha256": "9266f252aec0f0e2a9b00f95627a2d5679499a4055c33f674b05b102f33fa20c"
+  },
+  {
+    "file": "evidence/slides-1.jpg",
+    "bytes": 342774,
+    "sha256": "ae21bb985afbedfb4dfd42c2fcc6474500cfcb1e0a6d6d4eeeb1066e50bbec0a"
+  },
+  {
+    "file": "evidence/slides-2.jpg",
+    "bytes": 259208,
+    "sha256": "8194604da7a6f71080b1bfa129063b34434d0a5a4b3332becb808f063cb0cfc7"
+  },
+  {
+    "file": "evidence/slides-3.jpg",
+    "bytes": 107299,
+    "sha256": "e2d0153f945d37ae40f0c2da87e39bd93a6564465570a6a3ec158b376a4be148"
+  },
+  {
+    "file": "evidence/slides-depth-0.jpg",
+    "bytes": 288877,
+    "sha256": "9b7a63a2c54beb6c7acf1b9161e4d33fae9e285fb4d54f8be8449d92d99e0455"
+  },
+  {
+    "file": "evidence/slides-depth-1.jpg",
+    "bytes": 134119,
+    "sha256": "5f4cdc0ec65b73dc135694436b5076119e0113a63bb0dcaa45e365780f45fc85"
+  },
+  {
+    "file": "references/appspace.webm",
+    "bytes": 433248,
+    "sha256": "9616389e764f81883ec4293d650edc67f6fcf6200256af44e1b1c83db794951f"
+  },
+  {
+    "file": "references/bohdan-bolt.mp4",
+    "bytes": 7122224,
+    "sha256": "51e6e940d87528fbf50032607bab8dce1d6d3977fc729cea4754a88d7cc33a7e"
+  },
+  {
+    "file": "references/bolt-slides.mp4",
+    "bytes": 14276646,
+    "sha256": "24e563a8a3fa38453113262d073e0f7a6894831fd20896b904743454cc7691d9"
+  },
+  {
+    "file": "references/creativeforce.webm",
+    "bytes": 956532,
+    "sha256": "4ffc7ecabe014afda28a159b66f0269409e2cfe96ee200f213ad9774334eedf8"
+  },
+  {
+    "file": "references/dreem.webm",
+    "bytes": 735362,
+    "sha256": "b7721190e05aa7c0b6f802c41a543ff0a23664442e7d98aa190f43daa0b77dc8"
+  },
+  {
+    "file": "references/secureframe.webm",
+    "bytes": 1113458,
+    "sha256": "e909709c542fe72081d91e3dc6c5403c783d917513aa113df0f82fed95d7e3a0"
+  }
+]
