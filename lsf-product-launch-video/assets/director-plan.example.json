@@ -1,0 +1,564 @@
+{
+  "schemaVersion": 2,
+  "title": "LSF｜一杯奶茶变成产品海报",
+  "status": "planning_example_not_rendered",
+  "scope": "完整故事策划示例，不是新成片；素材、当前原生交互与所有声音均待制作和审看",
+  "fps": 60,
+  "durationFrames": 1800,
+  "width": 1920,
+  "height": 1080,
+  "direction": {
+    "promise": "用奶茶参考图和画布 Agent 把创作意图变成可继续编辑的海报",
+    "voiceover": false,
+    "design": "复用用户已认可的 DESIGN 与组件规范，仅补新增范围",
+    "causality": "成果可先预告；真实操作仍是引用、输入、提交、反馈、结果",
+    "timingProvenance": "原创策划起点；不照抄参考帧数，不声明本片已经卡上音乐"
+  },
+  "assets": [
+    {
+      "id": "tea-source",
+      "purpose": "同一杯奶茶原图",
+      "status": "reuse_existing_after_check",
+      "source": "既有奶茶案例资产，制作时选择当前可用原图并记录路径与 hash"
+    },
+    {
+      "id": "tea-poster",
+      "purpose": "同一杯奶茶的最终海报",
+      "status": "reuse_or_generate",
+      "source": "优先核对既有案例海报；需再生图时直接引用 tea-source 保持主体"
+    },
+    {
+      "id": "tea-applications",
+      "purpose": "同一海报进入灯箱与手机画面",
+      "status": "to_create",
+      "source": "以 tea-poster 为原图生成或合成自己的应用示意，不直接使用参考片素材"
+    },
+    {
+      "id": "brand",
+      "purpose": "产品自己的 Logo 与品牌文字",
+      "status": "verify_current_project",
+      "source": "当前产品真实品牌资产"
+    }
+  ],
+  "referenceLibrary": [
+    {
+      "id": "pen-teaser",
+      "cardId": "pen-proof-intercut",
+      "source": "https://x.com/tomkrcha/status/2100570466692071493",
+      "timeRange": [
+        0,
+        1.3
+      ],
+      "viewed": "30 fps 全部原帧网格",
+      "borrow": "先给成果线索，改用更长可辨认镜头，不复制 5 帧一切"
+    },
+    {
+      "id": "pen-proof",
+      "cardId": "pen-proof-intercut",
+      "source": "https://x.com/tomkrcha/status/2100570466692071493",
+      "timeRange": [
+        15.5,
+        20.8
+      ],
+      "viewed": "30 fps 全部原帧网格",
+      "borrow": "原生操作、短主张、成果交替；不推断原始缓动或声音"
+    },
+    {
+      "id": "arrow-application",
+      "cardId": "arrow-object-application",
+      "source": "https://x.com/QuiverAI/status/2100295136261349802",
+      "timeRange": [
+        22.8,
+        25.7
+      ],
+      "viewed": "25 fps 全部原帧网格",
+      "borrow": "同一作品跨载体，先短识别后长停留；不用无关图片轮播"
+    },
+    {
+      "id": "input-focus",
+      "cardId": "focus-read-release",
+      "source": "https://screen.studio/videos/hero/hero-demo.mp4",
+      "timeRange": [
+        0,
+        0.83
+      ],
+      "viewed": "12 fps",
+      "borrow": "围绕实际输入焦点推进，稳定读字后退出；自己的 GSAP 曲线"
+    },
+    {
+      "id": "linear-close",
+      "cardId": "linear-concept-to-symbol",
+      "source": "https://x.com/linear/status/2079233260161323371",
+      "timeRange": [
+        25.5,
+        28.5
+      ],
+      "viewed": "前轮 12 fps，本轮 60 fps 仅第 1、5、9 页",
+      "borrow": "收束焦点到自有品牌，保留尾段；不复制环轨形状"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "teaser",
+      "startFrame": 0,
+      "endFrame": 180,
+      "role": "attention",
+      "presentation": "artwork",
+      "message": "一杯奶茶 可以这样出场",
+      "viewerTakeaway": "这是把一杯奶茶做成店铺海报的故事，先看到值得继续看的成果",
+      "focus": "看清杯子与海报主构图",
+      "action": "完整保留形成阶段，海报由局部显现到整体，随后稳定；不展示虚构 UI",
+      "evidence": "候选为同一案例的最终作品；开场明确是成果预告，不表示已执行生成",
+      "assetIds": [
+        "tea-poster"
+      ],
+      "referenceIds": [
+        "pen-teaser"
+      ],
+      "readability": {
+        "mode": "recognize",
+        "startFrame": 78,
+        "endFrame": 174,
+        "reason": "看清杯子与海报主构图"
+      },
+      "syncTargets": [
+        {
+          "id": "poster-reveal",
+          "kind": "reveal",
+          "frame": 78
+        }
+      ]
+    },
+    {
+      "id": "source",
+      "startFrame": 180,
+      "endFrame": 330,
+      "role": "claim",
+      "presentation": "artwork",
+      "message": "从这一杯开始",
+      "viewerTakeaway": "后面的海报来自这张奶茶参考图，而非无关的作品拼贴",
+      "focus": "读短句并认出同一杯奶茶",
+      "action": "直接切回原图，保留杯子的构图锚点；短句淡入后停止运动",
+      "evidence": "需核对原图与海报主体一致性；此镜是素材叙事，不是产品页面",
+      "assetIds": [
+        "tea-source"
+      ],
+      "referenceIds": [
+        "arrow-application"
+      ],
+      "readability": {
+        "mode": "read",
+        "startFrame": 210,
+        "endFrame": 326,
+        "reason": "读短句并认出同一杯奶茶"
+      },
+      "syncTargets": [
+        {
+          "id": "source-settle",
+          "kind": "settle",
+          "frame": 210
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "startFrame": 330,
+      "endFrame": 810,
+      "role": "proof",
+      "presentation": "native-ui",
+      "message": "带着参考 找 Agent 一起创作",
+      "viewerTakeaway": "用户将奶茶节点引用给画布 Agent，描述需求并提交，原生输入和反馈都可见",
+      "focus": "完整需求为：把这杯奶茶做成店铺海报 保留杯身细节",
+      "action": "当前无限画布挂载真实控制器；引用原图、推进输入、两组插入需求、停读、指针到位出现原生 hover 后提交",
+      "evidence": "参考既有 milk-tea-trial 的回放边界；制作前重新核对 NodeCanvas 当前入口与引用/发送路径。模型回包为演示时明确记录",
+      "assetIds": [
+        "tea-source"
+      ],
+      "referenceIds": [
+        "input-focus",
+        "pen-proof"
+      ],
+      "readability": {
+        "mode": "read",
+        "startFrame": 570,
+        "endFrame": 720,
+        "reason": "完整需求为：把这杯奶茶做成店铺海报 保留杯身细节"
+      },
+      "syncTargets": [
+        {
+          "id": "typing-group-one",
+          "kind": "contact",
+          "frame": 414
+        },
+        {
+          "id": "typing-group-two",
+          "kind": "contact",
+          "frame": 510
+        },
+        {
+          "id": "agent-send",
+          "kind": "contact",
+          "frame": 750
+        }
+      ]
+    },
+    {
+      "id": "claim",
+      "startFrame": 810,
+      "endFrame": 930,
+      "role": "claim",
+      "presentation": "typography",
+      "message": "参考不丢 创意展开",
+      "viewerTakeaway": "接下来要看的是参考如何进入创作流程和结果，给连续 UI 操作一个信息停顿",
+      "focus": "短句读完再返回实际结果",
+      "action": "直接切独立字卡，文字揭示后停住；不额外添加假节点或运行速度数字",
+      "evidence": "此主张必须由下一镜原图直连生成目标及结果核对支撑；不承诺任何图片都能精准保持",
+      "assetIds": [],
+      "referenceIds": [
+        "pen-proof"
+      ],
+      "readability": {
+        "mode": "read",
+        "startFrame": 834,
+        "endFrame": 930,
+        "reason": "短句读完再返回实际结果"
+      },
+      "syncTargets": [
+        {
+          "id": "claim-land",
+          "kind": "land",
+          "frame": 834
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "startFrame": 930,
+      "endFrame": 1230,
+      "role": "proof",
+      "presentation": "native-ui",
+      "message": "结果留在画布 继续打磨",
+      "viewerTakeaway": "Agent 的协助落成可继续编辑的节点与结果，参考图有实际连线",
+      "focus": "看清原图、直接连线与结果关系，展示时不得混入桌面输入栏",
+      "action": "接回同一次会话的运行/完成反馈与真实 canvas.apply 结果；展示原图直连目标和原生结果选中，省略等待不代表零等待",
+      "evidence": "沿用产品现有画布补丁应用器和节点选择回调；待当前运行界面重新验证。此模板没有实际执行在线 Agent",
+      "assetIds": [
+        "tea-source",
+        "tea-poster"
+      ],
+      "referenceIds": [
+        "pen-proof"
+      ],
+      "readability": {
+        "mode": "read",
+        "startFrame": 1038,
+        "endFrame": 1188,
+        "reason": "看清原图、直接连线与结果关系，展示时不得混入桌面输入栏"
+      },
+      "syncTargets": [
+        {
+          "id": "result-reveal",
+          "kind": "reveal",
+          "frame": 1002
+        },
+        {
+          "id": "result-select",
+          "kind": "contact",
+          "frame": 1092
+        }
+      ]
+    },
+    {
+      "id": "applications",
+      "startFrame": 1230,
+      "endFrame": 1560,
+      "role": "context",
+      "presentation": "artwork",
+      "message": "让作品走进店里",
+      "viewerTakeaway": "同一海报可以用于店铺灯箱和手机传播，应用展示与产品操作各有作用",
+      "focus": "最后的使用情境保留更长时间，看清是同一作品",
+      "action": "从结果图取相同裁切展开为海报特写；两次短构图变化后停在店内灯箱，节奏按素材识别重排",
+      "evidence": "灯箱和手机仅为作品应用示意；不暗示坤坤制造实物或已提供一键场景套用功能",
+      "assetIds": [
+        "tea-poster",
+        "tea-applications"
+      ],
+      "referenceIds": [
+        "arrow-application"
+      ],
+      "readability": {
+        "mode": "recognize",
+        "startFrame": 1440,
+        "endFrame": 1554,
+        "reason": "最后的使用情境保留更长时间，看清是同一作品"
+      },
+      "syncTargets": [
+        {
+          "id": "application-land",
+          "kind": "land",
+          "frame": 1440
+        }
+      ]
+    },
+    {
+      "id": "brand",
+      "startFrame": 1560,
+      "endFrame": 1800,
+      "role": "brand",
+      "presentation": "artwork",
+      "message": "坤坤魔法 把想法做成作品",
+      "viewerTakeaway": "记住产品名称与从参考到作品的价值，不增加未经核对的下载入口",
+      "focus": "品牌与短句稳定读完，结尾不仓促切断",
+      "action": "主作品收至自有品牌旁，整体按可见内容视觉居中，文字停稳；音乐保留自然尾部",
+      "evidence": "品牌图形与文字从当前项目核对；不附加其他厂商 Logo 暗示合作",
+      "assetIds": [
+        "tea-poster",
+        "brand"
+      ],
+      "referenceIds": [
+        "linear-close"
+      ],
+      "readability": {
+        "mode": "read",
+        "startFrame": 1626,
+        "endFrame": 1800,
+        "reason": "品牌与短句稳定读完，结尾不仓促切断"
+      },
+      "syncTargets": [
+        {
+          "id": "brand-settle",
+          "kind": "settle",
+          "frame": 1626
+        }
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "from": "teaser",
+      "to": "source",
+      "reason": "从成果预告切回原料，时间回溯由短句说明",
+      "technique": "hard_cut",
+      "startFrame": 180,
+      "cutFrame": 180,
+      "endFrame": 180,
+      "continuity": {
+        "kind": "semantic",
+        "basis": "从成果预告切回原料，时间回溯由短句说明"
+      },
+      "audioBridge": "配乐可连续，是否跨镜留采样尾音待试听；不默认每刀都加 whoosh"
+    },
+    {
+      "from": "source",
+      "to": "agent",
+      "reason": "原图在相同视线区域成为画布参考节点，记录真实边界与裁切",
+      "technique": "match_cut",
+      "startFrame": 306,
+      "cutFrame": 330,
+      "endFrame": 354,
+      "continuity": {
+        "kind": "object",
+        "basis": "原图在相同视线区域成为画布参考节点，记录真实边界与裁切",
+        "assetId": "tea-source"
+      },
+      "audioBridge": "配乐可连续，是否跨镜留采样尾音待试听；不默认每刀都加 whoosh"
+    },
+    {
+      "from": "agent",
+      "to": "claim",
+      "reason": "提交反馈成立后用字卡说明价值，不制造同一个飞行对象",
+      "technique": "hard_cut",
+      "startFrame": 810,
+      "cutFrame": 810,
+      "endFrame": 810,
+      "continuity": {
+        "kind": "semantic",
+        "basis": "提交反馈成立后用字卡说明价值，不制造同一个飞行对象"
+      },
+      "audioBridge": "配乐可连续，是否跨镜留采样尾音待试听；不默认每刀都加 whoosh"
+    },
+    {
+      "from": "claim",
+      "to": "result",
+      "reason": "回到同一次操作的产出，验证刚才的主张",
+      "technique": "hard_cut",
+      "startFrame": 930,
+      "cutFrame": 930,
+      "endFrame": 930,
+      "continuity": {
+        "kind": "semantic",
+        "basis": "回到同一次操作的产出，验证刚才的主张"
+      },
+      "audioBridge": "配乐可连续，是否跨镜留采样尾音待试听；不默认每刀都加 whoosh"
+    },
+    {
+      "from": "result",
+      "to": "applications",
+      "reason": "画布结果与独立海报是同一张图，交接需保留内部裁切",
+      "technique": "same_object_handoff",
+      "startFrame": 1200,
+      "cutFrame": 1230,
+      "endFrame": 1260,
+      "continuity": {
+        "kind": "object",
+        "basis": "画布结果与独立海报是同一张图，交接需保留内部裁切",
+        "assetId": "tea-poster"
+      },
+      "audioBridge": "配乐可连续，是否跨镜留采样尾音待试听；不默认每刀都加 whoosh"
+    },
+    {
+      "from": "applications",
+      "to": "brand",
+      "reason": "同一作品与品牌组合收束，保持视觉重心但不伪装原生页面",
+      "technique": "reframe",
+      "startFrame": 1536,
+      "cutFrame": 1560,
+      "endFrame": 1602,
+      "continuity": {
+        "kind": "composition",
+        "basis": "同一作品与品牌组合收束，保持视觉重心但不伪装原生页面"
+      },
+      "audioBridge": "配乐可连续，是否跨镜留采样尾音待试听；不默认每刀都加 whoosh"
+    }
+  ],
+  "typingGroups": [
+    {
+      "sceneId": "agent",
+      "startFrame": 414,
+      "endFrame": 474,
+      "text": "把这杯奶茶做成店铺海报",
+      "mode": "editorial_group_insert",
+      "physicalKeystrokesObserved": false
+    },
+    {
+      "sceneId": "agent",
+      "startFrame": 510,
+      "endFrame": 558,
+      "text": " 保留杯身细节",
+      "mode": "editorial_group_insert",
+      "physicalKeystrokesObserved": false
+    }
+  ],
+  "events": [
+    {
+      "id": "reveal-accent",
+      "frame": 66,
+      "durationFrames": 48,
+      "kind": "bloom",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "海报完整显现，拟对齐帧 78；样本听觉落点未知",
+      "syncTargetId": "poster-reveal",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    },
+    {
+      "id": "keys-one",
+      "frame": 414,
+      "durationFrames": 60,
+      "kind": "type",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "第一组输入的拟音段，选音后展开为采样事件，不声称逐键同步",
+      "syncTargetId": "typing-group-one",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    },
+    {
+      "id": "keys-two",
+      "frame": 510,
+      "durationFrames": 48,
+      "kind": "type",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "第二组输入，与上一组之间留停顿",
+      "syncTargetId": "typing-group-two",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    },
+    {
+      "id": "send-contact",
+      "frame": 750,
+      "durationFrames": 24,
+      "kind": "tap",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "只在原生发送按下发生时配接触声",
+      "syncTargetId": "agent-send",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    },
+    {
+      "id": "result-accent",
+      "frame": 990,
+      "durationFrames": 60,
+      "kind": "resolve",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "结果出现与完成状态对应，不能提前到提交前",
+      "syncTargetId": "result-reveal",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    },
+    {
+      "id": "selection-contact",
+      "frame": 1092,
+      "durationFrames": 18,
+      "kind": "tap",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "原生选中动作轻接触，不叠重音",
+      "syncTargetId": "result-select",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    },
+    {
+      "id": "application-accent",
+      "frame": 1428,
+      "durationFrames": 48,
+      "kind": "soft",
+      "gain": 0.16,
+      "pan": 0,
+      "visual": "应用段最后一镜落稳；前面短切不逐刀叠声",
+      "syncTargetId": "application-land",
+      "peakOffsetFrames": null,
+      "sampleStatus": "not_selected_not_auditioned",
+      "timingStatus": "planned_not_measured"
+    }
+  ],
+  "music": {
+    "enabled": true,
+    "bpm": null,
+    "gain": 0.12,
+    "selectionStatus": "not_selected",
+    "anchors": [],
+    "audition": {
+      "status": "pending",
+      "evidence": "模板未选曲；无已听审乐句、节拍或音色声明"
+    }
+  },
+  "reviews": {
+    "nativeInteraction": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "visualContinuity": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "creative": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "audio": {
+      "status": "pending",
+      "evidence": ""
+    }
+  }
+}

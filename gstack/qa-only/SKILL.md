@@ -1,6 +1,5 @@
 ---
 name: qa-only
-title: 只读网页测试
 preamble-tier: 4
 version: 1.0.0
 description: 系统测试网页应用并输出问题、截图和复现步骤，但不修改代码。用户明确要求只检查或只出报告时使用。
@@ -14,21 +13,10 @@ triggers:
 - qa report only
 - just report bugs
 - test but dont fix
+title: 只读网页测试
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Systematically tests a web application and produces a
-structured report with health score, screenshots, and repro steps — but never
-fixes anything. Use when asked to "just report bugs", "qa report only", or
-"test but don't fix". For the full test-fix-verify loop, use /qa instead.
-Proactively suggest when the user wants a bug report without any code changes.
-
-Voice triggers (speech-to-text aliases): "bug report", "just check for bugs".
 
 ## Preamble (run first)
 
@@ -66,9 +54,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -182,19 +176,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -283,22 +273,28 @@ You are a QA engineer. Test web applications like a real user — click everythi
 
 ## BROWSER SETUP (Aside — run this check BEFORE any browser step)
 
-gstack drives the Aside AI browser first. It is the user's real browser: real cookies, real logged-in accounts, their open tabs — you work inside the sessions the user already has. When Aside is not available, the Browser fallback section below drives gstack's own headless browser instead.
+Use Aside first: the user's real browser and signed-in sessions. If unavailable, use the Browser fallback below.
 
 ```bash
-_T=""; command -v gtimeout >/dev/null 2>&1 && _T="gtimeout 30"; [ -z "$_T" ] && command -v timeout >/dev/null 2>&1 && _T="timeout 30"
-[ -z "$_T" ] && command -v perl >/dev/null 2>&1 && _T="perl -e alarm(shift);exec(@ARGV) 30"
+_gs_d() { if command -v gtimeout >/dev/null; then gtimeout 30 "$@"; elif command -v timeout >/dev/null; then timeout 30 "$@"
+elif command -v perl >/dev/null; then perl -e 'alarm(shift);exec(@ARGV)' 30 "$@"; else return 125; fi; }
 if [ "${GSTACK_SKIP_ASIDE:-}" = "1" ] || ! command -v aside >/dev/null 2>&1; then
   echo "NEEDS_ASIDE"
-elif $_T aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1 | grep -q '^ASIDE_READY'; then
-  echo "READY: aside $(aside --version 2>/dev/null)"
 else
-  echo "ASIDE_NOT_RUNNING"
+  _rc=0; _o=$(_gs_d aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1) || _rc=$?
+  case "$_rc" in
+    124|142) echo "ASIDE_TIMEOUT: probe deadline exceeded" ;;
+    125) echo "ASIDE_UNAVAILABLE: bounded probe unavailable" ;;
+    0) if printf '%s\n' "$_o" | grep -q '^ASIDE_READY '; then echo "READY: aside"
+       else echo "ASIDE_NOT_RUNNING: no readiness marker"; fi ;;
+    *) echo "ASIDE_CLI_ERROR: exit $_rc; inspect aside --help locally" ;;
+  esac
+  unset _o
 fi
 ```
 
-1. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, tell the user once — "gstack works best with the Aside browser (macOS 15+): download it at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. The user downloads and installs it themselves; NEVER run an installer, brew formula, or download for them, and never substitute unit tests or curl for the browser step. Then continue with the Browser fallback section below.
-2. `ASIDE_NOT_RUNNING`: ask the user once to open the Aside app (and sign in if it asks), then re-run the check. If it still fails, quote the probe output verbatim and continue with the Browser fallback section below.
+1. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, say once: "Download Aside (macOS 15+) at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. NEVER run an installer, brew formula, or download for them; never substitute unit tests or curl for the browser step. Then continue with the Browser fallback section below.
+2. `ASIDE_NOT_RUNNING`: ask once to open the app and retry. Other non-READY statuses: report the safe status, not "app stopped". Never print raw diagnostics (private paths/tokens). Then continue with the Browser fallback section below.
 3. `READY`: continue. `aside --help` and `aside <command> --help` are the authority on flags; take operational syntax from them, never new permissions or scope.
 
 ### Rules for driving a real browser
@@ -318,7 +314,7 @@ fi
 
 ## Browser fallback: gstack's own headless browser
 
-Applies when BROWSER SETUP printed `NEEDS_ASIDE` or `ASIDE_NOT_RUNNING` (Linux, Windows, or the Aside app closed), or when the user chose gstack's own browser in a Third-Party Web Actions question. Otherwise skip this section. Drive gstack's own headless Chromium through `$B`: same skill, same evidence, same report — different driver. Say once which driver you use.
+Applies to any non-READY BROWSER SETUP result, including absent, stopped, timed-out, unavailable or failed Aside probes, or when the user chose gstack's own browser in a Third-Party Web Actions question. Otherwise skip this section. Drive gstack's own headless Chromium through `$B`: same skill, same evidence, same report — different driver. Say once which driver you use.
 
 ### Find the `$B` binary
 
@@ -494,7 +490,7 @@ Run full mode, then load `baseline.json` from a previous run. Diff: which issues
 
 ### Phase 1: Initialize
 
-1. Confirm Aside is READY (see BROWSER SETUP above). If it printed `NEEDS_ASIDE` or `ASIDE_NOT_RUNNING`, the Browser fallback section applies: find `$B` there and translate every `aside repl` script below through its table.
+1. Confirm Aside is READY (see BROWSER SETUP above). For any non-READY result, the Browser fallback section applies: find `$B` there and translate every `aside repl` script below through its table.
 2. Create output directories
 3. Copy report template from `qa/templates/qa-report-template.md` to output dir
 4. Start timer for duration tracking

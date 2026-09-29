@@ -1,11 +1,12 @@
 ---
 name: lark-event
 version: 1.0.0
-description: "通过 lark-cli 订阅和消费飞书实时事件；用户要求事件监听、通知触发或自动化事件源时使用。"
+description: 通过 lark-cli 订阅和消费飞书实时事件；用户要求事件监听、通知触发或自动化事件源时使用。
 metadata:
   requires:
-    bins: ["lark-cli"]
-  cliHelp: "lark-cli event --help"
+    bins:
+    - lark-cli
+  cliHelp: lark-cli event --help
 ---
 
 # Lark Events

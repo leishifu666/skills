@@ -1,0 +1,7 @@
+interface:
+  display_name: 'LSF Remotion 标记实践'
+  short_description: '应用 Remotion 动画、媒体与效果规范'
+  icon_small: './assets/remotion-icon.svg'
+  icon_large: './assets/remotion-icon.svg'
+  brand_color: '#0B84F3'
+  default_prompt: '$lsf-remotion-markup: 为 MyComp.tsx 应用 Remotion 最佳实践。'

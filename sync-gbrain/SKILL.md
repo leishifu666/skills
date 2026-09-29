@@ -2,32 +2,24 @@
 name: sync-gbrain
 preamble-tier: 2
 version: 1.0.0
-description: Keep gbrain current with this repo's code and refresh agent search guidance in CLAUDE.md. (gstack)
+description: Keep gbrain current with this repo's code and refresh agent search guidance
+  in CLAUDE.md. (gstack)
 triggers:
-  - sync gbrain
-  - refresh gbrain
-  - reindex repo
-  - update gbrain
+- sync gbrain
+- refresh gbrain
+- reindex repo
+- update gbrain
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - Glob
-  - Grep
-  - AskUserQuestion
+- Bash
+- Read
+- Write
+- Edit
+- Glob
+- Grep
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Wraps the gstack-gbrain-sync orchestrator with
-state probing, native code-surface registration, capability checks,
-and a verdict block. Re-runnable, idempotent. Use when: "sync gbrain",
-"refresh gbrain", "re-index this repo", "gbrain search isn't finding
-things".
 
 ## Preamble (run first)
 
@@ -65,9 +57,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -127,6 +125,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
+_BRANCH=$(git branch --show-current 2>/dev/null | tr -cd 'a-zA-Z0-9._/-') || :; _BRANCH=${_BRANCH:-unknown}
 _PROJ="${GSTACK_HOME:-$HOME/.gstack}/projects/${SLUG:-unknown}"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
@@ -152,7 +151,7 @@ fi
 
 If artifacts are listed, read the newest useful one. If `LAST_SESSION` or `LATEST_CHECKPOINT` appears, give a 2-sentence welcome back summary. If `RECENT_PATTERN` clearly implies a next skill, suggest it once.
 
-**Cross-session decisions.** If `ACTIVE DECISIONS` are listed, treat them as prior settled calls with their rationale — do not silently re-litigate them; if you're about to reverse one, say so explicitly. Reach for `~/.claude/skills/gstack/bin/gstack-decision-search` whenever a question touches a past decision ("what did we decide / why / did we try"). When you or the user make a DURABLE decision (architecture, scope, tool/vendor choice, or a reversal) — NOT a turn-level or trivial choice — log it with `~/.claude/skills/gstack/bin/gstack-decision-log` (`--supersede <id>` for a reversal). Reliable and local; gbrain not required.
+**Cross-session decisions.** Honor listed `ACTIVE DECISIONS` and their rationale; do not silently re-litigate them, and announce planned reversals. Use `~/.claude/skills/gstack/bin/gstack-decision-search` for past-decision questions. Log DURABLE decisions by you or the user (architecture, scope, tool/vendor choice, reversal; not trivial or turn-level choices) with `~/.claude/skills/gstack/bin/gstack-decision-log` (`--supersede <id>` for reversals). Reliable and local; gbrain not required.
 
 ## Writing Style (skip entirely if `EXPLAIN_LEVEL: terse` appears in the preamble echo OR the user's current message explicitly requests terse / no-explanations output)
 
@@ -180,19 +179,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -430,19 +425,22 @@ tmp-file + atomic rename. Concurrent runs are blocked by a lock file at
 
 ## Step 3: Code-index health check
 
-After the sync run, query gbrain for the cwd source's page_count:
+After the sync run, verify the cwd source registration and its page count:
 
 ```bash
-SOURCE_ID=$(grep -o '"source_id":"[^"]*"' ~/.gstack/.gbrain-sync-state.json 2>/dev/null \
-  | head -1 | sed 's/.*"source_id":"//;s/".*//')
-PAGES=$(gbrain sources list --json 2>/dev/null \
-  | jq -r --arg id "$SOURCE_ID" '.sources[] | select(.id==$id) | .page_count' 2>/dev/null \
-  || echo 0)
+SOURCE_JSON=$(bun run ~/.claude/skills/gstack/bin/gstack-gbrain-read-capability.ts --source-only 2>/dev/null)
+SOURCE_ID=$(printf '%s' "$SOURCE_JSON" | jq -er 'if .status=="source" then .source_id else empty end' 2>/dev/null)
+PAGES=$(printf '%s' "$SOURCE_JSON" | jq -er 'if .status=="source" and (.page_count | type)=="number" then .page_count else empty end' 2>/dev/null)
 echo "cwd source: $SOURCE_ID, page_count: $PAGES"
 ```
 
-If `PAGES` is 0 or empty AND the user did NOT pass `--no-code` AND mode was
-not `--full`, AskUserQuestion via the format in the preamble:
+`--source-only` validates the pretty state schema, writer, successful code stage,
+real worktree path, `.gbrain-source` pin, and gbrain's registration path before
+returning its safe integer page count. It does not read any page. An empty source
+or page count is **unknown**, not zero: report WARN and do not offer a full
+reindex on that evidence. If `PAGES` is proven `0` AND the user did NOT
+pass `--no-code` AND mode was not `--full`, AskUserQuestion via the format in
+the preamble:
 
 > D1 — This repo has 0 indexed pages in gbrain. Run a full code reindex now?
 >
@@ -484,14 +482,18 @@ Detect whether this source's call graph is built via doctor's `cycle_freshness`
 check, matching the cwd `SOURCE_ID` literally:
 
 ```bash
-SOURCE_ID=$(grep -o '"source_id":"[^"]*"' ~/.gstack/.gbrain-sync-state.json 2>/dev/null \
-  | head -1 | sed 's/.*"source_id":"//;s/".*//')
-CYCLE=$(gbrain doctor --json --fast 2>/dev/null \
-  | jq -r --arg id "$SOURCE_ID" '
-      (.checks[] | select(.name=="cycle_freshness")) as $c
-      | if $c.status=="ok" then "completed"
-        elif ($c.message | index($id)) then "never"
-        else "unknown" end' 2>/dev/null || echo unknown)
+SOURCE_JSON=$(bun run ~/.claude/skills/gstack/bin/gstack-gbrain-read-capability.ts --source-only 2>/dev/null)
+SOURCE_ID=$(printf '%s' "$SOURCE_JSON" | jq -er 'if .status=="source" then .source_id else empty end' 2>/dev/null)
+CYCLE=unknown
+if [ -n "$SOURCE_ID" ]; then
+  CYCLE=$(gbrain doctor --json --fast 2>/dev/null \
+    | jq -er --arg id "$SOURCE_ID" '
+        if type=="object" and has("error") then empty
+        else (.checks[]? | select(.name=="cycle_freshness")) as $c
+          | if $c.status=="ok" then "completed"
+            elif (($c.message // "") | index($id)) then "never"
+            else "unknown" end end' 2>/dev/null || echo unknown)
+fi
 # index($id) = literal substring (NOT test() regex), matching the lib reader in
 # cycleCompleted(). A fail/warn that doesn't name this source → "unknown" (don't
 # mask other-source failures).
@@ -538,38 +540,23 @@ only that a cycle has run, not that edges exist (a non-code-aware pack reports
 Capability check (per /plan-eng-review §6):
 
 ```bash
-SLUG="_capability_check_$$"
-CAPABILITY_OK=0
-if [ -f ~/.gbrain/config.json ] && \
-   gbrain --version 2>/dev/null | grep -q '^gbrain '; then
-  # Do NOT export GBRAIN_PREPARE here (#1965). gbrain auto-disables prepared
-  # statements on transaction-mode poolers (port 6543) — forcing them on
-  # breaks every write with "prepared statement does not exist". Users on a
-  # session-mode pooler at 6543 can set GBRAIN_PREPARE=true themselves (the
-  # gbrain banner documents this override).
-  if echo "ping" | gbrain put "$SLUG" >/dev/null 2>&1; then
-    # Retry search up to 3 times with 1s delay — under transaction-mode
-    # pooling the search index may not be visible on the next connection
-    # immediately after the put.
-    for _attempt in 1 2 3; do
-      if gbrain search "ping" 2>/dev/null | grep -q "$SLUG"; then
-        CAPABILITY_OK=1
-        break
-      fi
-      sleep 1
-    done
-  fi
-fi
-gbrain delete "$SLUG" 2>/dev/null || true
-# #2503: on worktree-pinned brains `gbrain put` can materialize the page as
-# <slug>.md in the CURRENT directory (the user's repo), and `gbrain delete`
-# removes the page, not the file. Remove the litter explicitly.
-rm -f "./${SLUG}.md" 2>/dev/null || true
+bun run ~/.claude/skills/gstack/bin/gstack-gbrain-read-capability.ts <user-args>
 ```
 
-Then update CLAUDE.md based on capability state:
+The helper reports JSON `status: ready` only after the successful code sync's
+source and real worktree match `.gbrain-source`, the source registration points
+to that worktree, and a bounded, source-scoped list/get returns the same page.
+It never creates or deletes a page. A `get` may update gbrain's internal
+retrieval metadata; the guarantee is no page or source mutation, not zero
+internal writes. `status: unknown` (including transient CLI errors, stale state,
+or an unverified response) is NOT evidence that the brain is unusable. A
+`status: skipped` result for `--no-code`, `--dry-run`, `--refresh-cache`, or
+`--audit` means no code-read probe was attempted. Do not run a write probe,
+switch to another source, or claim a successful read.
 
-**If `CAPABILITY_OK=1`** — write or update the block. Idempotent: find the
+Then update CLAUDE.md based on the helper's status:
+
+**If `status=ready`** — write or update the block. Idempotent: find the
 HTML-comment-delimited block; replace its body if it exists; append at the
 end of CLAUDE.md if it doesn't. NEVER duplicate. Block is machine-AGNOSTIC
 (no engine, no page counts, no last-sync time — those are in the existing
@@ -581,9 +568,10 @@ Verbatim block content (copy exactly):
 ## GBrain Search Guidance (configured by /sync-gbrain)
 <!-- gstack-gbrain-search-guidance:start -->
 
-GBrain is set up and synced on this machine. The agent should prefer gbrain
-over Grep when the question is semantic or when you don't know the exact
-identifier yet.
+This worktree's pinned code source answered a source-scoped page read. This
+does not verify semantic search or write availability. Prefer gbrain over Grep
+when the question is semantic or when you don't know the exact identifier yet;
+if a query fails, report that failure rather than assuming the index is healthy.
 
 **This worktree is pinned to a worktree-scoped code source** via the
 `.gbrain-source` file in the repo root (kubectl-style context).
@@ -640,9 +628,14 @@ the entire block at the end of CLAUDE.md.
 (e.g., `CLAUDE.md.sync-gbrain.tmp`) then `mv` to atomic-rename, so a crash
 mid-write never leaves the file half-modified.
 
-**If `CAPABILITY_OK=0`** — REMOVE the block entirely if present. Use the same
-Edit tool to strip the start/end-marker region. The `## GBrain Configuration`
-block stays in place (it's a record of the install, not a capability claim).
+**If `status=unknown`** — preserve the existing guidance block, if any, and
+report the helper's reason as WARN with advice to retry `/sync-gbrain` or the
+read check when the transient failure clears. Do not install new guidance on
+an unknown result or remove the existing guidance merely because this read
+could not verify it. The `## GBrain Configuration` block stays in place.
+
+**If `status=skipped`** — leave guidance unchanged. Report that code readiness
+was not probed in this mode, not that it passed or failed.
 
 Do NOT crash if CLAUDE.md is missing or unwritable — log a warning and
 continue.
@@ -661,7 +654,7 @@ gbrain status: GREEN
 
   CLI ............. OK   <gbrain version>
   Engine .......... OK   <pglite|supabase>
-  Capability ...... OK   write+search round-trip
+  Capability ...... OK   source-scoped page read verified (no page/source mutation)
   CWD source ...... OK   <gstack-code-{repo_slug}> (page_count=<N>)
   Call graph ...... OK   <N> edges resolved (code-callers/callees live)
   ~/.gstack source. OK   <gstack-brain-{user}> (page_count=<N>) — managed by /setup-gbrain
@@ -690,8 +683,11 @@ The **Call graph** row reports the most authoritative signal available:
 Any `WARN` Call graph row flips the verdict to YELLOW.
 
 If any row is YELLOW or RED, the verdict line says so and the failing rows
-surface a one-line "next action" (e.g., `Capability ...... ERR  capability
-check failed; CLAUDE.md guidance block REMOVED — run /setup-gbrain to repair`).
+surface a one-line next action. An unknown read gives `Capability ...... WARN
+source-scoped read unverified; guidance preserved — retry /sync-gbrain` and
+flips the verdict to YELLOW, not RED.
+For a skipped probe, show `Capability ...... WARN  code read not probed in
+this mode; guidance unchanged` and do not print a GREEN capability verdict.
 A `never`/`unknown` Call graph row flips the verdict to YELLOW.
 
 ---
@@ -708,16 +704,16 @@ in flight. Stale locks (process died) auto-clear after 5 minutes.
 The `## GBrain Search Guidance` block is committed to the repo's CLAUDE.md
 and travels with `git push`/`git pull` — NOT through `~/.gstack/.brain-allowlist`
 (which is for `~/.gstack/` brain-sync only). On a different Mac with a synced
-CLAUDE.md but no local gbrain, /sync-gbrain detects the mismatch via the
-capability check and REMOVES the block (the local agent shouldn't be told to
-use a tool that isn't installed).
+CLAUDE.md but no local gbrain, /sync-gbrain reports an unknown read and
+preserves the block rather than deleting committed instructions based on a
+transient or machine-local failure. Agents must not treat unknown as ready.
 
 ## Status reporting
 
 End with a Completion Status (per the preamble protocol):
 - **DONE** — all stages green, CLAUDE.md guidance block present, verdict GREEN.
 - **DONE_WITH_CONCERNS** — sync ran but at least one stage failed or capability
-  check failed. List which.
+  read was unverified. List which and preserve retry guidance.
 - **BLOCKED** — could not acquire lock, gbrain not on PATH, or per-repo policy
   is deny. State the blocker.
 - **NEEDS_CONTEXT** — /setup-gbrain has not been run, or `gbrain doctor` shows

@@ -1,6 +1,5 @@
 ---
 name: design-shotgun
-title: 设计方案探索
 preamble-tier: 2
 version: 1.0.0
 description: 生成多个真正不同的设计方向并提供比较界面，适合视觉方向尚未确定或用户要求先看方案时使用。
@@ -20,7 +19,7 @@ gbrain:
   context_queries:
   - id: prior-approved-variants
     kind: filesystem
-    glob: ~/.gstack/projects/{repo_slug}/designs/*/approved.json
+    glob: '{gstack_state_root}/projects/{repo_slug}/designs/*/approved.json'
     sort: mtime_desc
     limit: 5
     render_as: '## Prior approved design variants for this project'
@@ -35,19 +34,10 @@ gbrain:
     sort: mtime_desc
     limit: 3
     render_as: '## Recent design docs'
+title: 设计方案探索
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Standalone design exploration you can
-run anytime. Use when: "explore designs", "show me options", "design variants",
-"visual brainstorm", or "I don't like how this looks".
-Proactively suggest when the user describes a UI feature but hasn't seen
-what it could look like.
 
 ## Preamble (run first)
 
@@ -85,9 +75,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -147,6 +143,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
+_BRANCH=$(git branch --show-current 2>/dev/null | tr -cd 'a-zA-Z0-9._/-') || :; _BRANCH=${_BRANCH:-unknown}
 _PROJ="${GSTACK_HOME:-$HOME/.gstack}/projects/${SLUG:-unknown}"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
@@ -172,7 +169,7 @@ fi
 
 If artifacts are listed, read the newest useful one. If `LAST_SESSION` or `LATEST_CHECKPOINT` appears, give a 2-sentence welcome back summary. If `RECENT_PATTERN` clearly implies a next skill, suggest it once.
 
-**Cross-session decisions.** If `ACTIVE DECISIONS` are listed, treat them as prior settled calls with their rationale — do not silently re-litigate them; if you're about to reverse one, say so explicitly. Reach for `~/.claude/skills/gstack/bin/gstack-decision-search` whenever a question touches a past decision ("what did we decide / why / did we try"). When you or the user make a DURABLE decision (architecture, scope, tool/vendor choice, or a reversal) — NOT a turn-level or trivial choice — log it with `~/.claude/skills/gstack/bin/gstack-decision-log` (`--supersede <id>` for a reversal). Reliable and local; gbrain not required.
+**Cross-session decisions.** Honor listed `ACTIVE DECISIONS` and their rationale; do not silently re-litigate them, and announce planned reversals. Use `~/.claude/skills/gstack/bin/gstack-decision-search` for past-decision questions. Log DURABLE decisions by you or the user (architecture, scope, tool/vendor choice, reversal; not trivial or turn-level choices) with `~/.claude/skills/gstack/bin/gstack-decision-log` (`--supersede <id>` for reversals). Reliable and local; gbrain not required.
 
 ## Writing Style (skip entirely if `EXPLAIN_LEVEL: terse` appears in the preamble echo OR the user's current message explicitly requests terse / no-explanations output)
 
@@ -200,19 +197,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -302,22 +295,14 @@ if [ -x "$D" ]; then
 else
   echo "DESIGN_NOT_AVAILABLE"
 fi
-B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/dist/browse" ] && B="$_ROOT/.claude/skills/gstack/browse/dist/browse"
-[ -z "$B" ] && B="$HOME/.claude/skills/gstack/browse/dist/browse"
-if [ -x "$B" ]; then
-  echo "BROWSE_READY: $B"
-else
-  echo "BROWSE_NOT_AVAILABLE (will use 'open' to view comparison boards)"
-fi
 ```
 
 If `DESIGN_NOT_AVAILABLE`: skip visual mockup generation and fall back to the
 existing HTML wireframe approach (`DESIGN_SKETCH`). Design mockups are a
 progressive enhancement, not a hard requirement.
 
-If `BROWSE_NOT_AVAILABLE`: use `open file://...` instead of `$B goto` to open
-comparison boards. The user just needs to see the HTML file in any browser.
+Comparison boards are local HTML files: open them with `open file://...` on macOS
+(`xdg-open` elsewhere). The user just needs to see the file in their default browser.
 
 If `DESIGN_READY`: the design binary is available for visual mockup generation.
 Commands:
@@ -328,12 +313,12 @@ Commands:
 - `$D check --image /path.png --brief "..."` — vision quality gate
 - `$D iterate --session /path/session.json --feedback "..." --output /path.png` — iterate
 
-**CRITICAL PATH RULE:** All design artifacts (mockups, comparison boards, approved.json)
-MUST be saved to `~/.gstack/projects/$SLUG/designs/`, NEVER to `.context/`,
-`docs/designs/`, `/tmp/`, or any project-local directory. Design artifacts are USER
-data, not project files. They persist across branches, conversations, and workspaces.
+**CRITICAL PATH RULE:** Design artifacts belong in `$GSTACK_STATE_ROOT/projects/$SLUG/designs/`.
+Use `bin/gstack-paths`: GSTACK_HOME → plugin storage → ~/.gstack. Keep it even if temporary; never substitute
+.context/, docs/designs/ or another directory.
+These are user files, not application source.
 
-> **STOP.** Before writing variant concepts or design briefs (Step 3 onward) — the UX-principles doctrine governs every design direction, Read `~/.claude/skills/gstack/design-shotgun/sections/doctrine.md` and execute it
+> **STOP.** Before writing variant concepts or design briefs (Step 3 onward) — the UX-principles doctrine governs every design direction, Read `~/.agents/skills/gstack/design-shotgun/sections/doctrine.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
 ## Step 0: Session Detection
@@ -342,8 +327,9 @@ Check for prior design exploration sessions for this project:
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
+eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
 setopt +o nomatch 2>/dev/null || true
-_PREV=$(find ~/.gstack/projects/$SLUG/designs/ -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -5)
+_PREV=$(find "$GSTACK_STATE_ROOT/projects/$SLUG/designs/" -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -5)
 [ -n "$_PREV" ] && echo "PREVIOUS_SESSIONS_FOUND" || echo "NO_PREVIOUS_SESSIONS"
 echo "$_PREV"
 ```
@@ -387,7 +373,10 @@ When run standalone, gather context to build a proper design brief.
 
 ```bash
 cat DESIGN.md 2>/dev/null | head -80 || echo "NO_DESIGN_MD"
+cat PRODUCT.md 2>/dev/null | head -120 || echo "NO_PRODUCT_MD"
 ```
+
+A `PRODUCT.md` (impeccable's product-context file) answers the job-to-be-done and audience questions: confirm, do not re-ask. Never open `.claude/skills/impeccable/**`.
 
 ```bash
 ls src/ app/ pages/ components/ 2>/dev/null | head -30
@@ -408,9 +397,11 @@ design-shotgun will follow your lead, but won't diverge by default."
 curl -s -o /dev/null -w "%{http_code}" http://localhost:3000 2>/dev/null || echo "NO_LOCAL_SITE"
 ```
 
-If a local site is running AND the user referenced a URL or said something like "I don't
-like how this looks," screenshot the current page and use `$D evolve` instead of
-`$D variants` to generate improvement variants from the existing design.
+If the user referenced a URL or said something like "I don't like how this looks,"
+screenshot that page with Aside in Step 3c and use `$D evolve` instead of `$D variants`
+to generate improvement variants from the existing design. If they didn't name the URL,
+ask for it — never guess which page they mean. If the probe above printed `200`, offer
+`http://localhost:3000` as the default in the AskUserQuestion below (still ask — never assume).
 
 **AskUserQuestion with pre-filled context:** Pre-fill what you inferred from the codebase,
 DESIGN.md, and office-hours output. Then ask for what's missing. Frame as ONE question
@@ -429,31 +420,32 @@ designs to bias generation toward the user's demonstrated taste.
 
 **Persistent taste profile (v1 schema at `~/.gstack/projects/$SLUG/taste-profile.json`):**
 
-Read the persistent taste profile if it exists:
+Read this project's taste profile:
 
 ```bash
+eval "$("~/.claude/skills/gstack/bin/gstack-slug" 2>/dev/null)"
+[ -n "${SLUG:-}" ] || { echo "NO_TASTE_PROFILE"; exit 0; }
 _TASTE_PROFILE=~/.gstack/projects/$SLUG/taste-profile.json
 if [ -f "$_TASTE_PROFILE" ]; then
   # Schema v1: { dimensions: { fonts, colors, layouts, aesthetics }, sessions: [] }
   # Each dimension has approved[] and rejected[] entries with
   # { value, confidence, approved_count, rejected_count, last_seen }
   # Confidence decays 5% per week of inactivity — computed at read time.
-  cat "$_TASTE_PROFILE" 2>/dev/null | head -200
+  cat "$_TASTE_PROFILE" 2>/dev/null
   echo "TASTE_PROFILE_FOUND"
 else
   echo "NO_TASTE_PROFILE"
 fi
 ```
 
-**If TASTE_PROFILE_FOUND:** Summarize the strongest signals (top 3 approved entries
-per dimension by confidence * approved_count). Include them in the design brief:
+**If TASTE_PROFILE_FOUND:** Parse the full JSON; malformed/unreadable uses the legacy fallback. After decay, rank each dimension by confidence * approved_count (or rejected_count); take three per kind. Count retained sessions (at most 50, not lifetime). Include in the brief:
 
-"Based on \${SESSION_COUNT} prior sessions, this user's taste leans toward:
+"Based on [number of retained sessions] recorded sessions, this user's taste leans toward:
 fonts [top-3], colors [top-3], layouts [top-3], aesthetics [top-3]. Bias
 generation toward these unless the user explicitly requests a different direction.
 Also avoid their strong rejections: [top-3 rejected per dimension]."
 
-**If NO_TASTE_PROFILE:** Fall through to per-session approved.json files (legacy).
+**Legacy fallback:** Glob `~/.gstack/projects/$SLUG/designs/**/approved.json`; Read the five newest. Use explicit feedback only, never infer fonts/colors from variant letters. No usable files: continue without a taste profile.
 
 **Conflict handling:** If the current user request contradicts a strong persistent
 signal (e.g., "make it playful" when taste profile strongly prefers minimal), flag
@@ -461,9 +453,7 @@ it: "Note: your taste profile strongly prefers minimal. You're asking for playfu
 this time — I'll proceed, but want me to update the taste profile, or treat this
 as a one-off?"
 
-**Decay:** Confidence scores decay 5% per week. A font approved 6 months ago with
-10 approvals has less weight than one approved last week. The decay calculation
-happens at read time, not write time, so the file only grows on change.
+**Decay:** Multiply stored confidence by 0.95 raised to elapsed weeks since last_seen (minimum zero weeks). Skip invalid dates/confidence; do not rewrite the file while reading.
 
 **Schema migration:** If the file has no `version` field or `version: 0`, it's
 the legacy approved.json aggregate — `~/.claude/skills/gstack/bin/gstack-taste-update`
@@ -472,8 +462,10 @@ will migrate it to schema v1 on the next write.
 **Per-session approved.json files (legacy, still supported):**
 
 ```bash
+eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
+eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
 setopt +o nomatch 2>/dev/null || true
-_TASTE=$(find ~/.gstack/projects/$SLUG/designs/ -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -10)
+_TASTE=$(find "$GSTACK_STATE_ROOT/projects/$SLUG/designs/" -name "approved.json" -maxdepth 2 2>/dev/null | sort -r | head -10)
 ```
 
 If prior sessions exist, read each `approved.json` and extract patterns from the
@@ -494,7 +486,8 @@ Set up the output directory:
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
-_DESIGN_DIR="$HOME/.gstack/projects/$SLUG/designs/<screen-name>-$(date +%Y%m%d)"
+eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
+_DESIGN_DIR="$GSTACK_STATE_ROOT/projects/$SLUG/designs/<screen-name>-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```
@@ -546,11 +539,20 @@ If D: drop specified concepts, re-present, re-confirm.
 ### Step 3c: Parallel Generation
 
 **If evolving from a screenshot** (user said "I don't like THIS"), take ONE screenshot
-first:
+of the page the user named, in Aside (PNG — `$D evolve` reads PNG):
 
 ```bash
-$B screenshot "$_DESIGN_DIR/current.png"
+aside repl '
+const pg = await openTab("<url>");
+await pg.screenshot({ path: "current.png", type: "png", fullPage: true });
+console.log("ASIDE_DIR=" + pwd);
+await closeTab(pg);
+console.log("GSTACK_STEP_OK");
+'
 ```
+
+Then `cp "<ASIDE_DIR>/current.png" "$_DESIGN_DIR/current.png"` and Read it so the user
+sees what you're evolving from.
 
 **Launch N Agent subagents in a single message** (parallel execution). Use the Agent
 tool with `subagent_type: "general-purpose"` and `run_in_background: false` for each
@@ -630,21 +632,13 @@ Create the comparison board and serve it over HTTP:
 $D compare --images "$_DESIGN_DIR/variant-A.png,$_DESIGN_DIR/variant-B.png,$_DESIGN_DIR/variant-C.png" --output "$_DESIGN_DIR/design-board.html" --serve
 ```
 
-This command generates the board HTML, starts an HTTP server on a random port,
-and opens it in the user's default browser. **Run it in the background** with `&`
-because the server needs to stay running while the user interacts with the board.
+Creates HTML and opens the board. **Run it in the background** (host task, or `&` redirecting stdout/stderr to private files in `$_DESIGN_DIR`). Read captured stderr for the startup marker; a PID is not readiness. Missing marker: use the failure fallback below.
 
-Parse the board URL from stderr output. Default daemon path:
-`BOARD_URL: http://127.0.0.1:N/boards/<id>/` (already includes the per-board
-path; use this for the AskUserQuestion URL AND as the base for the reload
-endpoint). Legacy `--no-daemon` path emits `SERVE_STARTED: port=XXXXX` and
-serves a single board at `/`, with reload at `/api/reload` — only relevant
-when an external caller explicitly passes `--no-daemon`.
+Default stderr: `BOARD_URL: http://127.0.0.1:N/boards/<id>/`. Use that full per-board URL for AskUserQuestion and as the reload base. Only explicit legacy `--no-daemon` emits `SERVE_STARTED: port=XXXXX`, serving one board at `/` with reload at `/api/reload`.
 
 **PRIMARY WAIT: AskUserQuestion with board URL**
 
-After the board is serving, use AskUserQuestion to wait for the user. Include the
-board URL so they can click it if they lost the browser tab:
+Once serving, wait with AskUserQuestion including the board URL:
 
 "I've opened a comparison board with the design variants:
 <BOARD_URL> — Rate them, leave comments, remix
@@ -652,11 +646,9 @@ elements you like, and click Submit when you're done. Let me know when you've
 submitted your feedback (or paste your preferences here). If you clicked
 Regenerate or Remix on the board, tell me and I'll generate new variants."
 
-Substitute `<BOARD_URL>` with the URL parsed from stderr (the daemon path
-emits `BOARD_URL: http://127.0.0.1:N/boards/<id>/`).
+Substitute `<BOARD_URL>` from the stderr marker above.
 
-**Do NOT use AskUserQuestion to ask which variant the user prefers.** The comparison
-board IS the chooser. AskUserQuestion is just the blocking wait mechanism.
+**The user chooses variants in the board; AskUserQuestion only waits.**
 
 **After the user responds to AskUserQuestion:**
 
@@ -701,7 +693,7 @@ the approved variant.
 5. Reload the board in the user's browser (same tab) — the URL is per-board
    under daemon mode, so use `<BOARD_URL>` (from the `BOARD_URL:` stderr
    line) as the base:
-   `curl -s -X POST "${BOARD_URL}api/reload" -H 'Content-Type: application/json' -d '{"html":"$_DESIGN_DIR/design-board.html"}'`
+   `jq -nc --arg html "$_DESIGN_DIR/design-board.html" '{html: $html}' | curl -sS -X POST "${BOARD_URL}api/reload" -H 'Content-Type: application/json' --data-binary @-`
    Under `--no-daemon` the reload endpoint is `/api/reload` at the legacy
    port; this path only matters if the caller explicitly opted out of the
    daemon.
@@ -712,8 +704,8 @@ the approved variant.
 AskUserQuestion response instead of using the board. Use their text response
 as the feedback.
 
-**POLLING FALLBACK:** Only use polling if `$D serve` fails (no port available).
-In that case, show each variant inline using the Read tool (so the user can see them),
+Exit 0 with `BOARD_URL` means the daemon is serving; use the board feedback flow above.
+**SERVER FALLBACK:** Nonzero exit or no readiness marker: show each variant inline using the Read tool (so the user can see them),
 then use AskUserQuestion:
 "The comparison board server failed to start. I've shown the variants above.
 Which do you prefer? Any feedback?"
@@ -769,8 +761,9 @@ If standalone, offer next steps via AskUserQuestion:
 
 ## Important Rules
 
-1. **Never save to `.context/`, `docs/designs/`, or `/tmp/`.** All design artifacts go
-   to `~/.gstack/projects/$SLUG/designs/`. This is enforced. See DESIGN_SETUP above.
+1. **Use the configured state root.** All design artifacts go to
+   `$GSTACK_STATE_ROOT/projects/$SLUG/designs/`, even when that root is temporary.
+   Do not substitute `.context/`, `docs/designs/`, or an arbitrary `/tmp/` path. See DESIGN_SETUP above.
 2. **Show variants inline before opening the board.** The user should see designs
    immediately in their terminal. The browser board is for detailed feedback.
 3. **Confirm feedback before saving.** Always summarize what you understood and verify.

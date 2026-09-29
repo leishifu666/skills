@@ -11,13 +11,20 @@
  */
 import { describe, expect, test } from 'bun:test';
 import * as fs from 'node:fs';
+import * as os from 'node:os';
+import { spawnSync } from 'node:child_process';
 import * as path from 'node:path';
 
 import {
   applyHollowShardGuard,
   buildPaidShardArgs,
   buildRunManifest,
+  loadPaidTestDurations,
+  mergePaidTestDurations,
+  paidShardWallUpperBoundMs,
+  parseCliOptions,
   parseRunManifest,
+  SUPERVISED_WORKER_COUNTS,
   retriesForFiles,
   RETRY_OVERRIDES,
   summarize,
@@ -52,9 +59,21 @@ describe('run manifest (planner)', () => {
       expect(entry.slice).toBeGreaterThanOrEqual(1);
       expect(entry.slice).toBeLessThanOrEqual(5);
     }
-    // Round-robin balance: slice sizes differ by at most 1.
-    const sizes = [1, 2, 3, 4, 5].map((i) => planned.filter((e) => e.slice === i).length);
-    expect(Math.max(...sizes) - Math.min(...sizes)).toBeLessThanOrEqual(1);
+    // Live registered files balance supervised time, so file counts can differ.
+    expect([...new Set(planned.map(entry => entry.slice))].sort()).toEqual([1, 2, 3, 4, 5]);
+    // Uniform, unregistered work retains the original round-robin contract.
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ordinary-manifest-balance-'));
+    try {
+      fs.mkdirSync(path.join(dir, 'test'));
+      const discovered = Array.from({ length: 12 }, (_, i) => `test/skill-e2e-ordinary-${i}.test.ts`);
+      for (const file of discovered) fs.writeFileSync(path.join(dir, file), '// ordinary unregistered fixture');
+      const ordinary = buildRunManifest({ tier: 'gate', sliceCount: 5, evalsAll: true,
+        env: { EVALS_ALL: '1' }, rootDir: dir, discovered }).entries;
+      expect(ordinary).toHaveLength(discovered.length);
+      expect(ordinary.every(entry => entry.status === 'planned' && !entry.budget)).toBe(true);
+      const sizes = [1, 2, 3, 4, 5].map(i => ordinary.filter(entry => entry.slice === i).length);
+      expect(Math.max(...sizes) - Math.min(...sizes)).toBeLessThanOrEqual(1);
+    } finally { fs.rmSync(dir, { recursive: true, force: true }); }
     // Non-runnable entries carry slice 0 and a reason.
     for (const entry of manifest.entries.filter((e) => e.status !== 'planned')) {
       expect(entry.slice).toBe(0);
@@ -83,6 +102,145 @@ describe('run manifest (planner)', () => {
     };
     expect(() => parseRunManifest(JSON.stringify(outOfRange))).toThrow(/out-of-range/);
   });
+});
+
+describe('recorded-duration slice packing', () => {
+  const recorded = loadPaidTestDurations();
+  const lanes = (manifest: PaidRunManifest) => {
+    const planned = manifest.entries.filter(e => e.status === 'planned');
+    return Array.from({ length: manifest.sliceCount }, (_, i) => planned.filter(e => e.slice === i + 1).map(e => e.file));
+  };
+  const plans = [
+    { tier: 'gate' as const, sliceCount: 6 },
+    { tier: 'gate' as const, sliceCount: 7 },
+    { tier: 'periodic' as const, sliceCount: 8, dedicatedAutoplanSlice: true },
+  ];
+
+  test('the committed seed records real wall times for the fast PR profile', () => {
+    expect(Object.keys(recorded).length).toBeGreaterThanOrEqual(30);
+    expect(Object.values(recorded).every(ms => Number.isInteger(ms) && ms >= 1_000)).toBe(true);
+  });
+
+  for (const plan of plans) {
+    test(`${plan.tier} x${plan.sliceCount}: no slice's worst-case wall exceeds the supervised baseline's for any worker count`, () => {
+      const env = { EVALS_ALL: '1' };
+      const packed = lanes(buildRunManifest({ ...plan, evalsAll: true, env }));
+      const baseline = lanes(buildRunManifest({ ...plan, evalsAll: true, env, durations: {} }));
+      expect(packed.flat().sort()).toEqual(baseline.flat().sort());
+      for (const jobs of SUPERVISED_WORKER_COUNTS) {
+        const bound = (files: string[]) => paidShardWallUpperBoundMs([...files].sort(), jobs);
+        expect(Math.max(...packed.map(bound))).toBeLessThanOrEqual(Math.max(...baseline.map(bound)));
+      }
+      // Same estimate the planner packs by: recorded time, else the 75th percentile of recorded files.
+      const known = baseline.flat().map(file => recorded[file]).filter(ms => ms !== undefined).sort((x, y) => x - y);
+      const fallback = known[Math.min(known.length - 1, Math.floor(known.length * 0.75))];
+      const load = (files: string[]) => files.reduce((sum, file) => sum + (recorded[file] ?? fallback), 0);
+      expect(Math.max(...packed.map(load))).toBeLessThanOrEqual(Math.max(...baseline.map(load)));
+    });
+  }
+
+  test('the PR-profile file set spreads recorded time instead of stacking it', () => {
+    const env = { EVALS_ALL: '1' };
+    const discovered = Object.keys(recorded);
+    const load = (files: string[]) => files.reduce((sum, file) => sum + recorded[file], 0);
+    const packed = lanes(buildRunManifest({ tier: 'gate', sliceCount: 6, evalsAll: true, env, discovered })).map(load);
+    const baseline = lanes(buildRunManifest({ tier: 'gate', sliceCount: 6, evalsAll: true, env, discovered, durations: {} })).map(load);
+    expect(Math.max(...packed)).toBeLessThan(Math.max(...baseline));
+    expect(buildRunManifest({ tier: 'gate', sliceCount: 6, evalsAll: true, env, discovered: [...discovered].reverse() }).entries)
+      .toEqual(buildRunManifest({ tier: 'gate', sliceCount: 6, evalsAll: true, env, discovered }).entries);
+  });
+
+  test('report durations merge only executed single-file outcomes', () => {
+    const outcome = (files: string[], elapsedMs: number, over: Partial<ShardOutcome> = {}) =>
+      ({ files, status: 'passed', exitCode: 0, elapsedMs, executedTests: 2, skippedTests: 0, ...over }) as SliceResult['outcomes'][number];
+    const merged = mergePaidTestDurations({ 'test/b.test.ts': 5_000, 'test/a.test.ts': 9_000 }, [{
+      sliceIndex: 1,
+      outcomes: [
+        outcome(['test/a.test.ts'], 42_000),
+        outcome(['test/c.test.ts'], 500),
+        outcome(['test/d.test.ts', 'test/e.test.ts'], 60_000),
+        outcome(['test/f.test.ts'], 30_000, { executedTests: 2, skippedTests: 2 }),
+        outcome(['test/g.test.ts'], 70_000, { status: 'failed', exitCode: 1 }),
+      ],
+    } as SliceResult]);
+    expect(merged).toEqual({ 'test/a.test.ts': 42_000, 'test/b.test.ts': 5_000, 'test/g.test.ts': 70_000 });
+    expect(Object.keys(merged)).toEqual(['test/a.test.ts', 'test/b.test.ts', 'test/g.test.ts']);
+    expect(() => parseCliOptions(['--write-durations'])).toThrow('--write-durations requires --report');
+    expect(parseCliOptions(['--report', '/tmp/r', '--write-durations']).writeDurations).toBe(true);
+  });
+});
+
+describe('manifest executor scope', () => {
+  test('a conflicting inherited carve scope cannot suppress a planned case; direct Bun stays scoped', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'paid-manifest-scope-'));
+    const fixtureRoot = path.join(dir, 'fixture');
+    const receipt = path.join(dir, 'captures.jsonl');
+    fs.mkdirSync(path.join(fixtureRoot, 'test'), { recursive: true });
+    const discovered = ['review', 'browse'].map(skill => `test/carve-section-loading-${skill}.test.ts`);
+    try {
+      for (const skill of ['review', 'browse']) {
+        // Exercise the real registration filter and assertions, with only the
+        // model-capture boundary replaced in this isolated child process.
+        fs.writeFileSync(path.join(fixtureRoot, `test/carve-section-loading-${skill}.test.ts`), `
+          import { mock, expect } from 'bun:test';
+          import { appendFileSync } from 'node:fs';
+          import { CARVE_GUARDS } from ${JSON.stringify(path.join(ROOT, 'test/helpers/carve-guards.ts'))};
+          mock.module(${JSON.stringify(path.join(ROOT, 'test/helpers/auq-sdk-capture.ts'))}, () => ({
+            skillFromWorktree: () => ({ skillMd: 'free fixture', sectionsFrom: '' }),
+            setupSkillDir: () => ${JSON.stringify(fixtureRoot)},
+            captureSectionReads: async ({ skillName }) => {
+              expect(skillName).toBe(${JSON.stringify(skill)});
+              appendFileSync(${JSON.stringify(receipt)}, JSON.stringify({ skill: skillName, scope: process.env.GSTACK_CARVE_SKILL }) + '\\n');
+              return { readSections: new Set(CARVE_GUARDS[skillName].requiredReads), reportProduced: true, output: 'Local fake review report. '.repeat(12) };
+            },
+          }));
+          const { registerCarveSectionCase } = await import(${JSON.stringify(path.join(ROOT, 'test/helpers/carve-section-case.ts'))});
+          registerCarveSectionCase(${JSON.stringify(skill)});
+        `);
+      }
+      const manifest = buildRunManifest({
+        tier: 'periodic', sliceCount: 1, evalsAll: true, discovered, rootDir: fixtureRoot,
+        env: { EVALS_ALL: '1', GSTACK_CARVE_SKILL: 'review' },
+      });
+      expect(manifest.entries.filter(e => e.status === 'planned').map(e => e.file)).toEqual([discovered[0]]);
+      expect(manifest.entries.filter(e => e.status === 'excluded').map(e => e.file)).toEqual([discovered[1]]);
+      // Absolute fixture selectors let the real executor use its ordinary root
+      // while every selected test and receipt remains owned by this test.
+      manifest.entries = manifest.entries.map(e => ({ ...e, file: path.join(fixtureRoot, e.file) }));
+      const manifestPath = path.join(dir, 'manifest.json');
+      fs.writeFileSync(manifestPath, JSON.stringify(manifest));
+      const env = {
+        PATH: path.dirname(process.execPath),
+        ...(process.env.SystemRoot ? { SystemRoot: process.env.SystemRoot } : {}),
+        HOME: dir, TMPDIR: dir, TEMP: dir, TMP: dir,
+        EVALS_PREFLIGHT_OK: '1', GSTACK_CLAUDE_CLI_VERSION: 'free-fixture',
+        GSTACK_EVAL_DIR: path.join(dir, 'evals'), GSTACK_CARVE_SKILL: 'browse',
+      };
+      const run = (args: string[]) => {
+        const result = spawnSync(process.execPath, args, { cwd: ROOT, env, encoding: 'utf8', timeout: 20_000 });
+        expect(result.error).toBeUndefined();
+        expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+      };
+      const captures = () => fs.readFileSync(receipt, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+
+      // No API credentials are inherited, preflight/version probes are skipped,
+      // and both files replace the model module before importing the real helper.
+      run(['test', ...discovered.map(file => path.join(fixtureRoot, file))]);
+      expect(captures()).toEqual([{ skill: 'browse', scope: 'browse' }]);
+      fs.writeFileSync(receipt, '');
+
+      run([path.join(ROOT, 'scripts/test-paid-shards.ts'), '--tier', 'periodic', '--plan', manifestPath, '--slice', '1', '--jobs', '1', '--timeout', '10']);
+      expect(captures()).toEqual([{ skill: 'review', scope: '' }]);
+      const slice = JSON.parse(fs.readFileSync(path.join(env.GSTACK_EVAL_DIR, 'slice-1.json'), 'utf8'));
+      expect(slice.outcomes).toHaveLength(1);
+      expect(slice.outcomes[0]).toMatchObject({
+        files: [path.join(fixtureRoot, discovered[0])], status: 'passed', exitCode: 0, executedTests: 1,
+      });
+      expect(env.GSTACK_CARVE_SKILL).toBe('browse');
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  }, 60_000);
 });
 
 describe('slice-result reconciliation (report)', () => {
@@ -173,6 +331,14 @@ describe('hollow-shard guard', () => {
 });
 
 describe('retry parity', () => {
+  test('registered native workflows preserve main retry policy while overlay attempts stay isolated', () => {
+    const native = 'test/skill-e2e-autoplan-chain.test.ts';
+    expect(retriesForFiles([native])).toBe(1);
+    expect(retriesForFiles([native.replaceAll('/', '\\')])).toBe(1);
+    expect(buildPaidShardArgs([native], 1_800_000, 2, retriesForFiles([native])).join(' ')).toContain('--retry 1');
+    const overlay = 'test/skill-e2e-overlay-harness-claude-dedicated-tools-vs-bash.test.ts';
+    expect(retriesForFiles([overlay])).toBe(0);
+  });
   test('overrides exist only for the files whose matrix rows earned them, and each names a real file', () => {
     expect(Object.keys(RETRY_OVERRIDES).sort()).toEqual([
       'test/skill-e2e-office-hours-auto-mode.test.ts',

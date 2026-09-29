@@ -356,3 +356,9 @@ long - shorter - shorter - pause - impact
 ---
 
 *作者：Serge Shima（[t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)）· 许可：CC BY 4.0 —— 需注明出处 · 来源：[smixs/visual-skills](https://github.com/smixs/visual-skills)*
+
+
+## 上游新增参考（2026-09-16）
+
+This map assumes the story has a causal spine. If the shape of the story is not settled yet — a turn without an opponent, a single culminating moment, a deliberately open ending — choose the arc first in `patterns-and-genres.md` §4, then come back and lay the beats on it.
+

@@ -1,0 +1,345 @@
+{
+  "mode": "draft",
+  "test_type": "deterministic tabletop check; no user test, payment, or printer execution",
+  "case_count": 8,
+  "passed": 4,
+  "failed": 4,
+  "results": [
+    {
+      "case": "odd_pages_two_copies",
+      "input": {
+        "pages_per_copy": 5,
+        "copies": 2,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 6,
+      "actual_summary_sheets": 5,
+      "passed": false,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 1,
+            "front": 3,
+            "back": 4
+          },
+          {
+            "copy": 1,
+            "front": 5,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 2,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 2,
+            "front": 3,
+            "back": 4
+          },
+          {
+            "copy": 2,
+            "front": 5,
+            "back": null
+          }
+        ]
+      ]
+    },
+    {
+      "case": "even_pages_two_copies",
+      "input": {
+        "pages_per_copy": 4,
+        "copies": 2,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 4,
+      "actual_summary_sheets": 4,
+      "passed": true,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 1,
+            "front": 3,
+            "back": 4
+          }
+        ],
+        [
+          {
+            "copy": 2,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 2,
+            "front": 3,
+            "back": 4
+          }
+        ]
+      ]
+    },
+    {
+      "case": "single_page_three_copies",
+      "input": {
+        "pages_per_copy": 1,
+        "copies": 3,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 3,
+      "actual_summary_sheets": 2,
+      "passed": false,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 2,
+            "front": 1,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 3,
+            "front": 1,
+            "back": null
+          }
+        ]
+      ]
+    },
+    {
+      "case": "odd_pages_three_copies",
+      "input": {
+        "pages_per_copy": 3,
+        "copies": 3,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 6,
+      "actual_summary_sheets": 5,
+      "passed": false,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 1,
+            "front": 3,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 2,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 2,
+            "front": 3,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 3,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 3,
+            "front": 3,
+            "back": null
+          }
+        ]
+      ]
+    },
+    {
+      "case": "simplex_two_copies",
+      "input": {
+        "pages_per_copy": 5,
+        "copies": 2,
+        "duplex": false
+      },
+      "expected_sheets_from_layout": 10,
+      "actual_summary_sheets": 10,
+      "passed": true,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": null
+          },
+          {
+            "copy": 1,
+            "front": 2,
+            "back": null
+          },
+          {
+            "copy": 1,
+            "front": 3,
+            "back": null
+          },
+          {
+            "copy": 1,
+            "front": 4,
+            "back": null
+          },
+          {
+            "copy": 1,
+            "front": 5,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 2,
+            "front": 1,
+            "back": null
+          },
+          {
+            "copy": 2,
+            "front": 2,
+            "back": null
+          },
+          {
+            "copy": 2,
+            "front": 3,
+            "back": null
+          },
+          {
+            "copy": 2,
+            "front": 4,
+            "back": null
+          },
+          {
+            "copy": 2,
+            "front": 5,
+            "back": null
+          }
+        ]
+      ]
+    },
+    {
+      "case": "single_page_one_copy",
+      "input": {
+        "pages_per_copy": 1,
+        "copies": 1,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 1,
+      "actual_summary_sheets": 1,
+      "passed": true,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": null
+          }
+        ]
+      ]
+    },
+    {
+      "case": "even_pages_one_copy",
+      "input": {
+        "pages_per_copy": 4,
+        "copies": 1,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 2,
+      "actual_summary_sheets": 2,
+      "passed": true,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 1,
+            "front": 3,
+            "back": 4
+          }
+        ]
+      ]
+    },
+    {
+      "case": "seven_pages_two_copies",
+      "input": {
+        "pages_per_copy": 7,
+        "copies": 2,
+        "duplex": true
+      },
+      "expected_sheets_from_layout": 8,
+      "actual_summary_sheets": 7,
+      "passed": false,
+      "physical_layout": [
+        [
+          {
+            "copy": 1,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 1,
+            "front": 3,
+            "back": 4
+          },
+          {
+            "copy": 1,
+            "front": 5,
+            "back": 6
+          },
+          {
+            "copy": 1,
+            "front": 7,
+            "back": null
+          }
+        ],
+        [
+          {
+            "copy": 2,
+            "front": 1,
+            "back": 2
+          },
+          {
+            "copy": 2,
+            "front": 3,
+            "back": 4
+          },
+          {
+            "copy": 2,
+            "front": 5,
+            "back": 6
+          },
+          {
+            "copy": 2,
+            "front": 7,
+            "back": null
+          }
+        ]
+      ]
+    }
+  ]
+}

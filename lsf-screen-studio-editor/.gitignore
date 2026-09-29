@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.vocabulary-cache.json
+归档.zip
+glossary.json
+hotwords.json
+config.json
+creator-edit-preferences.json
+node_modules/

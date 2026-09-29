@@ -1,11 +1,12 @@
 ---
 name: lark-drive
 version: 1.0.0
-description: "管理飞书云空间文件、目录、元数据、权限及本地文档导入；用于 Drive 资源操作，不用于文档正文编辑。"
+description: 管理飞书云空间文件、目录、元数据、权限及本地文档导入；用于 Drive 资源操作，不用于文档正文编辑。
 metadata:
   requires:
-    bins: ["lark-cli"]
-  cliHelp: "lark-cli drive --help"
+    bins:
+    - lark-cli
+  cliHelp: lark-cli drive --help
 ---
 
 # drive (v1)

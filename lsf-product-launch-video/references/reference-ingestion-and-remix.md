@@ -20,15 +20,17 @@
 
 ## 技法卡必填
 
-`id / tags / intent / source / timeRange / viewedRange / sampleFps / observed / inferred / confidence / inputContract / outputContract / tunables / recipe / doNotCopy / licenseScope`
+`id / tags / intent / selection / source / timeRange / viewedRange / sampleFps / observed / inferred / confidence / inputContract / outputContract / tunables / recipe / recipeType / doNotCopy / licenseScope`
 
-输入/输出契约至少含：承接对象身份、焦点位置、移动方向、可见范围、出入速度、是否处于接触/输入、背景关系、声音尾部是否仍在。
+`selection` 写清 `problem / useWhen / requiredAssets / avoidWhen / nextShot`：解决什么问题、适用条件、需要什么素材、何时别用、怎样接下一镜。检索从本镜的问题开始，不只按“炫酷、推拉”选名字。`recipeType` 区分可执行函数、计划示例和导演步骤；文档链接不是已实现动效。
+
+输入/输出契约按技法记录相关状态：连续对象需身份、位置、裁切与出入速度；操作需接触/输入；声音跨镜需归属与尾部。语义硬切只需说明前后信息关系与视线落点，不强制相同对象或运动方向。`tunables` 是迁移时要调整的变量；参考观察值单列，不把某片 4 帧一镜变成默认时长。
 
 视频/图板是研究证据，原创代码是可复用工程资产，音频样本是另一类授权资产。三者不得混成一个「免费素材包」。用户提供素材不等于拥有所有版权；本地分析与直接用于我方成片分别处理，不因这一点阻塞常规本地研究。
 
 ## 两种使用模式
 
-**自由组合**：先读 product-brief 和 director，再按当前段落意图检索技法卡（聚焦输入、看结果、空间迁移、结尾等）。检查前一张卡 outputContract 与下一张 inputContract；对象、方向、速度不匹配时增加过渡段或换卡。避免相同大动作连续堆叠。先试最难的相邻两段，再排全片
+**自由组合**：先读 product-brief 和 director，写当前镜头的信息任务，再用 selection 筛适用条件、素材和禁用条件。检查前一张卡 outputContract 与下一张 inputContract：连续运动中对象、方向或速度不匹配时改交接；需要信息跳接时可改为语义硬切，不为补接口硬加过渡。按 nextShot 比较后续选择，避免相同大动作连续堆叠。先试最难的相邻两段，再排全片
 
 **指定参考重新导演**：保留参考的运动语法、节奏对比与关键承接关系，把剧情、产品事实、页面、素材和文案换成自己的。逐段写「原参考目的 → 新产品目的 → 保留的技法 → 改写的叙事」。如果产品必须读字/等反馈，允许拉长该段，不能为对齐原片时长删掉因果。除非用户明确要逐镜复刻，不默认一一复制构图与顺序
 

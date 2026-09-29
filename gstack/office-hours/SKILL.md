@@ -1,9 +1,8 @@
 ---
 name: office-hours
-title: 技能：Office Hours
 preamble-tier: 3
 version: 2.0.0
-description: "围绕产品想法进行需求访谈与方案探索；用户要求讨论方向或评估想法时使用。"
+description: 围绕产品想法进行需求访谈与方案探索；用户要求讨论方向或评估想法时使用。
 allowed-tools:
 - Bash
 - Read
@@ -45,25 +44,10 @@ gbrain:
     glob: ~/.gstack/analytics/eureka.jsonl
     tail: 5
     render_as: '## Recent eureka moments'
+title: 技能：Office Hours
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Startup mode: six forcing questions that expose
-demand reality, status quo, desperate specificity, narrowest wedge, observation,
-and future-fit. Builder mode: design thinking brainstorming for side projects,
-hackathons, learning, and open source. Saves a design doc.
-Use when asked to "brainstorm this", "I have an idea", "help me think through
-this", "office hours", or "is this worth building".
-Proactively invoke this skill (do NOT answer directly) when the user describes
-a new product idea, asks whether something is worth building, wants to think
-through design decisions for something that doesn't exist yet, or is exploring
-a concept before any code is written.
-Use before /plan-ceo-review or /plan-eng-review.
 
 ## Preamble (run first)
 
@@ -101,9 +85,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -217,19 +207,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -298,23 +284,29 @@ Skills that run plan reviews (`/plan-*-review`, `/codex review`) include the EXI
 
 ## Third-Party Web Actions
 
-A step sometimes requires action on an external website the user controls: registering an API key, creating a vendor or developer account, configuring a dashboard, webhook, OAuth app, billing plan, or domain verification. This contract governs that moment. It grants no new browsing authority — the AskUserQuestion format and one-way-door rules remain binding, including approval before anything that spends money.
+Some steps require action on a site the user controls: registering an API key, creating a vendor or developer account, configuring a dashboard, webhook, OAuth app, billing plan, or domain verification. This contract governs that moment. It grants no new browsing authority — the AskUserQuestion format and one-way-door rules remain binding, including approval before anything that spends money.
 
 1. **Never hand the user a manual step list for a third-party site without first offering to drive it.** The recommended driver is the Aside AI browser — the user's real browser, already signed in to the accounts vendor dashboards need. Detect it at runtime, every task, with the /browse skill's readiness probe:
 
    ```bash
-   _T=""; command -v gtimeout >/dev/null 2>&1 && _T="gtimeout 30"; [ -z "$_T" ] && command -v timeout >/dev/null 2>&1 && _T="timeout 30"
-   [ -z "$_T" ] && command -v perl >/dev/null 2>&1 && _T="perl -e alarm(shift);exec(@ARGV) 30"
+   _gs_d() { if command -v gtimeout >/dev/null; then gtimeout 30 "$@"; elif command -v timeout >/dev/null; then timeout 30 "$@"
+   elif command -v perl >/dev/null; then perl -e 'alarm(shift);exec(@ARGV)' 30 "$@"; else return 125; fi; }
    if [ "${GSTACK_SKIP_ASIDE:-}" = "1" ] || ! command -v aside >/dev/null 2>&1; then
      echo "NEEDS_ASIDE"
-   elif $_T aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1 | grep -q '^ASIDE_READY'; then
-     echo "READY: aside $(aside --version 2>/dev/null)"
    else
-     echo "ASIDE_NOT_RUNNING"
+     _rc=0; _o=$(_gs_d aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1) || _rc=$?
+     case "$_rc" in
+       124|142) echo "ASIDE_TIMEOUT: probe deadline exceeded" ;;
+       125) echo "ASIDE_UNAVAILABLE: bounded probe unavailable" ;;
+       0) if printf '%s\n' "$_o" | grep -q '^ASIDE_READY '; then echo "READY: aside"
+          else echo "ASIDE_NOT_RUNNING: no readiness marker"; fi ;;
+       *) echo "ASIDE_CLI_ERROR: exit $_rc; inspect aside --help locally" ;;
+     esac
+     unset _o
    fi
    ```
 
-   Only `READY` counts as detected; the retry path in rule 3 applies only after a consented drive has started. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, tell the user once — "gstack works best with the Aside browser (macOS 15+). Download it at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. The user downloads and installs it themselves; NEVER run an installer, brew formula, or download for them, and never treat binary presence as consent to browse. `ASIDE_NOT_RUNNING`: ask the user to open the Aside app (and sign in if it asks), re-run the check once, and if it still fails quote the probe output verbatim and treat Aside as not detected for this task. The fallback driver on any platform is gstack's own stack: `$B` headed mode with `$B handoff` / `$B resume` for the human-only moments (the /browse skill's Browser fallback section), or GStack Browser when installed.
+   Only `READY` counts as detected; rule 3 retries only after a consented drive has started. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, say once: "Download Aside (macOS 15+) at aside.com; open, sign in, re-run." Off macOS, do not pitch it. User installs only: NEVER run an installer, brew formula, or download; never treat binary presence as consent to browse. `ASIDE_NOT_RUNNING`: ask once to open the app and retry. Otherwise report only the safe status, never raw diagnostics; treat Aside as not detected for this task. The fallback driver on any platform is gstack's own stack: `$B` headed mode with `$B handoff` / `$B resume` for the human-only moments (the /browse skill's Browser fallback section), or GStack Browser when installed.
 
 2. **One explicit question before any browsing.** Name the site and action. When Aside is detected, offer: A) I drive it in your Aside browser — your real logged-in sessions (recommended), B) I drive it in gstack's own visible browser — you take over for sign-in, C) manual instructions, D) defer. When Aside is not detected, offer only the gstack drive / manual / defer options. Until a probe actually returns `READY`, omit the Aside drive option entirely; even a conditional offer is premature. The selection is per-task consent; never persist it as standing permission and never infer it from an earlier task.
 
@@ -340,7 +332,7 @@ Before asking any clarifying questions, load the brain's structured context
 for this project. The cache layer handles staleness, refresh, and stale-but-
 usable fallback automatically. Skip questions whose answers are already
 present in the loaded context; ground recommendations in what the brain
-already knows about the user, the product, the goals, and recent decisions.
+prints for this skill.
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)" 2>/dev/null || true
@@ -362,10 +354,11 @@ rm -f /tmp/.gstack-brain-context-$$.md 2>/dev/null || true
 ```
 
 **How to use this context:**
-- If `product` digest names the value prop, target user, or stage — don't re-ask.
-- If `goals` digest lists active goals — frame recommendations against them.
-- If `recent-decisions` digest names a prior scope/architecture choice — flag if this plan contradicts.
-- If `user-profile` digest carries calibration pattern statements ("tends to over-engineer security") — surface them when relevant.
+- If `product` digest names the value prop, target user, or stage, do not re-ask.
+- If `goals` digest lists active goals, frame recommendations against them.
+- If `user-profile` digest carries calibration pattern statements ("tends to over-engineer security"), surface them when relevant.
+- If `recent-decisions` digest names a prior scope/architecture choice, flag if this plan contradicts.
+- If `salience` digest surfaces recent local context, treat it as a pointer to verify rather than a standalone fact.
 - If a digest is `(no X digest available yet)`, treat that section as cold; ask the user.
 
 **Privacy:** Salience digest is filtered by allowlist (D9 default: `projects/`,
@@ -472,7 +465,7 @@ sections. Read a section in full before doing its step; do not work from memory.
 
 Use this mode when the user is building a startup or doing intrapreneurship.
 
-> **STOP.** Before running the startup-mode diagnostic (Phase 2A: operating principles, pushback patterns, and the six forcing questions), Read `~/.claude/skills/gstack/office-hours/sections/phase-2a-startup-diagnostic.md` and execute it
+> **STOP.** Before running the startup-mode diagnostic (Phase 2A: operating principles, pushback patterns, and the six forcing questions), Read `~/.agents/skills/gstack/office-hours/sections/phase-2a-startup-diagnostic.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
 ---
@@ -481,7 +474,7 @@ Use this mode when the user is building a startup or doing intrapreneurship.
 
 Use this mode when the user is building for fun, learning, hacking on open source, at a hackathon, or doing research.
 
-> **STOP.** Before running the builder-mode brainstorm (Phase 2B: operating principles, the wild exemplar, and the generative questions), Read `~/.claude/skills/gstack/office-hours/sections/phase-2b-builder-brainstorm.md` and execute it
+> **STOP.** Before running the builder-mode brainstorm (Phase 2B: operating principles, the wild exemplar, and the generative questions), Read `~/.agents/skills/gstack/office-hours/sections/phase-2b-builder-brainstorm.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
 **If the vibe shifts mid-session** — the user starts in builder mode but says "actually I think this could be a real company" or mentions customers, revenue, fundraising — upgrade to Startup mode naturally. Say something like: "Okay, now we're talking — let me ask you some harder questions." Then switch to the Phase 2A questions.
@@ -510,19 +503,25 @@ If no matches found, proceed silently.
 
 ## Web research runs in Aside
 
-When a step calls for looking something up on the web (competitors, current best practices, a known bug, prior art), do it through Aside's own agent first: it searches with the user's real browser, signed-in sessions included. If Aside is not ready, fall back to the WebSearch tool when this host provides one. If neither is available, say so once and continue on what you already know.
+For web research, do it through Aside's own agent first, using the user's signed-in browser. If Aside is not ready, fall back to the WebSearch tool when this host provides one.
 
-Check once per run that Aside is ready (if this skill already ran this same probe, in BROWSER SETUP or Third-Party Web Actions, reuse its answer):
+Check once (if this skill already ran this same probe, in BROWSER SETUP or Third-Party Web Actions, reuse its answer):
 
 ```bash
-_T=""; command -v gtimeout >/dev/null 2>&1 && _T="gtimeout 30"; [ -z "$_T" ] && command -v timeout >/dev/null 2>&1 && _T="timeout 30"
-[ -z "$_T" ] && command -v perl >/dev/null 2>&1 && _T="perl -e alarm(shift);exec(@ARGV) 30"
+_gs_d() { if command -v gtimeout >/dev/null; then gtimeout 30 "$@"; elif command -v timeout >/dev/null; then timeout 30 "$@"
+elif command -v perl >/dev/null; then perl -e 'alarm(shift);exec(@ARGV)' 30 "$@"; else return 125; fi; }
 if [ "${GSTACK_SKIP_ASIDE:-}" = "1" ] || ! command -v aside >/dev/null 2>&1; then
   echo "NEEDS_ASIDE"
-elif $_T aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1 | grep -q '^ASIDE_READY'; then
-  echo "READY: aside $(aside --version 2>/dev/null)"
 else
-  echo "ASIDE_NOT_RUNNING"
+  _rc=0; _o=$(_gs_d aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1) || _rc=$?
+  case "$_rc" in
+    124|142) echo "ASIDE_TIMEOUT: probe deadline exceeded" ;;
+    125) echo "ASIDE_UNAVAILABLE: bounded probe unavailable" ;;
+    0) if printf '%s\n' "$_o" | grep -q '^ASIDE_READY '; then echo "READY: aside"
+       else echo "ASIDE_NOT_RUNNING: no readiness marker"; fi ;;
+    *) echo "ASIDE_CLI_ERROR: exit $_rc; inspect aside --help locally" ;;
+  esac
+  unset _o
 fi
 ```
 
@@ -533,7 +532,7 @@ fi
   _aside_exec "Search the web for <query>. Read-only: do not sign in, submit, or change anything. Reply with <format, e.g. up to 8 bullets, each with its source URL>, then stop."
   ```
 
-- `NEEDS_ASIDE` or `ASIDE_NOT_RUNNING`: run the same queries with the WebSearch tool if this host provides it — same read-only intent, same untrusted-content rule. If it does not, skip the research and say once: "Search unavailable — proceeding with in-distribution knowledge only." Never install Aside yourself; mention aside.com at most once per run. The rest of the skill continues.
+- Any non-READY result: report only the safe status, never raw diagnostics. Run the same queries with the WebSearch tool if available, still read-only and untrusted. Otherwise say once: "Search unavailable — proceeding with in-distribution knowledge only." Never install Aside yourself; mention aside.com at most once per run. Continue the skill.
 
 Sanitize every query before it leaves the machine: strip hostnames, IPs, file paths, SQL fragments, and anything that looks like a secret. Search for the error class and the library, not the user's data.
 
@@ -665,7 +664,7 @@ Then add the context block and mode-appropriate instructions:
 
 3. Run Codex with the assembled prompt:
 
-Use Write to save the **complete prompt and context** in a private file. Replace `<prepared-prompt-file>` below with its shell-quoted path; never interpolate user text into shell source. Include actual plan/spec/source content. Request a final Recommendation: <action> because <specific reason> line, including an explicit no-findings rationale. A refusal is never completion.
+Write the **complete prompt and context**, including actual plan/spec/source, to a private file. Substitute its shell-quoted path for `<prepared-prompt-file>`; never interpolate user text into shell source. Request a final Recommendation: <action> because <specific reason> line, including an explicit no-findings rationale.
 
 ```bash
 # GSTACK_ACTIVE_HOST names the harness, never the model.
@@ -686,12 +685,13 @@ _OUTSIDE_INPUT="$_OUTSIDE_TMP/prompt"
 cat -- '<prepared-prompt-file>' >"$_OUTSIDE_INPUT" || exit 1
 
 source "$HOME/.claude/skills/gstack/bin/gstack-codex-probe" || exit 1
-_gstack_codex_timeout_wrapper 300 codex exec "$(cat "$_OUTSIDE_INPUT")" -C "$_REPO_ROOT" -s read-only -c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\"" -c 'model_reasoning_effort="high"' -c 'web_search="cached"' < /dev/null >"$_OUTSIDE_TMP/text" 2>"$_OUTSIDE_TMP/stderr"
-_OUTSIDE_EXIT=$?
+_OUTSIDE_PROMPT=$(cat "$_OUTSIDE_INPUT") || exit 1
+_OUTSIDE_EXIT=0
+_gstack_codex_timeout_wrapper 300 codex exec "$_OUTSIDE_PROMPT" -C "$_REPO_ROOT" -s read-only -c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\"" -c 'model_reasoning_effort="high"' -c 'web_search="cached"' < /dev/null >"$_OUTSIDE_TMP/text" 2>"$_OUTSIDE_TMP/stderr" || _OUTSIDE_EXIT=$?
 # Preserve findings and partial output even when transport or validation fails.
-cat "$_OUTSIDE_TMP/text"
+cat "$_OUTSIDE_TMP/text" || { [ "$_OUTSIDE_EXIT" -ne 0 ] || _OUTSIDE_EXIT=1; }
 
-cat "$_OUTSIDE_TMP/stderr" >&2
+cat "$_OUTSIDE_TMP/stderr" >&2 || { [ "$_OUTSIDE_EXIT" -ne 0 ] || _OUTSIDE_EXIT=1; }
 if [ "$_OUTSIDE_EXIT" -ne 0 ]; then
   echo 'Codex outside review unavailable: execution failed; missing coverage. Check the provider diagnosis above.' >&2
   exit "$_OUTSIDE_EXIT"
@@ -701,7 +701,7 @@ bun "$HOME/.claude/skills/gstack/lib/outside-review-result.ts" review "$_OUTSIDE
 echo 'OUTSIDE_STATUS: completed provider=codex host=claude'
 ```
 
-Show the full response in a `tool-output` fence. Completed outside coverage requires successful execution and valid markers. Refusal, empty/malformed output, missing score/severity/completion markers, timeout, or CLI failure means `outside_status: unavailable`. Follow this caller's fallback; missing coverage is never clean/PASS. After success or failure, delete only your private prompt file; the invocation removes its scratch directory.
+Show the full response in a `tool-output` fence. Require successful execution and valid markers. Refusal, empty/malformed output, missing score/severity/completion markers, timeout or CLI failure means `outside_status: unavailable`. Use the caller's fallback; missing coverage is never clean/PASS. After either outcome, delete only your private prompt; scratch cleanup is automatic.
 
 **Error handling:** All errors are non-blocking — second opinion is a quality enhancement, not a prerequisite.
 - **Auth failure:** If stderr contains "auth", "login", "unauthorized", or "API key": "Codex authentication failed. Run \`codex login\` to authenticate." Fall back to Claude subagent.
@@ -720,7 +720,7 @@ Present findings under a `SECOND OPINION (Claude subagent):` header.
 
 If the subagent fails or times out: "Second opinion unavailable. Continuing to Phase 4."
 
-For this phase (office-hours), retain the historical review-log skill identifier. Add `"host":"claude","outside_provider":"codex","outside_status":"completed|unavailable|disabled|skipped","phase":"office-hours"`. Record each attempted pass separately when outcomes differ. Use `source:"codex"` only for completed external CLI output, and `source:"in-host"` for a native pass. Historical `source:"claude"` continues to mean a native Claude subagent. CLI availability or a native fallback does not count as outside completion. Preserve reported modelUsage, including multiple models; unknown model identity stays unknown.
+Retain the historical review-log skill ID; add `"host":"claude","outside_provider":"codex","outside_status":"completed|unavailable|disabled|skipped","phase":"office-hours"`. Record differing attempt outcomes separately. `source:"codex"` requires completed CLI output; native uses `source:"in-host"` (historical `source:"claude"`: native Claude). Availability/native fallback is not outside completion. Preserve all reported modelUsage; unknown model identity stays unknown.
 
 4. **Presentation:**
 
@@ -812,7 +812,8 @@ Generating visual mockups of the proposed design... (say "skip" if you don't nee
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
-_DESIGN_DIR="$HOME/.gstack/projects/$SLUG/designs/mockup-$(date +%Y%m%d)"
+eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
+_DESIGN_DIR="$GSTACK_STATE_ROOT/projects/$SLUG/designs/mockup-$(date +%Y%m%d)"
 mkdir -p "$_DESIGN_DIR"
 echo "DESIGN_DIR: $_DESIGN_DIR"
 ```
@@ -974,7 +975,7 @@ If user chooses A, run both independent voices below and wait for both results b
 1. **Codex** (via Bash, `model_reasoning_effort="medium"`):
 Prompt: "For this product approach, provide: a visual thesis (one sentence — mood, material, energy), a content plan (hero → support → detail → CTA), and 2 interaction ideas that change page feel. Apply beautiful defaults: composition-first, brand-first, cardless, poster not document. Be opinionated." Include the approved product approach and wireframe source in the prepared prompt.
 
-Use Write to save the **complete prompt and context** in a private file. Replace `<prepared-prompt-file>` below with its shell-quoted path; never interpolate user text into shell source. Include actual plan/spec/source content. Request a complete design proposal ending with Recommendation: <direction> because <product-specific reason>. A refusal is never completion.
+Write the **complete prompt and context**, including actual plan/spec/source, to a private file. Substitute its shell-quoted path for `<prepared-prompt-file>`; never interpolate user text into shell source. Request a complete design proposal ending with Recommendation: <direction> because <product-specific reason>.
 
 ```bash
 # GSTACK_ACTIVE_HOST names the harness, never the model.
@@ -995,12 +996,13 @@ _OUTSIDE_INPUT="$_OUTSIDE_TMP/prompt"
 cat -- '<prepared-prompt-file>' >"$_OUTSIDE_INPUT" || exit 1
 
 source "$HOME/.claude/skills/gstack/bin/gstack-codex-probe" || exit 1
-_gstack_codex_timeout_wrapper 300 codex exec "$(cat "$_OUTSIDE_INPUT")" -C "$_REPO_ROOT" -s read-only -c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\"" -c 'model_reasoning_effort="medium"' -c 'web_search="cached"' < /dev/null >"$_OUTSIDE_TMP/text" 2>"$_OUTSIDE_TMP/stderr"
-_OUTSIDE_EXIT=$?
+_OUTSIDE_PROMPT=$(cat "$_OUTSIDE_INPUT") || exit 1
+_OUTSIDE_EXIT=0
+_gstack_codex_timeout_wrapper 300 codex exec "$_OUTSIDE_PROMPT" -C "$_REPO_ROOT" -s read-only -c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\"" -c 'model_reasoning_effort="medium"' -c 'web_search="cached"' < /dev/null >"$_OUTSIDE_TMP/text" 2>"$_OUTSIDE_TMP/stderr" || _OUTSIDE_EXIT=$?
 # Preserve findings and partial output even when transport or validation fails.
-cat "$_OUTSIDE_TMP/text"
+cat "$_OUTSIDE_TMP/text" || { [ "$_OUTSIDE_EXIT" -ne 0 ] || _OUTSIDE_EXIT=1; }
 
-cat "$_OUTSIDE_TMP/stderr" >&2
+cat "$_OUTSIDE_TMP/stderr" >&2 || { [ "$_OUTSIDE_EXIT" -ne 0 ] || _OUTSIDE_EXIT=1; }
 if [ "$_OUTSIDE_EXIT" -ne 0 ]; then
   echo 'Codex outside review unavailable: execution failed; missing coverage. Check the provider diagnosis above.' >&2
   exit "$_OUTSIDE_EXIT"
@@ -1010,9 +1012,9 @@ bun "$HOME/.claude/skills/gstack/lib/outside-review-result.ts" review "$_OUTSIDE
 echo 'OUTSIDE_STATUS: completed provider=codex host=claude'
 ```
 
-Show the full response in a `tool-output` fence. Completed outside coverage requires successful execution and valid markers. Refusal, empty/malformed output, missing Recommendation marker, timeout, or CLI failure means `outside_status: unavailable`. Continue with the proposals that completed; a native proposal does not complete outside coverage. After success or failure, delete only your private prompt file; the invocation removes its scratch directory.
+Show the full response in a `tool-output` fence. Require successful execution and valid markers. Refusal, empty/malformed output, missing Recommendation markers, timeout or CLI failure means `outside_status: unavailable`. Continue completed proposals; native completion does not count as outside coverage. After either outcome, delete only your private prompt; scratch cleanup is automatic.
 
-For this phase (design-sketch), retain the historical review-log skill identifier. Add `"host":"claude","outside_provider":"codex","outside_status":"completed|unavailable|disabled|skipped","phase":"design-sketch"`. Record each attempted pass separately when outcomes differ. Use `source:"codex"` only for completed external CLI output, and `source:"in-host"` for a native pass. Historical `source:"claude"` continues to mean a native Claude subagent. CLI availability or a native fallback does not count as outside completion. Preserve reported modelUsage, including multiple models; unknown model identity stays unknown.
+Retain the historical review-log skill ID; add `"host":"claude","outside_provider":"codex","outside_status":"completed|unavailable|disabled|skipped","phase":"design-sketch"`. Record differing attempt outcomes separately. `source:"codex"` requires completed CLI output; native uses `source:"in-host"` (historical `source:"claude"`: native Claude). Availability/native fallback is not outside completion. Preserve all reported modelUsage; unknown model identity stays unknown.
 
 2. **Claude subagent** (via Agent tool, `run_in_background: false` — subagents default to background since Claude Code v2.1.198):
 "For this product approach, what design direction would you recommend? What aesthetic, typography, and interaction patterns fit? What would make this approach feel inevitable to the user? Be specific — font names, hex colors, spacing values."
@@ -1066,7 +1068,7 @@ selection in Phase 6 Beat 3.5.
 
 ---
 
-> **STOP.** Before writing the design doc and running the tiered relationship handoff (Phases 5-6, after the conversation and alternatives are done), Read `~/.claude/skills/gstack/office-hours/sections/design-and-handoff.md` and execute it
+> **STOP.** Before writing the design doc and running the tiered relationship handoff (Phases 5-6, after the conversation and alternatives are done), Read `~/.agents/skills/gstack/office-hours/sections/design-and-handoff.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
 ## Section self-check (before you finish)

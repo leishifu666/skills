@@ -40,6 +40,7 @@ description: LSF的一体化网页 PPT 工作室。用于从主题、大纲、�
 3. 按其需求澄清、叙事弧、页面规划、模板复制、内容填充和验证流程执行。
 4. 正式演讲必须加载其 `references/presenter-mode.md`，生成稳定 `data-slide-id` 和 `SPEAKER_NOTES`。
 5. 始终复制模板到目标项目后再修改。不得直接修改 Guizang 源码仓库。
+6. 规划与使用 Logo、图标、截图或配图时，读取 [图像与品牌素材规范](references/image-assets.md)。将素材用途、来源和摆放方式纳入逐页计划。
 
 ### 提取、创建或管理风格
 
@@ -71,6 +72,15 @@ description: LSF的一体化网页 PPT 工作室。用于从主题、大纲、�
 
 🔴 禁止行为：只展示 Guizang 而遗漏 LSF 风格库；只展示推荐项而隐藏其他现有风格；在未展示现有资产前直接生成 5+1 自定义方案；用自创风格名替代真实资产名；用户只要求聊天内选择时擅自生成 HTML。
 
+## 图像与品牌素材默认规则
+
+- 根据内容使用平台或产品官方 Logo、功能图标、证据截图和相关图片；品牌识别、解释或举证需要时才配图，不强制每页放图。
+- 原图内容、纵横比和清晰度优先于模板槽位。默认等比完整显示；留白、改布局或拆页，不为铺满随意裁切、拉伸或有损压缩。
+- 这些本地规则覆盖能力源中“统一裁切”“只裁底部”“强制标准图片比例”等冲突默认值。可以统一外框，不能据此改变图像本身的比例或截掉内容。
+- 通用概念图标遵循所选模板；官方品牌 Logo 是独立素材，不以通用图标或 AI 仿制标志替代。
+- 截图和官方 Logo 保持真实；生成式配图只能用于示意，不用于伪造产品界面、官方文件、品牌标志或实验结果。
+- 图片取得、原件保存、HTML/PPTX 落位及导出验收按 [图像与品牌素材规范](references/image-assets.md) 执行。当前用户的明确要求优先于这些默认值。
+
 ## 更新 Guizang
 
 每次执行 PPT 任务前只检查更新，不自动拉取：
@@ -94,6 +104,7 @@ powershell -ExecutionPolicy Bypass -File scripts/update-guizang.ps1 -Apply
 - 正式演讲运行 Guizang 的 `validate-presenter-mode.mjs` 与 `check-presenter-runtime-sync.mjs`。
 - Swiss 风格额外运行 `validate-swiss-deck.mjs`。
 - 所有风格再按LSF工厂的 `references/checklist.md` 做视觉检查。
+- 有图页面额外按 `references/image-assets.md` 检查比例、完整性、清晰度、品牌标志和来源；导出的 PPTX/PDF 同样检查。
 - 用浏览器实测翻页、总览、图片、字体、响应式状态和演讲者模式；不能只做静态文本检查。
 - 无法运行某项验证时，明确列出未验证项及原因。
 
@@ -101,7 +112,7 @@ powershell -ExecutionPolicy Bypass -File scripts/update-guizang.ps1 -Apply
 
 - Guizang 上游拥有完整 deck 流程、原生 A/B 美学、运行时、Presenter 与对应校验器。
 - LSF工厂拥有16维风格协议、自研风格库、视觉提取与图片生成流程。
-- 本技能只拥有路由、冲突消解、组合顺序和唯一入口，不重复维护两边的详细规则。
+- 本技能拥有路由、冲突消解、组合顺序、唯一入口及本地素材保真约束，不重复维护两边的详细规则。
 - 上游源码采用 AGPL-3.0。使用或分发其代码时保留来源、版权和许可证；本技能不改写或隐藏上游署名。
 
 ## Before you finish
@@ -113,4 +124,5 @@ powershell -ExecutionPolicy Bypass -File scripts/update-guizang.ps1 -Apply
 | 演讲能力 | 正式演讲具有页面 ID、备注、时间规划和 Presenter 校验 |
 | 凭据 | 回复、日志和交付物中没有 API Key |
 | 视觉验证 | 至少打开真实页面检查一次 |
+| 图片与 Logo | 等比完整显示，文字可读，来源可追溯；没有未经授权的裁切、拉伸或有损压缩 |
 | 输出位置 | 用户交付物不写入技能目录 |

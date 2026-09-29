@@ -1,9 +1,8 @@
 ---
 name: codex
-title: 技能：Codex
 preamble-tier: 3
 version: 1.0.0
-description: "通过 Codex CLI 对代码或方案提供独立复核、挑战测试和咨询；用于请求第二意见，不用于 Codex 产品使用说明。"
+description: 通过 Codex CLI 对代码或方案提供独立复核、挑战测试和咨询；用于请求第二意见，不用于 Codex 产品使用说明。
 triggers:
 - codex review
 - second opinion
@@ -15,21 +14,10 @@ allowed-tools:
 - Glob
 - Grep
 - AskUserQuestion
+title: 技能：Codex
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Code review: independent diff review via
-codex review with pass/fail gate. Challenge: adversarial mode that tries to break
-your code. Consult: ask codex anything with session continuity for follow-ups.
-The "200 IQ autistic developer" second opinion. Use when asked to "codex review",
-"codex challenge", "ask codex", "second opinion", or "consult codex".
-
-Voice triggers (speech-to-text aliases): "code x", "code ex", "get another opinion".
 
 ## Preamble (run first)
 
@@ -67,9 +55,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -129,6 +123,7 @@ At session start or after compaction, recover recent project context.
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
+_BRANCH=$(git branch --show-current 2>/dev/null | tr -cd 'a-zA-Z0-9._/-') || :; _BRANCH=${_BRANCH:-unknown}
 _PROJ="${GSTACK_HOME:-$HOME/.gstack}/projects/${SLUG:-unknown}"
 if [ -d "$_PROJ" ]; then
   echo "--- RECENT ARTIFACTS ---"
@@ -154,7 +149,7 @@ fi
 
 If artifacts are listed, read the newest useful one. If `LAST_SESSION` or `LATEST_CHECKPOINT` appears, give a 2-sentence welcome back summary. If `RECENT_PATTERN` clearly implies a next skill, suggest it once.
 
-**Cross-session decisions.** If `ACTIVE DECISIONS` are listed, treat them as prior settled calls with their rationale — do not silently re-litigate them; if you're about to reverse one, say so explicitly. Reach for `~/.claude/skills/gstack/bin/gstack-decision-search` whenever a question touches a past decision ("what did we decide / why / did we try"). When you or the user make a DURABLE decision (architecture, scope, tool/vendor choice, or a reversal) — NOT a turn-level or trivial choice — log it with `~/.claude/skills/gstack/bin/gstack-decision-log` (`--supersede <id>` for a reversal). Reliable and local; gbrain not required.
+**Cross-session decisions.** Honor listed `ACTIVE DECISIONS` and their rationale; do not silently re-litigate them, and announce planned reversals. Use `~/.claude/skills/gstack/bin/gstack-decision-search` for past-decision questions. Log DURABLE decisions by you or the user (architecture, scope, tool/vendor choice, reversal; not trivial or turn-level choices) with `~/.claude/skills/gstack/bin/gstack-decision-log` (`--supersede <id>` for reversals). Reliable and local; gbrain not required.
 
 ## Writing Style (skip entirely if `EXPLAIN_LEVEL: terse` appears in the preamble echo OR the user's current message explicitly requests terse / no-explanations output)
 
@@ -182,19 +177,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -344,19 +335,29 @@ source ~/.claude/skills/gstack/bin/gstack-codex-probe 2>/dev/null && _gstack_cod
 ## Step 0.5: Auth probe + model probe + version check
 
 Before building expensive prompts, verify Codex has valid auth, that the account
-can actually USE its configured model, AND the installed CLI version isn't in the
+can actually USE gstack's selected model, AND the installed CLI version isn't in the
 known-bad list. Sourcing `gstack-codex-probe` loads the shared helpers that both
 `/codex` and `/autoplan` use.
+
+If the user names a model for this request, set `GSTACK_CODEX_MODEL` to that model
+before this probe and use it for every invocation in the request. The probe must
+check the requested model, including when the frontier default is unavailable.
 
 ```bash
 _TEL=$(~/.claude/skills/gstack/bin/gstack-config get telemetry 2>/dev/null || echo off)
 source ~/.claude/skills/gstack/bin/gstack-codex-probe
 
-# Running-under-Codex presence probe (#2519): a live Codex session exports
-# CODEX_THREAD_ID / CODEX_SANDBOX into every shell it spawns.
-if [ "${GSTACK_FORCE_CODEX_REVIEW:-0}" != "1" ] && { [ -n "${CODEX_THREAD_ID:-}" ] || [ -n "${CODEX_SANDBOX:-}" ]; }; then
-  echo "UNDER_CODEX"
-elif ! _gstack_codex_auth_probe >/dev/null; then
+# GSTACK_ACTIVE_HOST names the harness, never the model.
+if { [ -n "${CODEX_THREAD_ID:-}" ] || [ -n "${CODEX_SANDBOX:-}" ] || [ "${GSTACK_ACTIVE_HOST:-}" = codex ]; }; then
+  echo 'Codex outside review unavailable: harness mismatch; no outside process started. Missing coverage.' >&2
+  if { [ -n "${CLAUDECODE:-}" ] || [ "${GSTACK_ACTIVE_HOST:-}" = claude ]; } && { [ -n "${CODEX_THREAD_ID:-}" ] || [ -n "${CODEX_SANDBOX:-}" ] || [ "${GSTACK_ACTIVE_HOST:-}" = codex ]; }; then
+    echo 'Inherited harness markers conflict. Run setup --host <actual-harness> (claude or codex); do not guess a replacement provider.' >&2
+  else
+    echo 'Repair installed skills: run setup --host codex from your gstack checkout.' >&2
+  fi
+  exit 78
+fi
+if ! _gstack_codex_auth_probe >/dev/null; then
   _gstack_codex_log_event "codex_auth_failed"
   echo "AUTH_FAILED"
 else
@@ -365,19 +366,14 @@ fi
 _gstack_codex_version_check   # warns if known-bad, non-blocking
 ```
 
-If the output contains `UNDER_CODEX`, stop with exactly one line:
-"[running under Codex — /codex would nest the same model at multiplied token
-cost; skipped. Set `GSTACK_FORCE_CODEX_REVIEW=1` to force.]" The whole value
-of this skill is a SECOND model's opinion; inside a Codex host it is the same
-model reviewing itself, and nested spawns have burned 15M tokens in one
-/review (#2519).
+If the runtime guard reports a harness mismatch, stop. Outside coverage is unavailable. Repair with `./setup --host codex`; do not silently substitute another provider or force a same-harness invocation.
 
 If the output contains `AUTH_FAILED`, stop and tell the user:
 "No Codex authentication found. Run `codex login` or set `$CODEX_API_KEY` / `$OPENAI_API_KEY`, then re-run this skill."
 
 If the output contains `MODEL_UNUSABLE`, stop — auth exists but the account
-cannot use the configured model (a stale `model =` pin in
-`~/.codex/config.toml` is the usual cause). Relay the probe's HINT lines and
+cannot use gstack's selected model (`GSTACK_CODEX_MODEL` or the `gpt-6-astra`
+default). Relay the probe's HINT lines and
 follow the "Model not supported (HTTP 400)" recovery steps in
 `## Error Handling` below. Running the modes anyway just burns four
 invocations on the same 400 (#2477).
@@ -490,13 +486,13 @@ examples.
 
 ---
 
-> **STOP.** Before running Review mode (Step 2A) — the Step 1 dispatch chose review (`/codex review`, or the user picked "Review the diff"), Read `~/.claude/skills/gstack/codex/sections/review-mode.md` and execute it
+> **STOP.** Before running Review mode (Step 2A) — the Step 1 dispatch chose review (`/codex review`, or the user picked "Review the diff"), Read `~/.agents/skills/gstack/codex/sections/review-mode.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
-> **STOP.** Before running Challenge mode (Step 2B) — the Step 1 dispatch chose adversarial challenge (`/codex challenge`, or the user picked "Challenge the diff"), Read `~/.claude/skills/gstack/codex/sections/challenge-mode.md` and execute it
+> **STOP.** Before running Challenge mode (Step 2B) — the Step 1 dispatch chose adversarial challenge (`/codex challenge`, or the user picked "Challenge the diff"), Read `~/.agents/skills/gstack/codex/sections/challenge-mode.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
-> **STOP.** Before running Consult mode (Step 2C) — the Step 1 dispatch chose consult (a free-form question, a plan review, or a session follow-up), Read `~/.claude/skills/gstack/codex/sections/consult-mode.md` and execute it
+> **STOP.** Before running Consult mode (Step 2C) — the Step 1 dispatch chose consult (a free-form question, a plan review, or a session follow-up), Read `~/.agents/skills/gstack/codex/sections/consult-mode.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 
 ## Plan File Review Report
@@ -513,7 +509,10 @@ After displaying the Review Readiness Dashboard in conversation output, also upd
 ### Generate the report
 
 Read the review log output you already have from the Review Readiness Dashboard step above.
-Parse each JSONL entry. Each skill logs different fields:
+
+Parse each JSONL entry using recorded provenance. Historical source "claude" is a native Claude subagent; "claude-code" is the external CLI. Keep historical codex identifiers and never relabel old records from the current harness. Unknown model identity remains unknown. For new records, show host, outside_provider, outside_status, and phase. Only completed external records establish outside coverage; native fallbacks do not.
+
+Each skill logs different fields:
 
 - **plan-ceo-review**: \`status\`, \`unresolved\`, \`critical_gaps\`, \`mode\`, \`scope_proposed\`, \`scope_accepted\`, \`scope_deferred\`, \`commit\`
   → Findings: "{scope_proposed} proposals, {scope_accepted} accepted, {scope_deferred} deferred"
@@ -541,17 +540,18 @@ Produce this markdown table:
 | Review | Trigger | Why | Runs | Status | Findings |
 |--------|---------|-----|------|--------|----------|
 | CEO Review | \`/plan-ceo-review\` | Scope & strategy | {runs} | {status} | {findings} |
-| Codex Review | \`/codex review\` | Independent 2nd opinion | {runs} | {status} | {findings} |
+| Outside Review | {recorded provider and trigger} | Independent 2nd opinion | {runs} | {outside_status} | {findings} |
 | Eng Review | \`/plan-eng-review\` | Architecture & tests (required) | {runs} | {status} | {findings} |
 | Design Review | \`/plan-design-review\` | UI/UX gaps | {runs} | {status} | {findings} |
 | DX Review | \`/plan-devex-review\` | Developer experience gaps | {runs} | {status} | {findings} |
 \`\`\`
 
-Below the table, add these lines. **CODEX** and **CROSS-MODEL** are optional (omit when
-empty); **VERDICT** is always present:
+Below the table, add these lines. **OUTSIDE COVERAGE** and **CROSS-MODEL** are conditional:
+include them when the phase ran, was disabled/skipped/unavailable, or has findings;
+omit them only when no such phase applies. **VERDICT** is always present:
 
-- **CODEX:** (only if codex-review ran) — one-line summary of codex fixes
-- **CROSS-MODEL:** (only if both Claude and Codex reviews exist) — overlap analysis
+- **OUTSIDE COVERAGE:** provider, phase, completion state, and findings. Include unavailable, disabled, and skipped phases; never infer completion from another phase.
+- **CROSS-MODEL:** only when native and completed external reviews exist — overlap analysis with recorded providers and known model identity. Do not infer distinct model families from harness names.
 - **VERDICT:** list reviews that are CLEAR (e.g., "CEO + ENG CLEARED — ready to implement").
   If Eng Review is not CLEAR and not skipped globally, append "eng review required".
 
@@ -582,10 +582,10 @@ Use a single delete-then-append flow:
    regardless of where the section currently lives — mid-file deletion is
    intentional, not a special case. If the Edit fails (e.g., concurrent edit
    changed the content), re-read the plan file and retry once.
-3. After the delete (or skipped, if no section existed), append the new
-   \`## GSTACK REVIEW REPORT\` section at the END of the file. Use the Edit
-   tool to match the file's current last paragraph and add the section after it,
-   or use Write to re-emit the whole file with the section at the end.
+3. If a report was deleted, Read the updated file. Append the new
+   \`## GSTACK REVIEW REPORT\` at EOF. Use Edit to match the suffix
+   confirmed by the latest Read, or Write the full file with the report last.
+   "Unresolved Decisions" is not an EOF anchor when other sections follow it.
 4. Verify with the Read tool that \`## GSTACK REVIEW REPORT\` is the last
    \`## \` heading in the file before continuing. If it isn't, repeat steps
    2-3 once.
@@ -606,16 +606,16 @@ missing work — do NOT call ExitPlanMode:
    does NOT count — only the structured `## GSTACK REVIEW REPORT` section
    satisfies this check.
 3. Confirm the report has a Runs / Status / Findings table and a VERDICT line
-   (CODEX / CROSS-MODEL absorbed if applicable).
+   (OUTSIDE COVERAGE / CROSS-MODEL included when applicable).
 4. Confirm the report's FINAL non-whitespace line is the unresolved-decisions
    status: the exact unbolded `NO UNRESOLVED DECISIONS`, or a bullet of a final
    `**UNRESOLVED DECISIONS:**` block. BLOCKING, no "if applicable" escape — a
-   bolded sentinel, any trailing CODEX/CROSS-MODEL/VERDICT/prose, or a missing
+   bolded sentinel, any trailing report field or prose, or a missing
    status each FAILS the gate.
 5. If a plan file is in context for this skill invocation: confirm
    `gstack-review-log` was called and `gstack-review-read` was run at least
-   once. If no plan file is in context (e.g. `/codex consult` against a
-   diff with no plan), this check short-circuits — checks 1-4 already
+   once. If no plan file is in context (e.g. a diff review with no plan),
+   this check short-circuits — checks 1-4 already
    short-circuit when no plan file exists.
 
 Failing this gate and calling ExitPlanMode anyway is a contract violation —
@@ -629,10 +629,12 @@ must be the file's terminal heading.
 
 ## Model & Reasoning
 
-**Model:** No model is hardcoded — codex uses whatever its current default is (the frontier
-agentic coding model). This means as OpenAI ships newer models, /codex automatically
-uses them. If the user wants a specific model, pass it through — but the flag differs
-by mode (see below).
+**Model:** gstack defaults Codex invocations to the current frontier agentic coding
+model via `-c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\""` (currently `gpt-6-astra`). A user can override
+the default for a shell with `GSTACK_CODEX_MODEL=<model>`, or for one request by naming a
+model in the `/codex` prompt.
+Native `codex review` also sets `review_model` to the selected model so a separate
+review pin in the CLI config cannot override the request.
 
 **Reasoning effort (per-mode defaults):**
 - **Review (2A):** `high` — bounded diff input, needs thoroughness but not max tokens
@@ -651,16 +653,13 @@ codex >=0.144), the `-c` form explicitly overrides any top-level
 web search regardless of configuration, so on the default Review path the flag is a
 harmless no-op — only exec-based modes actually search.
 
-If the user specifies a model (e.g., `/codex review -m gpt-5.1-codex-max` or
-`/codex challenge -m gpt-5.2`), the flag to pass depends on the underlying command:
-
-- **Exec-based modes** (Challenge, Consult, and the custom-instructions Review path)
-  run `codex exec`, which takes `-m <model>` — pass it through as-is.
-- **Default Review mode** runs `codex review`, which REJECTS `-m`
-  (`error: unexpected argument '-m' found`, verified on 0.147.0 — its help lists no
-  `-m`/`--model` option). Translate the user's `-m <model>` into the config form:
-  `-c model="<model>"`. Same shape as the `--base`-vs-prompt incompatibility above:
-  review mode takes its knobs through flags/config, never through extra arguments.
+If the user specifies a model (e.g., `/codex review -m gpt-5.6-sol` or
+`/codex challenge --model gpt-daybreak-blue-latest`), translate it to the same config
+form and replace the default model flag with `-c "model=\"<model>\""`. Native review
+also requires `-c "review_model=\"<model>\""`; replace both model values together.
+Review mode runs `codex review`, which REJECTS `-m` (`error: unexpected argument '-m' found`,
+verified on 0.147.0), while `-c model=...` is accepted by both `codex review` and
+`codex exec`.
 
 ---
 
@@ -699,18 +698,15 @@ If token count is not available, display: `Tokens: unknown`
   `--base <base>` is actually on the command line.
 - **Model not supported (HTTP 400):** stderr shows
   `The '<model>' model is not supported when using Codex with a ChatGPT account`
-  (a `status: 400` / `invalid_request_error` naming a model). This is an
-  entitlement/stale-pin problem, not an auth or network failure, and the auth probe
-  cannot catch it. The rejected model comes from the `model = "..."` line in
-  `~/.codex/config.toml`. Recovery, in order:
-  1. Read `~/.codex/config.toml` and check the `[notice.model_migrations]` table —
-     Codex records the intended replacement there (e.g. `"gpt-5.4" = "gpt-5.5"`).
-  2. Retry with the replacement model explicitly: exec-based modes (Challenge,
-     Consult, custom-instructions Review) take `-m <replacement>`; the default
-     Review path uses `codex review`, which REJECTS `-m` — pass
-     `-c model="<replacement>"` there instead.
-  3. Tell the user the one-line permanent fix: update the `model = ` pin in
-     `~/.codex/config.toml`.
+  (a `status: 400` / `invalid_request_error` naming a model). This is a
+  model-entitlement problem, not an auth or network failure, and the auth probe
+  cannot catch it. Recovery, in order:
+  1. Check whether `GSTACK_CODEX_MODEL` is set. If so, update it to a model the
+     account can use.
+  2. If no override is set, gstack defaults to `gpt-6-astra`. If the account cannot
+     use it yet, set `GSTACK_CODEX_MODEL=<supported-model>` or replace the default
+     flag with `-c "model=\"<supported-model>\""`.
+  3. If Codex printed `[notice.model_migrations]`, use that replacement model.
   Never present this as a model stall or a PASS — it is a fail-closed gate result.
 - **Empty response:** If `$TMPRESP` is empty or doesn't exist, tell the user:
   "Codex returned no response. Check stderr for errors."

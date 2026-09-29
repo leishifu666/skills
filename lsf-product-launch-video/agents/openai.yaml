@@ -1,4 +1,4 @@
 interface:
   display_name: "LSF｜产品宣传视频"
-  short_description: "将真实产品组件与分镜制成带音效、镜头动画和验证记录的宣传短片"
-  default_prompt: "使用 $lsf-product-launch-video，基于我的产品真实功能制作一段带音效的宣传短片，并交付可重渲染源码。"
+  short_description: "基于真实功能，混用原界面、呈现优化与宣传重绘，制作带音效的产品短片"
+  default_prompt: "使用 $lsf-product-launch-video，基于我的项目真实功能制作带音效的宣传短片；按镜头选择原界面、呈现优化或宣传重绘，按需使用 lsf-remocn，并交付可重渲染源码。"

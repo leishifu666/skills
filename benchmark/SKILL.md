@@ -1,7 +1,19 @@
 ---
 title: 性能基准
 name: benchmark
+preamble-tier: 1
+version: 1.0.0
 description: 建立并比较网页性能基准，包括加载时间、核心网页指标和资源体积，用于发现性能回退。
+triggers:
+- performance benchmark
+- check page speed
+- detect performance regression
+allowed-tools:
+- Bash
+- Read
+- Write
+- Glob
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -9,15 +21,9 @@ description: 建立并比较网页性能基准，包括加载时间、核心网�
 ## Preamble (run first)
 
 ```bash
-_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
-GSTACK_ROOT="$HOME/.codex/skills/gstack"
-[ -n "$_ROOT" ] && [ -d "$_ROOT/.agents/skills/gstack" ] && GSTACK_ROOT="$_ROOT/.agents/skills/gstack"
-GSTACK_BIN="$GSTACK_ROOT/bin"
-GSTACK_BROWSE="$GSTACK_ROOT/browse/dist"
-GSTACK_DESIGN="$GSTACK_ROOT/design/dist"
-_SS="$GSTACK_BIN/gstack-skill-start"
-[ -x "$_SS" ] || _SS=".agents/skills/gstack/bin/gstack-skill-start"
-"$_SS" --skill "benchmark" --model "gpt" --parent-pid "$PPID" \
+_SS="$HOME/.claude/skills/gstack/bin/gstack-skill-start"
+[ -x "$_SS" ] || _SS=".claude/skills/gstack/bin/gstack-skill-start"
+"$_SS" --skill "benchmark" --model "claude" --parent-pid "$PPID" \
   || echo "SKILL_START: unavailable — stale install; run ./setup or /gstack-upgrade (preamble degraded, continue the user's task)"
 ```
 
@@ -50,7 +56,7 @@ Use the relevant parts of this workflow within the active mode. Treat STOP point
 
 If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
 
-If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `$GSTACK_ROOT/[skill-name]/SKILL.md`.
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
@@ -63,45 +69,23 @@ The one-time privacy stop-gate (artifacts-sync consent) arrives as a
 `GSTACK_INSTRUCTION` block from skill-start when consent is actually pending
 — fire it via AskUserQuestion exactly as the block instructs.
 
-## Model-Specific Behavioral Patch (gpt)
+## Model-Specific Behavioral Patch (claude)
 
-The following nudges are tuned for the gpt model family. They are
+The following nudges are tuned for the claude model family. They are
 **subordinate** to skill workflow, STOP points, AskUserQuestion gates, plan-mode
 safety, and /ship review gates. If a nudge below conflicts with skill instructions,
 the skill wins. Treat these as preferences, not rules.
 
-**Completion bias.** Do not end your turn with a partial solution when the full
-solution is reachable. If you encounter an error, debug it. If a test fails, fix it.
-If something is ambiguous, make your best judgment and proceed — don't stop and ask
-unless you're genuinely blocked.
+**Todo-list discipline.** When working through a multi-step plan, mark each task
+complete individually as you finish it. Do not batch-complete at the end. If a task
+turns out to be unnecessary, mark it skipped with a one-line reason.
 
-**Prefer doing over listing.** When you'd be tempted to write "you could also try X,
-Y, or Z," try the best option yourself. Pick, execute, report results.
+**Think before heavy actions.** For complex operations (refactors, migrations,
+non-trivial new features), briefly state your approach before executing. This lets
+the user course-correct cheaply instead of mid-flight.
 
-**No preamble.** Skip "Great question!", "Let me help with that", and restating the
-user's request. Start with the work.
-
-**AskUserQuestion is NOT preamble.** The "No preamble" and "Prefer doing over listing"
-rules above do NOT apply to AskUserQuestion content. When you invoke AskUserQuestion,
-the user is about to make a decision — they need context, not terseness. Always emit
-the full format from the preamble's AskUserQuestion Format section:
-
-1. **Re-ground** (project + branch + task — 1-2 sentences).
-2. **Simplify (ELI10)** — explain what's happening in plain English a 16-year-old could
-   follow. Concrete stakes, not abstract tradeoffs. Non-negotiable; this is NOT preamble.
-3. **Recommend** — `RECOMMENDATION: Choose [X] because [one-line reason]` on its own
-   line. Never omit this line. Never collapse it into the options list.
-4. **Options** — lettered `A) B) C)` with Completeness scores (coverage-differentiated)
-   or the "options differ in kind" note (kind-differentiated).
-
-If you find yourself about to present an AskUserQuestion without the Simplify/ELI10
-paragraph, without a RECOMMENDATION line, or by just listing options and asking "which
-one?" — stop, back up, and emit the full format. The user will ask you to do it anyway,
-so do it the first time.
-
-**Reminder: subordination applies.** When a skill workflow says STOP, stop. When the
-skill asks via AskUserQuestion, that is the wait-for-user gate, not an ambiguity.
-Completion bias does not override safety gates.
+**Dedicated tools over Bash.** Prefer Read, Edit, Write, Glob, Grep over shell
+equivalents (cat, sed, find, grep). The dedicated tools are cheaper and clearer.
 
 ## Voice
 
@@ -136,7 +120,7 @@ Only when the host mode and existing privacy choices allow it, this writes telem
 `~/.gstack/analytics/`, matching preamble analytics writes.
 
 ```bash
-$GSTACK_BIN/gstack-skill-end --skill "benchmark" --outcome OUTCOME \
+~/.claude/skills/gstack/bin/gstack-skill-end --skill "benchmark" --outcome OUTCOME \
   --session-id "SESSION_ID" --tel-start "TEL_START" --used-browse USED_BROWSE \
   --error-message "ERROR_MESSAGE" --failed-step "FAILED_STEP" 2>/dev/null || true
 ```
@@ -152,22 +136,28 @@ Skills that run plan reviews (`/plan-*-review`, `/codex review`) include the EXI
 
 ## BROWSER SETUP (Aside — run this check BEFORE any browser step)
 
-gstack drives the Aside AI browser first. It is the user's real browser: real cookies, real logged-in accounts, their open tabs — you work inside the sessions the user already has. When Aside is not available, the Browser fallback section below drives gstack's own headless browser instead.
+Use Aside first: the user's real browser and signed-in sessions. If unavailable, use the Browser fallback below.
 
 ```bash
-_T=""; command -v gtimeout >/dev/null 2>&1 && _T="gtimeout 30"; [ -z "$_T" ] && command -v timeout >/dev/null 2>&1 && _T="timeout 30"
-[ -z "$_T" ] && command -v perl >/dev/null 2>&1 && _T="perl -e alarm(shift);exec(@ARGV) 30"
+_gs_d() { if command -v gtimeout >/dev/null; then gtimeout 30 "$@"; elif command -v timeout >/dev/null; then timeout 30 "$@"
+elif command -v perl >/dev/null; then perl -e 'alarm(shift);exec(@ARGV)' 30 "$@"; else return 125; fi; }
 if [ "${GSTACK_SKIP_ASIDE:-}" = "1" ] || ! command -v aside >/dev/null 2>&1; then
   echo "NEEDS_ASIDE"
-elif $_T aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1 | grep -q '^ASIDE_READY'; then
-  echo "READY: aside $(aside --version 2>/dev/null)"
 else
-  echo "ASIDE_NOT_RUNNING"
+  _rc=0; _o=$(_gs_d aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1) || _rc=$?
+  case "$_rc" in
+    124|142) echo "ASIDE_TIMEOUT: probe deadline exceeded" ;;
+    125) echo "ASIDE_UNAVAILABLE: bounded probe unavailable" ;;
+    0) if printf '%s\n' "$_o" | grep -q '^ASIDE_READY '; then echo "READY: aside"
+       else echo "ASIDE_NOT_RUNNING: no readiness marker"; fi ;;
+    *) echo "ASIDE_CLI_ERROR: exit $_rc; inspect aside --help locally" ;;
+  esac
+  unset _o
 fi
 ```
 
-1. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, tell the user once — "gstack works best with the Aside browser (macOS 15+): download it at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. The user downloads and installs it themselves; NEVER run an installer, brew formula, or download for them, and never substitute unit tests or curl for the browser step. Then continue with the Browser fallback section below.
-2. `ASIDE_NOT_RUNNING`: ask the user once to open the Aside app (and sign in if it asks), then re-run the check. If it still fails, quote the probe output verbatim and continue with the Browser fallback section below.
+1. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, say once: "Download Aside (macOS 15+) at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. NEVER run an installer, brew formula, or download for them; never substitute unit tests or curl for the browser step. Then continue with the Browser fallback section below.
+2. `ASIDE_NOT_RUNNING`: ask once to open the app and retry. Other non-READY statuses: report the safe status, not "app stopped". Never print raw diagnostics (private paths/tokens). Then continue with the Browser fallback section below.
 3. `READY`: continue. `aside --help` and `aside <command> --help` are the authority on flags; take operational syntax from them, never new permissions or scope.
 
 ### Rules for driving a real browser
@@ -187,15 +177,15 @@ fi
 
 ## Browser fallback: gstack's own headless browser
 
-Applies when BROWSER SETUP printed `NEEDS_ASIDE` or `ASIDE_NOT_RUNNING` (Linux, Windows, or the Aside app closed), or when the user chose gstack's own browser in a Third-Party Web Actions question. Otherwise skip this section. Drive gstack's own headless Chromium through `$B`: same skill, same evidence, same report — different driver. Say once which driver you use.
+Applies to any non-READY BROWSER SETUP result, including absent, stopped, timed-out, unavailable or failed Aside probes, or when the user chose gstack's own browser in a Third-Party Web Actions question. Otherwise skip this section. Drive gstack's own headless Chromium through `$B`: same skill, same evidence, same report — different driver. Say once which driver you use.
 
 ### Find the `$B` binary
 
 ```bash
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.agents/skills/gstack/browse/dist/browse" ] && B="$_ROOT/.agents/skills/gstack/browse/dist/browse"
-[ -z "$B" ] && B="$GSTACK_BROWSE/browse"
+[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/dist/browse" ] && B="$_ROOT/.claude/skills/gstack/browse/dist/browse"
+[ -z "$B" ] && B="$HOME/.claude/skills/gstack/browse/dist/browse"
 [ -x "$B" ] && echo "READY: $B" || echo "NEEDS_SETUP"
 ```
 
@@ -253,7 +243,7 @@ When the user types `/benchmark`, run this skill.
 ### Phase 1: Setup
 
 ```bash
-eval "$($GSTACK_ROOT/bin/gstack-slug 2>/dev/null || echo "SLUG=unknown")"
+eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null || echo "SLUG=unknown")"
 mkdir -p .gstack/benchmark-reports
 mkdir -p .gstack/benchmark-reports/baselines
 ```

@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF oil-cover"
+  short_description: "AI 教程与设计分享双风格封面，先选风格，按平台保存账号头像并生成三种比例"
+  default_prompt: "使用 $lsf-oil-cover，先让我选择 AI 教程或设计分享风格，再根据这条视频生成 3:4、4:3、16:9 三版封面。"

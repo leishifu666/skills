@@ -84,3 +84,9 @@ Generate one at a time.
 ---
 
 *作者: Serge Shima ([t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)) · 许可: CC BY 4.0 — 需署名 · 来源: [smixs/visual-skills](https://github.com/smixs/visual-skills)*
+
+
+## 上游新增参考（2026-09-16）
+
+> If the character must read as a real person and the model keeps beautifying them — idealized eyes, poreless skin, model stance — identity locking alone will not hold. Pair this file with [de-slop.md](de-slop.md).
+

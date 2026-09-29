@@ -4,7 +4,7 @@ title: LSF AI 图像导演
 description: "为指定图像模型编写生成或编辑提示词，涵盖角色、产品、海报与参考图一致性；用于提示词交付。"
 license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visual-skills)
 github_url: https://github.com/smixs/visual-skills
-github_hash: ae26d624edd747e719fa21528d18d39e68c04a0e
+github_hash: 92be33a5a73325fb3d8e0c73b22744b114e2a90e
 upstream_path: image
 version: 1.0.0-lsf.2
 localization: zh-CN
@@ -116,3 +116,10 @@ Constraints: <no extra objects, no drift, ...>
 ---
 
 *作者: Serge Shima ([t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)) · 许可: CC BY 4.0 — 需署名 · 来源: [smixs/visual-skills](https://github.com/smixs/visual-skills)*
+
+## 新版按需参考
+
+- 真人照片、纪实、手持产品或用户反馈“太像 AI、太光滑、不像参考”：读取 [真实拍摄质感](references/de-slop.md)，用拍摄流程和具体位置的细节约束还原参考。
+- 强视觉风格：参考 [风格 DNA 与拒收清单](references/patterns/poster-illustration.md)，明确材质、构图规则、色彩和应避免的偏差。
+- 按时长绘制视频分镜：读取 [多格分镜](references/multi-panel.md) 的新增网格规则，画格时长总和必须等于场景时长。
+- 演示文稿：读取 [整套风格](references/slides.md) 的新增方案，同一套中保持风格一致。

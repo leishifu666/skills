@@ -1,6 +1,5 @@
 ---
 name: careful
-title: 危险操作保护
 version: 0.1.0
 description: 对删除、强制推送、重置、生产环境变更等危险命令增加确认和安全检查。
 triggers:
@@ -17,19 +16,10 @@ hooks:
     - type: command
       command: bash $HOME/.claude/skills/gstack/careful/bin/check-careful.sh
       statusMessage: Checking for destructive commands...
+title: 危险操作保护
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Warns before rm -rf, DROP TABLE,
-force-push, git reset --hard, kubectl delete, and similar destructive operations.
-User can override each warning. Use when touching prod, debugging live systems,
-or working in a shared environment. Use when asked to "be careful", "safety mode",
-"prod mode", or "careful mode".
 
 # /careful — Destructive Command Guardrails
 
@@ -87,6 +77,7 @@ after the built-in families, so config can only ADD rules, never suppress a
 baseline warning. Invalid regex lines are skipped.
 
 To deactivate, end the conversation or start a new one. Hooks are session-scoped.
+
 
 ## User-Learned Best Practices & Constraints
 

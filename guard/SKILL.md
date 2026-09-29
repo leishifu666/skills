@@ -1,6 +1,5 @@
 ---
 name: guard
-title: 完整安全模式
 version: 0.1.0
 description: 组合危险操作保护与目录编辑范围限制，适合生产环境、共享环境和高风险调试。
 triggers:
@@ -28,18 +27,10 @@ hooks:
     - type: command
       command: bash $HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh
       statusMessage: Checking freeze boundary...
+title: 完整安全模式
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Combines /careful (warns before rm -rf, DROP TABLE, force-push, etc.) with
-/freeze (blocks edits outside a specified directory). Use for maximum safety
-when touching prod or debugging live systems. Use when asked to "guard mode",
-"full safety", "lock it down", or "maximum safety".
 
 # /guard — Full Safety Mode
 
@@ -64,27 +55,18 @@ Ask the user which directory to restrict edits to. Use AskUserQuestion:
 
 Once the user provides a directory path:
 
-1. Resolve it to an absolute path:
+Set the user-selected boundary with the shared writer, which resolves a physical absolute path and serializes replacement with investigation cleanup:
 ```bash
-FREEZE_DIR=$(cd "<user-provided-path>" 2>/dev/null && pwd)
-echo "$FREEZE_DIR"
+bash "$HOME/.claude/skills/gstack/freeze/bin/freeze-state.sh" set "<user-provided-path>"
 ```
 
-2. Ensure trailing slash and save to the freeze state file:
-```bash
-FREEZE_DIR="${FREEZE_DIR%/}/"
-eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
-STATE_DIR="$GSTACK_STATE_ROOT"
-mkdir -p "$STATE_DIR"
-echo "$FREEZE_DIR" > "$STATE_DIR/freeze-dir.txt"
-echo "Freeze boundary set: $FREEZE_DIR"
-```
+On helper failure, do not claim the boundary is active. Preserve the state and report recovery; never bypass the shared writer with a direct write or deletion.
 
 Tell the user:
 - "**Guard mode active.** Two protections are now running:"
 - "1. **Destructive command guard** — rm -rf, DROP TABLE, force-push, etc. warn before executing (overridable); catastrophic shapes (recursive delete of / or ~, force-push to the default branch) are hard-denied"
 - "2. **Edit boundary** — file edits restricted to `<path>/`. Edits outside this directory are blocked."
-- "To remove the edit boundary, run `/unfreeze`. To deactivate everything, end the session."
+- "To remove the persistent edit boundary, run `/unfreeze`. Ending the session stops its hooks but does not delete that boundary."
 
 ## What's protected
 

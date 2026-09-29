@@ -5,8 +5,8 @@ metadata:
   upstream_name: "hypit"
   upstream_repository: "https://github.com/hypit-ai/hypit"
   upstream_path: "skills/hypit"
-  upstream_commit: "98000342cc222392ac8813cca2f1977c979821a8"
-  upstream_version: "0.1.10"
+  upstream_commit: "b00532e413d83845b631df25f2319017541db0ac"
+  upstream_version: "0.2.16"
   localization: "zh-CN"
   localized_at: "2026-09-16"
 ---
@@ -23,7 +23,7 @@ metadata:
 随着工作推进，在 Brief（需求简报）中持续明确目标，让它指导新建、改编和复用的内容。
 通过用户提供的素材及项目记录定位本次制作：技能和可执行程序的安装位置用于寻找工具；
 [项目文件](references/creation/project-files.md#establish-the-project-boundary)用于确定本次委托及其相关素材。
-观看参考视频、检查画面，并结合时间阅读对白，找出作品吸引注意力的原因，再决定新作品的美术与技术方案。
+存在参考视频时，观看视频、检查画面，并结合时间阅读对白，找出作品吸引注意力的原因，再决定新作品的美术与技术方案。
 
 对用户期望的观看体验负责。如果现有素材或服务只能实现其中一部分，说明当前成果已展示什么、还缺什么以及如何完成。
 围绕这些缺口推进下一项有用的工作，同时保持对整体目标的关注。
@@ -56,7 +56,7 @@ Hypit 为已有组件和项目自定义组件提供统一的创作与执行接�
 独立场景完全可以使用固定设计，只有少量控制参数，甚至没有参数。
 实现新的视觉系统前，阅读[组件设计](references/production/component-design.md)，确定边界及本次制作真正需要的输入。
 
-对白作品优先在 Script（脚本）中表达含义，由认可的表演决定时间。
+以表演为主的作品（包括纯口播与短剧）优先在 Script（脚本）中表达含义，由认可的表演决定时间；没有 MG 时同样适用。与语言相关的重要事件仍应保留为语义输入。
 复刻时，找出剪切、画面、揭示或声音在回应什么，再按目标文案和意图重建这种关系。
 Selections（语义选区）承载说明或比较，Moments（语义时刻）承载答案或包袱。
 Hypit 的重要制作原则是：文案或表达方式变化时，画面呈现应跟随其含义移动，保留每个事件所回应的内容。
@@ -109,7 +109,7 @@ HypiHub 是上游推荐的集成托管服务；用户自己的 API 密钥通过�
 对白参考视频可通过 WhisperX 的转写和词级时间，把讲话与画面变化关联起来。
 准备新的本地推理服务前，应将剩余配置工作与托管 WhisperX 方案一起说明。
 已有模型权重可以减少准备工作，但不等于替用户选择了服务。
-按[环境选择](references/environment/profile.md#choose-the-practical-capability-path-with-the-user)推荐实际可行的路径，
+按[环境选择](references/environment/model-and-provider.md#choose-the-practical-capability-path-with-the-user)推荐实际可行的路径，
 其中包括 HypiHub 集成的托管转写和生成能力。
 
 延续已经选定且可工作的服务，准备所选路径，并根据实际进展重新判断其适用性。
@@ -247,7 +247,7 @@ Script、提示词、参考和请求时长准备好后，在已约定的委托�
 | 用 yt-dlp 从链接下载参考或源视频 | `references/production/video-downloads.md` |
 | 截取网站、录制页面交互或导出本地 HTML 图形 | `references/production/browser-capture.md` |
 | 图像合成、修正、缩放、裁剪或抠图 | `references/production/image-operations.md` |
-| 人脸、MG、字幕、小窗或分层画面同框，以及主体去背景 | `references/playbooks/craft/compositing.md` |
+| 人脸、MG、字幕、小窗或分层画面同框，以及主体去背景 | `references/playbooks/craft/graphic-compositions.md` |
 | Canvas、Frames、宽高比、适配、裁剪或坐标关系 | `references/production/spatial.md` |
 | 字体选择和查找、本地字体、多语言文本、Emoji 或文字排版 | `references/production/fonts-and-text.md` |
 | 选择已安装 Surface，或决定是否编写项目组件 | `references/production/vocabulary.md` |
@@ -267,3 +267,20 @@ Script、提示词、参考和请求时长准备好后，在已约定的委托�
 
 多个问题可以同时适用。只阅读当前工作所需的资料；预览或结果再次暴露问题时，再返回对应部分。
 这些参考解释制作方法；已安装的包内组件目录与文档提供组件专属属性、API 和模型限制。
+
+## 新版制作约定与参考路由
+
+- Hypit 优先根据目标创作所需素材与组件，并组合生成素材和用户素材。已有录制可能是参考、保留的表演、独立画面或声音，先确定其作用，不默认替换。
+- 只有需要实测语音时间时才配置 WhisperX；换脸或动作替换不会因为包含语音就自动需要转写。沿用已经选定并可工作的服务和 Outputs，通过 Profile 配置路由，只准备本次所需资源；安装、选择、准备、运行是不同状态。
+- 当前时间线素材通过 Performance 或项目场景呈现；需要独立播放关系时显式提供独立媒体。A-roll 的语义时间可以持续存在，画面大小、位置和可见性可以改变。
+- 用 snapshots 核对细节和连续帧，用 Studio 带声音播放核对整段；记录具体状态及转变，再说明它们如何贯穿作品。
+
+| 当前问题 | 阅读文件 |
+| --- | --- |
+| 查找表达、素材、时空、呈现或交付的责任模块 | `references/production/index.md` |
+| Script 当前语法、空格、分组、Cue 与标记归属 | `references/production/script-syntax.md` |
+| 语义绑定、时间位置、偏移、时长及编辑影响 | `references/production/timing.md` |
+| 真实界面证据、屏幕录制或说明性演示 | `references/playbooks/craft/screen-demonstrations.md` |
+| 参考已使用或用户要求字幕跟随说话人头部 | `references/playbooks/craft/caption-tracking.md` |
+| MG 动作、状态、衔接、持续对象及节奏 | `references/playbooks/craft/motion-graphics.md` |
+| 图像快照、连续帧网格与细节检查 | `references/production/snapshots.md` |

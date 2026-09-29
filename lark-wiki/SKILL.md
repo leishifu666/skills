@@ -1,11 +1,12 @@
 ---
 name: lark-wiki
 version: 1.0.3
-description: "查找和管理飞书知识空间、成员及文档节点，支持飞书与 doubao.com 的 /wiki/ 链接。"
+description: 查找和管理飞书知识空间、成员及文档节点，支持飞书与 doubao.com 的 /wiki/ 链接。
 metadata:
   requires:
-    bins: ["lark-cli"]
-  cliHelp: "lark-cli wiki --help"
+    bins:
+    - lark-cli
+  cliHelp: lark-cli wiki --help
 ---
 
 # wiki (v2)
@@ -49,7 +50,7 @@ metadata:
 
 Shortcut 是对常用操作的高级封装（`lark-cli wiki +<verb> [flags]`）。有 Shortcut 的操作优先使用。
 
-获取或解析 Wiki 节点统一使用 `wiki +node-get`，包括只为获取 `space_id`、`node_token`、`obj_token` 或 `obj_type` 的中间步骤。 当前 CLI 不提供 shortcut 时，先检查本机 schema 与服务端支持的节点解析接口，再选择兼容调用；不要假设旧 `get_node` 与新 `node_by_token` 可互换。
+获取或解析 Wiki 节点统一使用 `wiki +node-get`，包括只为获取 `space_id`、`node_token`、`obj_token` 或 `obj_type` 的中间步骤。
 
 | Shortcut | 说明 |
 |----------|------|

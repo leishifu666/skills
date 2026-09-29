@@ -2,30 +2,24 @@
 name: diagram
 preamble-tier: 1
 version: 1.0.0
-description: "Turn an English description (or mermaid source) into a diagram triplet: the source, an editable .excalidraw file you can open on excalidraw.com, and rendered SVG + PNG. (gstack)"
+description: 'Turn an English description (or mermaid source) into a diagram triplet:
+  the source, an editable .excalidraw file you can open on excalidraw.com, and rendered
+  SVG + PNG. (gstack)'
 allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - AskUserQuestion
+- Bash
+- Read
+- Write
+- AskUserQuestion
 triggers:
-  - make a diagram
-  - draw a diagram
-  - create a flowchart
-  - diagram this
-  - visualize this flow
-  - architecture diagram
+- make a diagram
+- draw a diagram
+- create a flowchart
+- diagram this
+- visualize this flow
+- architecture diagram
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-The SVG/PNG use clean mermaid style; the
-.excalidraw carries the hand-drawn aesthetic. Fully offline.
-Use when asked to "make a diagram", "draw the architecture", "create a
-flowchart", "diagram this", or "visualize this flow".
 
 ## Preamble (run first)
 
@@ -62,6 +56,10 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 ## Skill Invocation During Plan Mode
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
+
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 

@@ -2,7 +2,7 @@
 name: gstack
 preamble-tier: 1
 version: 1.2.0
-description: "为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。"
+description: 为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。
 allowed-tools:
   - Bash
   - Read
@@ -11,6 +11,9 @@ triggers:
   - gstack
   - which gstack skill
   - route this with gstack
+title: 技能：Gstack
+github_url: https://github.com/garrytan/gstack
+github_hash: 65bfb0ce49da807698359ca033a05709e342c684
 ---
 
 {{PREAMBLE}}
@@ -58,6 +61,7 @@ quality gates that produce better results than answering inline.
 - User asks to test the site, find bugs, QA, "does this work", "check the deploy" → invoke `/qa`
 - User asks to just report bugs without fixing → invoke `/qa-only`
 - User asks to review code, check the diff, pre-landing review, "look at my changes" → invoke `/review`
+- User asks to find code worth sharing, shared-code extractions, or duplication worth consolidating → invoke `/deslop-shared-libs`
 - User asks about visual polish, design audit of a live site, "this looks off" → invoke `/design-review`
 - User asks to audit the live developer experience, time-to-hello-world → invoke `/devex-review`
 - User asks to ship, deploy, push, create a PR, "let's land this", "send it" → invoke `/ship`

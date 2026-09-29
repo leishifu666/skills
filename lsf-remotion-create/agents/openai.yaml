@@ -1,0 +1,7 @@
+interface:
+  display_name: 'LSF Remotion 视频创建'
+  short_description: '创建 Remotion 视频项目与合成'
+  icon_small: './assets/remotion-icon.svg'
+  icon_large: './assets/remotion-icon.svg'
+  brand_color: '#0B84F3'
+  default_prompt: '$lsf-remotion-create: 为我的产品制作一支宣传视频。'

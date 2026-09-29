@@ -1,8 +1,7 @@
 ---
 name: gstack-upgrade
-title: 技能：Gstack Upgrade
 version: 1.1.0
-description: "检查或更新已安装的 gstack；用户要求升级时使用，先保全本地定制。"
+description: 检查或更新已安装的 gstack；用户要求升级时使用，先保全本地定制。
 triggers:
 - upgrade gstack
 - update gstack version
@@ -12,19 +11,10 @@ allowed-tools:
 - Read
 - Write
 - AskUserQuestion
+title: 技能：Gstack Upgrade
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Detects global vs vendored install,
-runs the upgrade, and shows what's new. Use when asked to "upgrade gstack",
-"update gstack", or "get latest version".
-
-Voice triggers (speech-to-text aliases): "upgrade the tools", "update the tools", "gee stack upgrade", "g stack upgrade".
 
 # /gstack-upgrade
 
@@ -64,9 +54,9 @@ _SNOOZE_FILE="$HOME/.gstack/update-snoozed"
 _REMOTE_VER="{new}"
 _CUR_LEVEL=0
 if [ -f "$_SNOOZE_FILE" ]; then
-  _SNOOZED_VER=$(awk '{print $1}' "$_SNOOZE_FILE")
+  _SNOOZED_VER=$(awk '{print $(1)}' "$_SNOOZE_FILE")
   if [ "$_SNOOZED_VER" = "$_REMOTE_VER" ]; then
-    _CUR_LEVEL=$(awk '{print $2}' "$_SNOOZE_FILE")
+    _CUR_LEVEL=$(awk '{print $(2)}' "$_SNOOZE_FILE")
     case "$_CUR_LEVEL" in *[!0-9]*) _CUR_LEVEL=0 ;; esac
   fi
 fi

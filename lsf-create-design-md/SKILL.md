@@ -1,17 +1,17 @@
 ---
 name: lsf-create-design-md
-title: LSF Create 设计 MD
-description: 根据现有产品仓库或公开网站创建或更新 DESIGN.md。适用于整理界面设计语言、重建设计系统、提取设计令牌，或为编码助手提供持续 UI
-  上下文；不会修改产品源代码。
+metadata:
+  title: LSF Create 设计 MD
+description: 根据现有产品仓库或公开网站创建或更新 DESIGN.md 与对应的 DESIGN.html 交互预览。适用于整理设计令牌、按钮状态、hover 效果与动效规范，为编码助手提供持续 UI 上下文；不会修改产品源代码。
 ---
 
 # Create DESIGN.md
 
-Create a `DESIGN.md` for one product or coherent website. Record the design language that governs it, not every value that happens to exist.
+Create a `DESIGN.md` and matching `DESIGN.html` for one product or coherent website. Record its visual language, interaction states, and motion behavior, not just static tokens. Honor a request for documentation only or a different preview filename.
 
 ## Boundaries
 
-- Modify only `DESIGN.md`. Do not change product source, dependencies, configuration, or generated files.
+- Modify only `DESIGN.md` and its standalone HTML preview. Do not change product source, dependencies, or configuration. Keep temporary validation artifacts outside tracked deliverables.
 - Use the DESIGN.md format contract below. Do not invent a competing schema.
 - Do not copy every discovered token or component into the document.
 - Do not convert repetition, local styling, or visual preference into product intent.
@@ -51,9 +51,10 @@ role → value → source → scope → recurrence → confidence
 1. Collect evidence using the selected mode.
 2. Record the source, scope, and recurrence for each candidate.
 3. Normalize candidates into the DESIGN.md schema.
-4. Omit candidates that are uncertain, local without a contract, or not implementation-relevant.
+4. Omit uncertain or irrelevant candidates. Preserve evidenced component-local interactions with their scope instead of promoting them to global rules or silently dropping them.
 5. Validate frontmatter shape and export compatibility.
 6. Write Markdown only after the normalized frontmatter passes.
+7. Build the HTML preview from the documented behavior and verify the correspondence in a browser.
 
 Never let repository or URL evidence introduce a second token schema. The same flat token names, mapping-shaped typography, omission rules, and export gates apply to both modes.
 
@@ -78,6 +79,8 @@ In URL mode, sample representative elements for:
 - spacing and layout
 - borders, radii, and elevation
 - navigation, buttons, inputs, cards, and repeated content structures
+- hover, keyboard focus, pressed, selected, disabled, loading, and open/closed states where implemented
+- transition and animation triggers, properties, timing, easing, sequencing, and exit behavior
 - desktop and mobile presentation
 
 Prefer computed values and loaded CSS declarations over visual estimation.
@@ -93,6 +96,18 @@ For every URL-mode claim, require all three proofs before writing it:
 3. Consequence: it changes a concrete implementation choice in DESIGN.md.
 
 If any proof is missing, omit the claim. Do not turn a visual impression into a token, a single occurrence into a site-wide rule, or a guessed value into YAML. Exact values require computed styles or loaded CSS; otherwise describe the role without a value or omit it.
+
+### Interaction and motion evidence
+
+Audit interaction and motion as part of the design system, even when no shared motion tokens exist. Follow live consumers into CSS pseudo-classes, component state, event handlers, SVG animation, and animation-library configurations; imported styles alone do not establish which behavior runs.
+
+- For buttons, links, navigation, toggles, and other audited controls, inspect default, hover, focus-visible, pointer/key press, active/selected, disabled, loading, and open/closed states as applicable. Distinguish momentary press from persistent selection. Record the action and resulting state, visual feedback, and how the control returns or exits.
+- For each evidenced transition or animation, record its trigger, target, changed properties, start/end values, duration, delay, easing or spring parameters, sequence/stagger, repeat behavior, and cancellation/reversal on exit or repeated input. Include scroll, drag, reveal, and continuous motion when the audited product uses them.
+- Record implemented keyboard/touch behavior, focus movement, and reduced-motion behavior. Hover must not be described as available on touch devices without evidence. Do not invent accessibility behavior that the product lacks; report missing or unverified support outside the document.
+- In repository mode, source declarations establish exact values; browser interaction verifies that the state is reachable and behaves as described. In URL mode, inspect before/during/after states and pair observations with computed transitions, animations, or publicly loaded declarations. Do not estimate milliseconds, curves, or spring settings from screenshots.
+- In the private evidence ledger, mark candidate states as implemented, absent/not applicable, or unverified. Publish supported behavior only, and report material coverage gaps. Do not silently omit hover or motion because they are not exportable tokens.
+
+Use a compact record: `scope / control → trigger or state → visual and action result → motion parameters → exit, interruption, and input adaptations`. A distinctive page-local interaction belongs under that named page or component; it is not a site-wide rule.
 
 ## 3. Decide what belongs
 
@@ -118,11 +133,11 @@ npx @google/design.md spec
 
 If the specification supports `themes` and `default-theme`, use its theme-aware token syntax. Otherwise, put the default-theme value under each canonical semantic token and preserve exact alternate-theme values in a `## Themes` table. Do not create parallel `-light` and `-dark` token names, discard alternate-theme values, or use unreleased syntax. A fallback Themes table is documentation only; do not pretend it makes the frontmatter theme-aware.
 
-In repository mode, every prose rule must be supported by explicit guidance, a named shared token or variant, or a shared owner used by at least two audited surfaces. Otherwise omit it.
+In repository mode, a site-wide prose rule must be supported by explicit guidance, a named shared token or variant, or a shared owner used by at least two audited surfaces. Component-local interaction and motion contracts may be documented from the active implementation when explicitly scoped to their page, control, and variant. Otherwise omit the claim.
 
 In URL mode, every prose rule must be directly observable. A site-wide rule must recur across at least two sampled templates; otherwise scope it to the inspected page. Use reconstructed role-based names and label the document as a draft.
 
-URL-mode YAML is intentionally sparse, but not empty when measured evidence exists. Add a category when at least one supported value or role survives the three-proof gate. Colors may use computed values or verified public custom properties, but must remain flat and export-safe; typography must use canonical fields such as `fontFamily`, `fontSize`, `lineHeight`, and `fontWeight`; rounded and spacing values must come from computed styles or loaded declarations. Do not create aliases such as `primary`, `elevated`, or `display` merely to organize observations. A component section requires the same interaction or surface treatment to recur across at least two sampled pages and to change a concrete implementation choice.
+URL-mode YAML is intentionally sparse, but not empty when measured evidence exists. Add a category when at least one supported value or role survives the three-proof gate. Colors may use computed values or verified public custom properties, but must remain flat and export-safe; typography must use canonical fields such as `fontFamily`, `fontSize`, `lineHeight`, and `fontWeight`; rounded and spacing values must come from computed styles or loaded declarations. Do not create aliases such as `primary`, `elevated`, or `display` merely to organize observations. A site-wide component rule requires recurrence across at least two sampled templates; a measured single-page interaction may be recorded with explicit page/component scope.
 
 URL reconstruction does not change the frontmatter schema. Use only these typography property names: `fontFamily`, `fontSize`, `lineHeight`, `fontWeight`, and `letterSpacing`. For example:
 
@@ -195,11 +210,15 @@ Start with `## Overview`. State only the product's purpose and evidenced design 
 
 Do not create a section merely because it exists in the format. Do not reorder or duplicate included sections. Add an unknown section only when supported guidance cannot fit a standard section.
 
-Markdown records design intent and application guidance. Except for the fallback `## Themes` table, do not put token inventories, component configuration, source syntax, or documentation methodology in Markdown.
+Markdown records design intent and application guidance. Under `## Components`, include `### Interaction states` and `### Motion` when evidenced behavior exists. Use scoped state/behavior tables or concise per-component contracts, not a component inventory. Keep source code and documentation methodology out of the document.
+
+An interaction entry must tell a builder which control/state it covers, how it is triggered, what visibly changes, what action or state change results, and how it exits. A motion entry must include the evidenced properties, endpoints, timing, easing, and replay/exit behavior needed to reproduce it. “Has hover effects” or “animates smoothly” is insufficient.
+
+Keep static token values in YAML and reference them from the behavior description. When the installed schema or exporter cannot represent interaction/motion parameters, preserve exact evidenced values in these scoped Markdown tables; this exception includes state-specific transforms, opacity, stroke, and other necessary endpoints. Do not invent top-level `motion` or `interactions` YAML groups, use unsupported component fields, or disguise timing as spacing tokens. These tables are normative behavior documentation, not exported design tokens.
 
 Include a Don't only when a governing source states an explicit prohibition.
 
-- Put exact normative values in YAML frontmatter, except alternate-theme values when the installed specification cannot represent modes.
+- Put exact normative token values in YAML frontmatter, with the documented exceptions for alternate-theme tables and scoped interaction/motion parameters unsupported by the installed schema.
 - Put supported rationale and application guidance in Markdown.
 - Preserve accepted decisions from an existing `DESIGN.md` unless the user or current governing evidence replaces them.
 - Do not invent brand personality, audience, or emotional rationale.
@@ -211,13 +230,23 @@ Before saving, delete:
 - any page-local behavior presented as a product-wide rule
 - any implementation pattern that conflicts with explicit guidance
 - any prohibition not explicitly stated
-- any exact implementation value outside YAML frontmatter or the fallback `## Themes` table
-- any component configuration or documentation methodology in Markdown
+- any exact implementation value outside YAML frontmatter, the fallback `## Themes` table, or the scoped interaction/motion contracts
+- copied implementation code, component inventories, or documentation methodology in Markdown
 - any sentence that does not change the resulting DESIGN.md
 
 Run one final no-op pass: remove vague advice such as “be thorough,” “keep it polished,” or “use good judgment.” Keep only evidence gates, schema constraints, or application rules that change the document.
 
-## 5. Validate
+## 5. Build the HTML preview
+
+Create or update `DESIGN.html` beside `DESIGN.md`, unless the user requested documentation only. Use the existing product's assets, typefaces, and visual language. Keep preview controls and layout distinct from the product's canonical tokens; do not turn the guide's own styling into new product rules.
+
+- Show color/theme and typography samples alongside interactive specimens of the documented controls. Make evidenced hover, focus, press, selected, disabled/loading, and open/closed states reachable; provide state controls when a natural trigger is unavailable in an isolated specimen.
+- Replay documented motion with the same verified properties, endpoints, timing, easing, and exit behavior. Preserve distinct variants instead of substituting one generic CSS hover animation for different implementations. Add replay/reset controls where useful.
+- Provide desktop and mobile examples where behavior changes. For menus and overlays, demonstrate the documented opening/closing and focus behavior. Make the preview controls themselves keyboard accessible and honor reduced motion; do not imply that preview-only accommodations already exist in the product.
+- Keep the HTML and Markdown in sync: every product specimen maps to a documented contract, and important documented interaction/motion families have a working specimen. A simplified or unavailable demonstration must be labeled and reported; it does not count as a verified reproduction.
+- Prefer self-contained HTML/CSS/JS with local asset references and no new runtime dependency. Make it openable directly when practical; otherwise provide the working local preview URL. Preserve existing preview work, and do not publish the guide without user authorization.
+
+## 6. Validate
 
 Run structural linting:
 
@@ -243,14 +272,19 @@ npx @google/design.md diff <previous-file> DESIGN.md
 
 Restore any removed accepted decision unless current governing evidence or the user explicitly replaces it.
 
-## 6. Report
+After lint/export, check interaction coverage against the private evidence ledger. Lint/export validate token structure, not hover, button actions, or motion. Confirm supported behavior remains in Markdown even when it cannot be exported.
+
+For an HTML deliverable, use a browser to inspect desktop and mobile layouts, assets/fonts, and console errors. Exercise hover and focus separately, click or key activation, applicable disabled/loading states, toggles, and open/close behavior. Verify motion against the documented timing, easing, and endpoints, including repeated triggers or reversal where implemented; a screenshot alone does not verify animation. Check reduced-motion mode and capture representative states. Fix preview mismatches before delivery; report any source behavior or preview state that could not be verified without claiming success.
+
+## 7. Report
 
 Return:
 
 - mode and audited product or URL
-- created or updated `DESIGN.md`
+- created or updated `DESIGN.md` and `DESIGN.html`, with a usable preview link when generated
 - governing sources used
 - conflicts or unsupported areas omitted from the document
 - final lint and export results
+- interaction states, hover effects, and motion covered; browser verification results and any unverified or simplified demonstrations
 
 In URL mode, label the output as a reconstructed draft.

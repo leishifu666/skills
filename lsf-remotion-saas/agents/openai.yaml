@@ -1,0 +1,7 @@
+interface:
+  display_name: 'LSF Remotion 应用架构'
+  short_description: '构建可预览和渲染视频的应用'
+  icon_small: './assets/remotion-icon.svg'
+  icon_large: './assets/remotion-icon.svg'
+  brand_color: '#0B84F3'
+  default_prompt: '$lsf-remotion-saas: 把我的视频制作流程做成应用。'

@@ -1,0 +1,7 @@
+interface:
+  display_name: 'LSF Remotion 地图动画'
+  short_description: '为 Remotion 视频制作动态地图'
+  icon_small: './assets/remotion-icon.svg'
+  icon_large: './assets/remotion-icon.svg'
+  brand_color: '#0B84F3'
+  default_prompt: '$lsf-remotion-maps: 制作苏黎世到纽约的移动轨迹动画。'

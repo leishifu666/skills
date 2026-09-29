@@ -2,30 +2,6 @@
 
 ## NEXT PRIORITY
 
-### Reconcile the registered Opus 4.7 overlay efficacy gates
-
-**What:** Revisit the two registered fanout experiments against the current overlay
-and record an evidence-based decision about their intended effect before release.
-
-**Why:** The paid gates require a fanout lift of at least 0.5, but the overlay's
-fanout nudge was removed in v1.10.1.0 after it reduced parallel tool use. Keeping
-an unsupported effect expectation makes the periodic suite fail without showing
-a regression in harness-aware outside reviews.
-
-**Context:** Found on `edinburgh-v1` during the 2026-09-09 ship eval. Both selected
-`overlay-harness-opus-4-7-fanout-{toy,realistic}` cases failed through their retry
-(`Expected: true; Received: false`). Correcting fragmented SDK message counting
-still yields zero lift: toy ON/OFF = 3/3 tools; realistic ON/OFF = 4/4, across
-10 saved trials per arm. The selected experiment inputs match `origin/main`
-`71f6048e8ada25180e61438abc1d98cb151fe9a7`; no paid base-branch run was performed.
-See the completed "Overlay efficacy harness + Opus 4.7 fanout nudge removal"
-entry below and `test/fixtures/overlay-nudges.ts`. The current failure remains
-reported; no effect threshold, model, overlay text, or pass result was changed.
-
-**Effort:** M
-**Priority:** P0
-**Depends on:** None
-
 ### P2/P3: impeccable interop deferrals (filed 2026-09-08, from the CEO + eng reviews of docs/designs/IMPECCABLE_INTEROP.md)
 
 Each item was weighed during the review and deferred with a reason; none blocks
@@ -196,10 +172,6 @@ wave"). Each was explicitly deferred with rationale, not dropped:
   the harness-pinned agent-sdk) carry `ignoreUntil` expiries (~2026-11-30) and
   re-justify themselves on expiry. When the agent-sdk pin next moves, drop the
   GHSA-p7fg ignore. Effort S. **Priority:** P3.
-- **#2701 cookie-import profile pills (Local State info_cache)** — confirmed
-  bug + minimal fix known, but PR #2658 rewrites the same file; land or
-  reject #2658 first, then apply the info_cache read + numeric-aware sort.
-  Effort S. **Priority:** P3. **Blocked by:** #2658 disposition.
 - **#2750 split absorption** — the record-scanning Codex JSONL parser (real
   fix; current Codex streams interleave envelopes so sessions vanish from
   /retro global) should be absorbed once the author splits it from the
@@ -273,9 +245,10 @@ global-path registration + re-point). Remaining:
   update the locale pin test. Filed via /ship review army (maintainability).
   **Priority:** P3. Effort S.
 - **Accepted threat-model notes (documented, no action planned):**
-  redact-prepush treats content pushed to ANY private remote as already-left
-  (accident-only threat model); a parcel-shaped twin within 400 chars can
-  suppress phone redaction (WARN-tier pattern, attacker-influence accepted);
+  redact-prepush's no-argv compatibility mode retains all-remotes exclusions;
+  installed hooks bind scans to the actual destination. A parcel-shaped twin
+  within 400 chars can suppress phone redaction (WARN-tier pattern,
+  attacker-influence accepted);
   codex-probe's 400-signature grep can misread a transient proxy 400 as
   MODEL_UNUSABLE (bounded by the 15-min negative-cache TTL).
 
@@ -340,9 +313,11 @@ silent regression:
   by test/setup-playwright-best-effort.test.ts (fork-port Wave A). Still
   unpinned: `_clear_playwright_quarantine` (the P0 #2554 heal's shell half).
   Effort S.
-- **redact-prepush `scanAddedLines` slicing** — the >1MiB catch-up-diff chunk
-  path (the reason the function exists) is unexercised; a regression
-  reintroduces blocking-while-unscanned. Effort S.
+- **redact-prepush `scanAddedLines` slicing** — the >1MiB chunk path was
+  unexercised at v1.67. Installed-hook controls in
+  test/redact-prepush-target.test.ts now cover large clean diffs, seam
+  proximity/normalization, duplicate findings, and long-line refusal
+  (v1.88.1.0).
 - **supabase telemetry-ingest edge function** — zero tests; producer caps at
   200 chars vs ingest's 500 (dead server cap); no column↔migration pin.
 - **gbrain-repo-policy-client** — no direct test file; the spawn-failed vs
@@ -798,6 +773,81 @@ audit trail lives in Aside.
 **Effort:** S (human ~half day / CC+gstack ~20 min)
 **Priority:** P3
 **Depends on:** None.
+
+## Browser cookie import follow-ups (filed via /autoplan on the Windows Opera fix wave, #2980/#2957)
+
+### P2: Preserve receipts when key acquisition fails in a mixed batch
+
+**What:** `importCookies` derives the key for the whole batch before the row loop, so one v10 row plus a DPAPI/Keychain failure throws a typed key error and loses plaintext and App-Bound counts for the other rows.
+
+**Why:** A mixed plaintext + v20 + v10 batch with an unavailable key reports only the key error; recoverable plaintext cookies and the unsupported-encryption count disappear.
+
+**Context:** Raised by the outside Eng voice. Deferred because turning a thrown typed key error into partial receipts changes a cross-platform contract, including macOS Keychain "click Allow and retry" prompts. Start at `getDerivedKeys` call in `browse/src/cookie-import-browser.ts` `importCookies`.
+
+**Effort:** M (human ~1 day / CC+gstack ~30 min). **Priority:** P2.
+**Depends on:** a decision on how retry-able key errors surface in a receipt.
+
+### P3: Use the SHA-256(host_key) check on the macOS/Linux CBC path
+
+**What:** The CBC branch of `decryptCookieValue` always drops 32 bytes; databases older than Chromium meta version 24 have no prefix, so their values lose 32 real bytes.
+
+**Why:** Same correctness rule the Windows GCM branch now uses (strip only when the first 32 bytes equal SHA-256(host_key)).
+
+**Context:** Found during the Opera wave's Eng review; affects only old profiles. yt-dlp keys this on `meta.version >= 24`.
+
+**Effort:** S (human ~2 h / CC+gstack ~10 min). **Priority:** P3.
+**Depends on:** nothing.
+
+### P3: macOS and Linux Opera / Opera GX cookie import
+
+**What:** Register Opera on macOS (`~/Library/Application Support/com.operasoftware.Opera`, GX `com.operasoftware.OperaGX`) and Linux (`~/.config/opera`).
+
+**Why:** Opera users off Windows get "available on Windows only".
+
+**Context:** Paths from yt-dlp's `cookies.py`; Keychain service and libsecret application names are unverified. Needs a person on each OS.
+
+**Effort:** M (human ~1 day / CC+gstack ~30 min plus hardware verification). **Priority:** P3.
+**Depends on:** a tester on macOS and Linux.
+
+### P3: Opera Beta/Developer and Opera GX channel directories
+
+**What:** Detect `Opera Next`/`Opera Developer`/GX beta user-data directories.
+
+**Why:** Channel users are currently "not found".
+
+**Context:** Directory names are unverified; add registry rows once confirmed on hardware.
+
+**Effort:** S. **Priority:** P3. **Depends on:** confirmed directory names.
+
+### P3: Opera side profiles (`_side_profiles/<id>/`)
+
+**What:** Opera GX stores extra profiles under `<root>\_side_profiles\<id>\`, which `listProfiles`, `validateProfile` and the native profile regex do not accept.
+
+**Why:** Side-profile users only see their main profile.
+
+**Context:** Needs a profile-naming rule beyond `Default`/`Profile N` and an account-selection safety review.
+
+**Effort:** M. **Priority:** P3. **Depends on:** a real side-profile layout sample.
+
+### P3: Legacy root-level Opera layouts
+
+**What:** Older Opera stored cookies at `<root>\Network\Cookies` with no `Default\`.
+
+**Why:** Old installs report "not found".
+
+**Context:** Cut from the wave by both CEO voices: a stale root DB can be imported as the wrong account when side profiles or a migrated `Default\` exist. Sources: yt-dlp, forensics guides. Build only on a real report, with stale-root/side-profile coexistence tests.
+
+**Effort:** S-M. **Priority:** P3. **Depends on:** a user report with this layout.
+
+### P3: User-supplied Chromium user-data path option
+
+**What:** A yt-dlp-style `chrome:PATH` option for portable or relocated installs and unlisted forks.
+
+**Why:** Each new fork currently needs a registry change and a release.
+
+**Context:** `ARCHITECTURE.md` prefers a hardcoded registry for safety; needs a threat review (arbitrary paths, key sources) before building.
+
+**Effort:** M. **Priority:** P3. **Depends on:** threat review.
 
 ## Test infrastructure
 
@@ -3607,6 +3657,46 @@ needs one paid run to validate, so it didn't ride the ship.
 **Effort:** S (human ~2h, CC ~15min + one paid run).
 
 ## Completed
+
+### #2701 cookie-import profile pills (Local State info_cache)
+
+Current Local State names take precedence, Preferences/directory fallbacks remain,
+and Default sorts before numbered profiles in numeric order. Directory labels
+distinguish duplicate names.
+
+**Completed:** v1.90.0.0 (2026-09-24)
+
+### Reconcile the registered Opus 4.7 overlay efficacy gates
+
+**What:** Revisit the two registered fanout experiments against the current overlay
+and record an evidence-based decision about their intended effect before release.
+
+**Why:** The paid gates require a fanout lift of at least 0.5, but the overlay's
+fanout nudge was removed in v1.10.1.0 after it reduced parallel tool use. Keeping
+an unsupported effect expectation makes the periodic suite fail without showing
+a regression in harness-aware outside reviews.
+
+**Context:** Found on `edinburgh-v1` during the 2026-09-09 ship eval. Both selected
+`overlay-harness-opus-4-7-fanout-{toy,realistic}` cases failed through their retry
+(`Expected: true; Received: false`). Correcting fragmented SDK message counting
+still yields zero lift: toy ON/OFF = 3/3 tools; realistic ON/OFF = 4/4, across
+10 saved trials per arm. The selected experiment inputs match `origin/main`
+`71f6048e8ada25180e61438abc1d98cb151fe9a7`; no paid base-branch run was performed.
+See the completed "Overlay efficacy harness + Opus 4.7 fanout nudge removal"
+entry below and `test/fixtures/overlay-nudges.ts`. The current failure remains
+reported; no effect threshold, model, overlay text, or pass result was changed.
+
+**Effort:** M
+**Priority:** P0
+**Depends on:** None
+
+**Completed:** v1.87.5.0 (2026-09-15)
+
+**Policy disposition:** Contract v2 retires the unsupported fanout experiments and
+records comparative efficacy separately from supported behavior checks. Historical
+failures retain their original verdicts; this closes policy reconciliation only,
+without claiming positive efficacy or paid acceptance. See
+`docs/OVERLAY_BENCHMARK_CONTRACT.md`.
 
 ### Codex→Claude reverse buddy check skill
 

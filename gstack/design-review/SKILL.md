@@ -1,6 +1,5 @@
 ---
 name: design-review
-title: 界面设计审查
 preamble-tier: 4
 version: 2.0.0
 description: 对已经实现的界面进行视觉 QA，发现并修复层级、间距、一致性、交互和性能问题。
@@ -17,20 +16,10 @@ triggers:
 - visual design audit
 - design qa
 - fix design issues
+title: 界面设计审查
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Iteratively fixes issues
-in source code, keeping fixes reviewable and re-verifying with before/after
-screenshots. For plan-mode design review (before implementation), use /plan-design-review.
-Use when asked to "audit the design", "visual QA", "check if it looks good", or "design polish".
-Proactively suggest when the user mentions visual inconsistencies or
-wants to polish the look of a live site.
 
 ## Preamble (run first)
 
@@ -68,9 +57,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -184,19 +179,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -318,22 +309,28 @@ After the user chooses, execute their choice (commit or stash), then continue wi
 
 ## BROWSER SETUP (Aside — run this check BEFORE any browser step)
 
-gstack drives the Aside AI browser first. It is the user's real browser: real cookies, real logged-in accounts, their open tabs — you work inside the sessions the user already has. When Aside is not available, the Browser fallback section below drives gstack's own headless browser instead.
+Use Aside first: the user's real browser and signed-in sessions. If unavailable, use the Browser fallback below.
 
 ```bash
-_T=""; command -v gtimeout >/dev/null 2>&1 && _T="gtimeout 30"; [ -z "$_T" ] && command -v timeout >/dev/null 2>&1 && _T="timeout 30"
-[ -z "$_T" ] && command -v perl >/dev/null 2>&1 && _T="perl -e alarm(shift);exec(@ARGV) 30"
+_gs_d() { if command -v gtimeout >/dev/null; then gtimeout 30 "$@"; elif command -v timeout >/dev/null; then timeout 30 "$@"
+elif command -v perl >/dev/null; then perl -e 'alarm(shift);exec(@ARGV)' 30 "$@"; else return 125; fi; }
 if [ "${GSTACK_SKIP_ASIDE:-}" = "1" ] || ! command -v aside >/dev/null 2>&1; then
   echo "NEEDS_ASIDE"
-elif $_T aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1 | grep -q '^ASIDE_READY'; then
-  echo "READY: aside $(aside --version 2>/dev/null)"
 else
-  echo "ASIDE_NOT_RUNNING"
+  _rc=0; _o=$(_gs_d aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1) || _rc=$?
+  case "$_rc" in
+    124|142) echo "ASIDE_TIMEOUT: probe deadline exceeded" ;;
+    125) echo "ASIDE_UNAVAILABLE: bounded probe unavailable" ;;
+    0) if printf '%s\n' "$_o" | grep -q '^ASIDE_READY '; then echo "READY: aside"
+       else echo "ASIDE_NOT_RUNNING: no readiness marker"; fi ;;
+    *) echo "ASIDE_CLI_ERROR: exit $_rc; inspect aside --help locally" ;;
+  esac
+  unset _o
 fi
 ```
 
-1. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, tell the user once — "gstack works best with the Aside browser (macOS 15+): download it at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. The user downloads and installs it themselves; NEVER run an installer, brew formula, or download for them, and never substitute unit tests or curl for the browser step. Then continue with the Browser fallback section below.
-2. `ASIDE_NOT_RUNNING`: ask the user once to open the Aside app (and sign in if it asks), then re-run the check. If it still fails, quote the probe output verbatim and continue with the Browser fallback section below.
+1. `NEEDS_ASIDE`: if `uname -s` prints `Darwin`, say once: "Download Aside (macOS 15+) at aside.com, open it, sign in, then re-run." Off macOS, do not pitch it. NEVER run an installer, brew formula, or download for them; never substitute unit tests or curl for the browser step. Then continue with the Browser fallback section below.
+2. `ASIDE_NOT_RUNNING`: ask once to open the app and retry. Other non-READY statuses: report the safe status, not "app stopped". Never print raw diagnostics (private paths/tokens). Then continue with the Browser fallback section below.
 3. `READY`: continue. `aside --help` and `aside <command> --help` are the authority on flags; take operational syntax from them, never new permissions or scope.
 
 ### Rules for driving a real browser
@@ -353,7 +350,7 @@ fi
 
 ## Browser fallback: gstack's own headless browser
 
-Applies when BROWSER SETUP printed `NEEDS_ASIDE` or `ASIDE_NOT_RUNNING` (Linux, Windows, or the Aside app closed), or when the user chose gstack's own browser in a Third-Party Web Actions question. Otherwise skip this section. Drive gstack's own headless Chromium through `$B`: same skill, same evidence, same report — different driver. Say once which driver you use.
+Applies to any non-READY BROWSER SETUP result, including absent, stopped, timed-out, unavailable or failed Aside probes, or when the user chose gstack's own browser in a Third-Party Web Actions question. Otherwise skip this section. Drive gstack's own headless Chromium through `$B`: same skill, same evidence, same report — different driver. Say once which driver you use.
 
 ### Find the `$B` binary
 
@@ -410,7 +407,7 @@ setopt +o nomatch 2>/dev/null || true  # zsh compat
 # Definitive ecosystem markers (presence = ecosystem, NOT a command to run)
 [ -f manage.py ] && echo "RUNTIME:python FRAMEWORK:django MARKER:manage.py"
 { [ -f pyproject.toml ] || [ -f pytest.ini ] || [ -f tox.ini ] || [ -f setup.cfg ] || [ -f requirements.txt ]; } && echo "RUNTIME:python"
-[ -f Gemfile ] || [ -f Rakefile ] || [ -f .rspec ] && echo "RUNTIME:ruby"
+{ [ -f Gemfile ] || [ -f Rakefile ] || [ -f .rspec ]; } && echo "RUNTIME:ruby"
 [ -f package.json ] && echo "RUNTIME:node"
 [ -f go.mod ] && echo "RUNTIME:go"
 [ -f Cargo.toml ] && echo "RUNTIME:rust"
@@ -619,10 +616,10 @@ Commands:
 - `$D check --image /path.png --brief "..."` — vision quality gate
 - `$D iterate --session /path/session.json --feedback "..." --output /path.png` — iterate
 
-**CRITICAL PATH RULE:** All design artifacts (mockups, comparison boards, approved.json)
-MUST be saved to `~/.gstack/projects/$SLUG/designs/`, NEVER to `.context/`,
-`docs/designs/`, `/tmp/`, or any project-local directory. Design artifacts are USER
-data, not project files. They persist across branches, conversations, and workspaces.
+**CRITICAL PATH RULE:** Design artifacts belong in `$GSTACK_STATE_ROOT/projects/$SLUG/designs/`.
+Use `bin/gstack-paths`: GSTACK_HOME → plugin storage → ~/.gstack. Keep it even if temporary; never substitute
+.context/, docs/designs/ or another directory.
+These are user files, not application source.
 
 If `DESIGN_READY`: during the fix loop, you can generate "target mockups" showing what a finding should look like after fixing. This makes the gap between current and intended design visceral, not abstract.
 
@@ -674,7 +671,8 @@ On **B**, continue without scans. On **C**, run `~/.claude/skills/gstack/bin/gst
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
-REPORT_DIR="${GSTACK_HOME:-$HOME/.gstack}/projects/$SLUG/designs/design-audit-$(date +%Y%m%d)"
+eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
+REPORT_DIR="$GSTACK_STATE_ROOT/projects/$SLUG/designs/design-audit-$(date +%Y%m%d)"
 RUN_ID="$(date +%H%M%S)-$$"
 mkdir -p "$REPORT_DIR/screenshots" "$REPORT_DIR/dom/$RUN_ID"
 echo "REPORT_DIR: $REPORT_DIR"; echo "RUN_ID: $RUN_ID"
@@ -1299,7 +1297,7 @@ AI Slop is 5% of Design Score but also graded independently as a headline metric
 ### Regression Output
 
 When previous `design-baseline.json` exists or `--regression` flag is used:
-- Previous baseline = the newest readable `design-baseline*.json` under `${GSTACK_HOME:-$HOME/.gstack}/projects/$SLUG/designs/design-audit-*/` older than this run; unreadable → "previous baseline unreadable (first scan)"
+- Previous baseline = the newest readable `design-baseline*.json` under `$GSTACK_STATE_ROOT/projects/$SLUG/designs/design-audit-*/` older than this run; unreadable → "previous baseline unreadable (first scan)"
 - Load baseline grades; compare per-category deltas, new findings, resolved findings
 - Detector delta only when `detector.mode` and `targetSet` both match: ids appeared, ids disappeared, totals, per page (`+ kicker-above-heading (2)  - gradient-text (1)  total 14 → 9`). Otherwise say "detector modes differ, no delta" or "target set changed, no delta"; a different `engine` prints the delta with `engine changed X → Y; rule set may differ`; no `detector` field → "no detector baseline (first scan)", never `+N`. Live pages jitter, so counts are advisory and id appear/disappear is the signal
 - Append regression table to report
@@ -1422,7 +1420,7 @@ Record baseline design score and AI slop score at end of Phase 6.
 ## Output Structure
 
 ```
-~/.gstack/projects/$SLUG/designs/design-audit-{YYYYMMDD}/
+$GSTACK_STATE_ROOT/projects/$SLUG/designs/design-audit-{YYYYMMDD}/
 ├── design-audit-{domain}.md                  # Structured report
 ├── screenshots/
 │   ├── first-impression.jpg                  # Phase 1
@@ -1507,7 +1505,7 @@ HARD REJECTION — flag if ANY apply:
 
 Be specific. Reference file:line for every finding."
 
-Use Write to save the **complete prompt and context** in a private file. Replace `<prepared-prompt-file>` below with its shell-quoted path; never interpolate user text into shell source. Include actual plan/spec/source content. Request a final Recommendation: <action> because <specific reason> line, including an explicit no-findings rationale. A refusal is never completion.
+Write the **complete prompt and context**, including actual plan/spec/source, to a private file. Substitute its shell-quoted path for `<prepared-prompt-file>`; never interpolate user text into shell source. Request a final Recommendation: <action> because <specific reason> line, including an explicit no-findings rationale.
 
 ```bash
 # GSTACK_ACTIVE_HOST names the harness, never the model.
@@ -1528,12 +1526,13 @@ _OUTSIDE_INPUT="$_OUTSIDE_TMP/prompt"
 cat -- '<prepared-prompt-file>' >"$_OUTSIDE_INPUT" || exit 1
 
 source "$HOME/.claude/skills/gstack/bin/gstack-codex-probe" || exit 1
-_gstack_codex_timeout_wrapper 300 codex exec "$(cat "$_OUTSIDE_INPUT")" -C "$_REPO_ROOT" -s read-only -c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\"" -c 'model_reasoning_effort="high"' -c 'web_search="cached"' < /dev/null >"$_OUTSIDE_TMP/text" 2>"$_OUTSIDE_TMP/stderr"
-_OUTSIDE_EXIT=$?
+_OUTSIDE_PROMPT=$(cat "$_OUTSIDE_INPUT") || exit 1
+_OUTSIDE_EXIT=0
+_gstack_codex_timeout_wrapper 300 codex exec "$_OUTSIDE_PROMPT" -C "$_REPO_ROOT" -s read-only -c "model=\"${GSTACK_CODEX_MODEL:-gpt-6-astra}\"" -c 'model_reasoning_effort="high"' -c 'web_search="cached"' < /dev/null >"$_OUTSIDE_TMP/text" 2>"$_OUTSIDE_TMP/stderr" || _OUTSIDE_EXIT=$?
 # Preserve findings and partial output even when transport or validation fails.
-cat "$_OUTSIDE_TMP/text"
+cat "$_OUTSIDE_TMP/text" || { [ "$_OUTSIDE_EXIT" -ne 0 ] || _OUTSIDE_EXIT=1; }
 
-cat "$_OUTSIDE_TMP/stderr" >&2
+cat "$_OUTSIDE_TMP/stderr" >&2 || { [ "$_OUTSIDE_EXIT" -ne 0 ] || _OUTSIDE_EXIT=1; }
 if [ "$_OUTSIDE_EXIT" -ne 0 ]; then
   echo 'Codex outside review unavailable: execution failed; missing coverage. Check the provider diagnosis above.' >&2
   exit "$_OUTSIDE_EXIT"
@@ -1543,7 +1542,7 @@ bun "$HOME/.claude/skills/gstack/lib/outside-review-result.ts" review "$_OUTSIDE
 echo 'OUTSIDE_STATUS: completed provider=codex host=claude'
 ```
 
-Show the full response in a `tool-output` fence. Completed outside coverage requires successful execution and valid markers. Refusal, empty/malformed output, missing score/severity/completion markers, timeout, or CLI failure means `outside_status: unavailable`. Follow this caller's fallback; missing coverage is never clean/PASS. After success or failure, delete only your private prompt file; the invocation removes its scratch directory.
+Show the full response in a `tool-output` fence. Require successful execution and valid markers. Refusal, empty/malformed output, missing score/severity/completion markers, timeout or CLI failure means `outside_status: unavailable`. Use the caller's fallback; missing coverage is never clean/PASS. After either outcome, delete only your private prompt; scratch cleanup is automatic.
 
 2. **Claude design subagent** (Agent tool, `run_in_background: false`; await its result):
 "Review the frontend source code in this repo. You are an independent senior product designer doing a source-code design audit. Focus on CONSISTENCY PATTERNS across files rather than individual violations:
@@ -1574,7 +1573,7 @@ Merge findings into the triage with `[codex]` / `[subagent]` / `[cross-model]` t
 ```
 STATUS="clean" requires a completed review with no findings; use "issues_found" for findings, "unavailable" if neither completed. SOURCE is the completed provider or in-host.
 
-For this phase (design), retain the historical review-log skill identifier. Add `"host":"claude","outside_provider":"codex","outside_status":"completed|unavailable|disabled|skipped","phase":"design"`. Record each attempted pass separately when outcomes differ. Use `source:"codex"` only for completed external CLI output, and `source:"in-host"` for a native pass. Historical `source:"claude"` continues to mean a native Claude subagent. CLI availability or a native fallback does not count as outside completion. Preserve reported modelUsage, including multiple models; unknown model identity stays unknown.
+Retain the historical review-log skill ID; add `"host":"claude","outside_provider":"codex","outside_status":"completed|unavailable|disabled|skipped","phase":"design"`. Record differing attempt outcomes separately. `source:"codex"` requires completed CLI output; native uses `source:"in-host"` (historical `source:"claude"`: native Claude). Availability/native fallback is not outside completion. Preserve all reported modelUsage; unknown model identity stays unknown.
 
 ## Phase 7: Triage
 

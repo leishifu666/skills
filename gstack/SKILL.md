@@ -1,11 +1,8 @@
 ---
 name: gstack
-title: 技能：Gstack
 preamble-tier: 1
 version: 1.2.0
-description: "为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。"
-github_url: https://github.com/garrytan/gstack
-github_hash: 85b8c038fc0002a1549789ea018e924c1d335de4
+description: 为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。
 allowed-tools:
 - Bash
 - Read
@@ -14,18 +11,12 @@ triggers:
 - gstack
 - which gstack skill
 - route this with gstack
+title: 技能：Gstack
+github_url: https://github.com/garrytan/gstack
+github_hash: 65bfb0ce49da807698359ca033a05709e342c684
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Sends any gstack request to the right skill
-(planning, review, QA, shipping, debugging, docs, security, design). For browser/QA
-and dogfooding it points you at /browse. Use when you invoke gstack without a specific
-skill, or ask "which gstack skill fits this?".
 
 ## Preamble (run first)
 
@@ -62,6 +53,10 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 ## Skill Invocation During Plan Mode
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
+
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
@@ -182,6 +177,7 @@ quality gates that produce better results than answering inline.
 - User asks to test the site, find bugs, QA, "does this work", "check the deploy" → invoke `/qa`
 - User asks to just report bugs without fixing → invoke `/qa-only`
 - User asks to review code, check the diff, pre-landing review, "look at my changes" → invoke `/review`
+- User asks to find code worth sharing, shared-code extractions, or duplication worth consolidating → invoke `/deslop-shared-libs`
 - User asks about visual polish, design audit of a live site, "this looks off" → invoke `/design-review`
 - User asks to audit the live developer experience, time-to-hello-world → invoke `/devex-review`
 - User asks to ship, deploy, push, create a PR, "let's land this", "send it" → invoke `/ship`

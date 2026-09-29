@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "scope": "Technique observations and original reusable recipes; not third-party media redistribution",
   "recipes": [
     {
@@ -56,7 +56,26 @@
         "产品界面"
       ],
       "licenseScope": "只复用动作关系与原创配方",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "输入区域太小，读字与镜头运动互相争夺注意",
+        "useWhen": [
+          "需要读懂真实输入，随后看提交或结果范围"
+        ],
+        "requiredAssets": [
+          "当前原生页面及输入事件",
+          "实际输入区域边界和镜头坐标"
+        ],
+        "avoidWhen": [
+          "只需识别成果，不需要读 UI",
+          "空间不足却继续加大缩放"
+        ],
+        "nextShot": [
+          "读屏后拉回同一次操作",
+          "停稳后硬切字卡，让文字解释下一步价值"
+        ]
+      },
+      "recipeType": "executable original GSAP function"
     },
     {
       "id": "same-object-handoff",
@@ -107,7 +126,26 @@
         "系统转场代码"
       ],
       "licenseScope": "研究观察与原创配方",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "同一作品从节点进入特写时看起来像换了一张图",
+        "useWhen": [
+          "前后镜头确实使用同一素材，需要说明空间来源"
+        ],
+        "requiredAssets": [
+          "同一素材 ID",
+          "两端图像边界、object-fit 和内部裁切"
+        ],
+        "avoidWhen": [
+          "两张图内容不同却假装同一对象",
+          "只是换主题，没有空间连续需求"
+        ],
+        "nextShot": [
+          "落稳看作品细节",
+          "保留可识别主角进入应用蒙太奇"
+        ]
+      },
+      "recipeType": "executable original GSAP function"
     },
     {
       "id": "directional-layer-pass",
@@ -164,7 +202,26 @@
         "完整镜头顺序"
       ],
       "licenseScope": "仅动作结构，媒体留本地研究库",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "相关作品逐张全屏播放，缺少关系和层次",
+        "useWhen": [
+          "同一案例的多个结果需要交代组合或选择关系"
+        ],
+        "requiredAssets": [
+          "相关作品组及共同主角",
+          "前后镜头焦点和方向"
+        ],
+        "avoidWhen": [
+          "每张都需要读大量文字",
+          "素材互不相关，只想用速度掩盖"
+        ],
+        "nextShot": [
+          "让一张主作品落稳",
+          "切到真实 UI 证明这一组如何得到"
+        ]
+      },
+      "recipeType": "executable original GSAP function"
     },
     {
       "id": "typing-send-breath",
@@ -221,7 +278,27 @@
         "未经授权音轨"
       ],
       "licenseScope": "工程事件与动作关系",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "文字还没看懂就发送，或者光标假点击后直接出现结果",
+        "useWhen": [
+          "输入与发送是这一镜的必要证据"
+        ],
+        "requiredAssets": [
+          "真实焦点、输入和提交路径",
+          "分组输入事件",
+          "待选授权键盘与接触采样"
+        ],
+        "avoidWhen": [
+          "文字实际为自动填充，却准备配逐键声",
+          "参考未看清就照抄每个停顿"
+        ],
+        "nextShot": [
+          "保持同一次提交进入运行反馈",
+          "反馈已成立后切主张字卡，声音尾部可延续"
+        ]
+      },
+      "recipeType": "planning example, not executable animation"
     },
     {
       "id": "pen-proof-intercut",
@@ -235,15 +312,15 @@
       "source": "https://x.com/tomkrcha/status/2100570466692071493",
       "timeRange": [
         15.5,
-        20.5
+        20.8
       ],
       "viewedRange": [
         0,
         33.130667
       ],
-      "sampleFps": 12,
-      "observationScope": "全片 1 fps；仅 15.5–20.5 秒 12 fps；未听审",
-      "observed": "片头把 Import 做成金属质感的独立物件，随后在界面、短句与设计结果之间切换。15.5–20.5 秒明确可见：文字 → 输入 → edit → 发送 → with agents → 多个设计结果。片尾域名是 pen.dev；发现目录使用 Pencil 名称",
+      "sampleFps": 30,
+      "observationScope": "全片 1 fps；0–1.3 秒和 15.5–20.8 秒全部原生 30 fps 网格已看；未听审",
+      "observed": "开场快速预告中连续 5 帧一镜；中段输入、字卡、发送、字卡、结果交替，约 29 帧一镜。两段时值明显不同，不能概括为整片快剪",
       "inferred": "让输入、提交和结果承担事实证明；把价值短句单独成镜，让操作之间有叙事节拍。真实 UI 的片段仍要保留真实反馈",
       "confidence": "镜头编排关系已抽帧核对；精确曲线、原工程与声音未知",
       "inputContract": {
@@ -259,7 +336,39 @@
         "不照搬它的金属按键、模型标识或完整镜头次序；不把参考片的屏幕合成方式说成已经查明的原生实现"
       ],
       "licenseScope": "仅研究观察与原创编排步骤；第三方媒体留本地研究库",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "连续操作像教程，观众没有看到价值与成果",
+        "useWhen": [
+          "需要在作品、主张与真实操作之间交替",
+          "开场可以先给成果线索再回到创作起点"
+        ],
+        "requiredAssets": [
+          "可支持文案的真实能力证据",
+          "同一案例的原图与成果",
+          "可独立读懂的短句"
+        ],
+        "avoidWhen": [
+          "字卡只是重复按钮名称",
+          "剪掉关键因果以冒充瞬间完成"
+        ],
+        "nextShot": [
+          "字卡硬切到它的 UI 证据",
+          "从操作跳到同一作品成果，不强制飞行承接"
+        ]
+      },
+      "measuredCadence": {
+        "unit": "source frames",
+        "fps": 30,
+        "teaserFrames": 5,
+        "middleTypicalFrames": 29,
+        "scope": "只适用于上述已看区间，不是新片默认值"
+      },
+      "tunables": {
+        "teaserDuration": "按主体识别需要决定",
+        "proofHold": "按本产品文字与交互重算",
+        "intercutPoint": "主张与证据互相支持时切换"
+      }
     },
     {
       "id": "arrow-object-application",
@@ -272,16 +381,16 @@
       "intent": "同一作品跨载体，展示使用价值",
       "source": "https://x.com/QuiverAI/status/2100295136261349802",
       "timeRange": [
-        21.4,
-        26.4
+        22.8,
+        25.7
       ],
       "viewedRange": [
         0,
         43.882667
       ],
-      "sampleFps": 12,
-      "observationScope": "全片 1 fps；仅 21.4–26.4 秒 12 fps；未听审",
-      "observed": "开头混合插画、图标和技术图；中段把路径、成品和生成界面穿插起来。21.4–26.4 秒的加密抽帧显示：奔跑姿态序列 → 单只豹 → 鞋、衣服、杯子、帽子和手机等应用镜头。主角与朝向持续可识别，承载物与材质快速变化",
+      "sampleFps": 25,
+      "observationScope": "全片 1 fps；此前 21.4–26.4 秒 12 fps；本轮 22.8–25.7 秒全部原生 25 fps 网格已看；未听审",
+      "observed": "23.240–24.840 秒十段各 4 帧，豹的身份承接纸面、鞋、口袋、杯、帽、手机等载体；刺绣镜头从 24.840 保留至 25.600 秒并拉远。不是所有镜头都有转场动画",
       "inferred": "先建立一个稳定的视觉主角，再换构图、材质和使用情境。奶茶片可以让同一杯、同一张海报进入成品特写、店内灯箱和手机海报，避免逐张播放无关图片",
       "confidence": "镜头编排关系已抽帧核对；精确曲线、原工程与声音未知",
       "inputContract": {
@@ -297,7 +406,40 @@
         "成品应用是传播情境，不自动证明软件能制作这些实物。只按坤坤魔法已实现能力展示操作，店铺样机另标为作品应用示意"
       ],
       "licenseScope": "仅研究观察与原创编排步骤；第三方媒体留本地研究库",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "作品墙图片互不相干，快剪没有可识别主线",
+        "useWhen": [
+          "同一作品跨媒介展示实际用途，短识别之后需要一个长停留"
+        ],
+        "requiredAssets": [
+          "同一主体或设计的稳定身份",
+          "相关应用图及许可",
+          "至少一个可停留的主构图"
+        ],
+        "avoidWhen": [
+          "每镜文字都需要阅读",
+          "换载体暗示产品能制造实物",
+          "主体变化导致无法追踪"
+        ],
+        "nextShot": [
+          "最后一镜延长并拉开使用情境",
+          "从主构图转入品牌，不必每刀 whoosh"
+        ]
+      },
+      "measuredCadence": {
+        "unit": "source frames",
+        "fps": 25,
+        "shortFrames": 4,
+        "shortIntervals": 10,
+        "holdFrames": 19,
+        "scope": "23.240–25.600 秒，不是新片默认值"
+      },
+      "tunables": {
+        "shortShotDuration": "按主体是否仍可识别决定",
+        "lastShotHold": "按使用情境信息量决定",
+        "compositionAnchor": "可识别的主体、朝向或构图，按素材调整"
+      }
     },
     {
       "id": "linear-concept-to-symbol",
@@ -318,7 +460,7 @@
         40.45
       ],
       "sampleFps": 12,
-      "observationScope": "全片 1 fps；仅 25.5–28.5 秒 12 fps；未听审",
+      "observationScope": "全片 1 fps；25.5–28.5 秒此前 12 fps；本轮 60 fps 网格只看第 1、5、9 页，不称全段原帧精读；未听审",
       "observed": "环轨承载任务步骤和移动亮点，多个循环在不同深度交叠。25.5–28.5 秒逐步拉远，流程标签淡出，环轨缩成画面中央的符号；后面接 Loops 和 Linear 标识。整体更偏概念动画，不能替代操作证据",
       "inferred": "Agent 段可以短暂离开面板，把参考图、创作目标、方案和结果的关系做成概念镜头，然后回到真实画布确认结果。图形中的每条关系都须对应真实产品逻辑",
       "confidence": "镜头编排关系已抽帧核对；精确曲线、原工程与声音未知",
@@ -335,7 +477,32 @@
         "不为了炫酷塞入无含义的球体或轨道；不把图形隐喻伪装成应用界面，也不照搬 Linear 的环形视觉"
       ],
       "licenseScope": "仅研究观察与原创编排步骤；第三方媒体留本地研究库",
-      "status": "candidate"
+      "status": "candidate",
+      "selection": {
+        "problem": "抽象协作关系难以从面板看懂，或结尾缺少焦点",
+        "useWhen": [
+          "图形中的关系能对应真实产品逻辑",
+          "需要把复杂关系收束为一个符号"
+        ],
+        "requiredAssets": [
+          "已验证的产品关系",
+          "自己的图形元素或标识",
+          "接回产品证据的画面"
+        ],
+        "avoidWhen": [
+          "只是觉得轨道酷，无法解释元素含义",
+          "用概念镜头代替 Agent 真正能做什么"
+        ],
+        "nextShot": [
+          "回到真实画布确认结果",
+          "收束到自有品牌并留出阅读和声音尾部"
+        ]
+      },
+      "tunables": {
+        "relationCount": "只保留有产品事实依据的关系",
+        "pullbackDuration": "按追踪焦点所需时间决定",
+        "endHold": "按品牌阅读和音频尾部决定"
+      }
     }
   ]
 }

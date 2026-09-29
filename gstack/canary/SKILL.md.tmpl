@@ -2,12 +2,7 @@
 name: canary
 preamble-tier: 2
 version: 1.0.0
-description: |
-  Post-deploy canary monitoring. Watches the live app for console errors,
-  performance regressions, and page failures. Takes
-  periodic screenshots, compares against pre-deploy baselines, and alerts
-  on anomalies. Use when: "monitor deploy", "canary", "post-deploy check",
-  "watch production", "verify deploy". (gstack)
+description: 部署后持续检查线上页面错误、性能回退和页面故障，并通过截图与基准对比发现异常。
 allowed-tools:
   - Bash
   - Read
@@ -18,6 +13,7 @@ triggers:
   - monitor after deploy
   - canary check
   - watch for errors post-deploy
+title: 部署后监控
 ---
 
 {{PREAMBLE}}

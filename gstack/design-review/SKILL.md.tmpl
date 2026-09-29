@@ -2,14 +2,7 @@
 name: design-review
 preamble-tier: 4
 version: 2.0.0
-description: |
-  Designer's eye QA: finds visual inconsistency, spacing issues, hierarchy problems,
-  AI slop patterns, and slow interactions — then fixes them. Iteratively fixes issues
-  in source code, keeping fixes reviewable and re-verifying with before/after
-  screenshots. For plan-mode design review (before implementation), use /plan-design-review.
-  Use when asked to "audit the design", "visual QA", "check if it looks good", or "design polish".
-  Proactively suggest when the user mentions visual inconsistencies or
-  wants to polish the look of a live site. (gstack)
+description: 对已经实现的界面进行视觉 QA，发现并修复层级、间距、一致性、交互和性能问题。
 allowed-tools:
   - Bash
   - Read
@@ -23,6 +16,7 @@ triggers:
   - visual design audit
   - design qa
   - fix design issues
+title: 界面设计审查
 ---
 
 {{PREAMBLE}}
@@ -96,7 +90,8 @@ If `DESIGN_NOT_AVAILABLE`: skip mockup generation — the fix loop works without
 
 ```bash
 eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)"
-REPORT_DIR="${GSTACK_HOME:-$HOME/.gstack}/projects/$SLUG/designs/design-audit-$(date +%Y%m%d)"
+eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
+REPORT_DIR="$GSTACK_STATE_ROOT/projects/$SLUG/designs/design-audit-$(date +%Y%m%d)"
 RUN_ID="$(date +%H%M%S)-$$"
 mkdir -p "$REPORT_DIR/screenshots" "$REPORT_DIR/dom/$RUN_ID"
 echo "REPORT_DIR: $REPORT_DIR"; echo "RUN_ID: $RUN_ID"
@@ -125,7 +120,7 @@ Record baseline design score and AI slop score at end of Phase 6.
 ## Output Structure
 
 ```
-~/.gstack/projects/$SLUG/designs/design-audit-{YYYYMMDD}/
+$GSTACK_STATE_ROOT/projects/$SLUG/designs/design-audit-{YYYYMMDD}/
 ├── design-audit-{domain}.md                  # Structured report
 ├── screenshots/
 │   ├── first-impression.jpg                  # Phase 1

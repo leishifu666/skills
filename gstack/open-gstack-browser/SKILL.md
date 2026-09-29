@@ -2,29 +2,19 @@
 name: open-gstack-browser
 preamble-tier: 1
 version: 0.2.0
-description: Launch GStack Browser — AI-controlled Chromium with the sidebar extension baked in.
+description: Launch GStack Browser — AI-controlled Chromium with the sidebar extension
+  baked in.
 triggers:
-  - open gstack browser
-  - launch chromium
-  - show me the browser
+- open gstack browser
+- launch chromium
+- show me the browser
 allowed-tools:
-  - Bash
-  - Read
-  - AskUserQuestion
-
+- Bash
+- Read
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Opens a visible browser window where you can watch every action in real time.
-The sidebar shows a live activity feed and chat. Anti-bot stealth built in.
-Use when asked to "open gstack browser", "launch browser", "connect chrome",
-"open chrome", "real browser", "launch chrome", "side panel", or "control my browser".
-
-Voice triggers (speech-to-text aliases): "show me the browser".
 
 ## Preamble (run first)
 
@@ -61,6 +51,10 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 ## Skill Invocation During Plan Mode
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
+
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
@@ -170,9 +164,9 @@ If `NEEDS_SETUP`:
      # shasum is macOS/perl; coreutils-only Linux ships sha256sum instead —
      # resolve whichever exists so the verify never fails on a missing tool.
      if command -v sha256sum >/dev/null 2>&1; then
-       actual_sha=$(sha256sum "$tmpfile" | awk '{print $1}')
+       actual_sha=$(sha256sum < "$tmpfile" | awk '{print $(1)}')
      else
-       actual_sha=$(shasum -a 256 "$tmpfile" | awk '{print $1}')
+       actual_sha=$(shasum -a 256 < "$tmpfile" | awk '{print $(1)}')
      fi
      if [ "$actual_sha" != "$BUN_INSTALL_SHA" ]; then
        echo "ERROR: bun install script checksum mismatch" >&2

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "profiles": {
+    "default": [
+      {
+        "manifest": "transcription.json",
+        "env": "DASHSCOPE_API_KEY"
+      }
+    ],
+    "transcription": [
+      {
+        "manifest": "transcription.json",
+        "env": "DASHSCOPE_API_KEY"
+      }
+    ]
+  }
+}

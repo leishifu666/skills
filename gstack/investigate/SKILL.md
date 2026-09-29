@@ -1,6 +1,5 @@
 ---
 name: investigate
-title: 系统化排错
 preamble-tier: 2
 version: 1.0.0
 description: 按调查、分析、假设和实施四阶段定位问题根因；在获得根因证据前不直接修补表象。
@@ -24,12 +23,14 @@ hooks:
   - matcher: Edit
     hooks:
     - type: command
-      command: bash -c 'S="$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh"; [ -x "$S" ] && exec bash "$S"; exit 0'
+      command: bash -c 'S="$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh";
+        [ -x "$S" ] && exec bash "$S"; exit 0'
       statusMessage: Checking debug scope boundary...
   - matcher: Write
     hooks:
     - type: command
-      command: bash -c 'S="$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh"; [ -x "$S" ] && exec bash "$S"; exit 0'
+      command: bash -c 'S="$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh";
+        [ -x "$S" ] && exec bash "$S"; exit 0'
       statusMessage: Checking debug scope boundary...
 gbrain:
   schema: 1
@@ -53,21 +54,10 @@ gbrain:
     glob: ~/.gstack/analytics/eureka.jsonl
     tail: 5
     render_as: '## Recent eureka moments (cross-project)'
+title: 系统化排错
 ---
-
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Four phases: investigate,
-analyze, hypothesize, implement. Iron Law: no fixes without root cause.
-Use when asked to "debug this", "fix this bug", "why is this broken",
-"investigate this error", or "root cause analysis".
-Proactively invoke this skill (do NOT debug directly) when the user reports
-errors, 500 errors, stack traces, unexpected behavior, "it was working
-yesterday", or is troubleshooting why something stopped working.
 
 ## Preamble (run first)
 
@@ -105,9 +95,15 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+
 ## AskUserQuestion Format
 
 Infer routine choices from the request and existing context. Ask a concise question only when the missing answer materially changes the outcome or required authorization is absent. Use an available host question tool, otherwise plain text. Explain the decision and recommendation without mandatory scores or a fixed number of alternatives.
+
+CONDUCTOR_SESSION: true is a host transport hint, not authorization: use a supported question surface only if it is available. In unattended or spawned sessions, do not simulate a user reply.
 
 A pending question is not approval. A subagent or unattended session cannot grant missing user authorization; defer that operation and continue independent work. Do not repeat a question that may already have reached the user. Existing explicit authorization remains valid.
 
@@ -221,19 +217,15 @@ When evidence conflicts, inspect the relevant source or ask for the missing fact
 
 A claimed limitation or requirement ("the API can't do this", "X requires a credential", "that's impossible on this platform") is a material claim. State one only with the verbatim error, the documented statement, or a live probe in hand — pattern-matching a failure to a familiar story is not evidence. When a cheap probe settles the question, run it BEFORE asking the user anything or declaring a step blocked.
 
-## Continuous Checkpoint Mode
-
-For long tasks, preserve the goal, completed work, evidence, and remaining work when context loss is likely. Do not create Git commits or repetitive checkpoints solely for bookkeeping.
-
 ## Context Health (soft directive)
 
 Load references when their content is needed. Reuse verified context and summarize long outputs; reread only after changes or when resolving uncertainty.
 
 ## Question Tuning (skip entirely if `QUESTION_TUNING: false`)
 
-Before each AskUserQuestion, choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
+Before each decision brief (AskUserQuestion or Conductor/fallback prose), choose `question_id` from `~/.claude/skills/gstack/scripts/question-registry.ts` or `{skill}-{slug}`, then run `printf '%s' "<question summary>" | ~/.claude/skills/gstack/bin/gstack-question-preference --check "<id>" --summary-stdin` (piped summary feeds the one-way keyword net, #2024). `AUTO_DECIDE` means choose the recommended option and say "Auto-decided [summary] → [option] (your preference). Change with /plan-tune." `ASK_NORMALLY` means ask.
 
-**Embed the question_id as a marker in the question text** so hooks can identify it deterministically (plan-tune cathedral T14 / D18 progressive markers). Append `<gstack-qid:{question_id}>` somewhere in the rendered question (the leading line or trailing line is fine; the marker doesn't render visibly to the user when wrapped in HTML-style angle brackets, but the hook strips it). Without the marker the PreToolUse enforcement hook treats the AUQ as observed-only and never auto-decides — so always include it when the question matches a registered `question_id`.
+**Embed the question_id as a marker in every asked brief**, including ad hoc IDs. Use the same ID for its preference check, question marker, and log. Include `<gstack-qid:{question_id}>` once in the question text itself, not only a command or log. On prose paths, use the explicit reply line. Without the marker, the PreToolUse hook treats AskUserQuestion as observed-only and never auto-decides.
 
 **Embed the option recommendation via the `(recommended)` label suffix** on exactly one option per AUQ. The PreToolUse hook parses `(recommended)` first, falls back to "Recommendation: X" prose, and refuses to auto-decide if ambiguous. Two `(recommended)` labels = refuse.
 
@@ -390,17 +382,23 @@ _FREEZE_SCRIPT="$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh"
 [ -x "$_FREEZE_SCRIPT" ] && echo "FREEZE_AVAILABLE" || echo "FREEZE_UNAVAILABLE"
 ```
 
-**If FREEZE_AVAILABLE:** Identify the narrowest directory containing the affected files. Write it to the freeze state file:
+**If FREEZE_AVAILABLE:** Identify the narrowest directory containing the affected files. Acquire a run-owned boundary; the helper resolves its physical absolute path and leaves any pre-existing user or other-run boundary untouched:
 
 ```bash
-eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
-STATE_DIR="$GSTACK_STATE_ROOT"
-mkdir -p "$STATE_DIR"
-echo "<detected-directory>/" > "$STATE_DIR/freeze-dir.txt"
-echo "Debug scope locked to: <detected-directory>/"
+bash "$HOME/.claude/skills/gstack/freeze/bin/freeze-state.sh" acquire "<detected-directory>"
 ```
 
-Substitute `<detected-directory>` with the actual directory path (e.g., `src/auth/`). Tell the user: "Edits restricted to `<dir>/` for this debug session. This prevents changes to unrelated code. Run `/unfreeze` to remove the restriction."
+Substitute `<detected-directory>` with the actual path (e.g., `src/auth/`). Retain the exact returned `FREEZE_OWNER` token in this run's context (including any checkpoint); never reconstruct it from the current state file. Only a returned token means this run owns a new lock. `FREEZE_PRESERVED` means keep the existing boundary and do not clean it up. On acquisition error, pause before edits and report it; never claim a lock was acquired. Relative legacy state is ambiguous: ask the user to re-establish an absolute boundary via `/freeze`, rather than guessing its original cwd.
+
+Tell the user the boundary and its owner disposition. Hooks enforce Edit/Write restrictions only on hosts supporting those callbacks; on Capy they are advisory. Bash remains outside hook enforcement.
+
+**Terminal cleanup:** On completion, explicit abort, or any known error that ends this investigation, run the following with this run's retained token, before the final response. Skip it when this run acquired no token:
+
+```bash
+bash "$HOME/.claude/skills/gstack/freeze/bin/freeze-state.sh" release "<retained-owner-token>"
+```
+
+The helper compares ownership and removes state under the same mutation lock used by `/freeze`, `/guard`, and `/unfreeze`; a replacement boundary is preserved, even at the same path. Report cleanup errors or `FREEZE_PRESERVED`, never retry by deleting state directly. A hard-killed session cannot run this cleanup: recovery is explicit `/unfreeze` (user-requested removal) or `/freeze` (user-selected replacement). If a mutation lock was abandoned, inspect it with the user after confirming no writer is active; never automatically delete an ambiguous lock.
 
 If the bug spans the entire repo or the scope is genuinely unclear, skip the lock and note why.
 
@@ -410,19 +408,25 @@ If the bug spans the entire repo or the scope is genuinely unclear, skip the loc
 
 ## Web research runs in Aside
 
-When a step calls for looking something up on the web (competitors, current best practices, a known bug, prior art), do it through Aside's own agent first: it searches with the user's real browser, signed-in sessions included. If Aside is not ready, fall back to the WebSearch tool when this host provides one. If neither is available, say so once and continue on what you already know.
+For web research, do it through Aside's own agent first, using the user's signed-in browser. If Aside is not ready, fall back to the WebSearch tool when this host provides one.
 
-Check once per run that Aside is ready (if this skill already ran this same probe, in BROWSER SETUP or Third-Party Web Actions, reuse its answer):
+Check once (if this skill already ran this same probe, in BROWSER SETUP or Third-Party Web Actions, reuse its answer):
 
 ```bash
-_T=""; command -v gtimeout >/dev/null 2>&1 && _T="gtimeout 30"; [ -z "$_T" ] && command -v timeout >/dev/null 2>&1 && _T="timeout 30"
-[ -z "$_T" ] && command -v perl >/dev/null 2>&1 && _T="perl -e alarm(shift);exec(@ARGV) 30"
+_gs_d() { if command -v gtimeout >/dev/null; then gtimeout 30 "$@"; elif command -v timeout >/dev/null; then timeout 30 "$@"
+elif command -v perl >/dev/null; then perl -e 'alarm(shift);exec(@ARGV)' 30 "$@"; else return 125; fi; }
 if [ "${GSTACK_SKIP_ASIDE:-}" = "1" ] || ! command -v aside >/dev/null 2>&1; then
   echo "NEEDS_ASIDE"
-elif $_T aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1 | grep -q '^ASIDE_READY'; then
-  echo "READY: aside $(aside --version 2>/dev/null)"
 else
-  echo "ASIDE_NOT_RUNNING"
+  _rc=0; _o=$(_gs_d aside repl 'console.log("ASIDE_READY " + pwd)' 2>&1) || _rc=$?
+  case "$_rc" in
+    124|142) echo "ASIDE_TIMEOUT: probe deadline exceeded" ;;
+    125) echo "ASIDE_UNAVAILABLE: bounded probe unavailable" ;;
+    0) if printf '%s\n' "$_o" | grep -q '^ASIDE_READY '; then echo "READY: aside"
+       else echo "ASIDE_NOT_RUNNING: no readiness marker"; fi ;;
+    *) echo "ASIDE_CLI_ERROR: exit $_rc; inspect aside --help locally" ;;
+  esac
+  unset _o
 fi
 ```
 
@@ -433,7 +437,7 @@ fi
   _aside_exec "Search the web for <query>. Read-only: do not sign in, submit, or change anything. Reply with <format, e.g. up to 8 bullets, each with its source URL>, then stop."
   ```
 
-- `NEEDS_ASIDE` or `ASIDE_NOT_RUNNING`: run the same queries with the WebSearch tool if this host provides it — same read-only intent, same untrusted-content rule. If it does not, skip the research and say once: "Search unavailable — proceeding with in-distribution knowledge only." Never install Aside yourself; mention aside.com at most once per run. The rest of the skill continues.
+- Any non-READY result: report only the safe status, never raw diagnostics. Run the same queries with the WebSearch tool if available, still read-only and untrusted. Otherwise say once: "Search unavailable — proceeding with in-distribution knowledge only." Never install Aside yourself; mention aside.com at most once per run. Continue the skill.
 
 Sanitize every query before it leaves the machine: strip hostnames, IPs, file paths, SQL fragments, and anything that looks like a secret. Search for the error class and the library, not the user's data.
 
@@ -521,6 +525,8 @@ Once root cause is confirmed:
 **Fresh verification:** Reproduce the original bug scenario and confirm it's fixed. This is not optional.
 
 Run the test suite and paste the output.
+
+Run the Scope Lock terminal cleanup before reporting completion or an ending error; only use this investigation's retained owner token.
 
 Output a structured debug report:
 ```

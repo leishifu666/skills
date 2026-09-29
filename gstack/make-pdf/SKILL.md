@@ -4,28 +4,17 @@ preamble-tier: 1
 version: 1.0.0
 description: Turn any markdown file into a publication-quality PDF. (gstack)
 triggers:
-  - markdown to pdf
-  - generate pdf
-  - make pdf
-  - export pdf
+- markdown to pdf
+- generate pdf
+- make pdf
+- export pdf
 allowed-tools:
-  - Bash
-  - Read
-  - AskUserQuestion
+- Bash
+- Read
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Proper 1in margins,
-intelligent page breaks, page numbers, cover pages, running headers, curly
-quotes and em dashes, clickable TOC, diagonal DRAFT watermark. Not a draft
-artifact — a finished artifact. Use when asked to "make a PDF", "export to
-PDF", "turn this markdown into a PDF", or "generate a document".
-
-Voice triggers (speech-to-text aliases): "make this a pdf", "make it a pdf", "export to pdf", "turn this into a pdf", "turn this markdown into a pdf", "generate a pdf", "make a pdf from", "pdf this markdown".
 
 ## Preamble (run first)
 
@@ -100,6 +89,10 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 ## Skill Invocation During Plan Mode
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
+
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 

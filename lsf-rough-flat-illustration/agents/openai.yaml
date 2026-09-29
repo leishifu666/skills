@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF｜粗笔露白插画"
+  short_description: "识别图片主体并重绘为粗笔露白插画，有内置生图工具则直接生成，否则交付提示词"
+  default_prompt: "使用 $lsf-rough-flat-illustration 将我上传的图片重绘成粗笔露白、平面色块、白底插画；能用 Codex 内置生图工具就直接生成，否则给我结合图片主体写好的完整提示词。"

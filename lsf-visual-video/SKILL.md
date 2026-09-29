@@ -4,9 +4,9 @@ title: LSF AI 影像导演
 description: 用户要求创建、优化、审查或拆分 AI 视频生成器（Seedance、MiniMax H3/海螺、Kling、Veo、Runway、Luma、Pika、Sora 及任何图生视频系统）的提示词时使用本技能。涵盖分镜脚本、镜头清单、导演阐述、动态蒙太奇、多片段故事结构、H3 全参考/首尾帧模式、运镜导演、灯光、走位调度、节奏、角色一致性、对白与声音设计。当用户说"为视频想一个场景""拆成镜头""做分镜/分镜脚本""优化
   Kling 提示词""把剧本转成提示词""怎么用 AI 视频拍 X""给这个视频提示词改一改"，或分享一段提示词要求修复时触发。
 github_url: https://github.com/smixs/visual-skills
-github_hash: ae26d624edd747e719fa21528d18d39e68c04a0e
+github_hash: 92be33a5a73325fb3d8e0c73b22744b114e2a90e
 upstream_path: video
-version: 1.0.0-lsf.2
+version: 1.0.0-lsf.3
 localization: zh-CN
 license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visual-skills)
 ---
@@ -19,7 +19,7 @@ license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visua
 
 ## 迭代任务的优先入口
 
-- 用户让“看看视频哪里不对”：先实际检查媒体；区分可见画面、音频实听、自动转写和推断。只转写过，不声称听过语气。不能访问时说明限制。
+- 用户让“看看视频哪里不对”：先实际检查媒体；复刻对照与关键交接按 [观察依据和动作状态](references/iteration-repair.md) 核验，不用常识补写原片动作。区分可见画面、音频实听、自动转写和推断；不能访问时说明限制。
 - 用户已选定模型或“一段生成”：保留选择；先核实当前平台可选时长，不能通过提示词突破上限，也不能一边承认上限一边交付超限的可执行提示词。无法满足时说明冲突并给最小可行改法，不擅自拆段、换平台或删改台词。
 - 用户只改结尾、动作幅度、嘴型、音色或要求缩短：先读 [失败视频与局部修正](references/iteration-repair.md)，再读相关模型文件。沿用未受影响的设定；删除已被取代的旧要求，交付一份无矛盾的版本。
 - 用户要求短提示词：保留素材职责、唯一台词、关键动作顺序和本次必要限制；压缩风格词、重复禁令和分析段。内部分析不等于要喂给生成器的提示词。
@@ -105,7 +105,7 @@ license: CC-BY-4.0 (attribution required — Serge Shima, github.com/smixs/visua
 
 MiniMax H3：A/B 仍表示单条或多片段交付。完整优化格式参照 [minimax-h3.md](references/minimax-h3.md)；用户明确要短提示词或纯中文时可压缩为自然语言，保留素材职责、对白与动作约束。指南的结构字段不是所有生成界面的必填 API 参数。
 
-解释默认使用用户语言。提示词遵从用户明确的语言与长度选择；未指定时按所选模型参考格式。不要宣称英文对所有模型一律更好。MiniMax H3 的随附优化格式使用英文结构段，台词保留原语言；用户明确要求中文时用中文，必要时一句说明格式差异。
+解释默认使用用户语言，提示词语言单独确定。同一视频任务中已明确的提示词语言与长度选择持续沿用，直到用户更改；中文聊天或其他生图任务的中文要求不自动覆盖视频提示词语言。未指定时按所选模型参考格式。不要宣称英文对所有模型一律更好。MiniMax H3 的随附优化格式使用英文结构段，台词保留原语言；用户明确要求中文视频提示词时用中文，必要时一句说明格式差异。
 
 ---
 
@@ -115,10 +115,14 @@ MiniMax H3：A/B 仍表示单条或多片段交付。完整优化格式参照 [m
 
 避免：除非被要求否则长篇理论、学术讲座、空泛灵感、装饰性黑话、"cinematic masterpiece" 之类的填充、没有运镜和灯光的提示词、没有连贯性的提示词、叠加超过两个导演参考、没有身体转化的抽象情绪。
 
-模型细节拿不准时，先检查已读参考；版本敏感的能力用当前平台或官方说明查证。参考不能保证生成结果，必要时说明尚未验证的限制。
+模型细节拿不准时，先检查已读参考；版本敏感的能力用当前平台或官方说明查证。提示词完成重写不等于生成问题已解决；只有检查过新结果，才能报告实际改善，未生成验证时明确区分。
 
 ---
 
 *作者：Serge Shima（[t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)）· 许可：CC BY 4.0 —— 需注明出处 · 来源：[smixs/visual-skills](https://github.com/smixs/visual-skills)*
 
 *MiniMax H3 扩展：融合自 MiniMax 官方 [`MiniMax-AI/MiniMax-H3`](https://github.com/MiniMax-AI/MiniMax-H3/tree/main/skills/h3-prompt-writing) 的 `h3-prompt-writing` skill；官方参考文件受 MiniMax H3 Community License Agreement 约束。*
+
+## 故事结构与范围
+
+故事形态未确定时，先读 [故事弧选择](references/patterns-and-genres.md) 新增第 4 节，再排列节拍；按因果链、无对抗转折、单一高潮、冲突或开放结尾选择，不给单一瞬间强加障碍。既有视频的剪辑、调色、拼接应使用对应剪辑技能；本技能负责生成视频的提示词。

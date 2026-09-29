@@ -1,6 +1,6 @@
 interface:
   display_name: "LSF 设计规范生成"
-  short_description: "从现有产品证据中整理并生成 DESIGN.md 设计规范"
-  default_prompt: "使用 $lsf-create-design-md 为当前产品整理并生成 DESIGN.md。"
+  short_description: "从产品证据生成含按钮、hover 与动效的设计规范和 HTML 预览"
+  default_prompt: "使用 $lsf-create-design-md 为当前产品生成或更新 DESIGN.md 与 DESIGN.html，记录按钮交互、hover、焦点和状态变化及动效参数，并验证对应的交互预览。"
 policy:
   allow_implicit_invocation: true

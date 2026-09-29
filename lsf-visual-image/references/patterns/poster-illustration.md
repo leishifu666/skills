@@ -125,3 +125,54 @@ A symmetrical ornamental art print centered on a {peacock_variant} peacock in fu
 ---
 
 *作者: Serge Shima ([t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)) · 许可: CC BY 4.0 — 需署名 · 来源: [smixs/visual-skills](https://github.com/smixs/visual-skills)*
+
+
+## 上游新增参考（2026-09-16）
+
+## Torn-Paper Evidence Collage Poster
+
+Use for launches, announcements, gig and exhibition posters, founder or team features — anything that should read as a physical artifact pinned to a board rather than a designed page. The paper layers are the structure, not a decorative frame.
+
+<!-- Source concept: layered torn-paper editorial collage — evidence-board energy with stamps, tape and cutout subject -->
+
+```
+Scene: layered torn-paper collage poster about {theme} — overlapping ripped sheets built up in physical layers: newsprint fragments, cream paper slabs with visible fiber at the tears, one torn black field, archive scraps relevant to {theme}, each layer casting a small hard drop shadow
+Subject: {subject} as a cut-out breaking through the paper layers — the silhouette is scissor-cut, edges slightly ragged, the figure sits between sheets rather than inside a rectangular photo window
+Important Details: {accent_color} tape strips holding layers down at crooked angles, date stamps and ID labels pressed into the paper, barcode strip, safety pin through one corner, halftone dots and photocopy grain across the printed fragments, ink splashes and scuffs, handwriting in the margins, "{HEADLINE}" set enormous in {headline_style} breaking across two paper layers, "{DATA_LINE}" on a small legible sticker card
+Use Case: {use_case}
+Constraints: torn paper must dominate structurally — not a thin decorative border around clean cards, subject must not sit in a clean rectangular frame, keep the headline and data fully legible at thumbnail size, no invented logos, no invented dates or statistics beyond {DATA_LINE}, no watermark, keep the overall poster mid-bright and tactile rather than dark and severe
+Quality: high
+```
+
+**Key levers:** `{theme}` (product launch, exhibition opening, tour date, milestone, team portrait), `{subject}` (person, group, product, vehicle, landmark — or "no figure, object only"), `{accent_color}` (editorial red #D62828, electric lime #B6D900, cyan #00A7E1, hot pink #FF2E88 — pick one, plus black ink), `{headline_style}` (extra-bold condensed grotesque, stencil cut, worn wood-type), `{HEADLINE}`, `{DATA_LINE}` (date, venue, edition number — only what the user actually supplied), `{use_case}` (campaign poster, cover art, collectible print)
+
+**Recommended model:** GPT Image 2.5 (`quality: high`) — layered typography plus small legible label text
+
+---
+
+## Style DNA + Reject Checklist
+
+Reusable working method for any strong visual style, not only the one above. Our patterns end at the prompt; this is what happens after the image comes back. Without it, the usual failure is quiet: the model returns a tidy, corporate version of the style and it passes because nobody wrote down what "wrong" looks like.
+
+Before generating, fix the **Style DNA** in four lines:
+
+1. **Core look** — the one sentence that says what the piece must feel like as an object ("collectible evidence pinned to a board", not "a modern collage poster").
+2. **Material language** — the specific physical ingredients, listed densely. Whatever carries the style: torn edges and tape, or risograph misregistration, or letterpress bite, or airbrush gradients.
+3. **Structural rule** — what the material is allowed to do. Usually the line between a real style and a costume version of it: "paper layers are the composition" vs "paper is a border effect".
+4. **Color direction** — a default plus one or two named alternatives, each tied to a mood the user might ask for.
+
+After generating, run the **Reject Checklist**. Reject and re-prompt naming the specific failure — do not accept and patch. Generic entries that apply to almost any style:
+
+- The style has been reduced to a decorative border around an otherwise clean layout.
+- The result looks like a generic template for the format (event flyer, certificate, dashboard, presentation page).
+- The subject sits in a clean rectangular frame when the style calls for it to be embedded.
+- The hero text or key data is hidden in unreadable microtext.
+- The model invented facts — logos, sponsor marks, dates, statistics, quotes, provenance — that the brief did not contain.
+- A supplied person became a different person.
+- The mood drifted from the brief (usually darker and more severe than requested, because contrast reads as quality to the model).
+- The texture is applied as a flat overlay filter instead of belonging to the materials.
+
+Write the style-specific entries alongside these — they are the ones that actually catch failures. One line per way this particular style is usually faked.
+
+---
+

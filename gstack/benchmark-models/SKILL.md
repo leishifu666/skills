@@ -4,29 +4,17 @@ preamble-tier: 1
 version: 1.0.0
 description: Cross-model benchmark for gstack skills. (gstack)
 triggers:
-  - cross model benchmark
-  - compare claude gpt gemini
-  - benchmark skill across models
-  - which model should I use
+- cross model benchmark
+- compare claude gpt gemini
+- benchmark skill across models
+- which model should I use
 allowed-tools:
-  - Bash
-  - Read
-  - AskUserQuestion
+- Bash
+- Read
+- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
-
-
-## When to invoke this skill
-
-Runs the same prompt through Claude,
-GPT (via Codex CLI), and Gemini side-by-side — compares latency, tokens, cost,
-and optionally quality via LLM judge. Answers "which model is actually best
-for this skill?" with data instead of vibes. Separate from /benchmark, which
-measures web page performance. Use when: "benchmark models", "compare models",
-"which model is best for X", "cross-model comparison", "model shootout".
-
-Voice triggers (speech-to-text aliases): "compare models", "model shootout", "which model is best".
 
 ## Preamble (run first)
 
@@ -63,6 +51,10 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 ## Skill Invocation During Plan Mode
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
+
+If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
@@ -207,10 +199,10 @@ If at least one is OK: AskUserQuestion:
 ```
 
 If judge is available, AskUserQuestion:
-- **Simplify:** "The quality judge scores each model's output on a 0-10 scale using Anthropic's Claude as a tiebreaker. Adds ~$0.05/run. Recommended if you care about output quality, not just latency and cost."
+- **Simplify:** "The quality judge scores each model's output on a 0-10 scale using Anthropic's Claude as a tiebreaker. Adds about USD 0.05/run. Recommended if you care about output quality, not just latency and cost."
 - **RECOMMENDATION:** A — the whole point is comparing quality, not just speed.
 - **Options:**
-  - A) Enable judge (adds ~$0.05). Completeness: 10/10.
+  - A) Enable judge (adds about USD 0.05). Completeness: 10/10.
   - B) Skip judge — speed/cost/tokens only. Completeness: 7/10.
 
 If judge is NOT available, skip this question and omit the `--judge` flag.

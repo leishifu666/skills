@@ -1,0 +1,4 @@
+interface:
+  display_name: "LSF｜第四版设计探索"
+  short_description: "排除前三个直接交付方案，从第四版起用实质差异与任务验证筛选设计"
+  default_prompt: "请用 $lsf-fourth-concept 探索这个设计问题：先记录并排除前三个合理概念，从第四个起验证结构差异、任务完成与约束，给出可检验的原型并注明证据边界。"

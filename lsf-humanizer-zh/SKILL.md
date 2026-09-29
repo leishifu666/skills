@@ -4,7 +4,7 @@ description: 审阅和改写中文文本，清理模板化的 AI 写作痕迹，
 license: MIT
 metadata:
   github_url: https://github.com/op7418/Humanizer-zh
-  github_hash: 91f3d394db8419c20d67ebe22a96cf8fee0a404b
+  github_hash: f4518a8eab97b8bfebc66a89d34320a89bef6930
   version: 1.0.0
   created_at: 2026-08-28
   entry_point: SKILL.md
@@ -63,7 +63,7 @@ metadata:
 
 ### 3. 识别中文机械表达
 
-执行实际改写前，阅读 [中文写作模式与质检](references/chinese-patterns.md)。模式只是风险信号，不是禁词表；单个词语在上下文中自然时可以保留。
+执行实际改写前，阅读 [上游新版中文编辑指南](references/upstream-editing-guide.md)，并参考 [本地中文写作模式与质检](references/chinese-patterns.md)。模式只是风险信号，不是禁词表；单个词语在上下文中自然时可以保留。
 
 重点检查：
 
@@ -116,3 +116,7 @@ metadata:
 ## 来源
 
 本 Skill 基于 Humanizer-zh 重新设计，并针对 Codex 与中文写作重新约束。维护或核对来源时阅读 [来源与改造说明](references/sources.md)。
+
+## 文件编辑补充
+
+默认只编辑正文，保留代码、命令、路径、链接目标、YAML、标题与锚点、表格数据和列表顺序。用户明确要求调整结构时才修改，并核对引用。31 项模式只用于发现问题，不按单词或标点机械替换；用户未要求时只交付最终稿，不输出自评分。

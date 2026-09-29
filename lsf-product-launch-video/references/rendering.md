@@ -4,6 +4,8 @@
 
 官方入口：[SSR](https://www.remotion.dev/docs/ssr-node)、[bundle](https://www.remotion.dev/docs/bundle)、[renderStill](https://www.remotion.dev/docs/renderer/render-still)、[renderMedia](https://www.remotion.dev/docs/renderer/render-media)。
 
+先按 [已有项目模式](existing-project-mode.md) 决定组件来源与接入路线。以下按帧方式适用于能由给定帧独立重建的组件或场景；完整页面含不可控时钟时先运行录制再合成。宣传重绘可直接使用视频专用组件或经文档核对的 Remocn 组件，不要求复用原产品外观。上述实测版本与案例不代表新增路线已在当前项目验证。
+
 ## 最小执行链
 
 1. 新建视频产物目录，记录入口、素材、时间线和依赖。现有项目源码按需直接导入。
@@ -15,7 +17,7 @@
 
 ## 组件契约
 
-- 优先选择 position/value/items 等受控 props；以视频状态驱动，不模拟真实后台完成。
+- 组件状态展示可使用 position/value/items 等受控 props；以视频数据驱动，不声称后台真实执行。需要证明原生点击或输入时，按原生回放路线执行事件，不能把设置 props 当交互测试。
 - 若组件依赖图片加载，等待图片可解码后放行帧渲染；不要只等页面加载事件。
 - 动画需要主题时在渲染专用浏览器上下文初始化，不改变用户应用的主题默认值。
 - 按需带入原有样式；补齐 CSS utility 时列出补齐范围。场景包装、宣传文案、摄影机属于视频，不宣称是原界面的一部分。

@@ -322,3 +322,38 @@ Quality: high
 ---
 
 *作者: Serge Shima ([t.me/aimastersme](https://t.me/aimastersme) · [sergeshima.com](https://sergeshima.com) · [aimasters.me](https://aimasters.me)) · 许可: CC BY 4.0 — 需署名 · 来源: [smixs/visual-skills](https://github.com/smixs/visual-skills)*
+
+
+## 上游新增参考（2026-09-16）
+
+**Panel variety:** State it as a requirement, not a hope: "no two non-empty panels may be identical or near-identical — each must change the shot size, the camera angle, the action beat, or the foreground/background relationship." Without this line the model repeats a flattering composition across half the grid. It is the mirror image of subject consistency: identity stays fixed, everything else has to move.
+
+## Storyboard Sheets From a Timed Scene
+
+When the sheet feeds a video pipeline (see the sibling `video` skill), the scene's duration — not taste — decides the grid.
+
+**Grid from scene duration:**
+
+| Scene duration | Grid | Panels |
+|---|---|---:|
+| up to 9s | 3 columns x 3 rows | 9 |
+| 9-12s | 3 columns x 4 rows | 12 |
+| over 12s | 4 columns x 4 rows | 16 |
+
+Each panel stays 16:9 regardless of the grid. Keep the panels edge to edge — a thin dark rule is fine for readability, gutters are not.
+
+The duration in this table is the scene's screen time, not a clip length: the sheet shows the whole scene in one image, while the sibling `video` skill still generates it as several clips of about five seconds each. A 15s scene is one 4x4 sheet and three generations, not one.
+
+**Panel labels:** ask for two small solid-dark tabs inside every panel — the panel number in white in the top-left corner, the panel's own duration in white in the top-right ("0.5s", "1s", "2s"). Putting the duration on the panel instead of under it survives cropping and lets an editor read the sheet without the accompanying document. This is text — budget `quality: high` on GPT Image 2.5.
+
+**Default timing layouts:** start from an even split, then spend the extra time on the beat that needs a hold.
+
+- 5s on a 3x3 — eight panels at 0.5s, the last at 1s.
+- 9s on a 3x3 — nine panels at 1s.
+- 12s on a 3x4 — twelve panels at 1s.
+- 15s on a 4x4 — fourteen panels at 1s, the final two at 0.5s.
+
+Panel durations must add up to the scene duration exactly. If a short scene would fragment into meaningless beats, leave the trailing panels plain black rather than padding the action.
+
+---
+

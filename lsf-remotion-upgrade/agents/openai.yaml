@@ -1,0 +1,7 @@
+interface:
+  display_name: 'LSF Remotion 升级'
+  short_description: '升级 Remotion 和相关依赖'
+  icon_small: './assets/remotion-icon.svg'
+  icon_large: './assets/remotion-icon.svg'
+  brand_color: '#0B84F3'
+  default_prompt: '$lsf-remotion-upgrade: 升级我的项目。'
