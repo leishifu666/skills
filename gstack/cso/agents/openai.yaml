@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-cso"
+  short_description: "对指定仓库执行安全审计，检查依赖、凭据处理、CI、威胁模型及漏洞；用户要求安全审查时使用。"
+  default_prompt: "Use gstack-cso for this task."
+policy:
+  allow_implicit_invocation: true

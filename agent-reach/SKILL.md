@@ -22,7 +22,7 @@ metadata:
   openclaw:
     homepage: https://github.com/Panniantong/Agent-Reach
 github_url: https://github.com/Panniantong/Agent-Reach
-github_hash: a19a171fa980a0785849596492e0af4db800c82f
+github_hash: 94f06c1969dfc1834001269d79d3ad0972d9dee6
 ---
 
 # Agent Reach — 互联网能力路由器

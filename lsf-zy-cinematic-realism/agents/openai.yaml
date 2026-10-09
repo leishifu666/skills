@@ -1,4 +1,4 @@
 interface:
-  display_name: "LSF 造梦师：电影视觉与生图提示"
-  short_description: "电影视觉创作、参考图解梦与多模型提示编译"
-  default_prompt: "使用 $lsf-zy-cinematic-realism 为我构思场景，或分析并迁移参考图的视觉语言。"
+  display_name: LSF 造梦师：电影视觉与生图提示
+  short_description: 从剧本和参考图制作美术概念、叙事关键帧与模型提示
+  default_prompt: 使用 $lsf-zy-cinematic-realism 为我构思场景，或分析并迁移参考图的视觉语言。

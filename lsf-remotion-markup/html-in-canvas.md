@@ -12,3 +12,5 @@ DOM 不能直接绘入 Canvas。采用栅格化或纹理方案前，核对目标
 
 参考：
 https://www.remotion.dev/docs
+
+实现本项前阅读 [当前官方接口与示例](upstream/html-in-canvas.md)，按项目版本核对时间参数、类型和导入。

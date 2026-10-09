@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-qa"
+  short_description: "测试并修复浏览器、API、CLI、任务、Worker 或 Webhook 问题，复现后修改并验证；提交需有用户授权。"
+  default_prompt: "Use gstack-qa for this task."
+policy:
+  allow_implicit_invocation: true

@@ -1,35 +1,41 @@
 ---
-name: careful
+name: "careful"
 version: 0.1.0
-description: 对删除、强制推送、重置、生产环境变更等危险命令增加确认和安全检查。
+description: "对删除、强制推送、重置、生产环境变更等危险命令增加确认和安全检查。"
 triggers:
-- be careful
-- warn before destructive
-- safety mode
+  - be careful
+  - warn before destructive
+  - safety mode
 allowed-tools:
-- Bash
-- Read
+  - Bash
+  - Read
 hooks:
   PreToolUse:
-  - matcher: Bash
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/careful/bin/check-careful.sh
-      statusMessage: Checking for destructive commands...
-title: 危险操作保护
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/careful/bin/check-careful.sh\""'
+          statusMessage: "Checking for destructive commands..."
+    - matcher: "PowerShell"
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/careful/bin/check-careful.sh\""'
+          statusMessage: "Checking for destructive commands..."
+title: "危险操作保护"
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
 
 # /careful — Destructive Command Guardrails
 
-Safety mode is now **active**. Every bash command will be checked for destructive
-patterns before running. If a destructive command is detected, you'll be warned
+Safety mode is now **active**. Every Bash and PowerShell command will be checked
+for destructive patterns before running. If a destructive command is detected, you'll be warned
 and can choose to proceed or cancel.
 
 ```bash
-mkdir -p ~/.gstack/analytics
-echo '{"skill":"careful","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
+GSTACK_STATE_ROOT=$(~/.claude/skills/gstack/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+mkdir -p "$GSTACK_STATE_ROOT"/analytics
+echo '{"skill":"careful","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> "$GSTACK_STATE_ROOT"/analytics/skill-usage.jsonl 2>/dev/null || true
 ```
 
 ## What's protected
@@ -45,6 +51,25 @@ echo '{"skill":"careful","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(base
 | `kubectl delete` | `kubectl delete pod` | Production impact |
 | `docker rm -f` / `docker system prune` | `docker system prune -a` | Container/image loss |
 
+## PowerShell and cmd (Windows)
+
+The hook also checks the PowerShell tool (Claude Code's main Windows shell)
+and any `pwsh`/`powershell`/`cmd` launched from Bash. Matching ignores case,
+covers aliases in command position, accepts parameter prefixes (`-r`, `-fo`)
+and strips cmd `^` escapes. All rows above apply there too.
+
+| Pattern | Example |
+|---------|---------|
+| `Remove-Item`/`rm`/`ri`/`del`/`erase`/`rd`/`rmdir` + `-Recurse` or `-Force` | `gci \| ri -r -fo` |
+| cmd `rd /s`, `rmdir /s`, `del /s`, `erase /s` | `cmd /c rd /s /q C:\proj` |
+| `Format-Volume`, `Clear-Disk`, `Clear-Content`, `[IO.Directory]::Delete`, `[IO.File]::Delete` | `Clear-Disk -Number 1` |
+| `-EncodedCommand`, `iex`, `Start-Process` of a shell, `& $cmd` (can't be inspected) | `irm $url \| iex` |
+
+**Best-effort on PowerShell.** String matching can't see a command built at
+runtime. For a hard stop, add Claude Code permission deny rules, which parse
+PowerShell and its aliases: `"deny": ["PowerShell(Remove-Item *)"]` in
+`.claude/settings.json`. The hook runs through `bash`, so Windows needs Git Bash.
+
 ## Safe exceptions
 
 These patterns are allowed without warning:
@@ -52,7 +77,7 @@ These patterns are allowed without warning:
 
 ## How it works
 
-The hook reads the command from the tool input JSON, checks it against the
+The hook reads `tool_name` and the command from the tool input JSON, checks it against the
 patterns above, and returns a `hookSpecificOutput` payload with
 `permissionDecision: "ask"` and a warning reason if a match is found (the
 decision must be nested under `hookSpecificOutput` — Claude Code ignores a

@@ -12,3 +12,5 @@ metadata:
 
 参考：
 https://www.remotion.dev/docs/motion-blur
+
+实现本项前阅读 [当前官方接口与示例](upstream/motion-blur.md)，按项目版本核对时间参数、类型和导入。

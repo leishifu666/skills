@@ -1,7 +1,9 @@
 ---
 name: lsf-remotion-upgrade
-description: "LSF Remotion 升级：检查并统一升级 Remotion、相关依赖和本地技能。"
-version: 4.0.529
+description: LSF Remotion 升级：检查并统一升级 Remotion、相关依赖和本地技能。
+version: 4.0.534
+github_url: https://github.com/remotion-dev/skills
+github_hash: 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
 ---
 
 # LSF Remotion 升级
@@ -29,3 +31,7 @@ version: 4.0.529
 5. 检查项目清单和锁文件的差异。确认所有 Remotion 包使用同一版本，辅助包也使用推荐版本。如果项目安装了 CLI，再运行 npx remotion versions 进行额外检查。
 
 [Remotion 发布记录](https://github.com/remotion-dev/remotion/releases)包含变更日志，可用于总结升级内容。
+
+## 当前版本接口
+
+实现前按本次问题读取 [4.0.534 官方接口与示例](references/upstream-current.md)。其中的媒体时间、可编辑节点和合成注册约定更新了旧版实现说明；本地用户改动、授权和交付要求继续适用。

@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-document-release"
+  short_description: "依据变更审查并更新受影响的项目文档和发布说明；适用于合并前文档检查或发布后同步。"
+  default_prompt: "Use gstack-document-release for this task."
+policy:
+  allow_implicit_invocation: true

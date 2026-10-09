@@ -1,15 +1,15 @@
 ---
-name: unfreeze
+name: "unfreeze"
 version: 0.1.0
-description: 解除 freeze 设置的目录边界，恢复对其他目录的编辑权限。
+description: "解除 freeze 设置的目录边界，恢复对其他目录的编辑权限。"
 triggers:
-- unfreeze edits
-- unlock all directories
-- remove edit restrictions
+  - unfreeze edits
+  - unlock all directories
+  - remove edit restrictions
 allowed-tools:
-- Bash
-- Read
-title: 解除编辑限制
+  - Bash
+  - Read
+title: "解除编辑限制"
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -19,8 +19,9 @@ title: 解除编辑限制
 Remove the edit restriction set by `/freeze`, allowing edits to all directories.
 
 ```bash
-mkdir -p ~/.gstack/analytics
-echo '{"skill":"unfreeze","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
+GSTACK_STATE_ROOT=$(~/.claude/skills/gstack/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+mkdir -p "$GSTACK_STATE_ROOT"/analytics
+echo '{"skill":"unfreeze","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> "$GSTACK_STATE_ROOT"/analytics/skill-usage.jsonl 2>/dev/null || true
 ```
 
 ## Clear the boundary

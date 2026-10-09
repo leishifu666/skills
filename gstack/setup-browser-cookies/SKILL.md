@@ -1,17 +1,17 @@
 ---
-name: setup-browser-cookies
+name: "setup-browser-cookies"
 preamble-tier: 1
 version: 1.0.0
-description: 按用户选择为 gstack 浏览器导入站点 Cookie；用于明确的登录态导入请求。
+description: "按用户选择为 gstack 浏览器导入站点 Cookie；用于明确的登录态导入请求。"
 triggers:
-- import browser cookies
-- login to test site
-- setup authenticated session
+  - import browser cookies
+  - login to test site
+  - setup authenticated session
 allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
-title: 配置 浏览器 Cookies
+  - Bash
+  - Read
+  - AskUserQuestion
+title: "配置 浏览器 Cookies"
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -19,10 +19,7 @@ title: 配置 浏览器 Cookies
 ## Preamble (run first)
 
 ```bash
-_SS="$HOME/.claude/skills/gstack/bin/gstack-skill-start"
-[ -x "$_SS" ] || _SS=".claude/skills/gstack/bin/gstack-skill-start"
-"$_SS" --skill "setup-browser-cookies" --model "claude" --parent-pid "$PPID" \
-  || echo "SKILL_START: unavailable — stale install; run ./setup or /gstack-upgrade (preamble degraded, continue the user's task)"
+~/.claude/skills/gstack/bin/gstack-skill-start --skill "setup-browser-cookies" --model "claude"
 ```
 
 Read the echoed `KEY: value` STATUS lines — they drive every preamble rule
@@ -52,20 +49,21 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+If `PROACTIVE` is `false`, do not auto-invoke or suggest skills, including by asking whether to run one. Only run skills the user explicitly invokes.
 
 If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
-The skill-start output above already ran artifacts sync. Act on its lines:
-GBrain hint text (if present) tells you when to prefer `gbrain` over Grep;
-`ARTIFACTS_SYNC:` reports sync health (`off`, `mode=... | queue=N`,
-`remote-mode`, or a restore hint naming `gstack-brain-restore`).
+Skill-start already ran artifacts sync. GBrain hint text (if any) says
+when to prefer `gbrain` over Grep. `ARTIFACTS_SYNC:` reports sync health
+(`off`, `mode=... | queue=N`, `remote-mode`, or a `gstack-brain-restore`
+hint). On an `attention:` line, tell the user in one sentence what
+it says and the command it names, then continue.
 
-The one-time privacy stop-gate (artifacts-sync consent) arrives as a
-`GSTACK_INSTRUCTION` block from skill-start when consent is actually pending
-— fire it via AskUserQuestion exactly as the block instructs.
+The one-time privacy stop-gate arrives as a `GSTACK_INSTRUCTION` block
+from skill-start when consent is pending; fire it via AskUserQuestion
+exactly as instructed.
 
 ## Model-Specific Behavioral Patch (claude)
 
@@ -82,14 +80,17 @@ turns out to be unnecessary, mark it skipped with a one-line reason.
 non-trivial new features), briefly state your approach before executing. This lets
 the user course-correct cheaply instead of mid-flight.
 
-**Dedicated tools over Bash.** Prefer Read, Edit, Write, Glob, Grep over shell
-equivalents (cat, sed, find, grep). The dedicated tools are cheaper and clearer.
+**Dedicated tools over Bash.** Prefer the host's dedicated file tools (Read, Edit,
+Write, and its search tools when it has them) over shell equivalents (cat, sed,
+find, grep). The dedicated tools are cheaper and clearer.
 
 ## Voice
 
 Direct, concrete, builder-to-builder. Name the file, function, command, and user-visible impact. No filler.
 
-No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted. Never corporate or academic. Short paragraphs. End with what to do.
+No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted, load-bearing. Never corporate or academic. Short paragraphs. End with what to do.
+
+Reply in the language of the user's latest message unless asked otherwise. Code, commands, paths, identifiers and quoted output stay verbatim.
 
 The user has context you do not. Cross-model agreement is a recommendation, not a decision. The user decides.
 
@@ -158,9 +159,9 @@ If `NEEDS_SETUP`:
 3. If `bun` is not installed:
    ```bash
    if ! command -v bun >/dev/null 2>&1; then
-     BUN_VERSION="1.3.10"
+     BUN_VERSION="1.4.2"
      BUN_INSTALL_SHA="bab8acfb046aac8c72407bdcce903957665d655d7acaa3e11c7c4616beae68dd"
-     tmpfile=$(mktemp)
+     tmpfile=$(mktemp "${TMPDIR:-/tmp}/bun-install.XXXXXX")
      curl -fsSL "https://bun.sh/install" -o "$tmpfile"
      # shasum is macOS/perl; coreutils-only Linux ships sha256sum instead —
      # resolve whichever exists so the verify never fails on a missing tool.

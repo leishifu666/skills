@@ -1,7 +1,9 @@
 ---
 name: lsf-remotion-create
-description: "LSF Remotion 视频创建：为新项目或现有项目搭建视频合成；用户要求制作 Remotion 视频时启用。"
-version: 4.0.529
+description: LSF Remotion 视频创建：为新项目或现有项目搭建视频合成；用户要求制作 Remotion 视频时启用。
+version: 4.0.534
+github_url: https://github.com/remotion-dev/skills
+github_hash: 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
 ---
 
 # LSF Remotion 视频创建
@@ -39,6 +41,10 @@ cd my-video
 npm i
 ```
 
+## 先打开预览
+
+项目可以运行后，在修改合成前启动 Studio，打开命令实际返回的地址并验证预览，制作时保持预览可见。注册 Composition 或 Still 前核对 compositions.md；每个需要独立编辑的媒体片段使用独立 JSX 节点，带同步字幕的片段把时间属性放在共享分组上。
+
 ## 设计视频
 
 保留项目脚手架并添加 React 标记。按照 Remotion React 标记最佳实践编写；视频优先的布局和字号规则见[视频版式规则](video-layout.md)。
@@ -70,7 +76,7 @@ npx remotion studio --no-open
 
 ## 渲染视频
 
-只有用户明确要求渲染时才执行。
+用户要求导出、MP4 或完整制作流程包含成片交付时执行渲染。只要求预览时先交付 Studio。
 
 ```
 npx remotion render
@@ -82,3 +88,7 @@ npx remotion render
 
 视频创建流程到此完成。
 处理后续请求时，使用 `lsf-remotion-best-practices`。
+
+## 当前版本接口
+
+实现前按本次问题读取 [4.0.534 官方接口与示例](references/upstream-current.md)。其中的媒体时间、可编辑节点和合成注册约定更新了旧版实现说明；本地用户改动、授权和交付要求继续适用。

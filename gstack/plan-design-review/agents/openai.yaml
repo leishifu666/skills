@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-plan-design-review"
+  short_description: "在实现前审查 UI/UX 计划，逐项评估设计质量并完善计划；已实现界面应使用 design-review。"
+  default_prompt: "Use gstack-plan-design-review for this task."
+policy:
+  allow_implicit_invocation: true

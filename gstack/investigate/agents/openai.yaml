@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-investigate"
+  short_description: "按调查、分析、假设和实施四阶段定位问题根因；在获得根因证据前不直接修补表象。"
+  default_prompt: "Use gstack-investigate for this task."
+policy:
+  allow_implicit_invocation: true

@@ -7,14 +7,22 @@ Upstream project: https://github.com/oil-oil/oil-cover
 Upstream base: f6bffe73dbe17b03c10c1b24b4aab3540bac7345
 Derivative maintainer: https://github.com/leishifu666
 This derivative adds style selection, the design-sharing editorial preset,
-and offline per-platform creator profiles. It does not imply upstream endorsement.
+the minimal-showcase preset, title-aware emoji selection, article covers,
+continuous social-media cards and offline per-platform creator profiles. It does not imply upstream endorsement.
 
 This product is licensed under the MIT License (see LICENSE).
 
 Showcase images in docs/showcase/ are examples, not reusable creator profiles.
 gallery.png and gallery-4x3.png come from the upstream oil-cover repository
 and are credited to @oil-oil. design-share-*.png are LSF design-sharing examples
-published by the derivative maintainer. Third-party trademarks, portraits and
+published by the derivative maintainer. astra-flowers-*.png are additional LSF
+design-sharing examples based on the maintainer's video:
+https://www.xiaohongshu.com/explore/6aacae260000000011037fdc
+The Astra sticker references the icon on the official OpenAI model page:
+https://developers.openai.com/api/docs/models/gpt-6-astra
+minimal-showcase-*.png are LSF minimal-showcase examples of the same video,
+showing floating MacBook mockups, topic-based gradients and title-aware emoji.
+Third-party trademarks, portraits and
 website artwork depicted in examples are not relicensed as standalone assets
 under the software MIT license. Use your own account name, avatar and content.
 

@@ -17,13 +17,15 @@ import { GeminiAdapter, prepareGeminiProducerState, removeGeminiProducerState } 
 import { PRICING } from '../test/helpers/pricing';
 import type { ProviderAdapter, RunOpts, RunResult } from '../test/helpers/providers/types';
 import {
+  PRODUCER_PLATFORMS,
+  producerHostPlatform,
   producerInputHash,
   producerArtifactInventoryHash,
   producerInstallationIdentityHash,
   producerProviderIdentityHash,
   producerReceiptHash,
   sha256,
-  type ProducerCell,
+  type ProducerExecution,
   type ProducerHost,
   type ProducerInput,
   type ProducerArtifactInventory,
@@ -46,9 +48,14 @@ function inside(parent: string, child: string): boolean {
   return path === '' || (!path.startsWith(`..${sep}`) && path !== '..' && !isAbsolute(path));
 }
 
-function regularFile(path: string): fs.Stats {
+function sourceError(path: string, rule: string): Error {
+  return new Error(`INVALID_PRODUCER_SOURCE: ${JSON.stringify(path.length > 200 ? `${path.slice(0, 200)}...` : path)} ${rule}`);
+}
+
+function regularFile(path: string, relativePath: string): fs.Stats {
   const stat = fs.lstatSync(path);
-  if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1) throw new Error('INVALID_PRODUCER_SOURCE');
+  if (!stat.isFile() || stat.isSymbolicLink()) throw sourceError(relativePath, 'is not a regular file');
+  if (stat.nlink !== 1) throw sourceError(relativePath, `has ${stat.nlink} hard links; expected 1`);
   return stat;
 }
 
@@ -75,15 +82,15 @@ function assertReceiptDestination(path: string): void {
 function walk(root: string, directory = root): string[] {
   const output: string[] = [];
   for (const entry of fs.readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    const full = join(directory, entry.name), relativePath = relative(root, full).split(sep).join('/');
     if (directory === root && entry.name === '.git') {
-      if (!entry.isDirectory() || entry.isSymbolicLink() || fs.realpathSync(join(root, '.git')) !== join(root, '.git')) throw new Error('INVALID_PRODUCER_SOURCE');
+      if (!entry.isDirectory() || entry.isSymbolicLink() || fs.realpathSync(join(root, '.git')) !== join(root, '.git')) throw sourceError('.git', 'is not a real directory');
       continue;
     }
-    if (entry.isSymbolicLink()) throw new Error('INVALID_PRODUCER_SOURCE');
-    const full = join(directory, entry.name);
+    if (entry.isSymbolicLink()) throw sourceError(relativePath, 'is a symbolic link');
     if (entry.isDirectory()) output.push(...walk(root, full));
-    else if (entry.isFile()) output.push(relative(root, full).split(sep).join('/'));
-    else throw new Error('INVALID_PRODUCER_SOURCE');
+    else if (entry.isFile()) output.push(relativePath);
+    else throw sourceError(relativePath, 'is not a regular file or directory');
   }
   return output.sort();
 }
@@ -94,19 +101,24 @@ function validateSource(root: string, entries: ProducerSourceEntry[], expectedHa
     if (!entry || typeof entry.path !== 'string' || !entry.path || entry.path.includes('\\') || entry.path.startsWith('/') || entry.path.split('/').some(part => !part || part === '.' || part === '..') || seen.has(entry.path) || !HEX.test(entry.sha256) || !Number.isSafeInteger(entry.bytes) || entry.bytes < 0) throw new Error('INVALID_PRODUCER_INPUT');
     seen.add(entry.path);
   }
-  const actualPaths = walk(root);
-  const expectedPaths = entries.map(entry => entry.path).sort();
-  if (JSON.stringify(actualPaths) !== JSON.stringify(expectedPaths)) throw new Error('INVALID_PRODUCER_SOURCE');
+  const actualPaths = walk(root), actual = new Set(actualPaths);
+  const expectedPaths = entries.map(entry => entry.path).sort(), expected = new Set(expectedPaths);
+  const firstMismatch = [
+    ...actualPaths.filter(path => !expected.has(path)).map(path => [path, 'is not in the expected source listing']),
+    ...expectedPaths.filter(path => !actual.has(path)).map(path => [path, 'is missing from the source']),
+  ].sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0)[0];
+  if (firstMismatch) throw sourceError(firstMismatch[0], firstMismatch[1]);
   const hashed: Array<[string, string]> = [];
   for (const entry of [...entries].sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0)) {
     const path = resolve(root, ...entry.path.split('/'));
-    if (!inside(root, path)) throw new Error('INVALID_PRODUCER_SOURCE');
-    const stat = regularFile(path);
+    if (!inside(root, path)) throw sourceError(entry.path, 'resolves outside the source root');
+    const stat = regularFile(path, entry.path);
     const contents = readBoundedStable(path, 2 * 1024 * 1024, 'Producer source file');
-    if (stat.size !== entry.bytes || contents.byteLength !== entry.bytes || sha256(contents) !== entry.sha256) throw new Error('INVALID_PRODUCER_SOURCE');
+    if (stat.size !== entry.bytes || contents.byteLength !== entry.bytes) throw sourceError(entry.path, `is ${contents.byteLength} bytes; expected ${entry.bytes}`);
+    if (sha256(contents) !== entry.sha256) throw sourceError(entry.path, 'does not match its expected sha256');
     hashed.push([entry.path, entry.sha256]);
   }
-  if (sha256(JSON.stringify(hashed)) !== expectedHash) throw new Error('INVALID_PRODUCER_SOURCE');
+  if (sha256(JSON.stringify(hashed)) !== expectedHash) throw sourceError('.', 'listing does not match the cell sourceHash');
 }
 
 /** Seal the one-cell source copy before a provider starts. Production producers are macOS/Linux only. */
@@ -116,14 +128,14 @@ export function sealProducerSource(root: string): void {
   const files: string[] = [];
   const visit = (directory: string): void => {
     const directoryStat = fs.lstatSync(directory);
-    if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink()) throw new Error('INVALID_PRODUCER_SOURCE');
+    if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink()) throw sourceError(relative(root, directory) || '.', 'is not a real directory');
     directories.push(directory);
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
       const full = join(directory, entry.name);
-      if (entry.isSymbolicLink()) throw new Error('INVALID_PRODUCER_SOURCE');
+      if (entry.isSymbolicLink()) throw sourceError(relative(root, full), 'is a symbolic link');
       if (entry.isDirectory()) visit(full);
       else if (entry.isFile()) files.push(full);
-      else throw new Error('INVALID_PRODUCER_SOURCE');
+      else throw sourceError(relative(root, full), 'is not a regular file or directory');
     }
   };
   visit(root);
@@ -136,28 +148,32 @@ export function sealProducerSource(root: string): void {
 export function assertProducerSourceSealed(root: string): void {
   if (process.platform === 'win32') return;
   const visit = (directory: string): void => {
+    const modeError = (path: string, rule: string) => new Error(`PRODUCER_CHANGED_SOURCE_MODE: ${JSON.stringify(relative(root, path) || '.')} ${rule}`);
     const directoryStat = fs.lstatSync(directory);
-    if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink() || (directoryStat.mode & 0o777) !== 0o555) throw new Error('PRODUCER_CHANGED_SOURCE_MODE');
+    if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink()) throw modeError(directory, 'is not a real directory');
+    if ((directoryStat.mode & 0o777) !== 0o555) throw modeError(directory, `has mode ${(directoryStat.mode & 0o777).toString(8)}; expected 555`);
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
       const full = join(directory, entry.name), stat = fs.lstatSync(full);
-      if (entry.isSymbolicLink()) throw new Error('PRODUCER_CHANGED_SOURCE_MODE');
+      if (entry.isSymbolicLink()) throw modeError(full, 'is a symbolic link');
       if (entry.isDirectory()) visit(full);
-      else if (!entry.isFile() || (stat.mode & 0o777) !== 0o444) throw new Error('PRODUCER_CHANGED_SOURCE_MODE');
+      else if (!entry.isFile()) throw modeError(full, 'is not a regular file or directory');
+      else if ((stat.mode & 0o777) !== 0o444) throw modeError(full, `has mode ${(stat.mode & 0o777).toString(8)}; expected 444`);
     }
   };
   visit(root);
 }
 
+function emptyArtifactInventory(): ProducerArtifactInventory {
+  const base = { schemaVersion: 1 as const, root: 'security/cso' as const, entries: [], totalBytes: 0 };
+  return { ...base, identityHash: producerArtifactInventoryHash(base) };
+}
+
 export function inventoryProducerArtifacts(helperHome: string): ProducerArtifactInventory {
-  const empty = (): ProducerArtifactInventory => {
-    const base = { schemaVersion: 1 as const, root: 'security/cso' as const, entries: [], totalBytes: 0 };
-    return { ...base, identityHash: producerArtifactInventoryHash(base) };
-  };
   const security = join(helperHome, 'security'), artifactRoot = join(security, 'cso');
   for (const directory of [security, artifactRoot]) {
     let stat: fs.Stats;
     try { stat = fs.lstatSync(directory); }
-    catch (error) { if ((error as NodeJS.ErrnoException).code === 'ENOENT') return empty(); throw error; }
+    catch (error) { if ((error as NodeJS.ErrnoException).code === 'ENOENT') return emptyArtifactInventory(); throw error; }
     if (!stat.isDirectory() || stat.isSymbolicLink() || fs.realpathSync(directory) !== directory) throw new Error('INVALID_PRODUCER_ARTIFACTS');
   }
   const entries: ProducerSourceEntry[] = [];
@@ -191,14 +207,24 @@ function repositoryIdentity(root: string): string {
   const env = { PATH: process.env.PATH ?? '', LANG: 'C', LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: nullPath, GIT_ATTR_NOSYSTEM: '1', GIT_OPTIONAL_LOCKS: '0' };
   const git = executable('git');
   const config = readBoundedStable(join(root, '.git', 'config'), 1024 * 1024, 'Producer Git configuration').toString('utf8');
-  if (/^\s*\[\s*include(?:if)?(?=[\s."\]])/im.test(config)) throw new Error('INVALID_PRODUCER_SOURCE');
+  if (/^\s*\[\s*include(?:if)?(?=[\s."\]])/im.test(config)) throw sourceError('.git/config', 'contains an include directive');
   const common = ['-c', 'core.fsmonitor=false', '-c', 'core.untrackedCache=false', '-c', `core.hooksPath=${nullPath}`, '-c', `core.attributesFile=${nullPath}`, '-c', `core.excludesFile=${nullPath}`, '-c', 'core.pager=cat', '-C', root];
   const read = (args: string[]) => execFileSync(git, [...common, ...args], { env, encoding: 'utf8', timeout: 10_000, maxBuffer: 1024 * 1024 });
   return sha256(JSON.stringify({ config: sha256(config), head: read(['rev-parse', '--verify', 'HEAD']).trim(), branch: read(['symbolic-ref', '--short', 'HEAD']).trim(), status: read(['status', '--porcelain=v2', '--untracked-files=all']) }));
 }
 
-function validateCell(cell: ProducerCell): void {
-  if (!cell || !HEX.test(cell.id) || !cell.caseId || !['node', 'bun', 'python', 'rails'].includes(cell.stack) || !['vulnerable', 'fixed'].includes(cell.variant) || !['v2', 'v3'].includes(cell.version) || !['daily', 'comprehensive'].includes(cell.mode) || ![1, 2, 3].includes(cell.repetition) || !cell.model || !['claude', 'codex', 'gemini'].includes(cell.host) || !Number.isInteger(cell.budgetSeconds) || cell.budgetSeconds <= 60 || cell.budgetSeconds > 3600 || !HEX.test(cell.sourceHash) || !HEX.test(cell.skillHash)) throw new Error('INVALID_PRODUCER_INPUT');
+const INPUT_FIELDS = 'cellRef,execution,schemaVersion,skill,source';
+const EXECUTION_FIELDS = 'budgetSeconds,host,mode,model,skillHash,sourceHash';
+/** The input has exactly the opaque fields: no case, variant, version, or repetition can ride along. */
+function validateInput(input: ProducerInput): void {
+  const execution = input?.execution;
+  if (!input || typeof input !== 'object' || Object.keys(input).sort().join(',') !== INPUT_FIELDS || input.schemaVersion !== 2 || !HEX.test(input.cellRef) ||
+      typeof input.skill !== 'string' || Buffer.byteLength(input.skill) > INPUT_LIMIT || !Array.isArray(input.source) ||
+      !execution || typeof execution !== 'object' || Object.keys(execution).filter(key => key !== 'platform').sort().join(',') !== EXECUTION_FIELDS ||
+      !['daily', 'comprehensive'].includes(execution.mode) || typeof execution.model !== 'string' || !execution.model || !['claude', 'codex', 'gemini'].includes(execution.host) ||
+      !Number.isInteger(execution.budgetSeconds) || execution.budgetSeconds <= 60 || execution.budgetSeconds > 3600 || !HEX.test(execution.sourceHash) || !HEX.test(execution.skillHash) ||
+      ('platform' in execution && !PRODUCER_PLATFORMS.includes(execution.platform!))) throw new Error('INVALID_PRODUCER_INPUT');
+  if (execution.platform !== undefined && execution.platform !== producerHostPlatform()) throw new Error('UNMATCHED_PRODUCER_PLATFORM');
 }
 
 export interface ProducerHelperBinding {
@@ -417,7 +443,7 @@ export function resolveProducerProviderIdentity(host: ProducerHost, stateRoot: s
   };
 }
 
-function promptFor(cell: ProducerCell, skill: string, sourceRoot: string, helper: ProducerHelperBinding): string {
+function promptFor(cell: ProducerExecution, skill: string, sourceRoot: string, helper: ProducerHelperBinding): string {
   const invocation = `/cso${cell.mode === 'comprehensive' ? ' --comprehensive' : ''} --budget ${cell.budgetSeconds}`;
   const sourceAccess = cell.host === 'codex'
     ? 'The Codex permission profile grants read-only access to exactly that immutable snapshot so the trusted helper can read it. Use only the trusted helper to inspect or act on source; direct provider file or shell access is outside this evaluation policy.'
@@ -466,6 +492,14 @@ export function producerFailureMessage(error: unknown): string {
   catch { return 'REDACTION_FAILED: producer error withheld'; }
 }
 
+/** A post-run check failed: the receipt records it as a failed cell with no output or artifacts, keeping the run's usage. */
+export function producerIntegrityFailure(error: unknown): { code: string; reason: string } {
+  if (error instanceof CsoError) return { code: error.code, reason: producerFailureMessage(error) };
+  const message = producerFailureMessage(error);
+  const named = error instanceof Error && !(error as NodeJS.ErrnoException).code ? /^([A-Z][A-Z0-9_]+)(?::\s*([\s\S]*))?$/.exec(message) : null;
+  return named ? { code: named[1], reason: named[2] || named[1] } : { code: 'PRODUCER_POST_RUN_CHECK_FAILED', reason: message };
+}
+
 export async function runProducerCell(inputPath: string, receiptPath: string, options: {
   adapter?: ProviderAdapter;
   paidExecutionAuthorized: boolean;
@@ -484,20 +518,20 @@ export async function runProducerCell(inputPath: string, receiptPath: string, op
   const bytes = readBoundedStable(controlPath, INPUT_LIMIT, 'Producer input');
   let input: ProducerInput;
   try { input = JSON.parse(bytes.toString('utf8')); } catch { throw new Error('INVALID_PRODUCER_INPUT'); }
-  if (input.schemaVersion !== 1 || typeof input.skill !== 'string' || Buffer.byteLength(input.skill) > INPUT_LIMIT || !Array.isArray(input.source)) throw new Error('INVALID_PRODUCER_INPUT');
-  validateCell(input.cell);
-  if (basename(receipt) !== `${input.cell.id}.json`) throw new Error('UNMATCHED_RECEIPT_DESTINATION');
-  if (sha256(input.skill) !== input.cell.skillHash) throw new Error('INVALID_PRODUCER_SKILL');
-  validateSource(sourceRoot, input.source, input.cell.sourceHash);
+  validateInput(input);
+  const cell = input.execution;
+  if (basename(receipt) !== `${input.cellRef}.json`) throw new Error('UNMATCHED_RECEIPT_DESTINATION');
+  if (sha256(input.skill) !== cell.skillHash) throw new Error('INVALID_PRODUCER_SKILL');
+  validateSource(sourceRoot, input.source, cell.sourceHash);
   sealProducerSource(sourceRoot);
-  validateSource(sourceRoot, input.source, input.cell.sourceHash);
+  validateSource(sourceRoot, input.source, cell.sourceHash);
   const originalRepositoryIdentity = repositoryIdentity(sourceRoot);
   const stateRoot = join(jobRoot, 'state');
   const helperHome = join(stateRoot, 'cso-home');
   const helper = resolveProducerHelperBinding(sourceRoot, stateRoot, options.testHelperLauncherPath);
   const installationIdentity = producerInstallationIdentity(helper);
-  const adapter = options.adapter ?? adapterFor(input.cell.host);
-  if ((input.cell.host === 'codex' ? 'gpt' : input.cell.host) !== adapter.family) throw new Error('UNMATCHED_PRODUCER_ADAPTER');
+  const adapter = options.adapter ?? adapterFor(cell.host);
+  if ((cell.host === 'codex' ? 'gpt' : cell.host) !== adapter.family) throw new Error('UNMATCHED_PRODUCER_ADAPTER');
   fs.mkdirSync(stateRoot, { recursive: false, mode: 0o700 });
   fs.mkdirSync(helperHome, { recursive: false, mode: 0o700 });
   const provider = options.testProviderIdentity
@@ -505,13 +539,13 @@ export async function runProducerCell(inputPath: string, receiptPath: string, op
         identity: validateProviderIdentity(options.testProviderIdentity, adapter.family),
         command: options.testProviderCommand ?? { executable: process.execPath, argsPrefix: [] },
       }
-    : resolveProducerProviderIdentity(input.cell.host, stateRoot);
+    : resolveProducerProviderIdentity(cell.host, stateRoot);
   const providerIdentity = provider.identity;
   const runOptions = {
-    prompt: promptFor(input.cell, input.skill, sourceRoot, helper),
+    prompt: promptFor(cell, input.skill, sourceRoot, helper),
     workdir: stateRoot,
-    timeoutMs: input.cell.budgetSeconds * 1000,
-    model: input.cell.model,
+    timeoutMs: cell.budgetSeconds * 1000,
+    model: cell.model,
     csoProducer: {
       stateDirectory: stateRoot,
       sourceDirectory: sourceRoot,
@@ -521,7 +555,7 @@ export async function runProducerCell(inputPath: string, receiptPath: string, op
     },
   } satisfies RunOpts;
   const availability = await adapter.available(runOptions);
-  if (!availability.ok) throw new Error(`PRODUCER_UNAVAILABLE: ${availability.reason ?? input.cell.host}`);
+  if (!availability.ok) throw new Error(`PRODUCER_UNAVAILABLE: ${availability.reason ?? cell.host}`);
   const inputHash = producerInputHash(input);
 
   // Load the opaque metadata into memory, then remove it before starting the
@@ -536,11 +570,11 @@ export async function runProducerCell(inputPath: string, receiptPath: string, op
   const startedAt = new Date().toISOString();
   let run: RunResult;
   try {
-    if (input.cell.host === 'gemini') prepareGeminiProducerState(stateRoot, helper.launcher);
+    if (cell.host === 'gemini') prepareGeminiProducerState(stateRoot, helper.launcher);
     run = await adapter.run(runOptions);
   } finally {
     try {
-      if (input.cell.host === 'gemini') removeGeminiProducerState(stateRoot);
+      if (cell.host === 'gemini') removeGeminiProducerState(stateRoot);
     } finally {
       if (previousHome === undefined) delete process.env.GSTACK_HOME; else process.env.GSTACK_HOME = previousHome;
       if (previousSessionKind === undefined) delete process.env.GSTACK_SESSION_KIND; else process.env.GSTACK_SESSION_KIND = previousSessionKind;
@@ -548,48 +582,59 @@ export async function runProducerCell(inputPath: string, receiptPath: string, op
     }
   }
   const finishedAt = new Date().toISOString();
-  const installationAfter = producerInstallationIdentity(helper);
-  if (installationAfter.identityHash !== installationIdentity.identityHash) {
-    throw new Error('PRODUCER_HELPER_GENERATION_CHANGED');
+  let artifacts = emptyArtifactInventory();
+  let integrityFailure: { code: string; reason: string } | undefined;
+  try {
+    const installationAfter = producerInstallationIdentity(helper);
+    if (installationAfter.identityHash !== installationIdentity.identityHash) {
+      throw new Error('PRODUCER_HELPER_GENERATION_CHANGED: installed helper identity changed during the run');
+    }
+    const providerAfter = artifactIdentity(provider.command.executable);
+    if (providerAfter.sha256 !== providerIdentity.executable.sha256 || providerAfter.bytes !== providerIdentity.executable.bytes) {
+      throw new Error('PRODUCER_PROVIDER_INSTALLATION_RACE: provider executable changed during the run');
+    }
+    assertProducerSourceSealed(sourceRoot);
+    validateSource(sourceRoot, input.source, cell.sourceHash);
+    if (repositoryIdentity(sourceRoot) !== originalRepositoryIdentity) throw new Error('PRODUCER_CHANGED_SOURCE: Git HEAD, branch, config or status changed during the run');
+    artifacts = inventoryProducerArtifacts(helperHome);
+    const outputBytes = typeof run.output === 'string' ? Buffer.byteLength(run.output) : 0;
+    if (outputBytes > OUTPUT_LIMIT) throw new Error(`PRODUCER_OUTPUT_TOO_LARGE: output is ${outputBytes} bytes; the limit is ${OUTPUT_LIMIT}`);
+  } catch (error) {
+    integrityFailure = producerIntegrityFailure(error);
+    artifacts = emptyArtifactInventory();
   }
-  const providerAfter = artifactIdentity(provider.command.executable);
-  if (providerAfter.sha256 !== providerIdentity.executable.sha256 || providerAfter.bytes !== providerIdentity.executable.bytes) {
-    throw new Error('PRODUCER_PROVIDER_INSTALLATION_RACE');
+  if (!integrityFailure) {
+    run = sanitizeProducerRun(run);
+    if(!run.error&&!run.output.trim())run={...run,error:{code:'unknown',reason:'empty output from provider CLI (exit 0)'}};
   }
-  assertProducerSourceSealed(sourceRoot);
-  validateSource(sourceRoot, input.source, input.cell.sourceHash);
-  if (repositoryIdentity(sourceRoot) !== originalRepositoryIdentity) throw new Error('PRODUCER_CHANGED_SOURCE');
-  const artifacts = inventoryProducerArtifacts(helperHome);
-  run = sanitizeProducerRun(run);
-  if(!run.error&&!run.output.trim())run={...run,error:{code:'unknown',reason:'empty output from provider CLI (exit 0)'}};
-  if (Buffer.byteLength(run.output) > OUTPUT_LIMIT) throw new Error('PRODUCER_OUTPUT_TOO_LARGE');
   const tokensReported = run.tokens.input > 0 || run.tokens.output > 0 || (run.tokens.cached ?? 0) > 0;
   const estimatedCostUSD = tokensReported && PRICING[run.modelUsed] ? adapter.estimateCost(run.tokens, run.modelUsed) : null;
+  const failure = integrityFailure ?? run.error, output = integrityFailure ? '' : run.output;
   const withoutHash: Omit<ProducerReceipt, 'receiptHash'> = {
-    schemaVersion: 1,
-    cell: input.cell,
+    schemaVersion: 2,
+    cellRef: input.cellRef,
     inputHash,
     installationIdentity,
     providerIdentity,
     artifacts,
     startedAt,
     finishedAt,
-    status: run.error ? 'failed' : 'succeeded',
-    requestedModel: input.cell.model,
+    status: failure ? 'failed' : 'succeeded',
+    requestedModel: cell.model,
     modelUsed: run.modelUsed,
-    modelIdentitySource: run.modelUsed === input.cell.model ? 'requested_pin' : 'provider_reported',
+    modelIdentitySource: run.modelUsed === cell.model ? 'requested_pin' : 'provider_reported',
     durationMs: run.durationMs,
     firstUsefulResultMs: null,
     toolCalls: run.toolCalls,
-    output: run.output,
-    outputHash: sha256(run.output),
+    output,
+    outputHash: sha256(output),
     usage: {
       inputTokens: tokensReported ? run.tokens.input : null,
       outputTokens: tokensReported ? run.tokens.output : null,
       cachedTokens: tokensReported && run.tokens.cached !== undefined ? run.tokens.cached : null,
       estimatedCostUSD,
     },
-    ...(run.error ? { error: run.error } : {}),
+    ...(failure ? { error: failure } : {}),
   };
   const result = { ...withoutHash, receiptHash: producerReceiptHash(withoutHash) };
   writeExclusiveAtomic(receipt, result);
@@ -600,7 +645,7 @@ async function cli(args: string[]): Promise<void> {
   if (args.length !== 4 || args[0] !== 'run' || args[3] !== '--execute-paid') throw new Error('Usage: cso-eval-producer run <consumable-input.json> <new-receipt.json> --execute-paid');
   if (process.env.CSO_EVAL_PAID !== '1') throw new Error('PAID_EXECUTION_NOT_AUTHORIZED: also set CSO_EVAL_PAID=1 on the isolated producer host');
   const receipt = await runProducerCell(args[1], args[2], { paidExecutionAuthorized: true });
-  console.log(JSON.stringify({ cellId: receipt.cell.id, status: receipt.status, durationMs: receipt.durationMs, receiptHash: receipt.receiptHash }));
+  console.log(JSON.stringify({ cellRef: receipt.cellRef, status: receipt.status, durationMs: receipt.durationMs, receiptHash: receipt.receiptHash }));
 }
 
 if (import.meta.main) {

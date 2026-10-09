@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-qa-only"
+  short_description: "检查浏览器、API、CLI、任务、Worker 或 Webhook 问题，输出证据和复现步骤；只检查，不修改代码。"
+  default_prompt: "Use gstack-qa-only for this task."
+policy:
+  allow_implicit_invocation: true

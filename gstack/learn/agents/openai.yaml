@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-learn"
+  short_description: "查询、整理或维护 gstack 的跨会话经验记录；用户要求回顾或管理经验时使用。"
+  default_prompt: "Use gstack-learn for this task."
+policy:
+  allow_implicit_invocation: true

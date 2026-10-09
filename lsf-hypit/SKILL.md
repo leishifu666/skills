@@ -1,14 +1,17 @@
 ---
 name: lsf-hypit
-description: "LSF｜使用 Hypit 根据参考素材或创作需求制作、复刻和修改视频，包括 SVML/SVS/SVRun 编写、项目组件、运行环境及凭据配置。适用于参考视频分析、素材导演、视频编排与成片交付。"
+description: LSF｜使用 Hypit 根据参考素材或创作需求制作、复刻和修改视频，包括 SVML/SVS/SVRun 编写、项目组件、运行环境及凭据配置。适用于参考视频分析、素材导演、视频编排与成片交付。
 metadata:
-  upstream_name: "hypit"
-  upstream_repository: "https://github.com/hypit-ai/hypit"
-  upstream_path: "skills/hypit"
-  upstream_commit: "b00532e413d83845b631df25f2319017541db0ac"
-  upstream_version: "0.2.16"
-  localization: "zh-CN"
-  localized_at: "2026-09-16"
+  upstream_name: hypit
+  upstream_repository: https://github.com/hypit-ai/hypit
+  upstream_path: skills/hypit
+  upstream_commit: b00532e413d83845b631df25f2319017541db0ac
+  upstream_version: 0.2.16
+  localization: zh-CN
+  localized_at: '2026-09-16'
+version: 0.3.1
+github_url: https://github.com/hypit-ai/hypit
+github_hash: 847f43c5e4089608abeae2da0240d9edcb1b5441
 ---
 
 # LSF Hypit 视频创作
@@ -46,7 +49,7 @@ metadata:
 为这些关系取有意义的名字，让组件完成各自的布局和运动。
 Hypit 为已有组件和项目自定义组件提供统一的创作与执行接口。
 
-作品具有一条 Timeline（时间线）和一个画布。放置的 Takes（素材段）在对应位置提供语义锚点，组件为画面组织结构。
+作品具有一条有限长度的 Timeline 和一个 Canvas。预制媒体具有局部时间域和 Extent；投影器通过等长的绝对 Window 把局部证据转换为时间线位置，不成为时间线内容。语义对齐、音乐节拍和手工事件都可提供绝对时间。Visual Clip 与 Audio Clip 使用媒体及明确的 Window。
 时间可以包含对白、空隙、重叠或完全手工编排的动画；空间可以包含独立元素，也可以是拥有内部层级的协调场景。
 [系统关系](references/production/system.md)解释这种组织方式，以及它与素材和执行过程的联系。
 
@@ -238,12 +241,12 @@ Script、提示词、参考和请求时长准备好后，在已约定的委托�
 | MG、演示板、卡片、图形状态、层级、配色和揭示设计 | `references/playbooks/craft/graphic-compositions.md` |
 | 决定生成图像和视频应依赖哪些参考 | `references/playbooks/craft/generated-dependencies.md` |
 | 音乐、音效、环境声、增益、闪避或最终混音 | `references/playbooks/craft/sound-mix.md` |
-| 时间线上已有声音的呈现、局部增益、静音、淡入淡出或显式混合来源 | `references/production/sound.md` |
+| 时间线上已有声音的呈现、局部增益、静音、淡入淡出或显式混合来源 | `references/production/audio-clips.md` |
 | 编写 Sources、Recipes、Runs，复用产出或新增组件 | `references/production/authoring.md` |
 | 导入、输出引用、字面值或 Recipe 规则 | `references/production/source-syntax.md` |
 | 选择 Prompt Kit、组合措辞或编写新的 Kit | `references/production/prompt-kits.md` |
 | Run 语法、素材 Targets、Candidates、Run Fragments 或复用媒体 | `references/production/runs.md` |
-| 引入媒体、标准化、SemanticTakes、静帧片段、裁剪或提取 | `references/production/media.md` |
+| 引入媒体、标准化、局部时间域、NarrativeAlignment、裁剪或提取 | `references/production/media.md` |
 | 用 yt-dlp 从链接下载参考或源视频 | `references/production/video-downloads.md` |
 | 截取网站、录制页面交互或导出本地 HTML 图形 | `references/production/browser-capture.md` |
 | 图像合成、修正、缩放、裁剪或抠图 | `references/production/image-operations.md` |
@@ -252,9 +255,9 @@ Script、提示词、参考和请求时长准备好后，在已约定的委托�
 | 字体选择和查找、本地字体、多语言文本、Emoji 或文字排版 | `references/production/fonts-and-text.md` |
 | 选择已安装 Surface，或决定是否编写项目组件 | `references/production/vocabulary.md` |
 | 跨项目共享组件、Prompt Kit、Model 或 Provider | `references/production/component-sharing.md` |
-| 在同一 Timeline 放置 Takes、空隙、重叠、完整时长或纯 MG 作品 | `references/production/timeline.md` |
-| 编排 Performance、Media、Audio、Caption、Text、MG 和 Effect 轨道 | `references/production/tracks.md` |
-| 通过整体或局部 Uses、移动视口或自定义表演样式呈现现有时间线素材 | `references/production/performance.md` |
+| 构造有限 Timeline、Instant、Window、Extent、空隙、重叠或纯 MG 作品 | `references/production/timeline.md` |
+| 编排 Visual、Audio、Caption、Text、MG 和 Effect 轨道 | `references/production/tracks.md` |
+| 通过 Visual Clip 或协调组件呈现时间线素材与独立画面 | `references/production/visual-clips.md` |
 | 编写具有新布局、语义事件或持续状态的项目 Track | `references/production/track-authoring.md` |
 | 绘制组件元素、动画、资源或预制画面 | `references/production/component-visuals.md` |
 | 编写具有新词语关系、调度或布局的 Caption family | `references/production/caption-authoring.md` |
@@ -272,7 +275,7 @@ Script、提示词、参考和请求时长准备好后，在已约定的委托�
 
 - Hypit 优先根据目标创作所需素材与组件，并组合生成素材和用户素材。已有录制可能是参考、保留的表演、独立画面或声音，先确定其作用，不默认替换。
 - 只有需要实测语音时间时才配置 WhisperX；换脸或动作替换不会因为包含语音就自动需要转写。沿用已经选定并可工作的服务和 Outputs，通过 Profile 配置路由，只准备本次所需资源；安装、选择、准备、运行是不同状态。
-- 当前时间线素材通过 Performance 或项目场景呈现；需要独立播放关系时显式提供独立媒体。A-roll 的语义时间可以持续存在，画面大小、位置和可见性可以改变。
+- A-roll 的 Extent 可用于建立 Timeline，局部时间域可投影语义。画面和声音分别通过 Visual Clip、Audio Clip 或项目场景消费同一媒体；明确绝对 Window 与采样方式。
 - 用 snapshots 核对细节和连续帧，用 Studio 带声音播放核对整段；记录具体状态及转变，再说明它们如何贯穿作品。
 
 | 当前问题 | 阅读文件 |
@@ -284,3 +287,9 @@ Script、提示词、参考和请求时长准备好后，在已约定的委托�
 | 参考已使用或用户要求字幕跟随说话人头部 | `references/playbooks/craft/caption-tracking.md` |
 | MG 动作、状态、衔接、持续对象及节奏 | `references/playbooks/craft/motion-graphics.md` |
 | 图像快照、连续帧网格与细节检查 | `references/production/snapshots.md` |
+
+## 0.3 时间与素材接口
+
+- 新项目采用有限 Timeline、Instant、Window、Extent、Visual Clip 和 Audio Clip。已有 0.2 项目先检查 [0.3 迁移指南](references/production/migration-0.3.md)，逐项迁移，不把旧 Take/Performance 接口与新 Clip 接口混用。
+- 参考视频先用于理解。只有需要保留连续动作、时间行为且文字或静帧无法表达时，才将选中片段作为生成输入；决策见 [视频导演](references/playbooks/craft/video-direction.md)。
+- 语音作品只使用当前合成实际消费的语义时间；预览检查音画、字幕和节拍。

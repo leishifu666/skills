@@ -1,16 +1,6 @@
 ---
 name: setup-browser-cookies
-preamble-tier: 1
-version: 1.0.0
 description: 按用户选择为 gstack 浏览器导入站点 Cookie；用于明确的登录态导入请求。
-triggers:
-- import browser cookies
-- login to test site
-- setup authenticated session
-allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
 title: 配置 浏览器 Cookies
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
@@ -19,10 +9,9 @@ title: 配置 浏览器 Cookies
 ## Preamble (run first)
 
 ```bash
-_SS="$HOME/.claude/skills/gstack/bin/gstack-skill-start"
-[ -x "$_SS" ] || _SS=".claude/skills/gstack/bin/gstack-skill-start"
-"$_SS" --skill "setup-browser-cookies" --model "claude" --parent-pid "$PPID" \
-  || echo "SKILL_START: unavailable — stale install; run ./setup or /gstack-upgrade (preamble degraded, continue the user's task)"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_BIN=$GSTACK_ROOT/bin
+"$GSTACK_BIN/gstack-skill-start" --skill "setup-browser-cookies" --model "gpt"
 ```
 
 Read the echoed `KEY: value` STATUS lines — they drive every preamble rule
@@ -52,44 +41,69 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+If `PROACTIVE` is `false`, do not auto-invoke or suggest skills, including by asking whether to run one. Only run skills the user explicitly invokes.
 
-If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `$GSTACK_ROOT/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
-The skill-start output above already ran artifacts sync. Act on its lines:
-GBrain hint text (if present) tells you when to prefer `gbrain` over Grep;
-`ARTIFACTS_SYNC:` reports sync health (`off`, `mode=... | queue=N`,
-`remote-mode`, or a restore hint naming `gstack-brain-restore`).
+Skill-start already ran artifacts sync. GBrain hint text (if any) says
+when to prefer `gbrain` over Grep. `ARTIFACTS_SYNC:` reports sync health
+(`off`, `mode=... | queue=N`, `remote-mode`, or a `gstack-brain-restore`
+hint). On an `attention:` line, tell the user in one sentence what
+it says and the command it names, then continue.
 
-The one-time privacy stop-gate (artifacts-sync consent) arrives as a
-`GSTACK_INSTRUCTION` block from skill-start when consent is actually pending
-— fire it via AskUserQuestion exactly as the block instructs.
+The one-time privacy stop-gate arrives as a `GSTACK_INSTRUCTION` block
+from skill-start when consent is pending; fire it via AskUserQuestion
+exactly as instructed.
 
-## Model-Specific Behavioral Patch (claude)
+## Model-Specific Behavioral Patch (gpt)
 
-The following nudges are tuned for the claude model family. They are
+The following nudges are tuned for the gpt model family. They are
 **subordinate** to skill workflow, STOP points, AskUserQuestion gates, plan-mode
 safety, and /ship review gates. If a nudge below conflicts with skill instructions,
 the skill wins. Treat these as preferences, not rules.
 
-**Todo-list discipline.** When working through a multi-step plan, mark each task
-complete individually as you finish it. Do not batch-complete at the end. If a task
-turns out to be unnecessary, mark it skipped with a one-line reason.
+**Completion bias.** Do not end your turn with a partial solution when the full
+solution is reachable. If you encounter an error, debug it. If a test fails, fix it.
+If something is ambiguous, make your best judgment and proceed — don't stop and ask
+unless you're genuinely blocked.
 
-**Think before heavy actions.** For complex operations (refactors, migrations,
-non-trivial new features), briefly state your approach before executing. This lets
-the user course-correct cheaply instead of mid-flight.
+**Prefer doing over listing.** When you'd be tempted to write "you could also try X,
+Y, or Z," try the best option yourself. Pick, execute, report results.
 
-**Dedicated tools over Bash.** Prefer Read, Edit, Write, Glob, Grep over shell
-equivalents (cat, sed, find, grep). The dedicated tools are cheaper and clearer.
+**No preamble.** Skip "Great question!", "Let me help with that", and restating the
+user's request. Start with the work.
+
+**AskUserQuestion is NOT preamble.** The "No preamble" and "Prefer doing over listing"
+rules above do NOT apply to AskUserQuestion content. When you invoke AskUserQuestion,
+the user is about to make a decision — they need context, not terseness. Always emit
+the full format from the preamble's AskUserQuestion Format section:
+
+1. **Re-ground** (project + branch + task — 1-2 sentences).
+2. **Simplify (ELI10)** — explain what's happening in plain English a 16-year-old could
+   follow. Concrete stakes, not abstract tradeoffs. Non-negotiable; this is NOT preamble.
+3. **Recommend** — `RECOMMENDATION: Choose [X] because [one-line reason]` on its own
+   line. Never omit this line. Never collapse it into the options list.
+4. **Options** — lettered `A) B) C)` with Completeness scores (coverage-differentiated)
+   or the "options differ in kind" note (kind-differentiated).
+
+If you find yourself about to present an AskUserQuestion without the Simplify/ELI10
+paragraph, without a RECOMMENDATION line, or by just listing options and asking "which
+one?" — stop, back up, and emit the full format. The user will ask you to do it anyway,
+so do it the first time.
+
+**Reminder: subordination applies.** When a skill workflow says STOP, stop. When the
+skill asks via AskUserQuestion, that is the wait-for-user gate, not an ambiguity.
+Completion bias does not override safety gates.
 
 ## Voice
 
 Direct, concrete, builder-to-builder. Name the file, function, command, and user-visible impact. No filler.
 
-No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted. Never corporate or academic. Short paragraphs. End with what to do.
+No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted, load-bearing. Never corporate or academic. Short paragraphs. End with what to do.
+
+Reply in the language of the user's latest message unless asked otherwise. Code, commands, paths, identifiers and quoted output stay verbatim.
 
 The user has context you do not. Cross-model agreement is a recommendation, not a decision. The user decides.
 
@@ -118,7 +132,9 @@ Only when the host mode and existing privacy choices allow it, this writes telem
 `~/.gstack/analytics/`, matching preamble analytics writes.
 
 ```bash
-~/.claude/skills/gstack/bin/gstack-skill-end --skill "setup-browser-cookies" --outcome OUTCOME \
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_BIN=$GSTACK_ROOT/bin
+$GSTACK_BIN/gstack-skill-end --skill "setup-browser-cookies" --outcome OUTCOME \
   --session-id "SESSION_ID" --tel-start "TEL_START" --used-browse USED_BROWSE \
   --error-message "ERROR_MESSAGE" --failed-step "FAILED_STEP" 2>/dev/null || true
 ```
@@ -141,10 +157,8 @@ Use this checkout as the gstack root if it contains `BROWSER.md` and `browse/SKI
 ## SETUP (run this check BEFORE any browse command)
 
 ```bash
-_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
-B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/dist/browse" ] && B="$_ROOT/.claude/skills/gstack/browse/dist/browse"
-[ -z "$B" ] && B="$HOME/.claude/skills/gstack/browse/dist/browse"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+B=$GSTACK_ROOT/browse/dist/browse
 if [ -x "$B" ]; then
   echo "READY: $B"
 else
@@ -158,9 +172,9 @@ If `NEEDS_SETUP`:
 3. If `bun` is not installed:
    ```bash
    if ! command -v bun >/dev/null 2>&1; then
-     BUN_VERSION="1.3.10"
+     BUN_VERSION="1.4.2"
      BUN_INSTALL_SHA="bab8acfb046aac8c72407bdcce903957665d655d7acaa3e11c7c4616beae68dd"
-     tmpfile=$(mktemp)
+     tmpfile=$(mktemp "${TMPDIR:-/tmp}/bun-install.XXXXXX")
      curl -fsSL "https://bun.sh/install" -o "$tmpfile"
      # shasum is macOS/perl; coreutils-only Linux ships sha256sum instead —
      # resolve whichever exists so the verify never fails on a missing tool.
@@ -181,6 +195,8 @@ If `NEEDS_SETUP`:
    ```
 
 ```bash
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+B=$GSTACK_ROOT/browse/dist/browse
 $B status
 ```
 If status says `Mode: cdp`, stop: the real browser already has sessions.
@@ -195,6 +211,8 @@ Open the known target and keep its tab unchanged. Both options default off and r
 ## 3. Select source and scope
 
 ```bash
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+B=$GSTACK_ROOT/browse/dist/browse
 $B cookie-import-browser
 ```
 

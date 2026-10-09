@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-canary"
+  short_description: "部署后持续检查线上页面错误、性能回退和页面故障，并通过截图与基准对比发现异常。"
+  default_prompt: "Use gstack-canary for this task."
+policy:
+  allow_implicit_invocation: true

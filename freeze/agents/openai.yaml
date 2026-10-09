@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-freeze"
+  short_description: "将本次会话的文件修改限制在指定目录内，防止误改无关模块。"
+  default_prompt: "Use gstack-freeze for this task."
+policy:
+  allow_implicit_invocation: true

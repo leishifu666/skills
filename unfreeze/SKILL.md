@@ -1,14 +1,6 @@
 ---
 name: unfreeze
-version: 0.1.0
 description: 解除 freeze 设置的目录边界，恢复对其他目录的编辑权限。
-triggers:
-- unfreeze edits
-- unlock all directories
-- remove edit restrictions
-allowed-tools:
-- Bash
-- Read
 title: 解除编辑限制
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
@@ -19,14 +11,17 @@ title: 解除编辑限制
 Remove the edit restriction set by `/freeze`, allowing edits to all directories.
 
 ```bash
-mkdir -p ~/.gstack/analytics
-echo '{"skill":"unfreeze","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_STATE_ROOT=$($GSTACK_ROOT/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+mkdir -p "$GSTACK_STATE_ROOT"/analytics
+echo '{"skill":"unfreeze","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> "$GSTACK_STATE_ROOT"/analytics/skill-usage.jsonl 2>/dev/null || true
 ```
 
 ## Clear the boundary
 
 ```bash
-bash "$HOME/.claude/skills/gstack/freeze/bin/freeze-state.sh" clear
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+bash "$GSTACK_ROOT/freeze/bin/freeze-state.sh" clear
 ```
 
 This is explicit user-requested removal, not investigation cleanup. The shared writer serializes it with acquisition, replacement and owner-checked release. On `FREEZE_BUSY` or unexpected state, leave everything untouched and report recovery; never delete state or a possibly active mutation lock directly.

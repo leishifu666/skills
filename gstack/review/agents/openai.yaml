@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-review"
+  short_description: "在合并前审查代码差异，重点发现行为回退、数据安全、信任边界和缺失测试等问题。"
+  default_prompt: "Use gstack-review for this task."
+policy:
+  allow_implicit_invocation: true

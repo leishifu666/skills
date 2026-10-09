@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-benchmark"
+  short_description: "建立和比较网页性能基准，包括加载时间、网页指标和资源体积；AI 模型评测使用 benchmark-models。"
+  default_prompt: "Use gstack-benchmark for this task."
+policy:
+  allow_implicit_invocation: true

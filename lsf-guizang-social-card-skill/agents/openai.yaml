@@ -1,0 +1,8 @@
+interface:
+  display_name: "LSF 归藏社交图文"
+  short_description: "将文章、截图与视频做成小红书图文、实况卡片和公众号双比例封面"
+  brand_color: "#002FA7"
+  default_prompt: "使用 $lsf-guizang-social-card-skill，根据提供的文章、截图或视频，按本次需求制作小红书 3:4 图文、Live Photo 实况卡片或微信公众号 21:9 + 1:1 封面对。"
+
+policy:
+  allow_implicit_invocation: true

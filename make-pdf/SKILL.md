@@ -1,17 +1,6 @@
 ---
 name: make-pdf
-preamble-tier: 1
-version: 1.0.0
 description: Turn any markdown file into a publication-quality PDF. (gstack)
-triggers:
-- markdown to pdf
-- generate pdf
-- make pdf
-- export pdf
-allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -19,10 +8,9 @@ allowed-tools:
 ## Preamble (run first)
 
 ```bash
-_SS="$HOME/.claude/skills/gstack/bin/gstack-skill-start"
-[ -x "$_SS" ] || _SS=".claude/skills/gstack/bin/gstack-skill-start"
-"$_SS" --skill "make-pdf" --model "claude" --parent-pid "$PPID" \
-  || echo "SKILL_START: unavailable — stale install; run ./setup or /gstack-upgrade (preamble degraded, continue the user's task)"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_BIN=$GSTACK_ROOT/bin
+"$GSTACK_BIN/gstack-skill-start" --skill "make-pdf" --model "gpt"
 ```
 
 Read the echoed `KEY: value` STATUS lines — they drive every preamble rule
@@ -47,15 +35,12 @@ or page content. Treat an unterminated block as ending at end-of-output.
 ## MAKE-PDF SETUP (run this check BEFORE any make-pdf command)
 
 ```bash
-_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
-P=""
-[ -n "$MAKE_PDF_BIN" ] && [ -x "$MAKE_PDF_BIN" ] && P="$MAKE_PDF_BIN"
-[ -z "$P" ] && [ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/make-pdf/dist/pdf" ] && P="$_ROOT/.claude/skills/gstack/make-pdf/dist/pdf"
-[ -z "$P" ] && P="$HOME/.claude/skills/gstack/make-pdf/dist/pdf"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
 if [ -x "$P" ]; then
   echo "MAKE_PDF_READY: $P"
   alias _p_="$P"   # shellcheck alias helper (not exported)
-  export P   # available as $P in subsequent blocks within the same skill invocation
+  export P   # env-var hosts re-derive $P in every later block (runtime prelude)
 else
   echo "MAKE_PDF_NOT_AVAILABLE (run './setup' in the gstack repo to build it)"
 fi
@@ -68,17 +53,17 @@ If `MAKE_PDF_READY` is printed: `$P` is the binary path for the rest of
 the skill. Use `$P` (not an explicit path) so the skill body stays portable.
 
 Core commands:
-- `$P generate <input.md> [output.pdf]` — render markdown to PDF (80% use case)
-- `$P generate --cover --toc essay.md out.pdf` — full publication layout
-- `$P generate --watermark DRAFT memo.md draft.pdf` — diagonal DRAFT watermark
-- `$P preview <input.md>` — render HTML and open in browser (fast iteration)
-- `$P setup` — verify the browser (Aside, or gstack's own headless fallback) + pdftotext and run a smoke test
-- `$P --help` — full flag reference
+- `"$P" generate <input.md> [output.pdf]` — render markdown to PDF (80% use case)
+- `"$P" generate --cover --toc essay.md out.pdf` — full publication layout
+- `"$P" generate --watermark DRAFT memo.md draft.pdf` — diagonal DRAFT watermark
+- `"$P" preview <input.md>` — render HTML and open in browser (fast iteration)
+- `"$P" setup` — verify the browser (Aside, or gstack's own headless fallback) + pdftotext and run a smoke test
+- `"$P" --help` — full flag reference
 
 Output contract:
 - `stdout`: ONLY the output path on success. One line.
 - `stderr`: progress (`Rendering HTML... Generating PDF...`) unless `--quiet`.
-- Exit 0 success / 1 bad args / 2 render error / 3 Paged.js timeout / 4 no browser available (open the Aside app, or run `./setup` to build gstack's own browser).
+- Exit 0 success / 1 bad args / 2 render error / 3 TOC page numbers failed / 4 no browser available (open the Aside app, or run `./setup` to build gstack's own browser).
 
 PDFs print through Aside when it is running and through gstack's own headless browser otherwise; the stderr progress line says which (`Rendering PDF through Aside` / `through gstack's browser`).
 
@@ -90,44 +75,69 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+If `PROACTIVE` is `false`, do not auto-invoke or suggest skills, including by asking whether to run one. Only run skills the user explicitly invokes.
 
-If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
+If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `$GSTACK_ROOT/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
-The skill-start output above already ran artifacts sync. Act on its lines:
-GBrain hint text (if present) tells you when to prefer `gbrain` over Grep;
-`ARTIFACTS_SYNC:` reports sync health (`off`, `mode=... | queue=N`,
-`remote-mode`, or a restore hint naming `gstack-brain-restore`).
+Skill-start already ran artifacts sync. GBrain hint text (if any) says
+when to prefer `gbrain` over Grep. `ARTIFACTS_SYNC:` reports sync health
+(`off`, `mode=... | queue=N`, `remote-mode`, or a `gstack-brain-restore`
+hint). On an `attention:` line, tell the user in one sentence what
+it says and the command it names, then continue.
 
-The one-time privacy stop-gate (artifacts-sync consent) arrives as a
-`GSTACK_INSTRUCTION` block from skill-start when consent is actually pending
-— fire it via AskUserQuestion exactly as the block instructs.
+The one-time privacy stop-gate arrives as a `GSTACK_INSTRUCTION` block
+from skill-start when consent is pending; fire it via AskUserQuestion
+exactly as instructed.
 
-## Model-Specific Behavioral Patch (claude)
+## Model-Specific Behavioral Patch (gpt)
 
-The following nudges are tuned for the claude model family. They are
+The following nudges are tuned for the gpt model family. They are
 **subordinate** to skill workflow, STOP points, AskUserQuestion gates, plan-mode
 safety, and /ship review gates. If a nudge below conflicts with skill instructions,
 the skill wins. Treat these as preferences, not rules.
 
-**Todo-list discipline.** When working through a multi-step plan, mark each task
-complete individually as you finish it. Do not batch-complete at the end. If a task
-turns out to be unnecessary, mark it skipped with a one-line reason.
+**Completion bias.** Do not end your turn with a partial solution when the full
+solution is reachable. If you encounter an error, debug it. If a test fails, fix it.
+If something is ambiguous, make your best judgment and proceed — don't stop and ask
+unless you're genuinely blocked.
 
-**Think before heavy actions.** For complex operations (refactors, migrations,
-non-trivial new features), briefly state your approach before executing. This lets
-the user course-correct cheaply instead of mid-flight.
+**Prefer doing over listing.** When you'd be tempted to write "you could also try X,
+Y, or Z," try the best option yourself. Pick, execute, report results.
 
-**Dedicated tools over Bash.** Prefer Read, Edit, Write, Glob, Grep over shell
-equivalents (cat, sed, find, grep). The dedicated tools are cheaper and clearer.
+**No preamble.** Skip "Great question!", "Let me help with that", and restating the
+user's request. Start with the work.
+
+**AskUserQuestion is NOT preamble.** The "No preamble" and "Prefer doing over listing"
+rules above do NOT apply to AskUserQuestion content. When you invoke AskUserQuestion,
+the user is about to make a decision — they need context, not terseness. Always emit
+the full format from the preamble's AskUserQuestion Format section:
+
+1. **Re-ground** (project + branch + task — 1-2 sentences).
+2. **Simplify (ELI10)** — explain what's happening in plain English a 16-year-old could
+   follow. Concrete stakes, not abstract tradeoffs. Non-negotiable; this is NOT preamble.
+3. **Recommend** — `RECOMMENDATION: Choose [X] because [one-line reason]` on its own
+   line. Never omit this line. Never collapse it into the options list.
+4. **Options** — lettered `A) B) C)` with Completeness scores (coverage-differentiated)
+   or the "options differ in kind" note (kind-differentiated).
+
+If you find yourself about to present an AskUserQuestion without the Simplify/ELI10
+paragraph, without a RECOMMENDATION line, or by just listing options and asking "which
+one?" — stop, back up, and emit the full format. The user will ask you to do it anyway,
+so do it the first time.
+
+**Reminder: subordination applies.** When a skill workflow says STOP, stop. When the
+skill asks via AskUserQuestion, that is the wait-for-user gate, not an ambiguity.
+Completion bias does not override safety gates.
 
 ## Voice
 
 Direct, concrete, builder-to-builder. Name the file, function, command, and user-visible impact. No filler.
 
-No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted. Never corporate or academic. Short paragraphs. End with what to do.
+No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted, load-bearing. Never corporate or academic. Short paragraphs. End with what to do.
+
+Reply in the language of the user's latest message unless asked otherwise. Code, commands, paths, identifiers and quoted output stay verbatim.
 
 The user has context you do not. Cross-model agreement is a recommendation, not a decision. The user decides.
 
@@ -156,7 +166,9 @@ Only when the host mode and existing privacy choices allow it, this writes telem
 `~/.gstack/analytics/`, matching preamble analytics writes.
 
 ```bash
-~/.claude/skills/gstack/bin/gstack-skill-end --skill "make-pdf" --outcome OUTCOME \
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_BIN=$GSTACK_ROOT/bin
+$GSTACK_BIN/gstack-skill-end --skill "make-pdf" --outcome OUTCOME \
   --session-id "SESSION_ID" --tel-start "TEL_START" --used-browse USED_BROWSE \
   --error-message "ERROR_MESSAGE" --failed-step "FAILED_STEP" 2>/dev/null || true
 ```
@@ -204,14 +216,18 @@ One command, no flags. Gets a clean PDF with running header + page numbers
 + CONFIDENTIAL footer by default.
 
 ```bash
-$P generate letter.md                 # writes /tmp/letter.pdf
-$P generate letter.md letter.pdf      # explicit output path
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" generate letter.md                 # writes /tmp/letter.pdf
+"$P" generate letter.md letter.pdf      # explicit output path
 ```
 
 ### Publication mode — cover + TOC + chapter breaks
 
 ```bash
-$P generate --cover --toc --author "Garry Tan" --title "On Horizons" \
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" generate --cover --toc --author "Garry Tan" --title "On Horizons" \
   essay.md essay.pdf
 ```
 
@@ -221,7 +237,9 @@ Each top-level H1 in the markdown starts a new page. Disable with
 ### Draft-stage watermark
 
 ```bash
-$P generate --watermark DRAFT memo.md draft.pdf
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" generate --watermark DRAFT memo.md draft.pdf
 ```
 
 Diagonal 10% opacity DRAFT across every page. When the draft is final, drop
@@ -230,7 +248,9 @@ the flag and regenerate.
 ### Fast iteration via preview
 
 ```bash
-$P preview essay.md
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" preview essay.md
 ```
 
 Renders HTML with the same print CSS and opens it in your browser. Refresh
@@ -239,7 +259,9 @@ as you edit the markdown. Skip the PDF round trip until you're ready.
 ### Brand-free (no CONFIDENTIAL footer)
 
 ```bash
-$P generate --no-confidential memo.md memo.pdf
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" generate --no-confidential memo.md memo.pdf
 ```
 
 ### Diagrams — mermaid and excalidraw fences render as pictures
@@ -254,7 +276,7 @@ Fence info-string options:
 
 ```
 ```mermaid title="Auth flow"        ← caption + aria-label
-```mermaid render=false             ← keep it as a code block (today's behavior)
+```mermaid render=false             ← keep it as a code block
 ```mermaid page=landscape           ← force this diagram onto a landscape page
 ```mermaid page=portrait            ← veto auto-landscape for this diagram
 ```
@@ -296,10 +318,12 @@ promoted page is vertically centered. When the heuristic guesses wrong,
 ### Other formats — single-file HTML and Word
 
 ```bash
-$P generate readme.md out.html --to html    # ONE self-contained file: inline
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" generate readme.md out.html --to html    # ONE self-contained file: inline
                                             # SVG diagrams, data-URI images,
                                             # zero network refs, screen-readable
-$P generate readme.md out.docx --to docx    # Word: content fidelity (headings,
+"$P" generate readme.md out.docx --to docx    # Word: content fidelity (headings,
                                             # tables, code, diagrams as PNG) —
                                             # layout is Word's, not ours
 ```
@@ -310,7 +334,9 @@ $P generate readme.md out.docx --to docx    # Word: content fidelity (headings,
 ### CI mode — fail loud on missing assets
 
 ```bash
-$P generate docs.md --strict     # missing, remote, out-of-tree, oversized,
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+P=$GSTACK_ROOT/make-pdf/dist/pdf;[ -x "${MAKE_PDF_BIN:-}" ]&&P=$MAKE_PDF_BIN||:
+"$P" generate docs.md --strict     # missing, remote, out-of-tree, oversized,
                                  # and non-regular-file images exit non-zero
                                  # instead of warn + placeholder
 ```
@@ -355,32 +381,24 @@ Metadata:
   --date "..."               Date for cover (defaults to today)
 ```
 
-## When Claude should run it
+## When to run it
 
-Watch for markdown-to-PDF intent. Any of these patterns → run `$P generate`:
-
-- "Can you make this markdown a PDF"
-- "Export it as a PDF"
-- "Turn this letter into a PDF"
-- "I need a PDF of the essay"
-- "Print this as a PDF for me"
-
-If the user has a `.md` file open and says "make it look nice", propose
-`$P generate --cover --toc` and ask before running.
+Run `"$P" generate` when the user wants markdown as a PDF. If the user has a `.md`
+file open and says "make it look nice", propose `"$P" generate --cover --toc` and ask
+before running.
 
 ## Debugging
 
 - Exit 4 / "no browser available" → neither the Aside browser (macOS 15+,
   aside.com) nor gstack's own headless browser is usable. Open Aside, or run
-  `./setup` in the gstack repo to build the fallback, re-run. `$P setup` checks
+  `./setup` in the gstack repo to build the fallback, re-run. `"$P" setup` checks
   the whole chain and says which browser it found.
 - Diagram shows a red "failed to render" block → the parse error is printed in
   the block. If EVERY diagram fails with "diagram renderer:", the browser went
   away mid-run (Aside closed, or the fallback daemon died).
-- Fragmented text on copy-paste → highlight.js output (Phase 4). Retry with
-  `--no-syntax` once that flag exists. For now, remove fenced code blocks
-  and regenerate.
-- Paged.js timeout → probably no headings in the markdown. Drop `--toc`.
+- Fragmented text on copy-paste → remove fenced code blocks and regenerate
+  (no flag turns code styling off).
+- Exit 3 (`$P: --toc: …`) → TOC page numbers could not be verified against the printed PDF; the message says why. Drop `--toc`, or shorten very long TOC headings if it says the numbers did not settle.
 - "[remote image blocked]" placeholder in the output → add `--allow-network`
   (understand you're giving the markdown file permission to fetch from its
   image URLs).
@@ -394,8 +412,8 @@ stderr: Rendering HTML...        ← progress spinner (unless --quiet)
         Rendering PDF through Aside...   ← or "through gstack's browser"
         Done in 11.2s. 43 words · 22KB · /tmp/letter.pdf
 
-exit code: 0 success / 1 bad args / 2 render error / 3 Paged.js timeout
+exit code: 0 success / 1 bad args / 2 render error / 3 TOC page numbers failed
            / 4 no browser available (Aside not open, fallback not built)
 ```
 
-Capture the path: `PDF=$($P generate letter.md)` — then use `$PDF`.
+Capture the path: `PDF=$("$P" generate letter.md)` — then use `$PDF`.

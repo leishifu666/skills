@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-guard"
+  short_description: "组合危险操作保护与目录编辑范围限制，适合生产环境、共享环境和高风险调试。"
+  default_prompt: "Use gstack-guard for this task."
+policy:
+  allow_implicit_invocation: true

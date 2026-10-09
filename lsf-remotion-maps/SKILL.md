@@ -1,7 +1,9 @@
 ---
 name: lsf-remotion-maps
-description: "LSF Remotion 地图动画：为视频选择并实现静态地图、Mapbox、MapLibre、MapTiler 或 CesiumJS 方案。"
-version: 4.0.527
+description: LSF Remotion 地图动画：为视频选择并实现静态地图、Mapbox、MapLibre、MapTiler 或 CesiumJS 方案。
+version: 4.0.534
+github_url: https://github.com/remotion-dev/skills
+github_hash: 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
 ---
 
 # LSF Remotion 地图动画
@@ -34,3 +36,7 @@ version: 4.0.527
 
 - 用于穿越地形和山脉的飞行镜头。
 - 提供“飞行模拟器”视角。
+
+## 当前版本接口
+
+实现前按本次问题读取 [4.0.534 官方接口与示例](references/upstream-current.md)。其中的媒体时间、可编辑节点和合成注册约定更新了旧版实现说明；本地用户改动、授权和交付要求继续适用。

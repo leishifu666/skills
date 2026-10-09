@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-upgrade"
+  short_description: "检查或更新已安装的 gstack；用户要求升级时使用，先保全本地定制。"
+  default_prompt: "Use gstack-upgrade for this task."
+policy:
+  allow_implicit_invocation: true

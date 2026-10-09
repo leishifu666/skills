@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-autoplan"
+  short_description: "计划审查专项入口：自动依次执行产品、设计和工程审查并汇总决策。仅在已有计划需要完整自动审查或用户明确点名 autoplan 时使用。"
+  default_prompt: "Use gstack-autoplan for this task."
+policy:
+  allow_implicit_invocation: true

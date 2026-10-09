@@ -1,36 +1,12 @@
 ---
 name: guard
-version: 0.1.0
 description: 组合危险操作保护与目录编辑范围限制，适合生产环境、共享环境和高风险调试。
-triggers:
-- full safety mode
-- guard against mistakes
-- maximum safety
-allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
-hooks:
-  PreToolUse:
-  - matcher: Bash
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/careful/bin/check-careful.sh
-      statusMessage: Checking for destructive commands...
-  - matcher: Edit
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh
-      statusMessage: Checking freeze boundary...
-  - matcher: Write
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh
-      statusMessage: Checking freeze boundary...
 title: 完整安全模式
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
+> **Safety Advisory — not enforced on OpenAI Codex CLI:** advisory, not blocked. OpenAI Codex CLI runs no gstack safety hooks, so nothing stops a command automatically. On Claude Code this skill's hooks check PowerShell operations for safety, and verify file edits are within the allowed scope boundary before applying, and verify file writes are within the allowed scope boundary before applying, and check NotebookEdit operations for safety; here, do those checks yourself: always pause and verify before executing potentially destructive operations. If uncertain about a command's safety, ask the user for confirmation before proceeding.
+
 
 # /guard — Full Safety Mode
 
@@ -42,8 +18,10 @@ and `/freeze` skill directories. Both must be installed (they are installed toge
 by the gstack setup script).
 
 ```bash
-mkdir -p ~/.gstack/analytics
-echo '{"skill":"guard","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_STATE_ROOT=$($GSTACK_ROOT/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+mkdir -p "$GSTACK_STATE_ROOT"/analytics
+echo '{"skill":"guard","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> "$GSTACK_STATE_ROOT"/analytics/skill-usage.jsonl 2>/dev/null || true
 ```
 
 ## Setup
@@ -57,7 +35,8 @@ Once the user provides a directory path:
 
 Set the user-selected boundary with the shared writer, which resolves a physical absolute path and serializes replacement with investigation cleanup:
 ```bash
-bash "$HOME/.claude/skills/gstack/freeze/bin/freeze-state.sh" set "<user-provided-path>"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+bash "$GSTACK_ROOT/freeze/bin/freeze-state.sh" set "<user-provided-path>"
 ```
 
 On helper failure, do not claim the boundary is active. Preserve the state and report recovery; never bypass the shared writer with a direct write or deletion.

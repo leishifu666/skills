@@ -1,17 +1,16 @@
 ---
-name: open-gstack-browser
+name: "open-gstack-browser"
 preamble-tier: 1
 version: 0.2.0
-description: Launch GStack Browser — AI-controlled Chromium with the sidebar extension
-  baked in.
+description: "Launch GStack Browser — AI-controlled Chromium with the sidebar extension baked in."
 triggers:
-- open gstack browser
-- launch chromium
-- show me the browser
+  - open gstack browser
+  - launch chromium
+  - show me the browser
 allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
+  - Bash
+  - Read
+  - AskUserQuestion
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -19,10 +18,7 @@ allowed-tools:
 ## Preamble (run first)
 
 ```bash
-_SS="$HOME/.claude/skills/gstack/bin/gstack-skill-start"
-[ -x "$_SS" ] || _SS=".claude/skills/gstack/bin/gstack-skill-start"
-"$_SS" --skill "open-gstack-browser" --model "claude" --parent-pid "$PPID" \
-  || echo "SKILL_START: unavailable — stale install; run ./setup or /gstack-upgrade (preamble degraded, continue the user's task)"
+~/.claude/skills/gstack/bin/gstack-skill-start --skill "open-gstack-browser" --model "claude"
 ```
 
 Read the echoed `KEY: value` STATUS lines — they drive every preamble rule
@@ -52,20 +48,21 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+If `PROACTIVE` is `false`, do not auto-invoke or suggest skills, including by asking whether to run one. Only run skills the user explicitly invokes.
 
 If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
-The skill-start output above already ran artifacts sync. Act on its lines:
-GBrain hint text (if present) tells you when to prefer `gbrain` over Grep;
-`ARTIFACTS_SYNC:` reports sync health (`off`, `mode=... | queue=N`,
-`remote-mode`, or a restore hint naming `gstack-brain-restore`).
+Skill-start already ran artifacts sync. GBrain hint text (if any) says
+when to prefer `gbrain` over Grep. `ARTIFACTS_SYNC:` reports sync health
+(`off`, `mode=... | queue=N`, `remote-mode`, or a `gstack-brain-restore`
+hint). On an `attention:` line, tell the user in one sentence what
+it says and the command it names, then continue.
 
-The one-time privacy stop-gate (artifacts-sync consent) arrives as a
-`GSTACK_INSTRUCTION` block from skill-start when consent is actually pending
-— fire it via AskUserQuestion exactly as the block instructs.
+The one-time privacy stop-gate arrives as a `GSTACK_INSTRUCTION` block
+from skill-start when consent is pending; fire it via AskUserQuestion
+exactly as instructed.
 
 ## Model-Specific Behavioral Patch (claude)
 
@@ -82,14 +79,17 @@ turns out to be unnecessary, mark it skipped with a one-line reason.
 non-trivial new features), briefly state your approach before executing. This lets
 the user course-correct cheaply instead of mid-flight.
 
-**Dedicated tools over Bash.** Prefer Read, Edit, Write, Glob, Grep over shell
-equivalents (cat, sed, find, grep). The dedicated tools are cheaper and clearer.
+**Dedicated tools over Bash.** Prefer the host's dedicated file tools (Read, Edit,
+Write, and its search tools when it has them) over shell equivalents (cat, sed,
+find, grep). The dedicated tools are cheaper and clearer.
 
 ## Voice
 
 Direct, concrete, builder-to-builder. Name the file, function, command, and user-visible impact. No filler.
 
-No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted. Never corporate or academic. Short paragraphs. End with what to do.
+No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted, load-bearing. Never corporate or academic. Short paragraphs. End with what to do.
+
+Reply in the language of the user's latest message unless asked otherwise. Code, commands, paths, identifiers and quoted output stay verbatim.
 
 The user has context you do not. Cross-model agreement is a recommendation, not a decision. The user decides.
 
@@ -157,9 +157,9 @@ If `NEEDS_SETUP`:
 3. If `bun` is not installed:
    ```bash
    if ! command -v bun >/dev/null 2>&1; then
-     BUN_VERSION="1.3.10"
+     BUN_VERSION="1.4.2"
      BUN_INSTALL_SHA="bab8acfb046aac8c72407bdcce903957665d655d7acaa3e11c7c4616beae68dd"
-     tmpfile=$(mktemp)
+     tmpfile=$(mktemp "${TMPDIR:-/tmp}/bun-install.XXXXXX")
      curl -fsSL "https://bun.sh/install" -o "$tmpfile"
      # shasum is macOS/perl; coreutils-only Linux ships sha256sum instead —
      # resolve whichever exists so the verify never fails on a missing tool.
@@ -179,33 +179,71 @@ If `NEEDS_SETUP`:
    fi
    ```
 
-## Step 0: Pre-flight cleanup
+## Step 0: Check for a running browse daemon
 
-Before connecting, kill any stale browse servers and clean up lock files that
-may have persisted from a crash. This prevents "already connected" false
-positives and Chromium profile lock conflicts.
+A running browse daemon may hold open tabs, cookies and logged-in sessions,
+and replacing it loses them. Probe without starting one
+(`BROWSE_NO_AUTOSTART=1` keeps `status` from booting a daemon):
 
 ```bash
-# Kill any existing browse server
-if [ -f "$(git rev-parse --show-toplevel 2>/dev/null)/.gstack/browse.json" ]; then
-  _OLD_PID=$(cat "$(git rev-parse --show-toplevel)/.gstack/browse.json" 2>/dev/null | grep -o '"pid":[[:space:]]*[0-9]*' | grep -o '[0-9]*')
-  [ -n "$_OLD_PID" ] && kill "$_OLD_PID" 2>/dev/null || true
-  sleep 1
-  [ -n "$_OLD_PID" ] && kill -9 "$_OLD_PID" 2>/dev/null || true
-  rm -f "$(git rev-parse --show-toplevel)/.gstack/browse.json"
-fi
-# Clean Chromium profile locks (can persist after crashes)
-_PROFILE_DIR="$HOME/.gstack/chromium-profile"
-for _LF in SingletonLock SingletonSocket SingletonCookie; do
-  rm -f "$_PROFILE_DIR/$_LF" 2>/dev/null || true
-done
-echo "Pre-flight cleanup done"
+_STATUS=$(BROWSE_NO_AUTOSTART=1 $B status 2>&1); _STATUS_RC=$?
+printf '%s\n' "$_STATUS" | head -5
+if [ "$_STATUS_RC" -ne 0 ]; then echo "DAEMON: none"
+elif printf '%s' "$_STATUS" | grep -q 'Mode: headed'; then echo "DAEMON: headed"
+else echo "DAEMON: live"; fi
 ```
+
+- **`DAEMON: none`**: no daemon answered. Clear Chromium profile locks left
+  by a crash, then run Step 1's plain `$B connect`. The CLI reaps orphaned
+  Chromium and stale state itself, and it still refuses to replace a daemon
+  that is alive but too busy to answer; if it refuses, show its output and
+  stop.
+
+  ```bash
+  GSTACK_STATE_ROOT=$(~/.claude/skills/gstack/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+  _PROFILE_DIR="$GSTACK_STATE_ROOT/chromium-profile"
+  for _LF in SingletonLock SingletonSocket SingletonCookie; do
+    rm -f "$_PROFILE_DIR/$_LF" 2>/dev/null || true
+  done
+  ```
+
+- **`DAEMON: headed`**: GStack Browser is already open. Step 1's plain
+  `$B connect` reports that; continue to Step 2.
+
+- **`DAEMON: live`**: a headless daemon is running. With `SESSION_KIND:
+  spawned` or `headless`, do not ask and do not replace it. Print this and
+  stop:
+
+  ```bash
+  printf 'Live browse daemon left running. Run %s stop, then re-run /open-gstack-browser to replace it.\n' "$B"
+  ```
+
+  Otherwise AskUserQuestion. Replacing the daemon cannot be undone:
+
+  > "A browse daemon is already running (tabs and logins may be active).
+  > Opening GStack Browser replaces it, and everything in that daemon is
+  > lost."
+  >
+  > Recommendation: B unless you are done with the running session.
+
+  Options:
+  - A) Replace it (runs `$B connect --force-restart`; its tabs, cookies and logins are lost)
+  - B) Keep it running and stop here
+
+  Only an explicit A runs Step 1 with `--force-restart`. On B, or a reply
+  that is not clearly A, print the "Live browse daemon left running" line
+  above and stop.
 
 ## Step 1: Connect
 
 ```bash
 $B connect
+```
+
+After an explicit A in Step 0 only:
+
+```bash
+$B connect --force-restart
 ```
 
 This launches GStack Browser (rebranded Chromium) in headed mode with:

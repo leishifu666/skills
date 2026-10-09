@@ -1,7 +1,9 @@
 ---
 name: lsf-remotion-docs
-description: "LSF Remotion 文档查询：搜索并读取最新 Remotion API 与官方文档。"
-version: 4.0.529
+description: LSF Remotion 文档查询：搜索并读取最新 Remotion API 与官方文档。
+version: 4.0.534
+github_url: https://github.com/remotion-dev/skills
+github_hash: 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
 ---
 
 # LSF Remotion 文档查询
@@ -45,3 +47,7 @@ https://www.remotion.dev/docs/lambda/rendermediaonlambda.md
 2. 从结果中选出最相关的 URL。
 3. 在每个 URL 后加上 `.md` 并获取页面内容。
 4. 根据当前文档实现功能，不要只凭记忆使用 API。
+
+## 当前版本接口
+
+实现前按本次问题读取 [4.0.534 官方接口与示例](references/upstream-current.md)。其中的媒体时间、可编辑节点和合成注册约定更新了旧版实现说明；本地用户改动、授权和交付要求继续适用。

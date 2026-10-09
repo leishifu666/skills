@@ -3,14 +3,14 @@ title: 性能基准
 name: benchmark
 preamble-tier: 1
 version: 1.0.0
-description: 建立并比较网页性能基准，包括加载时间、核心网页指标和资源体积，用于发现性能回退。
+description: 建立和比较网页性能基准，包括加载时间、网页指标和资源体积；AI 模型评测使用 benchmark-models。
 voice-triggers:
   - "speed test"
   - "check performance"
 triggers:
-  - performance benchmark
+  - web performance benchmark
   - check page speed
-  - detect performance regression
+  - detect page performance regression
 allowed-tools:
   - Bash
   - Read
@@ -47,14 +47,16 @@ When the user types `/benchmark`, run this skill.
 ### Phase 1: Setup
 
 ```bash
-eval "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null || echo "SLUG=unknown")"
+SLUG=$(~/.claude/skills/gstack/bin/gstack-slug --get SLUG 2>/dev/null) || SLUG=unknown
 mkdir -p .gstack/benchmark-reports
 mkdir -p .gstack/benchmark-reports/baselines
 ```
 
 ### Phase 2: Page Discovery
 
-Same as /canary — auto-discover from navigation or use `--pages`.
+Use `--pages` when given. Otherwise open the URL, collect its same-origin `a[href]`
+links (skip logout/delete-style URLs), and propose the homepage plus up to 5 main
+navigation targets; confirm the list with the user before measuring.
 
 If `--diff` mode:
 ```bash

@@ -1,5 +1,5 @@
 ---
-github_hash: 6e60b5e22419464b4853e01ddb6c0e6f6659a733
+github_hash: d508b596cb221f1509f6e50ab68fce275a5cfb44
 github_url: https://github.com/img2threejs/img2threejs
 title: 技能：Img2Threejs
 name: img2threejs

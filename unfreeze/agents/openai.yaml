@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-unfreeze"
+  short_description: "解除 freeze 设置的目录边界，恢复对其他目录的编辑权限。"
+  default_prompt: "Use gstack-unfreeze for this task."
+policy:
+  allow_implicit_invocation: true

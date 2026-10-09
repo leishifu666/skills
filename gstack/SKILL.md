@@ -1,19 +1,19 @@
 ---
-name: gstack
+name: "gstack"
 preamble-tier: 1
 version: 1.2.0
-description: 为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。
+description: "为明确的 gstack 请求选择适用的规划、审查、QA 或发布技能；不自动启动完整开发流程。"
 allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
+  - Bash
+  - Read
+  - AskUserQuestion
 triggers:
-- gstack
-- which gstack skill
-- route this with gstack
-title: 技能：Gstack
-github_url: https://github.com/garrytan/gstack
-github_hash: 65bfb0ce49da807698359ca033a05709e342c684
+  - gstack
+  - which gstack skill
+  - route this with gstack
+title: "技能：Gstack"
+github_url: "https://github.com/garrytan/gstack"
+github_hash: "20eb6202fa8ea83a882e7c0463b722cd8a31af1e"
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -21,10 +21,7 @@ github_hash: 65bfb0ce49da807698359ca033a05709e342c684
 ## Preamble (run first)
 
 ```bash
-_SS="$HOME/.claude/skills/gstack/bin/gstack-skill-start"
-[ -x "$_SS" ] || _SS=".claude/skills/gstack/bin/gstack-skill-start"
-"$_SS" --skill "gstack" --model "claude" --parent-pid "$PPID" \
-  || echo "SKILL_START: unavailable — stale install; run ./setup or /gstack-upgrade (preamble degraded, continue the user's task)"
+~/.claude/skills/gstack/bin/gstack-skill-start --skill "gstack" --model "claude"
 ```
 
 Read the echoed `KEY: value` STATUS lines — they drive every preamble rule
@@ -54,20 +51,21 @@ Follow the host’s active mode and the user’s requested scope. In analysis-on
 
 Use the relevant parts of this workflow within the active mode. Treat STOP points as questions only when an answer or authorization is actually missing. Continue independent authorized work; do not invoke unavailable mode-switch tools.
 
-If `PROACTIVE` is `"false"`, do not auto-invoke or proactively suggest skills. If a skill seems useful, ask: "I think /skillname might help here — want me to run it?"
+If `PROACTIVE` is `false`, do not auto-invoke or suggest skills, including by asking whether to run one. Only run skills the user explicitly invokes.
 
 If `SKILL_PREFIX` is `"true"`, suggest/invoke `/gstack-*` names. Disk paths stay `~/.claude/skills/gstack/[skill-name]/SKILL.md`.
 
 ## Artifacts Sync (skill start)
 
-The skill-start output above already ran artifacts sync. Act on its lines:
-GBrain hint text (if present) tells you when to prefer `gbrain` over Grep;
-`ARTIFACTS_SYNC:` reports sync health (`off`, `mode=... | queue=N`,
-`remote-mode`, or a restore hint naming `gstack-brain-restore`).
+Skill-start already ran artifacts sync. GBrain hint text (if any) says
+when to prefer `gbrain` over Grep. `ARTIFACTS_SYNC:` reports sync health
+(`off`, `mode=... | queue=N`, `remote-mode`, or a `gstack-brain-restore`
+hint). On an `attention:` line, tell the user in one sentence what
+it says and the command it names, then continue.
 
-The one-time privacy stop-gate (artifacts-sync consent) arrives as a
-`GSTACK_INSTRUCTION` block from skill-start when consent is actually pending
-— fire it via AskUserQuestion exactly as the block instructs.
+The one-time privacy stop-gate arrives as a `GSTACK_INSTRUCTION` block
+from skill-start when consent is pending; fire it via AskUserQuestion
+exactly as instructed.
 
 ## Model-Specific Behavioral Patch (claude)
 
@@ -84,14 +82,17 @@ turns out to be unnecessary, mark it skipped with a one-line reason.
 non-trivial new features), briefly state your approach before executing. This lets
 the user course-correct cheaply instead of mid-flight.
 
-**Dedicated tools over Bash.** Prefer Read, Edit, Write, Glob, Grep over shell
-equivalents (cat, sed, find, grep). The dedicated tools are cheaper and clearer.
+**Dedicated tools over Bash.** Prefer the host's dedicated file tools (Read, Edit,
+Write, and its search tools when it has them) over shell equivalents (cat, sed,
+find, grep). The dedicated tools are cheaper and clearer.
 
 ## Voice
 
 Direct, concrete, builder-to-builder. Name the file, function, command, and user-visible impact. No filler.
 
-No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted. Never corporate or academic. Short paragraphs. End with what to do.
+No em dashes. No AI vocabulary: delve, crucial, robust, comprehensive, nuanced, multifaceted, load-bearing. Never corporate or academic. Short paragraphs. End with what to do.
+
+Reply in the language of the user's latest message unless asked otherwise. Code, commands, paths, identifiers and quoted output stay verbatim.
 
 The user has context you do not. Cross-model agreement is a recommendation, not a decision. The user decides.
 
@@ -138,26 +139,32 @@ Skills that run plan reviews (`/plan-*-review`, `/codex review`) include the EXI
 
 This is the gstack router. Its one job is to send the request to the right skill.
 
-1. If the request is about a browser, QA, dogfooding, screenshots, or inspecting a page
-   (open a site, test a deploy, take a screenshot, check a flow visually) → invoke `/browse`.
+1. If the request is to test behavior, find bugs, QA or dogfood software → invoke `/qa`,
+   or `/qa-only` when the user wants reporting without fixes. These skills select browser,
+   API, CLI, job, worker or webhook surfaces before loading their testing instructions.
+   An API URL does not imply browser testing. An explicit skill request keeps its authority.
+2. If the request is browser interaction, screenshots, or inspecting a page
+   (open a site, take a screenshot, inspect a flow visually) → invoke `/browse`.
    Every gstack browser skill (`/browse`, `/qa`, `/qa-only`, `/design-review`, `/canary`,
    `/benchmark`, `/scrape`) drives the Aside browser first — the user's real browser with
    their real logged-in sessions — and falls back to gstack's own browser when Aside is not
    installed or not running. Route "open the browser" / "import cookies" requests to the
    fallback-browser skills below only when the user is clearly on that path (Linux,
    Windows, or Aside closed); on Aside there is nothing to open or import.
-2. Otherwise, route by the rules below. If nothing matches, answer directly.
+3. Otherwise, route by the rules below. If nothing matches, answer directly.
 
 Best-effort, record which way you routed (never block on it). Set `ROUTE_OUTCOME` to
 `browse` (sent to /browse), `routed` (sent to another skill), or `direct` (answered
-directly, no skill matched):
+directly, no skill matched), and replace `SESSION_ID` with the value the skill-start
+output echoed:
 ```bash
-~/.claude/skills/gstack/bin/gstack-telemetry-log --event-type route --skill gstack --outcome ROUTE_OUTCOME --session-id "$_SESSION_ID" 2>/dev/null || true
+~/.claude/skills/gstack/bin/gstack-telemetry-log --event-type route --skill gstack --outcome ROUTE_OUTCOME --session-id "SESSION_ID" 2>/dev/null || true
 ```
 
-If `PROACTIVE` is `false`: do NOT proactively invoke or suggest other gstack skills during
-this session. Only run skills the user explicitly invokes. This preference persists across
-sessions via `gstack-config`.
+If `PROACTIVE` is `false`: do not proactively invoke or suggest other gstack skills during
+this session, including by asking whether to run one ("want me to run /X?"). Only run
+skills the user explicitly invokes. This preference persists across sessions via
+`gstack-config`.
 
 If `PROACTIVE` is `true` (default): **invoke the Skill tool** when the user's request
 matches a skill's purpose. Do NOT answer directly when a skill exists for the task.
@@ -178,6 +185,7 @@ quality gates that produce better results than answering inline.
 - User asks to just report bugs without fixing → invoke `/qa-only`
 - User asks to review code, check the diff, pre-landing review, "look at my changes" → invoke `/review`
 - User asks to find code worth sharing, shared-code extractions, or duplication worth consolidating → invoke `/deslop-shared-libs`
+- User asks to audit, prune or find low-value tests in the existing suite → invoke `/test-audit`
 - User asks about visual polish, design audit of a live site, "this looks off" → invoke `/design-review`
 - User asks to audit the live developer experience, time-to-hello-world → invoke `/devex-review`
 - User asks to ship, deploy, push, create a PR, "let's land this", "send it" → invoke `/ship`
@@ -200,16 +208,18 @@ Generic “second opinion”, “outside review”, or “cross-model review” 
 - User asks to import cookies for authenticated testing → invoke `/setup-browser-cookies` (fallback browser; Aside already has the sessions)
 - User asks to share the browser with another agent, "pair OpenClaw/Codex with my browser" → invoke `/pair-agent` (fallback browser)
 - User asks to codify or save the last `/scrape` as a reusable skill → invoke `/skillify` (fallback browser)
-- User asks about page speed, performance regression, benchmarks → invoke `/benchmark`
+- User asks about page speed, web performance regression → invoke `/benchmark`; model or skill benchmarks → invoke `/benchmark-models`
 - User asks what gstack has learned, "show learnings" → invoke `/learn`
 - User asks to tune question sensitivity, "stop asking me that" → invoke `/plan-tune`
 - User asks for code quality dashboard, "health check" → invoke `/health`
 
-**When in doubt, invoke the skill.** A false positive (invoking a skill that wasn't
-needed) is cheaper than a false negative (answering ad-hoc when a structured workflow
-exists). The skill provides multi-step workflows, checklists, and quality gates that
-always produce better results than an ad-hoc answer. If no skill matches, answer
-directly as usual.
+**Route only to skills in your available-skills list.** A rule above whose skill is
+not listed there is turned off on this install; skip it, never try to invoke it.
+
+**When to invoke, and when not to.** Invoke when the request matches a skill's purpose:
+the skill's workflow, checklists and gates beat an ad-hoc answer. Answer directly when
+no skill matches, for a quick factual question or a small edit the user scoped
+themselves, and when the user asks for a direct answer instead of a workflow.
 
 If the user opts out of suggestions, run `gstack-config set proactive false`.
 If they opt back in, run `gstack-config set proactive true`.

@@ -1,33 +1,43 @@
 ---
-name: guard
+name: "guard"
 version: 0.1.0
-description: 组合危险操作保护与目录编辑范围限制，适合生产环境、共享环境和高风险调试。
+description: "组合危险操作保护与目录编辑范围限制，适合生产环境、共享环境和高风险调试。"
 triggers:
-- full safety mode
-- guard against mistakes
-- maximum safety
+  - full safety mode
+  - guard against mistakes
+  - maximum safety
 allowed-tools:
-- Bash
-- Read
-- AskUserQuestion
+  - Bash
+  - Read
+  - AskUserQuestion
 hooks:
   PreToolUse:
-  - matcher: Bash
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/careful/bin/check-careful.sh
-      statusMessage: Checking for destructive commands...
-  - matcher: Edit
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh
-      statusMessage: Checking freeze boundary...
-  - matcher: Write
-    hooks:
-    - type: command
-      command: bash $HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh
-      statusMessage: Checking freeze boundary...
-title: 完整安全模式
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/careful/bin/check-careful.sh\""'
+          statusMessage: "Checking for destructive commands..."
+    - matcher: "PowerShell"
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/careful/bin/check-careful.sh\""'
+          statusMessage: "Checking for destructive commands..."
+    - matcher: "Edit"
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh\""'
+          statusMessage: "Checking freeze boundary..."
+    - matcher: "Write"
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh\""'
+          statusMessage: "Checking freeze boundary..."
+    - matcher: "NotebookEdit"
+      hooks:
+        - type: command
+          command: 'bash -c "exec bash \"$HOME/.claude/skills/gstack/freeze/bin/check-freeze.sh\""'
+          statusMessage: "Checking freeze boundary..."
+title: "完整安全模式"
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -42,8 +52,9 @@ and `/freeze` skill directories. Both must be installed (they are installed toge
 by the gstack setup script).
 
 ```bash
-mkdir -p ~/.gstack/analytics
-echo '{"skill":"guard","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
+GSTACK_STATE_ROOT=$(~/.claude/skills/gstack/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+mkdir -p "$GSTACK_STATE_ROOT"/analytics
+echo '{"skill":"guard","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> "$GSTACK_STATE_ROOT"/analytics/skill-usage.jsonl 2>/dev/null || true
 ```
 
 ## Setup

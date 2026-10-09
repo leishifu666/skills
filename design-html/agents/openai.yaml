@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-design-html"
+  short_description: "将已确认的设计方向转成可重排、可响应的生产级 HTML/CSS 实现。"
+  default_prompt: "Use gstack-design-html for this task."
+policy:
+  allow_implicit_invocation: true

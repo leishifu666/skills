@@ -1,4 +1,6 @@
 interface:
-  display_name: "LSF oil-cover"
-  short_description: "AI 教程与设计分享双风格封面，先选风格，按平台保存账号头像并生成三种比例"
-  default_prompt: "使用 $lsf-oil-cover，先让我选择 AI 教程或设计分享风格，再根据这条视频生成 3:4、4:3、16:9 三版封面。"
+  display_name: "LSF 封面与社交卡片"
+  short_description: "制作视频与文章封面、连续社交卡片；先确认主标题、平台、比例和风格，再逐幅制作"
+  default_prompt: "使用 $lsf-oil-cover，先确认本次源内容和主标题，再确认平台、比例、风格及卡片页数；已有明确选择不重复问。全部确认后，按对应模式逐幅制作、检查并交付图片与提示词。"
+policy:
+  allow_implicit_invocation: true

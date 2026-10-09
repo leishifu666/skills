@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-browse"
+  short_description: "快速操作网页、检查页面状态、测试交互并生成截图证据。用于网页 QA、部署验证、用户流程测试和响应式检查。"
+  default_prompt: "Use gstack-browse for this task."
+policy:
+  allow_implicit_invocation: true

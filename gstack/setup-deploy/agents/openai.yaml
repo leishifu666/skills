@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-setup-deploy"
+  short_description: "识别项目部署平台并配置发布与健康检查命令；用户要求部署配置时使用。"
+  default_prompt: "Use gstack-setup-deploy for this task."
+policy:
+  allow_implicit_invocation: true

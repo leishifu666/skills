@@ -1,7 +1,9 @@
 ---
 name: lsf-remotion-saas
-description: "LSF Remotion 应用架构：在 React 或其他前端应用中预览、编辑和渲染 Remotion 视频。"
-version: 4.0.529
+description: LSF Remotion 应用架构：在 React 或其他前端应用中预览、编辑和渲染 Remotion 视频。
+version: 4.0.534
+github_url: https://github.com/remotion-dev/skills
+github_hash: 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
 ---
 
 # LSF Remotion 应用架构
@@ -32,3 +34,7 @@ Remotion 在 Angular 中的用法见：https://www.remotion.dev/docs/angular.md
 ## Svelte
 
 Remotion 在 Svelte 中的用法见：https://www.remotion.dev/docs/svelte.md
+
+## 当前版本接口
+
+实现前按本次问题读取 [4.0.534 官方接口与示例](references/upstream-current.md)。其中的媒体时间、可编辑节点和合成注册约定更新了旧版实现说明；本地用户改动、授权和交付要求继续适用。

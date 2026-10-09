@@ -12,3 +12,5 @@ Remotion 用 FFmpeg 处理音视频。优先用 Remotion CLI 或 renderer 合成
 
 参考：
 https://www.remotion.dev/docs/renderer
+
+实现本项前阅读 [当前官方接口与示例](upstream/ffmpeg.md)，按项目版本核对时间参数、类型和导入。

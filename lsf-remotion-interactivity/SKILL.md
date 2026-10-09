@@ -1,7 +1,9 @@
 ---
 name: lsf-remotion-interactivity
-description: "LSF Remotion 交互编辑：让合成元素能在 Remotion Studio 中选取、调整样式并编辑关键帧。"
-version: 4.0.529
+description: LSF Remotion 交互编辑：让合成元素能在 Remotion Studio 中选取、调整样式并编辑关键帧。
+version: 4.0.534
+github_url: https://github.com/remotion-dev/skills
+github_hash: 32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5
 ---
 
 # LSF Remotion 交互编辑
@@ -312,3 +314,7 @@ const rotation = frame * 1.5;
 ## 视频剪辑
 
 如果 Remotion 组件主要由视频和音频片段组成，请参阅“视频剪辑”指南，了解如何组织标记，使这些片段能在 Remotion Studio 时间轴中交互编辑。
+
+## 当前版本接口
+
+实现前按本次问题读取 [4.0.534 官方接口与示例](references/upstream-current.md)。其中的媒体时间、可编辑节点和合成注册约定更新了旧版实现说明；本地用户改动、授权和交付要求继续适用。

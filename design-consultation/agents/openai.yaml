@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-design-consultation"
+  short_description: "理解产品并建立完整设计系统，包括视觉方向、字体、颜色、布局、间距和动效，产出 DESIGN.md。"
+  default_prompt: "Use gstack-design-consultation for this task."
+policy:
+  allow_implicit_invocation: true

@@ -11,6 +11,7 @@ python scripts/build_sheet.py examples/tidebank.json --out <新输出目录>
 node scripts/render_svg.cjs <输出目录>/construction.svg <输出目录>/construction.png 1600
 python scripts/measure.py compare original.png rebuilt.png --out metrics.json --diff difference.png --max-mean-pct 0.5 --max-p95-pct 1
 python scripts/measure.py fit-circle selected-arc.csv --out circle-fit.json
+python scripts/review_rebuild.py reference.png symbol.png --original-crop 44 27 261 235 --out review-v2
 ```
 
 `sharp` 通过普通 Node 模块解析；环境提供统一依赖目录时可临时设置 `NODE_PATH`。文件系统路径和运行时路径由当前环境获取，不写入几何文件。
@@ -77,6 +78,21 @@ python scripts/round_polygon.py examples/rounded-corner.json --out rounded-test
 `fit-circle` 是代数最小二乘的候选拟合，不是稳健分段或自动去噪器。CSV 无表头、每行 x,y；短弧会提示不稳定，噪声点、轮廓分段和其他模型由使用者检查。
 
 脚本不会自动识别任意品牌、恢复丢失像素、找出原作者意图或认证商标。它们为技能执行提供可复查的构造和测量步骤。
+
+## 逐版配准与对比
+
+`review_rebuild.py original.png rebuilt.png --out <空目录>` 对图形范围分割并等比配准，用当前渲染的 PNG 生成对照；输入中有文字或装饰时先裁切。它不读取构造图、不解析任意 SVG，也不自动进行设计验收。
+
+- `--original-crop / --rebuilt-crop LEFT TOP RIGHT BOTTOM`：分别指定像素范围，右/下边不包含；必须位于输入图内。记录原始范围与前景包围盒。
+- `--original-mask / --rebuilt-mask luminance|alpha`：分别选分割方式，默认亮度合成白底。白色透明图形用 alpha；不对整张不透明白底图使用 alpha。
+- `--threshold`：1–254，默认 128，作用于两份源图。脚本先分割，再用最近邻映射二值 mask，避免插值改变分割阈值。
+- `--span / --margin`：最大边长目标像素与四周余量，默认 1000/80。只进行整体等比缩放和包围盒中心对齐；不拉伸宽高、不旋转、不做局部配准。百分比使用配准后实测 D，报告同时记录目标 D。
+- `--max-points`：默认 6000，双向边界的单侧采样上限；`sampled=true` 时最大偏差是采样估计。提高上限可测完整边界。
+- `--min-iou`：可选 0–1；`--max-mean-pct / --max-p95-pct`：可选非负数，单位是 D 的百分比。按任务事先选阈值，不依据结果降低门槛。
+
+输出 `registered-original.png`、`registered-rebuilt.png`、`difference.png`、`comparison.png`、`review.json`。后者记录源图哈希、裁切、配准、原始/配准拓扑、面积差、距离、原图像素等效偏差和采样情况。两个配准图是分割后的 mask，仍需查看原文件的视觉细节。
+
+拓扑变化、归一化损失拓扑或所设数值门槛失败时退出 2，仍保存证据供检查；否则退出 0。`numeric_checks_passed` 仅表示数值检查；`design_acceptance` 始终为 `not_evaluated`，`visual_review_required` 始终为 true。不覆盖已有非空检查目录。完整人工验收见 [逐版对比验收](review.md)。
 
 ## 复跑本包示例
 

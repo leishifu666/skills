@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-land-and-deploy"
+  short_description: "执行已授权的 PR 合并、部署与上线验证；用于明确的合并部署请求。"
+  default_prompt: "Use gstack-land-and-deploy for this task."
+policy:
+  allow_implicit_invocation: true

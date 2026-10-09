@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-design-review"
+  short_description: "对已经实现的界面进行视觉 QA，发现并修复层级、间距、一致性、交互和性能问题。"
+  default_prompt: "Use gstack-design-review for this task."
+policy:
+  allow_implicit_invocation: true

@@ -1,9 +1,11 @@
 ---
 name: lsf-remocn
-description: >
-  使用 remocn 为 Remotion 视频安装动画和时间轴驱动的 UI 组件。
-  适用于场景编排、动画、转场、背景、界面模拟，以及按钮、对话框和命令菜单等基础组件。
+description: '使用 remocn 为 Remotion 视频安装动画和时间轴驱动的 UI 组件。 适用于场景编排、动画、转场、背景、界面模拟，以及按钮、对话框和命令菜单等基础组件。
   即使用户未提及 remocn，只要任务需要精致的 Remotion 视频，也应考虑使用。
+
+  '
+github_url: https://github.com/Remocn/remocn
+github_hash: 634682ff10f135d29b4751d9379e52ef0bcf6e21
 ---
 
 # LSF Remocn 视频组件
@@ -134,3 +136,7 @@ import { Sequence, Series } from "remotion";
 - https://remocn.dev/docs/craft/motion-principles.md：动画原则。
 - https://remocn.dev/docs/craft/anti-patterns.md：常见生成问题。
 - https://remocn.dev/llms.txt：完整文档索引。
+
+## 口播字幕
+
+有旁白或口播时，先按字幕技能取得并校对转写；选字幕组件前读取 [字幕转写](https://remocn.dev/docs/captions/getting-started/get-a-transcript.md) 和 [字幕位置](https://remocn.dev/docs/captions/getting-started/positioning.md)，从组件目录选择 caption-*。没有音轨的屏幕文字继续按排版组件处理。

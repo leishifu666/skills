@@ -1,16 +1,6 @@
 ---
 name: gstack-upgrade
-version: 1.1.0
 description: 检查或更新已安装的 gstack；用户要求升级时使用，先保全本地定制。
-triggers:
-- upgrade gstack
-- update gstack version
-- get latest gstack
-allowed-tools:
-- Bash
-- Read
-- Write
-- AskUserQuestion
 title: 技能：Gstack Upgrade
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
@@ -28,9 +18,10 @@ This section is referenced by all skill preambles when they detect `UPGRADE_AVAI
 
 First, check if auto-upgrade is enabled:
 ```bash
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
 _AUTO=""
 [ "${GSTACK_AUTO_UPGRADE:-}" = "1" ] && _AUTO="true"
-[ -z "$_AUTO" ] && _AUTO=$(~/.claude/skills/gstack/bin/gstack-config get auto_upgrade 2>/dev/null || true)
+[ -z "$_AUTO" ] && _AUTO=$($GSTACK_ROOT/bin/gstack-config get auto_upgrade 2>/dev/null || true)
 echo "AUTO_UPGRADE=$_AUTO"
 ```
 
@@ -44,13 +35,16 @@ echo "AUTO_UPGRADE=$_AUTO"
 
 **If "Always keep me up to date":**
 ```bash
-~/.claude/skills/gstack/bin/gstack-config set auto_upgrade true
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+$GSTACK_ROOT/bin/gstack-config set auto_upgrade true
 ```
 Tell user: "Auto-upgrade enabled. Future updates will install automatically." Then proceed to Step 2.
 
 **If "Not now":** Write snooze state with escalating backoff (first snooze = 24h, second = 48h, third+ = 1 week), then continue with the current skill. Do not mention the upgrade again.
 ```bash
-_SNOOZE_FILE="$HOME/.gstack/update-snoozed"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_STATE_ROOT=$($GSTACK_ROOT/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+_SNOOZE_FILE="$GSTACK_STATE_ROOT/update-snoozed"
 _REMOTE_VER="{new}"
 _CUR_LEVEL=0
 if [ -f "$_SNOOZE_FILE" ]; then
@@ -70,48 +64,56 @@ Tell user the snooze duration: "Next reminder in 24h" (or 48h or 1 week, dependi
 
 **If "Never ask again":**
 ```bash
-~/.claude/skills/gstack/bin/gstack-config set update_check false
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+$GSTACK_ROOT/bin/gstack-config set update_check false
 ```
-Tell user: "Update checks disabled. Run `~/.claude/skills/gstack/bin/gstack-config set update_check true` to re-enable."
+Tell user: "Update checks disabled. Run `$GSTACK_ROOT/bin/gstack-config set update_check true` to re-enable."
 Continue with the current skill.
 
 ### Step 2: Detect install type
 
 ```bash
-if [ -d "$HOME/.claude/skills/gstack/.git" ]; then
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_BIN=$GSTACK_ROOT/bin
+if [ -d "$HOME/.agents/skills/gstack/.git" ]; then
   INSTALL_TYPE="global-git"
-  INSTALL_DIR="$HOME/.claude/skills/gstack"
+  INSTALL_DIR="$HOME/.agents/skills/gstack"
 elif [ -d "$HOME/.gstack/repos/gstack/.git" ]; then
   INSTALL_TYPE="global-git"
   INSTALL_DIR="$HOME/.gstack/repos/gstack"
-elif [ -d ".claude/skills/gstack/.git" ]; then
-  INSTALL_TYPE="local-git"
-  INSTALL_DIR=".claude/skills/gstack"
 elif [ -d ".agents/skills/gstack/.git" ]; then
   INSTALL_TYPE="local-git"
   INSTALL_DIR=".agents/skills/gstack"
-elif [ -d ".claude/skills/gstack" ]; then
+elif [ -d ".agents/skills/gstack/.git" ]; then
+  INSTALL_TYPE="local-git"
+  INSTALL_DIR=".agents/skills/gstack"
+elif [ -d ".agents/skills/gstack" ]; then
   INSTALL_TYPE="vendored"
-  INSTALL_DIR=".claude/skills/gstack"
-elif [ -d "$HOME/.claude/skills/gstack" ]; then
+  INSTALL_DIR=".agents/skills/gstack"
+elif [ -d "$HOME/.agents/skills/gstack" ]; then
   INSTALL_TYPE="vendored-global"
-  INSTALL_DIR="$HOME/.claude/skills/gstack"
+  INSTALL_DIR="$HOME/.agents/skills/gstack"
+elif _SRC=$($GSTACK_BIN/gstack-paths --get GSTACK_STATE_ROOT 2>/dev/null) && _SRC=$(awk -F '\t' '$(1) == "codex" && $(6) != "-" { print $(6); exit }' "$_SRC/installs.tsv" 2>/dev/null) && [ -d "$_SRC/.git" ]; then
+  # The install registry names the checkout setup activated for this host (e.g. a ~/gstack clone).
+  INSTALL_TYPE="global-git"
+  INSTALL_DIR="$_SRC"
 else
   echo "ERROR: gstack not found"
   exit 1
 fi
+INSTALL_DIR=$(cd -- "$INSTALL_DIR" && pwd -P) || { echo "ERROR: cannot enter the gstack install directory" >&2; exit 1; }
 echo "Install type: $INSTALL_TYPE at $INSTALL_DIR"
 ```
 
-The install type and directory path printed above will be used in all subsequent steps.
-Resolve `INSTALL_DIR` to an absolute path. Carry `INSTALL_TYPE`, `INSTALL_DIR`, `OLD_VERSION`, and later `NEW_VERSION` forward explicitly: if tool calls use fresh shells, reassign them from captured output before running a block. Do not rely on a prior call's working directory or shell variables.
+The install type and the absolute directory printed above are used in all subsequent steps.
+Carry `INSTALL_TYPE`, `INSTALL_DIR`, `OLD_VERSION`, and later `NEW_VERSION` forward explicitly: tool calls may run in fresh shells, so start each later block by assigning them from the captured output (for example `INSTALL_DIR=/abs/path/printed/above`). Do not rely on a prior call's working directory or shell variables. Every block that changes files first checks `INSTALL_DIR` and stops before any git command when it is unset, empty, missing, unreadable, or not gstack's own checkout.
 
 ### Step 3: Save old version
 
 Use the install directory from Step 2's output below:
 
 ```bash
-OLD_VERSION=$(cat "$INSTALL_DIR/VERSION" 2>/dev/null || echo "unknown")
+OLD_VERSION=$(cat "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}/VERSION" 2>/dev/null || echo "unknown")
 echo "OLD_VERSION=$OLD_VERSION"
 ```
 
@@ -121,33 +123,43 @@ Use the install type and directory detected in Step 2:
 
 **For git installs** (global-git, local-git):
 
-Fast-forward first (#2517) — the same policy the session-update auto-upgrade
+Fast-forward first — the same policy the session-update auto-upgrade
 uses. `--autostash` carries local edits over the pull; render-footprint dirt
-is discarded first because it is regenerable and poisons stashes (#2569):
+is discarded first because it is regenerable and poisons stashes:
 ```bash
-cd "$INSTALL_DIR"
-# Discard render-footprint dirt (#2569): pre-v1.67 gbrain-enabled installs
-# ran gen:skill-docs:user IN PLACE, leaving generated SKILL.md / sections
-# files permanently modified. They are regenerable (setup re-renders to
-# ~/.gstack/render), so discarding is lossless.
+cd -- "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}" || exit 1
+{ [ -f VERSION ] && [ -f setup ] && [ -f bin/gstack-config ] && [ "$(git rev-parse --show-toplevel 2>/dev/null)" = "$(pwd -P)" ]; } || { echo "ERROR: $INSTALL_DIR is not a gstack checkout; nothing was changed. Re-run Step 2." >&2; exit 1; }
+# Discard render-footprint dirt: older gbrain-enabled installs rendered
+# generated SKILL.md / sections files IN PLACE. They are regenerable (setup
+# re-renders to ~/.gstack/render), so discarding is lossless.
 git checkout -- 'SKILL.md' '*/SKILL.md' '*/sections/*.md' 2>/dev/null || true
 git fetch origin
+# Same pre-advance check as the auto-updater: the incoming release's Bun floor.
+HOLD=$(. bin/gstack-bun-version.sh 2>/dev/null && gstack_bun_incoming_hold . origin/main) && { echo "BUN_TOO_OLD: $HOLD; nothing was changed" >&2; exit 1; }
 PRE_UPGRADE_COMMIT=$(git rev-parse HEAD)
 echo "PRE_UPGRADE_COMMIT=$PRE_UPGRADE_COMMIT"
 if git pull --ff-only --autostash origin main; then
-  if ./setup; then echo "FF_OK"; else echo "SETUP_FAILED: git update succeeded; stop and inspect setup output (previous commit: $PRE_UPGRADE_COMMIT)" >&2; exit 1; fi
+  if ./setup --host codex --refresh-registered; then echo "FF_OK"; else echo "SETUP_FAILED: git update succeeded; stop and inspect setup output (previous commit: $PRE_UPGRADE_COMMIT)" >&2; exit 1; fi
 else
   echo "FF_REFUSED"
 fi
 ```
 
+Setup's `--refresh-registered` refreshes every install this checkout
+registered (each host, global and this project's), prints the source first,
+and ends with an `Upgrade summary` of one row per install. Relay those rows
+as printed. A `failed` row means that host kept its previous install; give
+its retry command and never say every host was refreshed. A `skipped` row
+belongs to another checkout or project; pass on its command, do not run it.
+
 If the output ends with `FF_OK`, the upgrade is done — skip the fallback
 below entirely.
+On `BUN_TOO_OLD`, STOP: tell the user to run `bun upgrade`, then /gstack-upgrade again.
 On `SETUP_FAILED`, STOP; keep user changes and report the recovery commit. There is no `.bak` on the git path. Do not enter the divergence fallback merely because setup failed. Enter it only on `FF_REFUSED`, after inspecting the pull error; network/auth failures stop for repair, not reset.
 
 **Fallback (ff-only refused — local commits or divergence).** `git reset
 --hard` DESTROYS things: a clean tree with unpushed local commits still loses
-those commits. Gate it (#2517):
+those commits. Gate it:
 
 1. Run `git status --porcelain` and `git rev-list origin/main..HEAD --oneline`
    in `$INSTALL_DIR`.
@@ -161,26 +173,27 @@ those commits. Gate it (#2517):
    proceed on a vague reply.
 
 ```bash
-cd "$INSTALL_DIR"
+cd -- "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}" || exit 1
+{ [ -f VERSION ] && [ -f setup ] && [ -f bin/gstack-config ] && [ "$(git rev-parse --show-toplevel 2>/dev/null)" = "$(pwd -P)" ]; } || { echo "ERROR: $INSTALL_DIR is not a gstack checkout; nothing was changed. Re-run Step 2." >&2; exit 1; }
 STASH_OUTPUT=$(git stash 2>&1)
 git reset --hard origin/main
-./setup
+./setup --host codex --refresh-registered
 ```
 If `$STASH_OUTPUT` contains "Saved working directory", warn the user: "Note: local changes were stashed (any modified generated SKILL.md/sections files were discarded first — they regenerate on setup). Run `git stash pop` in the skill directory to restore your own changes."
 
 **For vendored installs** (vendored, vendored-global):
 ```bash
-PARENT=$(dirname "$INSTALL_DIR")
+(cd -- "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}" && [ -f VERSION ] && [ -f setup ] && [ -f bin/gstack-config ]) || { echo "ERROR: INSTALL_DIR=${INSTALL_DIR:-} is not a gstack install; nothing was changed. Re-run Step 2." >&2; exit 1; }
 # A stale .bak from a previously crashed upgrade would make the mv below NEST
 # the live install inside it and the failure-restore arm would "restore" the
 # stale backup. It may also be the only good copy from that crashed run —
 # abort and let the human inspect, never delete it silently.
 [ -e "$INSTALL_DIR.bak" ] && { echo "ERROR: stale backup exists at $INSTALL_DIR.bak (from a previous failed upgrade?) — inspect it, salvage/remove it, then re-run." >&2; exit 1; }
-TMP_DIR=$(mktemp -d) || { echo "ERROR: mktemp failed — aborting upgrade (install untouched)." >&2; exit 1; }
+TMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/gstack-upgrade.XXXXXX") || { echo "ERROR: mktemp failed — aborting upgrade (install untouched)." >&2; exit 1; }
 git clone --depth 1 https://github.com/garrytan/gstack.git "$TMP_DIR/gstack" || { echo "ERROR: clone failed — aborting upgrade (install untouched)." >&2; rm -rf "$TMP_DIR"; exit 1; }
 mv "$INSTALL_DIR" "$INSTALL_DIR.bak" || { rm -rf "$TMP_DIR"; exit 1; }
 if mv "$TMP_DIR/gstack" "$INSTALL_DIR"; then
-  if (cd "$INSTALL_DIR" && ./setup); then
+  if (cd "$INSTALL_DIR" && ./setup --host codex --refresh-registered); then
     rm -rf "$INSTALL_DIR.bak" "$TMP_DIR"
   else
     rm -rf "$INSTALL_DIR"
@@ -202,16 +215,17 @@ fi
 Use the install directory from Step 2. Check if there's also a local vendored copy, and whether team mode is active:
 
 ```bash
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+_RESOLVED_PRIMARY=$(cd -- "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}" && pwd -P) || exit 1
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 LOCAL_GSTACK=""
-if [ -n "$_ROOT" ] && [ -d "$_ROOT/.claude/skills/gstack" ]; then
-  _RESOLVED_LOCAL=$(cd "$_ROOT/.claude/skills/gstack" && pwd -P)
-  _RESOLVED_PRIMARY=$(cd "$INSTALL_DIR" && pwd -P)
+if [ -n "$_ROOT" ] && [ -d "$_ROOT/.agents/skills/gstack" ]; then
+  _RESOLVED_LOCAL=$(cd "$_ROOT/.agents/skills/gstack" && pwd -P)
   if [ "$_RESOLVED_LOCAL" != "$_RESOLVED_PRIMARY" ]; then
-    LOCAL_GSTACK="$_ROOT/.claude/skills/gstack"
+    LOCAL_GSTACK="$_ROOT/.agents/skills/gstack"
   fi
 fi
-_TEAM_MODE=$(~/.claude/skills/gstack/bin/gstack-config get team_mode 2>/dev/null || echo "false")
+_TEAM_MODE=$($GSTACK_ROOT/bin/gstack-config get team_mode 2>/dev/null || echo "false")
 echo "LOCAL_GSTACK=$LOCAL_GSTACK"
 echo "TEAM_MODE=$_TEAM_MODE"
 ```
@@ -219,10 +233,12 @@ echo "TEAM_MODE=$_TEAM_MODE"
 **If `LOCAL_GSTACK` is non-empty AND `TEAM_MODE` is `true`:** Remove the vendored copy. Team mode uses the global install as the single source of truth.
 
 ```bash
-cd "$_ROOT"
-git rm -r --cached .claude/skills/gstack/ 2>/dev/null || true
-if ! grep -qF '.claude/skills/gstack/' .gitignore 2>/dev/null; then
-  echo '.claude/skills/gstack/' >> .gitignore
+(cd -- "${LOCAL_GSTACK:?LOCAL_GSTACK is not set: re-run the detection block above and substitute the printed path}" && [ -f VERSION ] && [ -f setup ] && [ -f bin/gstack-config ]) || { echo "ERROR: LOCAL_GSTACK=${LOCAL_GSTACK:-} is not a gstack copy; nothing was changed." >&2; exit 1; }
+_ROOT=${LOCAL_GSTACK%/.agents/skills/gstack}
+{ [ "$_ROOT" != "$LOCAL_GSTACK" ] && cd -- "${_ROOT:?}" && [ "$(git rev-parse --show-toplevel 2>/dev/null)" = "$(pwd -P)" ]; } || { echo "ERROR: $LOCAL_GSTACK is not the vendored copy at the root of a git repository; nothing was changed." >&2; exit 1; }
+git rm -r --cached .agents/skills/gstack/ 2>/dev/null || true
+if ! grep -qF '.agents/skills/gstack/' .gitignore 2>/dev/null; then
+  echo '.agents/skills/gstack/' >> .gitignore
 fi
 rm -rf "$LOCAL_GSTACK"
 ```
@@ -230,9 +246,11 @@ Tell user: "Removed vendored copy at `$LOCAL_GSTACK` (team mode active — globa
 
 **If `LOCAL_GSTACK` is non-empty AND `TEAM_MODE` is NOT `true`:** Update it by copying from the freshly-upgraded primary install (same approach as README vendored install):
 ```bash
+(cd -- "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}" && [ -f VERSION ] && [ -f setup ] && [ -f bin/gstack-config ]) || { echo "ERROR: INSTALL_DIR=${INSTALL_DIR:-} is not a gstack install; nothing was changed." >&2; exit 1; }
+(cd -- "${LOCAL_GSTACK:?LOCAL_GSTACK is not set: re-run the detection block above and substitute the printed path}" && [ -f VERSION ] && [ -f setup ] && [ -f bin/gstack-config ]) || { echo "ERROR: LOCAL_GSTACK=${LOCAL_GSTACK:-} is not a gstack copy; nothing was changed." >&2; exit 1; }
 [ -e "$LOCAL_GSTACK.bak" ] && { echo "ERROR: stale vendored backup; inspect it before retrying." >&2; exit 1; }
 mv "$LOCAL_GSTACK" "$LOCAL_GSTACK.bak" || exit 1
-if cp -Rf "$INSTALL_DIR" "$LOCAL_GSTACK" && rm -rf "$LOCAL_GSTACK/.git" && (cd "$LOCAL_GSTACK" && ./setup); then
+if cp -Rf "$INSTALL_DIR" "$LOCAL_GSTACK" && rm -rf "$LOCAL_GSTACK/.git" && (cd "$LOCAL_GSTACK" && ./setup --host codex --refresh-registered); then
   rm -rf "$LOCAL_GSTACK.bak"
   echo "LOCAL_SYNC_OK"
 else
@@ -242,7 +260,7 @@ else
   exit 1
 fi
 ```
-Only on `LOCAL_SYNC_OK`, tell user: "Also updated vendored copy at `$LOCAL_GSTACK` — commit `.claude/skills/gstack/` when you're ready." Otherwise stop and report the recovery outcome; do not continue migrations or announce success.
+Only on `LOCAL_SYNC_OK`, tell user: "Also updated vendored copy at `$LOCAL_GSTACK` — commit `.agents/skills/gstack/` when you're ready." Otherwise stop and report the recovery outcome; do not continue migrations or announce success.
 
 ### Step 4.75: Run version migrations
 
@@ -251,7 +269,9 @@ and new version. Migrations handle state fixes that `./setup` alone can't cover
 (stale config, orphaned files, directory structure changes).
 
 ```bash
-MIGRATIONS_DIR="$INSTALL_DIR/gstack-upgrade/migrations"
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+MIGRATIONS_DIR="${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}/gstack-upgrade/migrations"
+: "${OLD_VERSION:?OLD_VERSION is not set: substitute the value Step 3 printed}"
 if [ -d "$MIGRATIONS_DIR" ]; then
   for migration in $(find "$MIGRATIONS_DIR" -maxdepth 1 -name 'v*.sh' -type f 2>/dev/null | sort -V); do
     # Extract version from filename: v0.15.2.0.sh → 0.15.2.0
@@ -261,7 +281,7 @@ if [ -d "$MIGRATIONS_DIR" ]; then
     if [ "$OLD_VERSION" != "unknown" ] && [ "$(printf '%s\n%s' "$OLD_VERSION" "$m_ver" | sort -V | head -1)" = "$OLD_VERSION" ] && [ "$OLD_VERSION" != "$m_ver" ]; then
       echo "Running migration $m_ver..."
       # GSTACK_INSTALL_DIR: migrations that clean the INSTALL (not just
-      # ~/.gstack state) default to ~/.claude/skills/gstack when unset —
+      # ~/.gstack state) default to $GSTACK_ROOT when unset —
       # a repo-local install would silently no-op without this.
       GSTACK_INSTALL_DIR="$INSTALL_DIR" bash "$migration" || echo "  Warning: migration $m_ver had errors (non-fatal)"
     fi
@@ -277,7 +297,7 @@ for how to add new migrations.
 
 A browse daemon started before the upgrade keeps serving the OLD binary's code
 until it is stopped — it survives `git reset --hard` and `./setup` because the
-running process holds the old executable (#2551). Always run this step, using
+running process holds the old executable. Always run this step, using
 the install directory detected in Step 2.
 
 ```bash
@@ -320,10 +340,12 @@ running. Interpret the `DAEMON_CHECK` result:
 ### Step 5: Write marker + clear cache
 
 ```bash
-mkdir -p ~/.gstack
-echo "$OLD_VERSION" > ~/.gstack/just-upgraded-from
-rm -f ~/.gstack/last-update-check
-rm -f ~/.gstack/update-snoozed
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+GSTACK_STATE_ROOT=$($GSTACK_ROOT/bin/gstack-paths --get GSTACK_STATE_ROOT); : "${GSTACK_STATE_ROOT:?gstack-paths failed; reinstall with ./setup or /gstack-upgrade}"
+mkdir -p "$GSTACK_STATE_ROOT"
+echo "$OLD_VERSION" > "$GSTACK_STATE_ROOT"/just-upgraded-from
+rm -f "$GSTACK_STATE_ROOT"/last-update-check
+rm -f "$GSTACK_STATE_ROOT"/update-snoozed
 ```
 
 ### Step 6: Show What's New
@@ -354,12 +376,17 @@ When invoked directly as `/gstack-upgrade` (not from a preamble):
 
 1. Force a fresh update check (bypass cache):
 ```bash
-~/.claude/skills/gstack/bin/gstack-update-check --force 2>/dev/null || \
-.claude/skills/gstack/bin/gstack-update-check --force 2>/dev/null || true
+[ -d "${GSTACK_ROOT:-/-}/bin" ]&&[ -d "$GSTACK_ROOT/lib" ]||{ _r=$(git rev-parse --show-toplevel 2>/dev/null)/.agents/skills/gstack;[ -d "$_r/bin" ]||_r=${CODEX_HOME:-~/.codex}/skills/gstack;[ -d "$_r/bin" ]||{ echo "gstack: no install found (tried $_r). Fix: ./setup --host codex from your gstack checkout; ./setup --status shows it.">&2;exit 1;};GSTACK_ROOT=$_r;}
+$GSTACK_ROOT/bin/gstack-update-check --force 2>/dev/null || \
+.agents/skills/gstack/bin/gstack-update-check --force 2>/dev/null || true
 ```
 Use the output to determine if an upgrade is available.
 
 2. If `UPGRADE_AVAILABLE <old> <new>`: follow Steps 2-6 above.
+
+   If `CHECK_FAILED ...`: the remote version could not be read, so the update
+   status is unknown. Show the line (it names the URL that failed) and tell the
+   user the check failed; never report "already on the latest version". Stop.
 
 3. If no output (primary is up to date): check for a stale local vendored copy.
 
@@ -371,11 +398,11 @@ Run the Step 2 bash block above to detect the primary install type and directory
 
 **If `LOCAL_GSTACK` is non-empty AND `TEAM_MODE` is NOT `true`**, compare versions:
 ```bash
-PRIMARY_VER=$(cat "$INSTALL_DIR/VERSION" 2>/dev/null || echo "unknown")
-LOCAL_VER=$(cat "$LOCAL_GSTACK/VERSION" 2>/dev/null || echo "unknown")
+PRIMARY_VER=$(cat "${INSTALL_DIR:?INSTALL_DIR is not set: re-run Step 2 and substitute the printed path}/VERSION" 2>/dev/null || echo "unknown")
+LOCAL_VER=$(cat "${LOCAL_GSTACK:?LOCAL_GSTACK is not set: re-run the Step 4.5 detection block}/VERSION" 2>/dev/null || echo "unknown")
 echo "PRIMARY=$PRIMARY_VER LOCAL=$LOCAL_VER"
 ```
 
-**If versions differ:** follow the Step 4.5 sync bash block above to update the local copy from the primary. Tell user: "Global v{PRIMARY_VER} is up to date. Updated local vendored copy from v{LOCAL_VER} → v{PRIMARY_VER}. Commit `.claude/skills/gstack/` when you're ready."
+**If versions differ:** follow the Step 4.5 sync bash block above to update the local copy from the primary. Tell user: "Global v{PRIMARY_VER} is up to date. Updated local vendored copy from v{LOCAL_VER} → v{PRIMARY_VER}. Commit `.agents/skills/gstack/` when you're ready."
 
 **If versions match:** tell the user "You're on the latest version (v{PRIMARY_VER}). Global and local vendored copy are both up to date."

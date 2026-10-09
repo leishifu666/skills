@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-office-hours"
+  short_description: "围绕产品想法进行需求访谈与方案探索；用户要求讨论方向或评估想法时使用。"
+  default_prompt: "Use gstack-office-hours for this task."
+policy:
+  allow_implicit_invocation: true
